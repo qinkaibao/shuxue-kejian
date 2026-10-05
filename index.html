@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>审题与数量关系 · 数学闯关</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{font-size:20px}
+body{margin:0;font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Source Han Sans SC",sans-serif;background:#fff8e7;color:#333;font-size:22px;line-height:1.5;-webkit-text-size-adjust:100%;touch-action:manipulation}
+button{font-family:inherit;touch-action:manipulation;cursor:pointer}
+#app{max-width:1100px;margin:0 auto;padding:0 12px 40px}
+/* header */
+.hdr{position:sticky;top:0;z-index:20;background:#fff8e7;display:flex;align-items:center;gap:12px;padding:8px 0}
+.hbtn{border:none;background:#ffd166;border-radius:14px;font-size:22px;min-width:56px;height:52px;padding:0 14px;font-weight:bold;color:#5a3d00;box-shadow:0 3px 0 #e0a800}
+.hbtn:active{transform:translateY(2px);box-shadow:0 1px 0 #e0a800}
+.htitle{font-weight:bold;font-size:22px;color:#e8590c;white-space:nowrap}
+.prog{flex:1;min-width:80px}
+.pbar{height:18px;background:#ffe8b0;border-radius:9px;overflow:hidden}
+.pfill{height:100%;background:linear-gradient(90deg,#ffb703,#fb8500);border-radius:9px;transition:width .6s}
+.ptxt{font-size:16px;color:#8a6d3b;text-align:center}
+.stars{font-size:24px;font-weight:bold;color:#e09f00;white-space:nowrap;display:flex;align-items:center;gap:4px}
+.star{display:inline-block;width:28px;height:28px;vertical-align:middle}
+/* cards */
+.card{background:#fff;border-radius:20px;box-shadow:0 4px 14px rgba(200,140,0,.15);padding:16px 20px;margin:10px 0}
+h1{font-size:34px;color:#e8590c;margin:10px 0 4px;text-align:center}
+.sub{text-align:center;color:#8a6d3b;font-size:20px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px}
+.three>div{background:#fff3d6;border-radius:16px;padding:12px;text-align:center}
+.three .no{display:inline-block;width:40px;height:40px;line-height:40px;border-radius:50%;background:#fb8500;color:#fff;font-weight:bold;font-size:24px}
+.three b{display:block;font-size:24px;margin:4px 0;color:#c2410c}
+.three small{font-size:18px;color:#6b5a3a;display:block;line-height:1.4}
+.flow{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px;font-size:20px}
+.flow span{background:#e6f4ea;color:#1e7b34;border-radius:12px;padding:4px 12px;font-weight:bold}
+.flow i{font-style:normal;color:#aaa}
+.bigbtn{display:block;margin:16px auto 4px;border:none;border-radius:20px;background:#fb8500;color:#fff;font-size:28px;font-weight:bold;padding:14px 44px;box-shadow:0 5px 0 #c96a00;min-height:64px}
+.bigbtn:active{transform:translateY(3px);box-shadow:0 2px 0 #c96a00}
+.bigbtn.green{background:#2fb344;box-shadow:0 5px 0 #1f8a30}
+.bigbtn.blue{background:#3b82f6;box-shadow:0 5px 0 #1d5fd0}
+.levels{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:6px}
+.lv{border:none;text-align:left;background:#fff;border-radius:20px;padding:14px 16px;box-shadow:0 4px 0 #f1c26b;display:flex;gap:14px;align-items:center;font-size:22px;min-height:100px;color:#333}
+.lv:active{transform:translateY(2px)}
+.lv .ic{font-size:44px;width:64px;height:64px;border-radius:16px;background:#fff3d6;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.lv b{display:block;font-size:24px;color:#c2410c}
+.lv small{display:block;font-size:17px;color:#7a6a4a;line-height:1.35}
+.lv .lvst{font-size:16px;color:#e09f00;margin-top:2px}
+.lv.done{box-shadow:0 4px 0 #8fd19e;background:#f3fff5}
+.lv.chal .ic{background:#ffe3ec}
+.tips{font-size:17px;color:#6b5a3a;background:#f6f1e6;border-radius:14px;padding:8px 14px;margin-top:10px}
+.tips summary{cursor:pointer;font-weight:bold;min-height:36px;line-height:36px}
+/* question layout */
+.qwrap{display:grid;grid-template-columns:1fr;gap:0 14px}
+@media (min-width:960px){.qwrap{grid-template-columns:1fr 270px}.board{position:sticky;top:76px;align-self:start}}
+.stages{display:flex;gap:6px;align-items:center;justify-content:center;margin:4px 0 0;font-size:18px}
+.stages span{padding:3px 12px;border-radius:12px;background:#eee;color:#999}
+.stages span.on{background:#2fb344;color:#fff;font-weight:bold}
+.stages span.past{background:#c9efd1;color:#1e7b34}
+.stages i{color:#ccc;font-style:normal}
+.qtag{display:inline-block;background:#fb8500;color:#fff;border-radius:10px;padding:0 10px;font-size:17px;margin-bottom:4px}
+.qtag.ch{background:#e64980}
+.qtext{font-size:24px;line-height:1.7}
+.qtext .n{color:#d6336c;font-weight:bold;font-size:26px;padding:0 1px}
+.qtext .ask{border-bottom:3px dashed #f59f00;transition:all .4s;padding:0 2px}
+.qtext .ask.circled{border:3px solid #e03131;border-radius:22px;padding:0 6px;background:#fff0f0}
+.qtext .cond{font-weight:bold;background:#e6f4ea;border-radius:8px;padding:0 4px}
+.infocards{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.infocards span{background:#eef5ff;border:2px solid #b7d3ff;border-radius:12px;padding:2px 12px;font-size:21px}
+.infocards span.off{opacity:.35;text-decoration:line-through}
+.tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.tags span{background:#fff3bf;border:2px dashed #f59f00;border-radius:12px;padding:2px 14px;font-size:22px;font-weight:bold}
+.diagBox{margin-top:6px;position:relative}
+.diagBox svg{width:100%;height:auto;display:block;max-height:300px}
+.replay{display:block;margin:0 0 0 auto;border:none;background:#eef5ff;color:#1d5fd0;border-radius:12px;font-size:16px;padding:4px 10px;min-height:36px}
+.cap{background:#eef8ff;border-left:6px solid #3b82f6;border-radius:10px;padding:8px 12px;font-size:21px;margin-top:6px;min-height:46px}
+/* step */
+.step{min-height:160px}
+.prompt{font-size:23px;font-weight:bold;color:#1f3b73;margin-bottom:8px}
+.prompt .sg{display:inline-block;font-size:16px;color:#fff;background:#2fb344;border-radius:8px;padding:0 8px;margin-right:6px;vertical-align:middle;font-weight:normal}
+.bubbles{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.bubble{flex:1;min-width:240px;background:#fffbe6;border:2px solid #ffe08a;border-radius:16px;padding:8px 12px;font-size:20px}
+.bubble b{color:#c2410c}
+.opts{display:grid;grid-template-columns:1fr;gap:10px}
+.opts.two{grid-template-columns:1fr 1fr}
+.opt{border:3px solid #cfe0ff;background:#f5f9ff;border-radius:16px;font-size:23px;padding:10px 14px;text-align:left;min-height:60px;color:#1f2d4d;transition:background .2s}
+.opt.c{text-align:center;font-size:26px;font-weight:bold}
+.opt.sel{border-color:#3b82f6;background:#dbeafe}
+.opt.ok{border-color:#2fb344;background:#dcfce7}
+.opt.bad{border-color:#f03e3e;background:#ffe3e3;animation:shake .4s}
+.opt:disabled{cursor:default}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.fb{margin-top:10px;font-size:21px;border-radius:14px;padding:0}
+.fb .good{background:#dcfce7;color:#14692c;border-radius:14px;padding:8px 14px;font-weight:bold}
+.fb .hint{background:#fff4e0;color:#9a4b00;border-radius:14px;padding:8px 14px}
+.fb .exp{background:#e7f0ff;color:#1d3f8a;border-radius:14px;padding:8px 14px}
+.row{display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap;margin-top:10px}
+.btn{border:none;border-radius:16px;font-size:24px;font-weight:bold;padding:10px 28px;min-height:58px;color:#fff;background:#3b82f6;box-shadow:0 4px 0 #1d5fd0}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 #1d5fd0}
+.btn.go{background:#2fb344;box-shadow:0 4px 0 #1f8a30}
+.btn.gray{background:#adb5bd;box-shadow:0 4px 0 #868e96}
+.btn[disabled]{opacity:.45}
+/* equation & keypad */
+.eqs{font-size:28px;line-height:2;margin:4px 0}
+.eqline{white-space:nowrap;overflow-x:auto}
+.blank{display:inline-block;min-width:72px;height:50px;line-height:44px;border:3px solid #9bbcf5;border-radius:12px;background:#fff;text-align:center;vertical-align:middle;font-weight:bold;color:#1d3f8a;margin:0 4px;cursor:pointer;padding:0 6px}
+.blank.focus{border-color:#fb8500;box-shadow:0 0 0 4px #ffe1b3}
+.blank.ok{border-color:#2fb344;background:#dcfce7}
+.blank.bad{border-color:#f03e3e;background:#ffe3e3}
+.units{display:inline-flex;gap:8px;vertical-align:middle;margin-left:6px}
+.unit{border:3px solid #ffd8a8;background:#fff4e6;border-radius:12px;font-size:24px;min-width:62px;min-height:52px;font-weight:bold;color:#a14a00}
+.unit.sel{border-color:#fb8500;background:#ffd8a8}
+.unit.ok{border-color:#2fb344;background:#dcfce7;color:#14692c}
+.unit.bad{border-color:#f03e3e;background:#ffe3e3}
+.unitq{font-size:20px;color:#8a6d3b}
+.pad{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:8px;max-width:640px}
+.pad button{border:none;background:#fff1d6;border-radius:14px;font-size:28px;font-weight:bold;min-height:58px;color:#5a3d00;box-shadow:0 3px 0 #f1c26b}
+.pad button:active{transform:translateY(2px);box-shadow:0 1px 0 #f1c26b}
+.pad .del{background:#ffe3e3;color:#c92a2a;box-shadow:0 3px 0 #f5a3a3}
+/* sort */
+.sortc{display:flex;flex-direction:column;gap:10px}
+.sitem{display:flex;align-items:center;gap:10px;background:#f8fbff;border:2px solid #dbe7ff;border-radius:16px;padding:8px 10px;flex-wrap:wrap}
+.sitem .st{flex:1;min-width:260px;font-size:21px}
+.sitem .sb{display:flex;gap:8px}
+.sitem .sb button{border:3px solid #cfe0ff;background:#fff;border-radius:12px;font-size:21px;font-weight:bold;min-height:52px;padding:0 12px}
+.sitem.ok{border-color:#2fb344;background:#effcf2}
+.sitem .sb button.ok{border-color:#2fb344;background:#dcfce7}
+.sitem .sb button.bad{border-color:#f03e3e;background:#ffe3e3;animation:shake .4s}
+.sitem .note{width:100%;font-size:20px}
+/* board */
+.board h3{margin:0 0 6px;font-size:22px;color:#c2410c}
+.board ol{margin:0;padding-left:0;list-style:none}
+.board li{font-size:21px;padding:6px 0;border-bottom:1px dashed #f0d9a8;animation:pop .4s}
+.board li small{display:block;font-size:16px;color:#2b8a3e}
+.board .empty{color:#bbb;font-size:18px}
+@keyframes pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+/* end */
+.endbox{text-align:center}
+.endstars{margin:10px 0}
+.endstars .star{width:64px;height:64px;animation:pop .5s backwards}
+.sum{background:#fff3d6;border-radius:16px;padding:12px 16px;font-size:23px;text-align:left;margin:10px 0}
+.price{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.price span{background:#fff;border:3px solid #ffa94d;border-radius:30px;padding:2px 16px;font-size:22px}
+.price span b{color:#d6336c}
+@media (max-width:700px){html{font-size:18px}.three{grid-template-columns:1fr}.opts.two{grid-template-columns:1fr}.htitle{display:none}.pad{grid-template-columns:repeat(4,1fr)}}
+/* svg */
+.rv{opacity:0;transition:opacity .6s}
+.rv.on{opacity:1}
+.grow{transform:scaleX(0);transform-box:fill-box;transform-origin:left center;transition:transform .8s ease-out,opacity .3s;opacity:0}
+.grow.on{transform:scaleX(1);opacity:1}
+.dlab{font-size:20px;fill:#333;font-weight:bold}
+.dtxt{font-size:19px;fill:#333}
+.dtin{font-size:16px;fill:#fff;font-weight:bold}
+.noanim *{transition:none!important}
+/* v2 手机适配（仅窄屏生效，不改题目与逻辑） */
+@media (max-width:700px){
+.qwrap{grid-template-columns:minmax(0,1fr)}
+.qwrap>div,.card,.step{min-width:0}
+.card{padding:14px 14px}
+.eqs{font-size:23px}
+.eqline{white-space:normal}
+.blank{min-width:56px;height:46px;line-height:40px;margin:0 3px}
+.dlab{font-size:21px}.dtxt{font-size:23px}.dtin{font-size:20px}
+.diagBox svg{max-height:none}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<noscript>请允许浏览器运行脚本（JavaScript）后再打开本课件。</noscript>
+<script>
+/* ===== 题目数据 =====  stage: 0 阅读理解 / 1 分析解答 / 2 回顾反思 */
+var LEVELS=[
+{icon:'🍽️',name:'第1关　问的是什么？',desc:'盘、个、元、盒——答案的单位要和问题对上',
+ sum:'问“几盘”就答“盘”，问“多少元”就答“元”。<br>算出来的每个数，都要说清：<b>它是什么、单位是什么</b>。',
+ qs:[
+ {id:'1-1',text:'李阿姨包了 42 个饺子，王叔叔包了 30 个饺子，每 6 个装一盘。[[李阿姨比王叔叔多装几盘？]]',
+  diagram:{max:42,rows:[{label:'李阿姨',segs:[{v:42,c:'a'}]},{label:'王叔叔',segs:[{v:30,c:'b'}]}],
+   hls:[{r:0,f:30,t:42,c:'hl',s:3}],
+   ticks:[{r:0,every:6,f:0,t:42,s:2,lab:'1盘'},{r:1,every:6,f:0,t:30,s:2,lab:'1盘'}],
+   braces:[{r:0,f:0,t:42,txt:'42个',pos:'top',s:1},{r:1,f:0,t:30,txt:'30个',pos:'bot',s:1},{r:0,f:30,t:42,txt:'多12个',pos:'bot',s:3,c:'hl'}],
+   vlines:[{x:30,s:3}],
+   texts:[{r:1,x:31,txt:'→ 多2盘！',s:4,c:'hl'}],
+   caps:['点“下一步”（或点一下图），一步一步画线段图。','先画两条线段：李阿姨 42 个，王叔叔 30 个。','每 6 个装 1 盘，就每 6 个分一段：李阿姨 7 盘，王叔叔 5 盘。','对齐比一比：李阿姨多出粉色这一段，是 42−30=12 个。','多出的 12 个正好是 2 段，也就是多 <b>2 盘</b>。问“几盘”，就要答“盘”！']},
+  steps:[
+   {type:'choice',st:0,circle:true,p:'读题第1问：问的是什么？',opts:['李阿姨比王叔叔多包几个','李阿姨比王叔叔多装几盘','两个人一共装几盘'],a:1,
+    hint:'再读一读最后一句，问号前面问的是“几___”？',exp:'最后一句问“多装<b>几盘</b>”，答案的单位是“盘”，不是“个”。',bd:[['问：多装几【盘】','先圈出单位']]},
+   {type:'diagram',st:0,p:'读题第2问：每个数表示什么？画线段图看一看。'},
+   {type:'num',st:1,p:'思路一：先求李阿姨比王叔叔多包多少个饺子。',expr:'42 − 30 =',a:12,units:['个','盘'],u:'个',
+    hint:'想一想：30 + 几 = 42？',uhint:'42 和 30 都是饺子的“个数”，相减得到的还是“个”。',exp:'42−30=12，单位是“个”。',bd:[['42−30=12（个）','']]},
+   {type:'choice',st:1,p:'这个 12 表示什么？',opts:['李阿姨比王叔叔多装 12 盘','李阿姨比王叔叔多包 12 个饺子','两人一共包了 12 个饺子'],a:1,
+    hint:'12 是用两个“个数”相减得来的，它是“个”还是“盘”？',exp:'12 是李阿姨比王叔叔<b>多包的饺子个数</b>，还没有换成盘。',bdNote:'↑ 多包的饺子个数'},
+   {type:'num',st:1,p:'多包的 12 个饺子，能装几盘？',expr:'12 ÷ 6 =',a:2,units:['个','盘'],u:'盘',
+    hint:'每 6 个装一盘，12 里面有几个 6？（想口诀：二六十二）',uhint:'每 6 个装一盘，算出来的是“盘数”。',exp:'12÷6=2，单位是“盘”。',bd:[['12÷6=2（盘）','多装的盘数']]},
+   {type:'choice',st:1,center:true,p:'把两步合成一个综合算式，哪个对？',opts:['42 − 30 ÷ 6','(42 − 30) ÷ 6','42 ÷ 6 − 30'],a:1,
+    hint:'要先算 42−30。先算的部分要怎么办？',exp:'要先算 42−30，就给它加上括号：(42−30)÷6=12÷6=2（盘）。没有括号，会先算 30÷6。',bd:[['(42−30)÷6=2（盘）','综合算式']]},
+   {type:'blanks',st:1,p:'思路二：先分别算两人各装几盘，再相减。',lines:['李阿姨：42 ÷ 6 = {} （盘）','王叔叔：30 ÷ 6 = {} （盘）','多装：{} − {} = {} （盘）'],a:[7,5,7,5,2],
+    hint:'想口诀：六七四十二，五六三十。',exp:'42÷6=7（盘），30÷6=5（盘），7−5=2（盘）。',bd:[['42÷6−30÷6=2（盘）','思路二']]},
+   {type:'blanks',st:2,p:'回顾反思：两种思路都得 2 盘。再代回去检验一下：',lines:['2 盘饺子是 2 × 6 = {} 个','30 + {} = 42 ✔'],a:[12,12],
+    hint:'1 盘 6 个，2 盘是几个？',exp:'2×6=12（个），30+12=42，和李阿姨包的一样多，解答正确。我们用不同的思路，解决了同一个问题。'},
+   {type:'choice',st:2,ans:true,p:'写“答：”——哪一句对？',opts:['答：李阿姨比王叔叔多装 12 盘。','答：李阿姨比王叔叔多装 2 个。','答：李阿姨比王叔叔多装 2 盘。'],a:2,
+    hint:'数对了吗？单位和问题对上了吗？',exp:'问“多装几盘”，答“多装 2 盘”。',bd:[['答：多装 2 盘。','']]}
+  ]},
+ {id:'1-2',text:'体育室里有这些信息，请回答：[[每个毽子多少元？]]',
+  cards:['① 跳绳有 32 根','② 毽子比跳绳少 24 个','③ 篮球有 6 个','④ 买这些毽子一共花了 40 元'],
+  diagram:{max:32,rows:[{label:'跳绳',segs:[{v:32,c:'a'}]},{label:'毽子',s:2,segs:[{v:8,c:'b'},{v:24,c:'dash'}]}],
+   braces:[{r:0,f:0,t:32,txt:'32根',pos:'top',s:1},{r:1,f:8,t:32,txt:'少24个',pos:'bot',s:2,c:'hl'},{r:1,f:0,t:8,txt:'?个',pos:'top',s:3,c:'hl'}],
+   vlines:[{x:8,s:2}],
+   caps:['点“下一步”画线段图。','跳绳有 32 根。','毽子比跳绳少 24 个：毽子的线段短一些，虚线是少的 24 个。','问号这一段是<b>毽子的个数</b>（不是钱！）。要先求出它。']},
+  steps:[
+   {type:'choice',st:0,circle:true,p:'读题第1问：问的是什么？答案的单位是什么？',opts:['毽子有多少个（个）','每个毽子多少元（元）','跳绳有多少根（根）'],a:1,
+    hint:'看问号那一句：“每个毽子多少___？”',exp:'问的是“每个毽子多少<b>元</b>”，这是每个毽子的价钱，单位是“元”。',bd:[['问：每个多少【元】','求每个的价钱']]},
+   {type:'multi',st:0,p:'要解决这个问题，需要哪几张卡片？（可以选好几张）',opts:['① 跳绳有 32 根','② 毽子比跳绳少 24 个','③ 篮球有 6 个','④ 买这些毽子一共花了 40 元'],a:[0,1,3],offCard:2,
+    hint:'每个多少元 = 一共的钱 ÷ 个数。一共的钱在哪张卡片上？毽子的个数要用哪两张卡片求？篮球和毽子有关系吗？',exp:'用①②求出毽子的个数，再用④一共花的钱。③篮球的个数用不上，是多余的。'},
+   {type:'diagram',st:0,p:'读题第2问：每个数表示什么？'},
+   {type:'num',st:1,p:'读题第3问：先算什么？先求毽子有多少个。',expr:'32 − 24 =',a:8,units:['元','个','根'],u:'个',
+    hint:'想一想：24 + 几 = 32？',uhint:'32 根跳绳、少 24 个毽子，都不是钱。算出来的是毽子的“个数”。',exp:'32−24=8，单位是“个”。',bd:[['32−24=8（个）','']]},
+   {type:'choice',st:1,p:'这个 8 表示什么？',opts:['8 元：每个毽子的价钱','8 个：毽子的个数','8 根：跳绳的根数'],a:1,
+    hint:'32 和 24 都不是钱，相减怎么会变成“元”呢？看看线段图上问号那一段。',exp:'8 是<b>毽子的个数</b>，单位是“个”。它还不是答案！',bdNote:'↑ 买的毽子个数'},
+   {type:'num',st:1,p:'每个多少元 = 一共的钱 ÷ 个数。每个毽子多少元？',expr:'40 ÷ 8 =',a:5,units:['个','元'],u:'元',
+    hint:'40 元平均分给 8 个毽子。想口诀：五八四十。',uhint:'求的是每个毽子的价钱，单位是“元”。',exp:'40÷8=5，单位是“元”。',bd:[['40÷8=5（元）','每个毽子的价钱']]},
+   {type:'choice',st:1,center:true,p:'综合算式哪个对？',opts:['40 ÷ 32 − 24','40 ÷ (32 − 24)','(32 − 24) × 40'],a:1,
+    hint:'要先算出毽子的个数 32−24，再用 40 除以它。先算的要加什么？',exp:'先求个数要加括号：40÷(32−24)=40÷8=5（元）。',bd:[['40÷(32−24)=5（元）','综合算式']]},
+   {type:'blanks',st:2,p:'回顾反思：代回去检验。',lines:['每个 5 元，8 个一共 5 × 8 = {} 元 ✔'],a:[40],hint:'五八四十。',exp:'5×8=40（元），和题目里一共花的钱一样，解答正确。'},
+   {type:'blanks',st:2,ans:true,p:'写“答：”',lines:['答：每个毽子 {} 元。'],a:[5],hint:'每个毽子多少元？',exp:'答：每个毽子 5 元。',bd:[['答：每个 5 元。','']]}
+  ]},
+ {id:'1-3',text:'小美有 18 个橘子，小强有 30 个橘子，每 6 个装一袋。<br>同一件事，可以问不同的问题——看清每次问的是什么！',
+  tags:['问题① 小强比小美多几个？','问题② 小强比小美多装几袋？','问题③ 两人一共能装几袋？'],
+  steps:[
+   {type:'choice',st:0,cols:'two',center:true,p:'问题①：小强比小美<b>多几个</b>？答案的单位是：',opts:['个','袋'],a:0,hint:'问的是“多几个”。',exp:'问“多几个”，单位是“个”。'},
+   {type:'num',st:1,p:'问题①：列式计算',expr:'30 − 18 =',a:12,units:['个','袋'],u:'个',hint:'30−18，个位 0 减 8 不够，要向十位借 1。',uhint:'橘子个数相减，还是“个”。',exp:'30−18=12（个）。',bd:[['①30−18=12（个）','多 12 个']]},
+   {type:'choice',st:1,center:true,p:'问题②：小强比小美<b>多装几袋</b>？哪个对？',opts:['30 − 18 = 12（袋）','(30 − 18) ÷ 6 = 2（袋）','30 ÷ 6 = 5（袋）'],a:1,
+    hint:'多的 12 是橘子的“个数”，还要换成“袋”：每 6 个一袋。',exp:'先求多几个（30−18=12 个），再换成袋：12÷6=2（袋）。也可以 30÷6−18÷6=5−3=2（袋）。',bd:[['②(30−18)÷6=2（袋）','多 2 袋']]},
+   {type:'choice',st:1,p:'问题③：两人<b>一共</b>能装几袋？先算什么？',opts:['先算两人一共有多少个橘子','先算小强比小美多几个'],a:0,hint:'问的是“一共”。',exp:'问“一共能装几袋”，先求一共有多少个橘子，再换成袋。'},
+   {type:'blanks',st:1,p:'问题③：列式计算',lines:['18 + 30 = {} （个）','{} ÷ 6 = {} （袋）'],a:[48,48,8],hint:'18+30 先算；再想口诀：六八四十八。',exp:'18+30=48（个），48÷6=8（袋）。',bd:[['③(18+30)÷6=8（袋）','一共 8 袋']]},
+   {type:'choice',st:2,p:'回顾反思：“多几个”和“多几袋”，答案一样吗？',opts:['一样，都是 12','不一样：多 12 个，就是多 2 袋'],a:1,hint:'12 个橘子能装几袋？',exp:'12 个橘子正好装 2 袋。<b>问什么，就答什么单位</b>。'}
+  ]}
+ ]},
+{icon:'⚖️',name:'第2关　几倍和多几',desc:'“多3个”和“3倍”画出来不一样',
+ sum:'先找<b>标准</b>：“比谁”“是谁的几倍”，谁就是标准。<br>已知一个数（标准），求比它多几的数，用<b>加法</b>（一样长，再多一小段）；求它的几倍，用<b>乘法</b>（有几段一样长）。<br>反过来，已知几倍求标准就不一定了，要<b>画图想清楚谁是谁的几倍</b>。',
+ qs:[
+ {id:'2-1',text:'黄气球有 5 个。蓝气球比黄气球多 3 个，红气球的个数是黄气球的 3 倍。',
+  diagram:{max:15,rows:[{label:'黄气球',segs:[{v:5,c:'b',t:'5个'}]},{label:'蓝气球',s:2,segs:[{v:5,c:'a',t:'5个'},{v:3,c:'hl',s:3}]},{label:'红气球',s:4,segs:[{v:5,c:'r',t:'5个',d:0},{v:5,c:'r',t:'5个',d:1},{v:5,c:'r',t:'5个',d:2}]}],
+   braces:[{r:1,f:5,t:8,txt:'多3个',pos:'top',s:3,c:'hl'},{r:2,f:0,t:15,txt:'3 个 5 —— 3 倍',pos:'bot',s:4,c:'r'}],
+   vlines:[{x:5,s:2}],
+   caps:['点“下一步”，看看“多3个”和“3倍”画出来有什么不同。','黄气球 5 个。“比黄气球……”“是黄气球的……”，黄气球是比较的<b>标准</b>。','蓝气球：先画一段和黄气球<b>一样长</b>（看红色虚线对齐）……','……后面再<b>多一小段 3 个</b>。这就是“比黄气球多 3 个”：只有 1 段和黄气球一样长。','红气球是黄气球的 3 倍：画 <b>3 段</b>，每段都和黄气球一样长。']},
+  steps:[
+   {type:'diagram',st:0,p:'比一比：“多3个”和“3倍”'},
+   {type:'choice',st:1,p:'看图选一选：蓝色线段表示什么？',opts:['蓝气球比黄气球多 3 个','蓝气球是黄气球的 3 倍','蓝气球是黄气球的 3 倍多 3 个'],a:0,
+    hint:'蓝色线段里，有几段和黄色一样长？后面多出来的是什么？',exp:'蓝色只有 <b>1 段</b>和黄色一样长，后面多一小段 3 个，所以是“比黄气球多 3 个”，不是“几倍”。'},
+   {type:'choice',st:1,p:'红色线段表示什么？',opts:['红气球比黄气球多 3 个','红气球是黄气球的 3 倍'],a:1,hint:'红色线段有几段和黄色一样长？',exp:'红色有 3 段，每段都和黄色一样长，所以是黄气球的 3 倍。'},
+   {type:'blanks',st:1,p:'算一算',lines:['蓝气球：5 + 3 = {} （个）','红气球：5 × 3 = {} （个）'],a:[8,15],
+    hint:'看线段图：蓝气球是 5 个再添 3 个；红气球是 3 个 5（三五十五）。',exp:'蓝气球 5+3=8（个）；红气球 5×3=15（个）。',bd:[['蓝：5+3=8（个）','比黄多3个'],['红：5×3=15（个）','是黄的3倍']]},
+   {type:'choice',st:2,p:'回顾反思：已知黄气球 5 个（标准），下面哪句话说得对？',opts:['求蓝气球（比黄气球多 3 个）：在和黄气球一样长的后面添一小段，用加法','求红气球（是黄气球的 3 倍）：画 3 段和黄气球一样长，用乘法','上面两句都对'],a:2,hint:'回头看看线段图。',exp:'两句都对！已知一个数（标准），求比它多几的数，用加法；求它的几倍，用乘法。<br>反过来，已知几倍求标准，就不一定了（比如 18 是谁的 3 倍，要用 18÷3），要<b>画图想清楚谁是谁的几倍</b>。'}
+  ]},
+ {id:'2-2',text:'小芳折了 10 只纸鹤，小丽折的比小芳少 4 只，小青折的是小丽的 3 倍。[[小青折了多少只纸鹤？]]',
+  diagram:{max:18,rows:[{label:'小芳',segs:[{v:10,c:'a'}]},{label:'小丽',s:2,segs:[{v:6,c:'b'},{v:4,c:'dash'}]},{label:'小青',s:3,segs:[{v:6,c:'c',d:0},{v:6,c:'c',d:1},{v:6,c:'c',d:2}]}],
+   braces:[{r:0,f:0,t:10,txt:'10只',pos:'top',s:1},{r:1,f:6,t:10,txt:'少4只',pos:'top',s:2,c:'hl'},{r:2,f:0,t:18,txt:'?只',pos:'bot',s:3,c:'hl'}],
+   vlines:[{x:6,s:2}],
+   caps:['点“下一步”画线段图（和课本例5一样）。','小芳折了 10 只。','小丽比小芳少 4 只：小丽的线段短一些，虚线是少的 4 只。','小青是<b>小丽</b>的 3 倍：画 3 段，每段和小丽一样长。问号是小青的只数。']},
+  steps:[
+   {type:'choice',st:0,circle:true,p:'读题第1问：问的是什么？',opts:['小丽折了多少只','小青折了多少只','小芳折了多少只'],a:1,hint:'看最后一句。',exp:'问的是“小青折了多少只”。',bd:[['问：小青多少【只】','']]},
+   {type:'diagram',st:0,p:'读题第2问：画线段图'},
+   {type:'choice',st:1,p:'读题第3问：先算什么？',bubbles:['<b>从条件想：</b>根据“小芳折了 10 只，小丽比小芳少 4 只”，可以先求出……','<b>从问题想：</b>要求小青折了多少只，需要知道……'],
+    opts:['先求小丽折了多少只','先求小青折了多少只'],a:0,hint:'小青是谁的 3 倍？不知道那个人的只数，能求小青吗？',exp:'两种想法都是<b>先求出小丽折的只数</b>。<br>从条件想：条件（小芳 10 只、少 4 只）→ 小丽的只数 → 小青的只数；<br>从问题想：小青的只数 ← 小丽的只数 ← 条件（小芳 10 只、少 4 只）。',
+    good:'两种想法都是先求出小丽折的只数。<br>从条件想：条件 → 小丽的只数 → 小青；从问题想：小青 ← 小丽的只数 ← 条件。'},
+   {type:'num',st:1,p:'先求小丽折了多少只：',expr:'10 − 4 =',a:6,hint:'小丽比小芳少 4 只，用减法。',exp:'10−4=6（只）。',bd:[['10−4=6（只）','小丽折的只数']]},
+   {type:'blanks',st:1,p:'再求小青。小青是小丽的几倍？',lines:['6 × {} = {} （只）'],a:[3,18],
+    hint:'再读题：“小青折的是小丽的___倍”。不要把“少 4 只”的 4 看进来。',exp:'小青是小丽的 3 倍：6×3=18（只）。',bd:[['6×3=18（只）','小青折的只数']]},
+   {type:'choice',st:1,center:true,p:'综合算式哪个对？',opts:['10 − 4 × 3','(10 − 4) × 3','(10 − 4) × 4'],a:1,
+    hint:'先算小丽的只数，要加括号吗？是几倍？',exp:'先算 10−4 要加括号：(10−4)×3=6×3=18（只）。10−4×3 会先算 4×3。',bd:[['(10−4)×3=18（只）','综合算式']]},
+   {type:'blanks',st:2,p:'回顾反思：倒着检验一下',lines:['小青 18 只 ÷ 3 = {} 只，正好是小丽的；','小丽 6 只 + 4 = {} 只，正好是小芳的 ✔'],a:[6,10],hint:'三六十八。',exp:'18÷3=6，6+4=10，都对上了，解答正确。'},
+   {type:'blanks',st:2,ans:true,p:'写“答：”',lines:['答：小青折了 {} 只纸鹤。'],a:[18],hint:'',exp:'答：小青折了 18 只纸鹤。',bd:[['答：18 只。','']]}
+  ]},
+ {id:'2-3',text:'体育室有篮球 7 个，足球比篮球多 2 个，排球的个数是足球的 3 倍。[[排球有多少个？]]',
+  diagram:{max:27,rows:[{label:'篮球',segs:[{v:7,c:'a'}]},{label:'足球',s:2,segs:[{v:7,c:'b'},{v:2,c:'hl'}]},{label:'排球',s:3,segs:[{v:9,c:'c',d:0},{v:9,c:'c',d:1},{v:9,c:'c',d:2}]}],
+   braces:[{r:0,f:0,t:7,txt:'7个',pos:'top',s:1},{r:1,f:7,t:9,txt:'多2个',pos:'top',s:2,c:'hl'},{r:2,f:0,t:27,txt:'?个',pos:'bot',s:3,c:'hl'}],
+   vlines:[{x:7,s:2,r1:0,r2:1},{x:9,s:3,r1:1,r2:2}],
+   caps:['点“下一步”画线段图。','篮球 7 个。','足球比篮球多 2 个：一样长，再多一小段。','排球是<b>足球</b>的 3 倍：3 段，每段和足球一样长。']},
+  steps:[
+   {type:'choice',st:0,cols:'two',center:true,circle:true,p:'排球是谁的 3 倍？（谁是标准？）',opts:['篮球','足球'],a:1,hint:'找一找“是___的 3 倍”，“的”前面是谁？',exp:'“排球的个数是<b>足球</b>的 3 倍”，足球是标准。'},
+   {type:'diagram',st:0,p:'画线段图'},
+   {type:'blanks',st:1,p:'先算足球，再算排球',lines:['足球：7 + 2 = {} （个）','排球：{} × 3 = {} （个）'],a:[9,9,27],hint:'已知篮球 7 个，足球比它多 2 个，用加法；已知足球的个数，排球是它的 3 倍，用乘法（三九二十七）。',exp:'7+2=9（个），9×3=27（个）。',bd:[['7+2=9（个）','足球的个数'],['9×3=27（个）','排球的个数']]},
+   {type:'choice',st:1,center:true,p:'综合算式哪个对？',opts:['7 + 2 × 3','(7 + 2) × 3','7 × 2 × 3'],a:1,hint:'先算足球 7+2，要加括号吗？',exp:'先算足球的个数 7+2，加括号：(7+2)×3=27（个）。',bd:[['(7+2)×3=27（个）','综合算式']]},
+   {type:'blanks',st:2,p:'回顾反思：倒着检验',lines:['27 ÷ 3 = {} （足球），{} − 2 = 7（篮球）✔'],a:[9,9],hint:'三九二十七。',exp:'27÷3=9，9−2=7，对上了。'},
+   {type:'blanks',st:2,ans:true,p:'写“答：”',lines:['答：排球有 {} 个。'],a:[27],hint:'',exp:'答：排球有 27 个。',bd:[['答：27 个。','']]}
+  ]}
+ ]},
+{icon:'👛',name:'第3关　还剩和还差',desc:'“还差5元”是钱不够——画图想一想',
+ sum:'例4问“还剩多少”：总数 − 用掉的 = 还剩的。<br>求<b>带了多少钱</b>：带的钱比要付的钱多（还剩），就用<b>加法</b>：要付的钱 + 剩下的钱；带的钱比要付的钱少（还差），就用<b>减法</b>：要付的钱 − 差的钱。<br>不能只看关键字，先画图想清楚谁多谁少。',
+ qs:[
+ {id:'3-1',text:'图书角有 85 本书。星期一借走 23 本，星期二借走 18 本。[[还剩多少本？]]',
+  diagram:{max:85,rowH:100,top:72,rows:[{label:'图书角',segs:[{v:85,c:'ghost'}]}],
+   hls:[{r:0,f:0,t:23,c:'b',s:2},{r:0,f:23,t:41,c:'c',s:3},{r:0,f:41,t:85,c:'hl',s:4}],
+   braces:[{r:0,f:0,t:85,txt:'85本',pos:'top',s:1},{r:0,f:0,t:23,txt:'23本',pos:'bot',s:2},{r:0,f:23,t:41,txt:'18本',pos:'bot',s:3},{r:0,f:41,t:85,txt:'?本',pos:'bot',s:4,c:'hl'}],
+   caps:['点“下一步”画线段图（和课本例4一样）。','整条线段是图书角一共的 85 本。','星期一借走 23 本。','星期二借走 18 本。','剩下的这一段就是问题：还剩多少本。']},
+  steps:[
+   {type:'choice',st:0,circle:true,p:'读题第1问：问的是什么？',opts:['两天一共借走多少本','还剩多少本'],a:1,cols:'two',hint:'看问号那一句。',exp:'问的是“还剩多少本”。'},
+   {type:'diagram',st:0,p:'阅读理解：画线段图'},
+   {type:'blanks',st:1,p:'思路一：用总数先减去星期一借的，再减去星期二借的。',lines:['85 − 23 = {} （本）','{} − 18 = {} （本）'],a:[62,62,44],hint:'85−23：个位 5−3，十位 8−2。62−18：个位 2 减 8 不够，要借 1。',exp:'85−23=62（本），62−18=44（本）。',bd:[['85−23−18=44（本）','思路一']]},
+   {type:'blanks',st:1,p:'思路二：总数 − 借走的 = 还剩的，先求两天一共借走的。',lines:['23 + 18 = {} （本）','85 − {} = {} （本）'],a:[41,41,44],hint:'23+18：个位 3+8=11，要进 1。',exp:'23+18=41（本），85−41=44（本）。',bd:[['23+18=41（本）','两天借走的'],['85−41=44（本）','还剩的']]},
+   {type:'choice',st:1,center:true,p:'思路二的综合算式，哪个对？',opts:['85 − 23 + 18','85 − (23 + 18)'],a:1,hint:'要先算借走的 23+18。没有括号，会先算哪一步？',
+    exp:'先算借走的 23+18，要加括号：85−(23+18)=85−41=44（本）。85−23+18 会从左往右算，先减 23 再<b>加</b> 18，得 80，不对。',bd:[['85−(23+18)=44（本）','思路二综合算式']]},
+   {type:'blanks',st:2,p:'回顾反思：加回去检验（课本例4的方法）',lines:['23 + 18 + 44 = {} （本）'],a:[85],hint:'23+18=41，41+44=？',exp:'23+18+44=85（本），正好是总数，解答正确。'},
+   {type:'blanks',st:2,ans:true,p:'写“答：”',lines:['答：还剩 {} 本。'],a:[44],hint:'',exp:'答：还剩 44 本。',bd:[['答：还剩 44 本。','']]}
+  ]},
+ {id:'3-2',text:'一个文具盒 9 元。乐乐想买 4 个，钱<span class="cond">还差 6 元</span>。[[乐乐带了多少元？]]',
+  diagram:{max:36,rows:[{label:'要付的钱',segs:[{v:9,c:'a',t:'9元',d:0},{v:9,c:'a',t:'9元',d:1},{v:9,c:'a',t:'9元',d:2},{v:9,c:'a',t:'9元',d:3}]},{label:'带的钱',s:2,segs:[{v:30,c:'b'},{v:6,c:'dash',t:'差6元'}]}],
+   braces:[{r:0,f:0,t:36,txt:'4 个文具盒要付的钱',pos:'top',s:1},{r:1,f:0,t:30,txt:'?元',pos:'bot',s:3,c:'hl'}],
+   vlines:[{x:36,s:2}],
+   caps:['点“下一步”画线段图。','4 个文具盒，每个 9 元：这是要付的钱。','“还差 6 元”：带的钱<b>不够</b>，比要付的钱<b>少 6 元</b>（虚线是差的部分）。','问号是乐乐带的钱：比 4 个文具盒要付的钱少 6 元。']},
+  steps:[
+   {type:'choice',st:0,p:'“还差 6 元”是什么意思？',opts:['乐乐的钱比 4 个文具盒要付的钱少 6 元','乐乐的钱比 4 个文具盒要付的钱多 6 元','买完以后还剩 6 元'],a:0,hint:'“还差”就是钱不够。不够，是多了还是少了？',exp:'“还差 6 元”就是钱不够，比要付的钱<b>少</b> 6 元。'},
+   {type:'diagram',st:0,p:'画线段图看一看'},
+   {type:'num',st:1,p:'先算 4 个文具盒一共要多少元：',expr:'9 × 4 =',a:36,units:['个','元'],u:'元',hint:'四九三十六。',uhint:'每个的价钱 × 个数 = 一共的钱，单位是“元”。',exp:'9×4=36（元）。',bd:[['9×4=36（元）','4 个要付的钱']]},
+   {type:'choice',st:1,cols:'two',center:true,p:'带的钱比 36 元少 6 元，怎样算？',opts:['36 + 6','36 − 6'],a:1,hint:'看线段图：带的钱那条线段长还是短？',exp:'带的钱比要付的钱少 6 元，用减法：36−6=30（元）。'},
+   {type:'num',st:1,p:'乐乐带了多少元？',expr:'36 − 6 =',a:30,units:['个','元'],u:'元',hint:'36−6，个位 6−6=0。',uhint:'带的是钱，单位“元”。',exp:'36−6=30（元）。',bd:[['36−6=30（元）','乐乐带的钱']]},
+   {type:'choice',st:1,center:true,p:'综合算式哪个对？',opts:['9 × 4 + 6','9 × 4 − 6','(9 + 6) × 4'],a:1,hint:'先算 4 个要付的钱，再“少 6 元”。',exp:'9×4−6=36−6=30（元）。先乘后减，不用括号。',bd:[['9×4−6=30（元）','综合算式']]},
+   {type:'blanks',st:2,p:'回顾反思：带的 30 元，再添上差的 6 元，够买 4 个吗？',lines:['30 + 6 = {} （元），正好是 9 × 4 ✔'],a:[36],hint:'',exp:'30+6=36（元），正好是 4 个文具盒要付的钱，解答正确。'},
+   {type:'blanks',st:2,ans:true,p:'写“答：”',lines:['答：乐乐带了 {} 元。'],a:[30],hint:'',exp:'答：乐乐带了 30 元。',bd:[['答：带了 30 元。','']]}
+  ]},
+ {id:'3-3',text:'下面每道题，都要先算 6 × 4 = 24。再看清后半句：最后是 <b>＋3</b> 还是 <b>−3</b>？',
+  steps:[
+   {type:'sort',st:1,p:'给每道题选一个算式：',btns:['6 × 4 + 3','6 × 4 − 3'],items:[
+     {t:'A. 每排站 6 人，站了 4 排，还多出 3 人。一共有多少人？',a:0,hint:'多出来的 3 人也要算进总人数里。'},
+     {t:'B. 每本 6 元，买 4 本还差 3 元。带了多少元？',a:1,hint:'还差 3 元：钱不够，比要付的钱少 3 元。'},
+     {t:'C. 每天看 6 页，看了 4 天，还剩 3 页没看。这本书有多少页？',a:0,hint:'没看的 3 页也是这本书的。'},
+     {t:'D. 每个 6 元，买 4 个还剩 3 元。带了多少元？',a:0,hint:'还剩 3 元：带的钱比要付的钱多 3 元。'},
+     {t:'E. 每箱装 6 瓶，要装满 4 箱，还差 3 瓶。现在有多少瓶？',a:1,hint:'还差 3 瓶才装满：现在的比 24 瓶少 3 瓶。'}],
+    exp:'A、C、D 用 6×4+3；B、E 是“还差”，用 6×4−3。'},
+   {type:'blanks',st:1,p:'算一算',lines:['6 × 4 + 3 = {}','6 × 4 − 3 = {}'],a:[27,21],hint:'先算 6×4=24。',exp:'24+3=27，24−3=21。',bd:[['A、C、D：6×4+3=27',''],['B、E：6×4−3=21','']]},
+   {type:'choice',st:2,p:'回顾反思：课本例4问“还剩多少”用的是减法，这里 C 题“还剩 3 页”却用加法。为什么？',
+    opts:['这里问的是整本书的页数，剩下的 3 页是整本书的一部分，要加上','只要看到“剩”字就用加法'],a:0,hint:'问的是什么？是求“剩下的”，还是求“整本书”？',exp:'不能只看关键字！要看<b>问的是什么</b>：求整本书，就要把看完的和剩下的合起来。'}
+  ]}
+ ]},
+{icon:'🏷️',name:'第4关　每个的价钱 × 个数 = 一共的钱',desc:'“9元”是每个的价钱，“2支”是买的个数，别弄混',
+ sum:'<b>每个的价钱 × 买的个数 = 一共的钱</b>（也叫：单价 × 数量 = 总价）<br>价钱的单位是“元”，个数的单位是“个、本、支”，别弄混。',
+ qs:[
+ {id:'4-1',text:'文具店的价签如下。买 1 块橡皮和 3 本本子，[[一共多少元？]]',
+  price:['铅笔 <b>3</b> 元/支','本子 <b>4</b> 元/本','橡皮 <b>2</b> 元/块'],
+  diagram:{max:14,rows:[{label:'要付的钱',segs:[{v:4,c:'a',t:'4元',d:0},{v:4,c:'a',t:'4元',d:1},{v:4,c:'a',t:'4元',d:2},{v:2,c:'b',t:'2元',s:2}]}],rowH:100,top:72,
+   braces:[{r:0,f:0,t:12,txt:'3本本子',pos:'bot',s:1},{r:0,f:12,t:14,txt:'1块橡皮',pos:'bot',s:2},{r:0,f:0,t:14,txt:'?元',pos:'top',s:3,c:'hl'}],
+   caps:['点“下一步”画线段图。','3 本本子：每本 4 元，画 <b>3 段</b>一样长的 4 元。','再加上 1 块橡皮 2 元。','合起来就是一共要付的钱。']},
+  steps:[
+   {type:'choice',st:0,p:'“3 本本子”里的 3 是什么？',opts:['每本 3 元（每个的价钱）','买了 3 本（买的个数）'],a:1,hint:'看价签：本子每本几元？“3”后面跟的单位是“本”。',exp:'3 后面是“本”，表示买了 3 本，是<b>买的个数</b>。本子每本的价钱是 4 元。'},
+   {type:'diagram',st:0,p:'画线段图'},
+   {type:'choice',st:1,center:true,p:'3 本本子多少元？哪个算式对？',opts:['4 × 4','4 × 3','3 × 3'],a:1,hint:'每本几元？买了几本？每本的价钱 × 本数 = 一共的钱。',exp:'每本 4 元（每个的价钱），买 3 本（买的个数）：4×3=12（元）。4×4 是把每本的价钱又当成了买的本数。'},
+   {type:'blanks',st:1,p:'算一算',lines:['4 × 3 = {} （元）','2 + {} = {} （元）'],a:[12,12,14],hint:'三四十二。',exp:'4×3=12（元），2+12=14（元）。',bd:[['4×3=12（元）','3 本本子的钱'],['2+12=14（元）','一共的钱']]},
+   {type:'choice',st:1,center:true,p:'综合算式哪个对？',opts:['2 + 4 × 3','(2 + 4) × 3','2 + 4 × 4'],a:0,hint:'先算本子的钱 4×3。先乘后加，需要括号吗？',exp:'2+4×3 会先算乘法，正好先求本子的钱，不用括号。(2+4)×3 表示买了 3 块橡皮和 3 本本子。',bd:[['2+4×3=14（元）','综合算式']]},
+   {type:'blanks',st:2,p:'回顾反思：一段一段加起来检验',lines:['4 + 4 + 4 + 2 = {} （元）✔'],a:[14],hint:'',exp:'4+4+4+2=14（元），解答正确。'},
+   {type:'blanks',st:2,ans:true,p:'写“答：”',lines:['答：一共 {} 元。'],a:[14],hint:'',exp:'答：一共 14 元。',bd:[['答：一共 14 元。','']]}
+  ]},
+ {id:'4-2',text:'每个笔袋原来 9 元，现在每个便宜 2 元。妈妈买了 4 个，[[要付多少元？]]',
+  steps:[
+   {type:'choice',st:0,p:'“每个便宜 2 元”是什么意思？',opts:['每个笔袋都便宜 2 元','4 个一共只便宜 2 元'],a:0,hint:'注意“每个”两个字。',exp:'“每个便宜 2 元”，每一个笔袋都便宜了 2 元。'},
+   {type:'num',st:1,p:'先算什么？先算现在每个笔袋多少元：',expr:'9 − 2 =',a:7,units:['个','元'],u:'元',hint:'',uhint:'这是价钱，单位“元”。',exp:'9−2=7（元）。',bd:[['9−2=7（元）','']]},
+   {type:'choice',st:1,p:'这个 7 表示什么？',opts:['现在每个笔袋 7 元（每个的价钱）','妈妈买了 7 个（买的个数）'],a:0,hint:'9 元和 2 元都是钱。',exp:'7 是现在<b>每个笔袋的价钱</b>。',bdNote:'↑ 现在每个的价钱'},
+   {type:'num',st:1,p:'现在每个 7 元，买 4 个，要付多少元？',expr:'7 × 4 =',a:28,units:['个','元'],u:'元',hint:'四七二十八。',uhint:'要付的是钱，单位是“元”。',exp:'7×4=28（元）。',bd:[['7×4=28（元）','要付的钱']]},
+   {type:'choice',st:1,center:true,p:'综合算式哪个对？',opts:['9 − 2 × 4','(9 − 2) × 4','9 × 4 − 2'],a:1,hint:'要先算现在每个的价钱 9−2。',exp:'(9−2)×4=7×4=28（元）。9−2×4 会先算 2×4；9×4−2 是 4 个只便宜了一次 2 元。',bd:[['(9−2)×4=28（元）','综合算式']]},
+   {type:'blanks',st:2,p:'回顾反思：倒着检验',lines:['28 ÷ 4 = {} （元），{} + 2 = 9（元）✔'],a:[7,7],hint:'四七二十八。',exp:'28÷4=7，7+2=9，正好是原价，解答正确。'},
+   {type:'blanks',st:2,ans:true,p:'写“答：”',lines:['答：要付 {} 元。'],a:[28],hint:'',exp:'答：要付 28 元。',bd:[['答：要付 28 元。','']]}
+  ]},
+ {id:'4-3',text:'汉堡每个 9 元，薯条每份 5 元。小明列了一个算式：<b>(9 − 5) × 3</b>。<br>说一说这个算式表示什么意思。',
+  price:['汉堡 <b>9</b> 元/个','薯条 <b>5</b> 元/份'],
+  steps:[
+   {type:'choice',st:0,p:'9 − 5 = 4（元），这个 4 元表示什么？',opts:['1 个汉堡比 1 份薯条贵 4 元','汉堡的价钱是薯条的 4 倍','买了 4 个汉堡'],a:0,hint:'9 元和 5 元都是价钱，相减是“几倍”还是“贵多少”？',exp:'9−5=4（元）：1 个汉堡比 1 份薯条<b>贵 4 元</b>。相减求的是“多多少”，不是“几倍”；4 后面是“元”，也不是买的个数。',bd:[['9−5=4（元）','1个汉堡比1份薯条贵的钱']]},
+   {type:'choice',st:1,p:'再 × 3 表示什么？整个算式问的是：',opts:['买 3 个汉堡比买 3 份薯条多花多少元','买 3 个汉堡和 3 份薯条一共多少元','汉堡的价钱是薯条的几倍'],a:0,hint:'每个汉堡贵 4 元，各买了 3 个（份），就有 3 个“贵 4 元”。',exp:'每个汉堡比每份薯条贵 4 元，各买 3 个（份），就是 3 个 4 元：买 3 个汉堡比买 3 份薯条多花多少元。'},
+   {type:'blanks',st:1,p:'算一算',lines:['(9 − 5) × 3 = {} × 3 = {} （元）'],a:[4,12],hint:'先算括号里的 9−5；再想口诀：三四十二。',exp:'(9−5)×3=4×3=12（元）。',bd:[['(9−5)×3=12（元）','多花的钱']]},
+   {type:'blanks',st:2,p:'回顾反思：换一种思路算算看',lines:['3 个汉堡：9 × 3 = {} （元）','3 份薯条：5 × 3 = {} （元）','多花：{} − {} = {} （元）'],a:[27,15,27,15,12],hint:'三九二十七，三五十五。',exp:'27−15=12（元），和上面一样。我们用不同的思路，解决了同一个问题。',bd:[['9×3−5×3=12（元）','另一种思路']]}
+  ]}
+ ]},
+{icon:'🏆',name:'第5关　综合挑战',desc:'卡片题：选条件、想顺序，最后有附加题',chal:true,
+ sum:'课本说：<b>如果解决一个问题需要多个步骤，要想好先解决什么，再解决什么。</b><br>每算出一个数，都说一说“它是什么、单位是什么”。',
+ qs:[
+ {id:'5-1',text:'卡片题：[[科技书有多少本？]]',cards:['① 图书角有 4 个书架','② 每个书架放 9 本故事书','③ 科技书比故事书少 15 本','④ 窗台上有 2 盆花'],
+  steps:[
+   {type:'multi',st:0,circle:true,p:'需要哪几张卡片？',opts:['① 图书角有 4 个书架','② 每个书架放 9 本故事书','③ 科技书比故事书少 15 本','④ 窗台上有 2 盆花'],a:[0,1,2],offCard:3,
+    hint:'要求科技书，先要知道故事书有多少本。故事书怎么求？花有用吗？',exp:'用①②求故事书的本数，再用③求科技书。④用不上。'},
+   {type:'choice',st:1,p:'先算什么？',opts:['先算故事书有多少本','先算科技书比故事书少多少本'],a:0,hint:'“少 15 本”题目已经告诉我们了。',exp:'科技书比<b>故事书</b>少 15 本，所以要先求出故事书有多少本。'},
+   {type:'num',st:1,p:'故事书有多少本？',expr:'9 × 4 =',a:36,units:['本','个'],u:'本',hint:'4 个书架，每个 9 本：四九三十六。',uhint:'算的是故事书，单位“本”。',exp:'9×4=36（本）。',bd:[['9×4=36（本）','故事书的本数']]},
+   {type:'num',st:1,p:'科技书有多少本？',expr:'36 − 15 =',a:21,units:['本','个'],u:'本',hint:'比故事书少 15 本，用减法。',uhint:'单位“本”。',exp:'36−15=21（本）。',bd:[['36−15=21（本）','科技书的本数']]},
+   {type:'choice',st:1,center:true,p:'综合算式哪个对？',opts:['9 × 4 + 15','9 × 4 − 15','15 − 9 × 4'],a:1,hint:'“少”15 本。',exp:'9×4−15=36−15=21（本）。',bd:[['9×4−15=21（本）','综合算式']]},
+   {type:'blanks',st:2,p:'回顾反思：加回去检验',lines:['21 + 15 = {} ，正好是故事书的本数 ✔'],a:[36],hint:'',exp:'21+15=36，解答正确。'},
+   {type:'blanks',st:2,ans:true,p:'写“答：”',lines:['答：科技书有 {} 本。'],a:[21],hint:'',exp:'答：科技书有 21 本。',bd:[['答：21 本。','']]}
+  ]},
+ {id:'5-2',text:'李奶奶上午捡了 23 个鸡蛋，下午比上午少捡 5 个。每 6 个鸡蛋装一盒，[[下午捡的鸡蛋能装几盒？]]',
+  steps:[
+   {type:'choice',st:0,circle:true,p:'问的是哪个时候的鸡蛋？答案单位是什么？',opts:['下午的，单位是“盒”','一整天的，单位是“个”','下午的，单位是“个”'],a:0,hint:'看问号那一句，有没有“一共”？是“几个”还是“几盒”？',exp:'问“<b>下午</b>捡的鸡蛋能装几<b>盒</b>”。',bd:[['问：下午几【盒】','']]},
+   {type:'num',st:1,p:'先求下午捡了多少个：',expr:'23 − 5 =',a:18,units:['个','盒'],u:'个',hint:'下午比上午<b>少</b>捡 5 个。',uhint:'这是鸡蛋的个数。',exp:'23−5=18（个）。',bd:[['23−5=18（个）','下午捡的个数']]},
+   {type:'num',st:1,p:'18 个鸡蛋能装几盒？',expr:'18 ÷ 6 =',a:3,units:['个','盒'],u:'盒',hint:'三六十八。',uhint:'问的是几盒。',exp:'18÷6=3（盒）。',bd:[['18÷6=3（盒）','下午的盒数']]},
+   {type:'choice',st:1,center:true,p:'综合算式哪个对？',opts:['23 − 5 ÷ 6','(23 − 5) ÷ 6','(23 + 5) ÷ 6'],a:1,hint:'先算下午的个数，要括号吗？是“少”还是“多”？',exp:'(23−5)÷6=18÷6=3（盒）。',bd:[['(23−5)÷6=3（盒）','综合算式']]},
+   {type:'blanks',st:2,p:'回顾反思：倒着检验',lines:['3 盒 × 6 = {} 个，{} + 5 = 23 ✔'],a:[18,18],hint:'',exp:'3×6=18（个），18+5=23（个），正好是上午捡的，解答正确。'},
+   {type:'blanks',st:2,ans:true,p:'写“答：”',lines:['答：下午捡的鸡蛋能装 {} 盒。'],a:[3],hint:'',exp:'答：能装 3 盒。',bd:[['答：能装 3 盒。','']]}
+  ]},
+ {id:'5-3',chal:true,text:'★附加题★ 笑笑和乐乐原来的贴纸同样多。笑笑用掉 20 张，乐乐用掉 8 张后，乐乐剩下的张数是笑笑剩下的 3 倍。[[笑笑原来有多少张贴纸？]]',
+  diagram:{max:26,rows:[{label:'笑笑',segs:[{v:26,c:'a'}]},{label:'乐乐',segs:[{v:26,c:'b'}]}],
+   hls:[{r:0,f:6,t:26,c:'cut',s:2},{r:1,f:18,t:26,c:'cut',s:2},{r:0,f:6,t:18,c:'hl',s:3,t2:'多用12张',ol:1},{r:1,f:6,t:18,c:'hl',s:4}],
+   ticks:[{r:0,every:6,f:0,t:6,s:4,lab:'1份'},{r:1,every:6,f:0,t:18,s:4,lab:'1份'}],
+   braces:[{r:0,f:0,t:26,txt:'原来同样多',pos:'top',s:1},{r:0,f:6,t:26,txt:'用掉20张',pos:'bot',s:2,c:'gray'},{r:1,f:18,t:26,txt:'用掉8张',pos:'bot',s:2,c:'gray'},{r:1,f:6,t:18,txt:'多2份 = 12张',pos:'bot',s:4,c:'hl'}],
+   vlines:[{x:18,s:3},{x:6,s:4}],
+   caps:['点“下一步”画线段图。','原来两人的贴纸<b>同样多</b>，两条线段一样长。','笑笑用掉 20 张，乐乐用掉 8 张（灰色斜线是用掉的）。','对齐看：笑笑比乐乐<b>多用了 20−8=12 张</b>，所以乐乐剩下的就比笑笑剩下的多 12 张。','笑笑剩下的是 1 份，乐乐剩下的是 3 份。乐乐多出的 <b>2 份</b>，就是这 12 张！']},
+  steps:[
+   {type:'choice',st:0,p:'“乐乐剩下的张数是笑笑剩下的 3 倍”，谁是 1 份？',opts:['笑笑剩下的是 1 份，乐乐剩下的是 3 份','乐乐剩下的是 1 份，笑笑剩下的是 3 份'],a:0,hint:'“是___的 3 倍”，“的”前面是标准，标准是 1 份。',exp:'笑笑剩下的是标准（1 份），乐乐剩下的是 3 份。'},
+   {type:'diagram',st:0,p:'画线段图（附加题一定要画图！）'},
+   {type:'num',st:1,p:'两人用掉的相差多少张？',expr:'20 − 8 =',a:12,hint:'',exp:'20−8=12（张）。',bd:[['20−8=12（张）','']]},
+   {type:'choice',st:1,p:'这个 12 表示什么？',opts:['笑笑剩下 12 张','乐乐剩下的比笑笑剩下的多 12 张，正好是 3−1=2 份','乐乐剩下 12 张'],a:1,
+    hint:'原来一样多，笑笑多用了 12 张。看图上乐乐那条线段的粉色部分：12 张是几份？',exp:'12 是两人<b>剩下的相差</b>的张数，正好是乐乐比笑笑多出的 2 份，不是谁剩下的张数。',bdNote:'↑ 剩下的相差12张 = 2份'},
+   {type:'blanks',st:1,p:'1 份是多少张？',lines:['3 − 1 = {} （份）','12 ÷ {} = {} （张）← 笑笑剩下的'],a:[2,2,6],hint:'12 张是 2 份，1 份是几张？',exp:'3−1=2（份），12÷2=6（张），笑笑剩下 6 张。',bd:[['12÷(3−1)=6（张）','笑笑剩下的']]},
+   {type:'blanks',st:1,p:'笑笑原来有多少张？（剩下的 + 用掉的）',lines:['{} + 20 = {} （张）'],a:[6,26],hint:'笑笑剩下 6 张，用掉 20 张。',exp:'6+20=26（张）。',bd:[['6+20=26（张）','笑笑原来的']]},
+   {type:'blanks',st:2,p:'回顾反思：用乐乐检验',lines:['乐乐剩下：6 × 3 = {} （张）','乐乐原来：{} + 8 = {} （张），和笑笑同样多 ✔'],a:[18,18,26],hint:'乐乐剩下的是笑笑剩下的 3 倍。',exp:'6×3=18，18+8=26，两人原来同样多，解答正确。'},
+   {type:'blanks',st:2,ans:true,p:'写“答：”',lines:['答：笑笑原来有 {} 张贴纸。'],a:[26],hint:'',exp:'答：笑笑原来有 26 张贴纸。',bd:[['答：原来 26 张。','']]}
+  ]}
+ ]}
+];
+
+/* ===== 引擎 ===== */
+var KEY='math_shenti_v1';
+var COL={a:'#4f8ef7',b:'#ff9f43',c:'#20c997',d:'#a66cff',hl:'#ff5d8f',r:'#f76707',ghost:'#e3e7ee',gray:'#868e96'};
+var STG=['阅读理解','分析解答','回顾反思'];
+var PRAISE=['对啦！','真棒！','读得真仔细！','完全正确！','好厉害！','你想清楚了！'];
+var app=document.getElementById('app');
+var S={screen:'home',L:0,Q:0,si:0,att:0,exp:0,board:[],dstep:0,diagDone:false,prog:load(),busy:false};
+var TOTAL=0;LEVELS.forEach(function(l){TOTAL+=l.qs.length;});
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S.prog));}catch(e){}}
+function $(s,r){return (r||document).querySelector(s);}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));}
+function starSVG(on){return '<svg class="star" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6L2.5 9.4l6.6-.8z" fill="'+(on?'#ffc107':'#e9ecef')+'" stroke="'+(on?'#e09f00':'#ced4da')+'" stroke-width="1.2" stroke-linejoin="round"/></svg>';}
+function totalStars(){var t=0;for(var k in S.prog)t+=S.prog[k];return t;}
+function doneCount(){return Object.keys(S.prog).length;}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+
+function header(){
+  var d=doneCount();
+  return '<div class="hdr"><button class="hbtn" onclick="goHome()" aria-label="首页">🏠</button>'+
+   (S.screen!=='home'?'<button class="hbtn" onclick="goMap()">关卡</button>':'')+
+   '<div class="htitle">审题与数量关系</div><div class="prog"><div class="pbar"><div class="pfill" style="width:'+(d/TOTAL*100)+'%"></div></div><div class="ptxt">已完成 '+d+' / '+TOTAL+' 题</div></div>'+
+   '<div class="stars">'+starSVG(true)+'<span id="starN">'+totalStars()+'</span></div></div>';
+}
+function goHome(){S.screen='home';render();}
+function goMap(){S.screen='map';render();}
+function render(){
+  if(S.screen==='home')renderHome();
+  else if(S.screen==='map')renderMap();
+  else if(S.screen==='q')renderQ();
+  window.scrollTo(0,0);
+}
+function renderHome(){
+  app.innerHTML=header()+
+  '<h1>🍬 小朋友的读题闯关</h1><div class="sub">第二单元 · 用两步计算解决问题（例4–例6）</div>'+
+  '<div class="card"><div class="prompt" style="text-align:center;font-size:26px">做题前，先问自己“读题三问”</div>'+
+  '<div class="three"><div><span class="no">1</span><b>问的是什么？</b><small>圈出问题里的单位：<br>个？盘？元？盒？</small></div>'+
+  '<div><span class="no">2</span><b>每个数表示什么？</b><small>画线段图，<br>谁多谁少，谁是谁的几倍</small></div>'+
+  '<div><span class="no">3</span><b>先算什么，再算什么？</b><small>每个中间结果都写上：<br>它是什么、单位是什么</small></div></div>'+
+  '<div class="flow"><span>阅读理解</span><i>→</i><span>分析解答</span><i>→</i><span>回顾反思</span><i>→</i><span>写“答：”</span></div></div>'+
+  '<button class="bigbtn" onclick="goMap()">开始闯关 ▶</button>'+
+  '<details class="tips"><summary>给家长的小提示（点开）</summary>'+
+  '· 每关 3 题，建议一次 1–2 关，15–20 分钟。<br>· 每算出一个数，请孩子<b>说出来</b>“它是什么、单位是什么”，再点按钮。<br>· 答错第一次只给提示，第二次才出现讲解；星星：一次都没看讲解 3 颗，看 1 次 2 颗，更多 1 颗。<br>· 线段图可以点“再看一遍”重放；附加题（第5关第3题）是选做的挑战题，超出课本要求，做不出来没关系。<br>· 进度保存在本机浏览器里；想清空可点这里：<button class="btn gray" style="font-size:16px;min-height:36px;padding:2px 12px" onclick="resetAll()">清空进度</button></details>';
+}
+function resetAll(){if(confirm('确定清空所有星星和进度吗？')){S.prog={};save();render();}}
+function lvStars(i){var t=0;LEVELS[i].qs.forEach(function(q){t+=S.prog[q.id]||0;});return t;}
+function renderMap(){
+  var h=header()+'<h1 style="font-size:28px">选一关开始吧</h1><div class="levels">';
+  LEVELS.forEach(function(l,i){
+    var st=lvStars(i),done=l.qs.every(function(q){return S.prog[q.id];});
+    h+='<button class="lv'+(done?' done':'')+(l.chal?' chal':'')+'" onclick="startLevel('+i+')"><div class="ic">'+l.icon+'</div><div><b>'+l.name+'</b><small>'+l.desc+'</small><div class="lvst">'+starSVG(st>0).replace('class="star"','class="star" style="width:20px;height:20px"')+' '+st+' / '+(l.qs.length*3)+(done?'　✔ 已完成':'')+'</div></div></button>';
+  });
+  app.innerHTML=h+'</div>';
+}
+function startLevel(i){S.L=i;var l=LEVELS[i];S.Q=0;for(var k=0;k<l.qs.length;k++){if(!S.prog[l.qs[k].id]){S.Q=k;break;}}startQ();}
+function startQ(){S.si=0;S.exp=0;S.board=[];S.diagDone=false;S.dstep=0;S.screen='q';render();}
+function curQ(){return LEVELS[S.L].qs[S.Q];}
+function fmt(t){
+  t=t.replace(/\d+/g,function(m){return '<span class="n">'+m+'</span>';});
+  return t.replace(/\[\[(.+?)\]\]/g,'<span class="ask">$1</span>');
+}
+function renderQ(){
+  var q=curQ(),l=LEVELS[S.L];
+  var h=header()+'<div class="stages" id="stages"></div><div class="qwrap"><div>'+
+   '<div class="card qcard"><span class="qtag'+(q.chal?' ch':'')+'">'+l.name.replace(/　.*/,'')+' · 第 '+(S.Q+1)+' 题（共 '+l.qs.length+' 题）</span>'+
+   '<div class="qtext" id="qtext">'+fmt(q.text)+'</div>';
+  if(q.cards)h+='<div class="infocards" id="icards">'+q.cards.map(function(c){return '<span>'+c+'</span>';}).join('')+'</div>';
+  if(q.price)h+='<div class="price">'+q.price.map(function(c){return '<span>🏷️ '+c+'</span>';}).join('')+'</div>';
+  if(q.tags)h+='<div class="tags">'+q.tags.map(function(c){return '<span>'+c+'</span>';}).join('')+'</div>';
+  h+='<div class="diagBox" id="diag"></div></div><div class="card step" id="step"></div></div>'+
+   '<div class="card board"><h3>📝 我的解答</h3><ol id="board"></ol></div></div>';
+  app.innerHTML=h;
+  if(q.diagram&&S.diagDone)showDiagram(true);
+  renderBoard();renderStep();
+}
+function renderBoard(){
+  var b=$('#board');if(!b)return;
+  if(!S.board.length){b.innerHTML='<li class="empty">每做对一步，算式会写到这里。</li>';return;}
+  b.innerHTML=S.board.map(function(x){return '<li>'+x[0]+(x[1]?'<small>'+x[1]+'</small>':'')+'</li>';}).join('');
+}
+function setStages(st){
+  var e=$('#stages');if(!e)return;
+  e.innerHTML=STG.map(function(n,i){return '<span class="'+(i===st?'on':(i<st?'past':''))+'">'+n+'</span>';}).join('<i>→</i>');
+}
+/* ---------- 线段图 ---------- */
+function bracePath(x1,x2,y,dir){
+  var h=9*dir,m=(x1+x2)/2,r=Math.min(10,(x2-x1)/4);
+  return 'M'+x1+','+y+' Q'+x1+','+(y+h)+' '+(x1+r)+','+(y+h)+' L'+(m-r)+','+(y+h)+' Q'+m+','+(y+h)+' '+m+','+(y+2*h)+' Q'+m+','+(y+h)+' '+(m+r)+','+(y+h)+' L'+(x2-r)+','+(y+h)+' Q'+x2+','+(y+h)+' '+x2+','+y;
+}
+function svgDiagram(sp){
+  var W=700,L=104,R=34,DW=W-L-R,sc=DW/sp.max,rowH=sp.rowH||96,top=sp.top||72,BH=28;
+  var n=sp.rows.length,H=top+(n-1)*rowH+66;
+  function X(u){return L+u*sc;} function Y(i){return top+i*rowH;}
+  function A(s,cls,del){return ' class="'+cls+'" data-s="'+s+'"'+(del?' style="transition-delay:'+del+'s"':'');}
+  var o=['<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="cutp" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#ced4da"/><line x1="0" y1="0" x2="0" y2="10" stroke="#fff" stroke-width="4"/></pattern></defs>'];
+  sp.rows.forEach(function(r,i){
+    var y=Y(i),rs=r.s||1,x=0;
+    o.push('<text'+A(rs,'rv dlab')+' x="'+(L-14)+'" y="'+(y+7)+'" text-anchor="end">'+r.label+'</text>');
+    r.segs.forEach(function(g){
+      var s=g.s||rs,x1=X(x),w=g.v*sc,del=(g.d||0)*0.5;
+      if(g.c==='dash')o.push('<rect'+A(s,'rv',del)+' x="'+x1+'" y="'+(y-BH/2)+'" width="'+w+'" height="'+BH+'" rx="6" fill="#fff" stroke="#999" stroke-width="3" stroke-dasharray="8 6"/>');
+      else o.push('<rect'+A(s,'grow',del)+' x="'+x1+'" y="'+(y-BH/2)+'" width="'+w+'" height="'+BH+'" rx="6" fill="'+(COL[g.c]||COL.a)+'"/>');
+      o.push('<g'+A(s,'rv',del)+' stroke="#444" stroke-width="2.5"><line x1="'+x1+'" y1="'+(y-BH/2-6)+'" x2="'+x1+'" y2="'+(y+BH/2+6)+'"/><line x1="'+(x1+w)+'" y1="'+(y-BH/2-6)+'" x2="'+(x1+w)+'" y2="'+(y+BH/2+6)+'"/></g>');
+      if(g.t)o.push('<text'+A(s,'rv dtin',del)+' x="'+(x1+w/2)+'" y="'+(y+6)+'" text-anchor="middle"'+(g.c==='dash'||g.c==='ghost'?' style="fill:#666'+(del?';transition-delay:'+del+'s':'')+'"':'')+'>'+g.t+'</text>');
+      x+=g.v;
+    });
+  });
+  (sp.hls||[]).forEach(function(h){
+    var y=Y(h.r),x1=X(h.f),w=(h.t-h.f)*sc;
+    if(h.ol)o.push('<rect'+A(h.s,'rv')+' x="'+(x1+2)+'" y="'+(y-BH/2-2)+'" width="'+(w-4)+'" height="'+(BH+4)+'" rx="5" fill="none" stroke="'+COL[h.c]+'" stroke-width="4"/>');/* ol：只描边，不填色 */
+    else o.push('<rect'+A(h.s,'grow')+' x="'+x1+'" y="'+(y-BH/2)+'" width="'+w+'" height="'+BH+'" rx="4" fill="'+(h.c==='cut'?'url(#cutp)':COL[h.c])+'"'+(h.op?' fill-opacity="'+h.op+'"':'')+'/>');
+    o.push('<g'+A(h.s,'rv')+' stroke="#444" stroke-width="2.5"><line x1="'+x1+'" y1="'+(y-BH/2-6)+'" x2="'+x1+'" y2="'+(y+BH/2+6)+'"/><line x1="'+(x1+w)+'" y1="'+(y-BH/2-6)+'" x2="'+(x1+w)+'" y2="'+(y+BH/2+6)+'"/></g>');
+    if(h.t2)o.push('<text'+A(h.s,h.ol?'rv dtxt':'rv dtin')+' x="'+(x1+w/2)+'" y="'+(y+(h.ol?7:6))+'" text-anchor="middle"'+(h.ol?' style="fill:'+COL[h.c]+';font-weight:bold;stroke:#fff;stroke-width:5px;paint-order:stroke"':'')+'>'+h.t2+'</text>');
+  });
+  (sp.ticks||[]).forEach(function(k){
+    var y=Y(k.r),g='';
+    for(var u=k.f+k.every;u<k.t;u+=k.every)g+='<line x1="'+X(u)+'" y1="'+(y-BH/2-4)+'" x2="'+X(u)+'" y2="'+(y+BH/2+4)+'" stroke="#fff" stroke-width="3"/><line x1="'+X(u)+'" y1="'+(y-BH/2-4)+'" x2="'+X(u)+'" y2="'+(y+BH/2+4)+'" stroke="#333" stroke-width="1.5"/>';
+    if(k.lab)for(var v=k.f;v<k.t;v+=k.every)g+='<text class="dtin" x="'+X(v+k.every/2)+'" y="'+(y+6)+'" text-anchor="middle">'+k.lab+'</text>';
+    o.push('<g'+A(k.s,'rv')+'>'+g+'</g>');
+  });
+  (sp.vlines||[]).forEach(function(v){
+    var r1=v.r1||0,r2=(v.r2===undefined?n-1:v.r2);
+    o.push('<line'+A(v.s,'rv')+' x1="'+X(v.x)+'" y1="'+(Y(r1)-BH/2-8)+'" x2="'+X(v.x)+'" y2="'+(Y(r2)+BH/2+8)+'" stroke="#e03131" stroke-width="2.5" stroke-dasharray="6 5"/>');
+  });
+  (sp.braces||[]).forEach(function(b){
+    var y=Y(b.r),dir=b.pos==='top'?-1:1,y0=y+dir*(BH/2+5),col=b.c?COL[b.c]:'#555';
+    var ty=dir<0?y0-18-7:y0+18+21;
+    o.push('<g'+A(b.s,'rv')+'><path d="'+bracePath(X(b.f),X(b.t),y0,dir)+'" fill="none" stroke="'+col+'" stroke-width="2.5"/><text class="dtxt" x="'+((X(b.f)+X(b.t))/2)+'" y="'+ty+'" text-anchor="middle" style="fill:'+(b.c?col:'#333')+';font-weight:bold">'+b.txt+'</text></g>');
+  });
+  (sp.texts||[]).forEach(function(t){
+    o.push('<text'+A(t.s,'rv')+' x="'+X(t.x)+'" y="'+(Y(t.r)+8)+'" style="font-size:22px;font-weight:bold;fill:'+(COL[t.c]||'#333')+'">'+t.txt+'</text>');
+  });
+  o.push('</svg>');
+  return o.join('');
+}
+function setDStep(st,instant){
+  var box=$('#diag');if(!box)return;
+  if(instant)box.classList.add('noanim');
+  $$('[data-s]',box).forEach(function(e){if(+e.getAttribute('data-s')<=st)e.classList.add('on');else e.classList.remove('on');});
+  if(instant){box.offsetWidth;setTimeout(function(){box.classList.remove('noanim');},50);}
+}
+function showDiagram(final){
+  var q=curQ(),box=$('#diag');
+  box.innerHTML=svgDiagram(q.diagram)+(final?'<button class="replay" onclick="replayDiagram()">↻ 再看一遍</button>':'');
+  if(final)setDStep(99,true);
+}
+function replayDiagram(){
+  var q=curQ(),box=$('#diag'),n=q.diagram.caps.length-1,k=0;
+  box.innerHTML=svgDiagram(q.diagram)+'<div class="cap" id="rcap">'+q.diagram.caps[0]+'</div>';
+  box.offsetWidth;
+  (function nx(){k++;if(k>n){setTimeout(function(){showDiagram(true);},1800);return;}setDStep(k);var c=$('#rcap');if(c)c.innerHTML=q.diagram.caps[k];setTimeout(nx,2200);})();
+}
+/* ---------- 步骤 ---------- */
+function stepHead(st){
+  var tag=st.ans?'答':STG[st.st];
+  return '<div class="prompt"><span class="sg">'+tag+'</span>'+st.p+'</div>'+
+   (st.bubbles?'<div class="bubbles">'+st.bubbles.map(function(b){return '<div class="bubble">'+b+'</div>';}).join('')+'</div>':'');
+}
+function renderStep(){
+  var q=curQ();
+  if(S.si>=q.steps.length){finishQ();return;}
+  var st=q.steps[S.si];S.att=0;S.busy=false;
+  setStages(st.st);
+  var el=$('#step');
+  el.innerHTML=stepHead(st)+'<div id="body"></div><div class="fb" id="fb"></div><div class="row" id="btns"></div>';
+  ({choice:stChoice,multi:stMulti,num:stNum,blanks:stBlanks,diagram:stDiagram,sort:stSort})[st.type](st,$('#body'));
+}
+function fb(cls,html){$('#fb').innerHTML='<div class="'+cls+'">'+html+'</div>';}
+function nextBtn(label){
+  $('#btns').innerHTML='<button class="btn go" id="nextB" onclick="nextStep()">'+(label||'下一步 ▶')+'</button>';
+  var b=$('#nextB');if(b&&b.scrollIntoView){try{b.scrollIntoView({behavior:'smooth',block:'nearest'});}catch(e){}}
+}
+function nextStep(){S.si++;renderStep();var s=$('#step');if(s&&s.getBoundingClientRect().top<60){try{s.scrollIntoView({behavior:'smooth',block:'start'});}catch(e){}}}
+function complete(st,explained){
+  S.busy=true;
+  if(explained)S.exp++;
+  if(st.bd)st.bd.forEach(function(x){S.board.push(x);});
+  if(st.bdNote&&S.board.length){var last=S.board[S.board.length-1];S.board[S.board.length-1]=[last[0],st.bdNote];}
+  renderBoard();
+  if(st.circle)$$('#qtext .ask').forEach(function(e){e.classList.add('circled');});
+  if(st.offCard!==undefined){var c=$$('#icards span')[st.offCard];if(c)c.classList.add('off');}
+  if(!explained)fb('good','✓ '+pick(PRAISE)+(st.good?' '+st.good:''));
+  nextBtn();
+}
+/* 答错：第一次提示，第二次讲解 */
+function wrong(st,hint,reveal){
+  S.att++;
+  if(S.att===1&&hint){fb('hint','💡 提示：'+hint+'<br>再试一次！');return false;}
+  fb('exp','📖 讲解：'+(st.exp||''));
+  if(reveal)reveal();
+  complete(st,true);
+  return true;
+}
+function stChoice(st,b){
+  b.innerHTML='<div class="opts '+(st.cols||'')+'">'+st.opts.map(function(o,i){return '<button class="opt'+(st.center?' c':'')+'" data-i="'+i+'">'+o+'</button>';}).join('')+'</div>';
+  $$('.opt',b).forEach(function(btn){btn.onclick=function(){
+    if(S.busy)return;var i=+btn.getAttribute('data-i');
+    if(i===st.a){btn.classList.add('ok');$$('.opt',b).forEach(function(x){x.disabled=true;});complete(st,false);}
+    else{btn.classList.remove('bad');void btn.offsetWidth;btn.classList.add('bad');btn.disabled=true;
+      wrong(st,st.hint,function(){$$('.opt',b)[st.a].classList.add('ok');$$('.opt',b).forEach(function(x){x.disabled=true;});});}
+  };});
+}
+function stMulti(st,b){
+  b.innerHTML='<div class="opts">'+st.opts.map(function(o,i){return '<button class="opt" data-i="'+i+'">☐ '+o+'</button>';}).join('')+'</div>';
+  $$('.opt',b).forEach(function(btn){btn.onclick=function(){if(S.busy)return;btn.classList.toggle('sel');btn.innerHTML=(btn.classList.contains('sel')?'☑ ':'☐ ')+st.opts[+btn.getAttribute('data-i')];};});
+  $('#btns').innerHTML='<button class="btn" id="chk">检查 ✓</button>';
+  $('#chk').onclick=function(){
+    if(S.busy)return;
+    var sel=$$('.opt',b).filter(function(x){return x.classList.contains('sel');}).map(function(x){return +x.getAttribute('data-i');});
+    if(!sel.length){fb('hint','先点选你需要的卡片哦。');return;}
+    var ok=sel.length===st.a.length&&st.a.every(function(i){return sel.indexOf(i)>=0;});
+    function show(){$$('.opt',b).forEach(function(x,i){x.disabled=true;x.classList.remove('sel');var need=st.a.indexOf(i)>=0;x.innerHTML=(need?'☑ ':'☐ ')+st.opts[i];if(need)x.classList.add('ok');});}
+    if(ok){show();complete(st,false);}
+    else{$$('.opt',b).forEach(function(x){if(x.classList.contains('sel')&&st.a.indexOf(+x.getAttribute('data-i'))<0){x.classList.remove('bad');void x.offsetWidth;x.classList.add('bad');}});
+      if(wrong(st,st.hint,show))return;}
+  };
+}
+/* 数字键盘 */
+var KP={blanks:[],cur:0,onEnter:null};
+function padHTML(){
+  var k=[1,2,3,4,5,6,7,8,9,0];
+  return '<div class="pad">'+k.map(function(n){return '<button data-k="'+n+'">'+n+'</button>';}).join('')+'<button class="del" data-k="del">⌫</button><button class="del" data-k="clr" style="font-size:20px">清空</button></div>';
+}
+function bindPad(root){
+  $$('.pad button',root).forEach(function(btn){btn.onclick=function(){padKey(btn.getAttribute('data-k'));};});
+  $$('.blank',root).forEach(function(bl,i){bl.onclick=function(){if(S.busy)return;focusBlank(i);};});
+}
+function focusBlank(i){KP.cur=i;KP.blanks.forEach(function(b,j){b.classList.toggle('focus',j===i);});}
+function padKey(k){
+  if(S.busy)return;var b=KP.blanks[KP.cur];if(!b)return;
+  if(b.classList.contains('ok'))return;
+  b.classList.remove('bad');
+  var v=b.textContent;
+  if(k==='del')v=v.slice(0,-1);else if(k==='clr')v='';else if(v.length<3)v=(v==='0'?'':v)+k;
+  b.textContent=v;
+}
+document.addEventListener('keydown',function(e){
+  if(S.screen!=='q'||!KP.blanks.length||!document.body.contains(KP.blanks[0]))return;
+  if(/^[0-9]$/.test(e.key)){padKey(e.key);e.preventDefault();}
+  else if(e.key==='Backspace'){padKey('del');e.preventDefault();}
+  else if(e.key==='Enter'&&KP.onEnter){KP.onEnter();e.preventDefault();}
+  else if(e.key==='Tab'){focusBlank((KP.cur+1)%KP.blanks.length);e.preventDefault();}
+});
+function stNum(st,b){
+  var h='<div class="eqs"><div class="eqline">'+st.expr+' <span class="blank"></span>';
+  if(st.units)h+='</div><div><span class="unitq">单位：</span><span class="units">'+st.units.map(function(u){return '<button class="unit" data-u="'+u+'">'+u+'</button>';}).join('')+'</span>';
+  else h+=' （'+(st.unit||'只')+'）';
+  b.innerHTML=h+'</div></div>'+padHTML();
+  if(!st.units){var m=st.exp.match(/（(.+?)）/);$('.eqline',b).lastChild.textContent=' （'+(m?m[1]:'')+'）';}
+  var unit=null;
+  $$('.unit',b).forEach(function(u){u.onclick=function(){if(S.busy)return;$$('.unit',b).forEach(function(x){x.classList.remove('sel','bad');});u.classList.add('sel');unit=u.getAttribute('data-u');};});
+  KP.blanks=$$('.blank',b);bindPad(b);focusBlank(0);
+  $('#btns').innerHTML='<button class="btn" id="chk">检查 ✓</button>';
+  var check=function(){
+    if(S.busy)return;var bl=KP.blanks[0],v=bl.textContent;
+    if(v===''){fb('hint','先用下面的数字键填上得数哦。');return;}
+    if(st.units&&!unit){fb('hint','别忘了点一个单位：它是什么？单位是什么？');return;}
+    var nOk=+v===st.a,uOk=!st.units||unit===st.u;
+    if(nOk)bl.classList.add('ok');else bl.classList.add('bad');
+    if(st.units){var us=$('.unit.sel',b);if(us)us.classList.add(uOk?'ok':'bad');}
+    if(nOk&&uOk){complete(st,false);return;}
+    var hint=!nOk?(st.hint||'再仔细算一算。'):st.uhint;
+    wrong(st,hint,function(){bl.textContent=st.a;bl.classList.remove('bad');bl.classList.add('ok');
+      if(st.units)$$('.unit',b).forEach(function(x){x.classList.remove('sel','bad');if(x.getAttribute('data-u')===st.u)x.classList.add('ok');});});
+  };
+  $('#chk').onclick=check;KP.onEnter=check;
+}
+function stBlanks(st,b){
+  var h='<div class="eqs">'+st.lines.map(function(l){return '<div class="eqline">'+l.replace(/\{\}/g,'<span class="blank"></span>')+'</div>';}).join('')+'</div>';
+  b.innerHTML=h+padHTML();
+  KP.blanks=$$('.blank',b);bindPad(b);focusBlank(0);
+  $('#btns').innerHTML='<button class="btn" id="chk">检查 ✓</button>';
+  var check=function(){
+    if(S.busy)return;
+    var empty=KP.blanks.findIndex?KP.blanks.findIndex(function(x){return x.textContent==='';}):-1;
+    if(empty<0)for(var e=0;e<KP.blanks.length;e++)if(KP.blanks[e].textContent===''){empty=e;break;}
+    if(empty>=0){fb('hint','还有空没填哦（点一下方框就能换位置）。');focusBlank(empty);return;}
+    var all=true;
+    KP.blanks.forEach(function(x,i){if(+x.textContent===st.a[i])x.classList.add('ok');else{x.classList.add('bad');all=false;}});
+    if(all){complete(st,false);return;}
+    var firstBad=0;for(var j=0;j<KP.blanks.length;j++)if(!KP.blanks[j].classList.contains('ok')){firstBad=j;break;}
+    focusBlank(firstBad);
+    wrong(st,st.hint||'红色的方框再算一算。',function(){KP.blanks.forEach(function(x,i){x.textContent=st.a[i];x.classList.remove('bad');x.classList.add('ok');});});
+  };
+  $('#chk').onclick=check;KP.onEnter=check;
+}
+function stDiagram(st,b){
+  var q=curQ(),caps=q.diagram.caps,n=caps.length-1;
+  S.dstep=0;showDiagram(false);
+  b.innerHTML='<div class="cap" id="cap">'+caps[0]+'</div>';
+  var box=$('#diag');box.offsetWidth;
+  function upd(){
+    $('#cap').innerHTML=caps[S.dstep];
+    if(S.dstep<n)$('#btns').innerHTML='<button class="btn" id="dn">下一步 ▶（'+S.dstep+'/'+n+'）</button>';
+    else{$('#btns').innerHTML='<button class="btn go" id="dn">看懂了，继续 ▶</button>';}
+    $('#dn').onclick=adv;
+  }
+  function adv(){
+    if(S.dstep<n){S.dstep++;setDStep(S.dstep);upd();}
+    else{S.diagDone=true;box.onclick=null;var r=document.createElement('button');r.className='replay';r.textContent='↻ 再看一遍';r.onclick=function(e){e.stopPropagation();replayDiagram();};box.appendChild(r);nextStep();}
+  }
+  box.onclick=function(){if(S.dstep<n)adv();};
+  upd();
+  try{box.scrollIntoView({behavior:'smooth',block:'nearest'});}catch(e){}
+}
+function stSort(st,b){
+  var left=st.items.length,anyExp=false;
+  b.innerHTML='<div class="sortc">'+st.items.map(function(it,i){return '<div class="sitem" data-i="'+i+'"><div class="st">'+it.t+'</div><div class="sb">'+st.btns.map(function(bt,j){return '<button data-j="'+j+'">'+bt+'</button>';}).join('')+'</div><div class="note"></div></div>';}).join('')+'</div>';
+  $$('.sitem',b).forEach(function(row){
+    var it=st.items[+row.getAttribute('data-i')],att=0,doneRow=false;
+    $$('.sb button',row).forEach(function(btn){btn.onclick=function(){
+      if(doneRow)return;var j=+btn.getAttribute('data-j');
+      if(j===it.a){btn.classList.add('ok');row.classList.add('ok');doneRow=true;$('.note',row).innerHTML=att?'<span style="color:#14692c">✓ 对了！</span>':'<span style="color:#14692c">✓ '+pick(PRAISE)+'</span>';left--;}
+      else{att++;btn.classList.remove('bad');void btn.offsetWidth;btn.classList.add('bad');
+        if(att===1)$('.note',row).innerHTML='<span style="color:#9a4b00">💡 '+it.hint+'</span>';
+        else{anyExp=true;doneRow=true;$$('.sb button',row)[it.a].classList.add('ok');row.classList.add('ok');$('.note',row).innerHTML='<span style="color:#1d3f8a">📖 '+it.hint+' 所以是 '+st.btns[it.a]+'。</span>';left--;}}
+      if(left===0){if(anyExp){S.exp++;fb('exp','📖 '+st.exp);S.busy=true;nextBtn();}else complete(st,false);}
+    };});
+  });
+}
+function finishQ(){
+  var q=curQ(),l=LEVELS[S.L],stars=S.exp===0?3:(S.exp===1?2:1);
+  S.prog[q.id]=Math.max(S.prog[q.id]||0,stars);save();
+  setStages(3);
+  var last=S.Q>=l.qs.length-1;
+  var el=$('#step');
+  el.innerHTML='<div class="endbox"><div class="prompt" style="font-size:28px">🎉 第 '+(S.Q+1)+' 题完成！</div><div class="endstars">'+[0,1,2].map(function(i){return starSVG(i<stars).replace('class="star"','class="star" style="animation-delay:'+(i*0.25)+'s"');}).join('')+'</div>'+
+   '<div style="font-size:20px;color:#8a6d3b">'+(stars===3?'一次讲解都没看，太棒了！':'看了讲解也没关系，下次自己想出来！')+'</div>'+
+   (last?'<div class="sum">⭐ 这一关记住：<br>'+l.sum+'</div>':'')+
+   '<div class="row" style="justify-content:center">'+(last?(S.L<LEVELS.length-1?'<button class="btn go" onclick="startLevel('+(S.L+1)+')">下一关 ▶</button>':'<button class="btn go" onclick="allDone()">完成全部 🎊</button>')+'<button class="btn" onclick="goMap()">回关卡地图</button>':'<button class="btn go" onclick="S.Q++;startQ()">下一题 ▶</button>')+'</div></div>';
+  var sn=$('#starN');if(sn)sn.textContent=totalStars();
+  var pf=$('.pfill');if(pf)pf.style.width=(doneCount()/TOTAL*100)+'%';
+  var pt=$('.ptxt');if(pt)pt.textContent='已完成 '+doneCount()+' / '+TOTAL+' 题';
+  try{el.scrollIntoView({behavior:'smooth',block:'nearest'});}catch(e){}
+}
+function allDone(){
+  S.screen='map';render();
+  var d=document.createElement('div');d.className='card endbox';
+  d.innerHTML='<div class="prompt" style="font-size:28px">🎊 全部闯关完成！一共得到 '+totalStars()+' 颗星</div><div class="sum">以后做题，先问自己“读题三问”：<br>① 问的是什么？（圈单位）② 每个数表示什么？（画线段图）③ 先算什么，再算什么？（写上“它是什么、单位是什么”）</div>';
+  app.insertBefore(d,app.children[1]);
+}
+render();
+
+</script>
+</body>
+</html>
