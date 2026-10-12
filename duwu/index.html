@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<title>审题小侦探：问的是什么？单位是什么？</title>
+<style>
+:root{--ink:#2b2b3a;--muted:#6b6b80;--bg:#fffaf2;--card:#fff;--pri:#ff7a45;--blue:#3d7bfd;--green:#2fa36b;--yel:#ffd166;--red:#e5484d;}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:20px;line-height:1.75;padding:env(safe-area-inset-top) 0 40px}
+.wrap{max-width:720px;margin:0 auto;padding:16px}
+h1{font-size:1.55em;line-height:1.35;margin:8px 0 4px;text-align:center}
+h2{font-size:1.25em;line-height:1.4;margin:0 0 10px;color:var(--pri)}
+h3{font-size:1.05em;margin:18px 0 6px}
+.sub{color:var(--muted);text-align:center;font-size:.85em;margin:0 0 12px}
+.card{background:var(--card);border-radius:18px;padding:18px 16px;margin:18px 0;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.tag{display:inline-block;font-size:.72em;padding:2px 10px;border-radius:99px;background:#ffe8dc;color:var(--pri);margin:0 6px 6px 0;vertical-align:middle}
+.tag.b{background:#e3ecff;color:var(--blue)}.tag.g{background:#dff5ea;color:var(--green)}
+.q{background:#fff6d6;border-left:6px solid var(--yel);border-radius:12px;padding:12px 14px;margin:12px 0;font-size:1.05em}
+.q b{color:#b5470f}
+.say{background:#eef4ff;border-radius:14px;padding:10px 14px;margin:10px 0}
+.todo{background:#eafaf1;border-radius:12px;padding:10px 14px;margin:10px 0}
+svg{width:100%;height:auto;display:block;margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:.92em;margin:8px 0}
+td,th{border:1px solid #e6e1d8;padding:6px 8px;text-align:left}
+th{background:#faf5ec}
+.calc{font-family:"SF Mono",Menlo,monospace;background:#f6f6fa;border-radius:10px;padding:10px 14px;white-space:pre;overflow-x:auto;font-size:.95em;line-height:1.6;margin:8px 0}
+details{border-radius:14px;margin:12px 0;overflow:hidden;border:2px solid #eee}
+details summary{cursor:pointer;list-style:none;padding:12px 14px;font-weight:600;-webkit-tap-highlight-color:transparent}
+details summary::-webkit-details-marker{display:none}
+details summary::before{content:"▶ ";font-size:.8em}
+details[open] summary::before{content:"▼ "}
+details>div{padding:4px 16px 12px}
+details.tip{border-color:#cfe0ff}details.tip summary{background:#eef4ff;color:var(--blue)}
+details.ans{border-color:#cdeedd}details.ans summary{background:#eafaf1;color:var(--green)}
+ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
+.warn{color:var(--red);font-weight:600}
+.memo{background:linear-gradient(135deg,#fff1e6,#fff9db);border:3px dashed var(--pri)}
+.memo ol{font-size:1.1em;padding-left:1.3em}.memo li{margin:12px 0}
+.foot{font-size:.75em;color:var(--muted);line-height:1.6}
+.how{font-size:.88em;color:var(--muted)}
+@media print{body{font-size:15px;background:#fff}.card{box-shadow:none;border:1px solid #ddd;break-inside:avoid}details summary::before{content:""}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<svg viewBox="0 0 360 150" aria-label="小侦探和放大镜">
+  <rect x="0" y="0" width="360" height="150" rx="18" fill="#ffe9c7"/>
+  <!-- detective -->
+  <g transform="translate(70,20)">
+    <rect x="-34" y="88" width="68" height="40" rx="16" fill="#ff7a45"/>
+    <circle cx="0" cy="58" r="34" fill="#ffe0bd"/>
+    <path d="M-38 36 Q0 0 38 36 Z" fill="#7a5230"/><rect x="-44" y="32" width="88" height="8" rx="4" fill="#5b3b1f"/>
+    <circle cx="-12" cy="60" r="4" fill="#2b2b3a"/><circle cx="12" cy="60" r="4" fill="#2b2b3a"/>
+    <path d="M-10 74 Q0 82 10 74" stroke="#2b2b3a" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <circle cx="-22" cy="70" r="5" fill="#ffb3a7"/><circle cx="22" cy="70" r="5" fill="#ffb3a7"/>
+  </g>
+  <!-- magnifier -->
+  <g transform="translate(150,30)">
+    <circle cx="40" cy="40" r="32" fill="#dff1ff" stroke="#3d7bfd" stroke-width="8"/>
+    <text x="40" y="52" font-size="34" text-anchor="middle" fill="#3d7bfd" font-weight="700">?</text>
+    <rect x="62" y="64" width="14" height="44" rx="6" fill="#7a5230" transform="rotate(-45 69 86)"/>
+  </g>
+  <text x="300" y="62" font-size="20" text-anchor="middle" fill="#b5470f" font-weight="700">问什么？</text>
+  <text x="300" y="96" font-size="20" text-anchor="middle" fill="#b5470f" font-weight="700">单位是？</text>
+</svg>
+
+<h1>🔍 审题小侦探</h1>
+<p class="sub">问的是什么？单位是什么？<br>人教版三年级上册 · 课外数学读物 · 约 15～20 分钟 · 家长陪读</p>
+
+<div class="card how">
+<b>家长用法</b>：您念故事、念题，孩子自己圈、画、说、算。每题下面有「家长提示」和「答案」，都是<b>点一下才展开</b>，孩子做完再打开答案。<br>
+准备：一支铅笔、一支彩笔（圈问题用）、一把直尺。可以把手机横放在桌上，题目让孩子抄在纸上做。
+</div>
+
+<!-- ================= 故事 ================= -->
+<div class="card">
+<span class="tag">开头故事 · 约 3 分钟</span>
+<h2>马虎熊买彩笔</h2>
+<p>星期六，小美戴上纸做的侦探帽，手拿放大镜，成了「审题小侦探」。</p>
+<p>她刚走进文具店，就听见马虎熊在柜台前大喊：</p>
+
+<svg viewBox="0 0 360 170" aria-label="马虎熊在文具店">
+  <rect width="360" height="170" rx="16" fill="#f3f7ff"/>
+  <rect x="200" y="96" width="150" height="64" rx="8" fill="#c89b6d"/>
+  <g font-size="13" text-anchor="middle">
+    <rect x="212" y="58" width="36" height="38" rx="4" fill="#ff6b6b"/><rect x="254" y="58" width="36" height="38" rx="4" fill="#4dabf7"/><rect x="296" y="58" width="36" height="38" rx="4" fill="#51cf66"/>
+    <text x="230" y="82" fill="#fff">彩笔</text><text x="272" y="82" fill="#fff">彩笔</text><text x="314" y="82" fill="#fff">彩笔</text>
+    <rect x="240" y="112" width="70" height="30" rx="6" fill="#fff"/><text x="275" y="133" font-size="16" fill="#e5484d" font-weight="700">每盒8元</text>
+  </g>
+  <!-- bear -->
+  <g transform="translate(80,40)">
+    <circle cx="-26" cy="8" r="13" fill="#a0703f"/><circle cx="26" cy="8" r="13" fill="#a0703f"/>
+    <circle cx="0" cy="32" r="34" fill="#b9824c"/>
+    <ellipse cx="0" cy="44" rx="14" ry="10" fill="#e8c9a0"/><circle cx="0" cy="40" r="4" fill="#2b2b3a"/>
+    <circle cx="-12" cy="24" r="4" fill="#2b2b3a"/><circle cx="12" cy="24" r="4" fill="#2b2b3a"/>
+    <rect x="-30" y="66" width="60" height="56" rx="20" fill="#b9824c"/>
+    <text x="0" y="104" font-size="14" text-anchor="middle" fill="#fff">马虎熊</text>
+  </g>
+  <g>
+    <path d="M118 20 h80 a10 10 0 0 1 10 10 v26 a10 10 0 0 1 -10 10 h-60 l-14 12 l2 -12 h-8 a10 10 0 0 1 -10 -10 v-26 a10 10 0 0 1 10 -10z" fill="#fff" stroke="#ccc"/>
+    <text x="158" y="40" font-size="13" text-anchor="middle">找我24元！</text>
+    <text x="158" y="58" font-size="12" text-anchor="middle" fill="#888">8×3=24</text>
+  </g>
+</svg>
+
+<div class="q">「一盒彩笔 8 元，我买 3 盒，付了 30 元。8×3=24，<b>找我 24 元！</b>」</div>
+<p>店员阿姨笑了：「你一共才付了 30 元，我怎么能找你 24 元呢？」</p>
+<p>马虎熊挠挠头：「我算得没错呀，8×3 就是 24！」</p>
+<p>小侦探小美举起放大镜：「你算得对，可是<b>答错了问题</b>。我们来破案！」</p>
+
+<h3>第一招：圈问题 ⭕</h3>
+<p>题目问的是「应该<b>找回</b>多少元」，单位是「元」。</p>
+
+<h3>第二招：给每个数贴标签 🏷️</h3>
+<table>
+<tr><th>数</th><th>它是什么</th></tr>
+<tr><td>8 元</td><td>每盒彩笔的价钱</td></tr>
+<tr><td>3 盒</td><td>买了几盒</td></tr>
+<tr><td>30 元</td><td>付给阿姨的钱</td></tr>
+<tr><td>24 元</td><td>3 盒一共的价钱，是<b>花掉的钱</b></td></tr>
+</table>
+
+<svg viewBox="0 0 360 120" aria-label="付的钱、花掉的钱、找回的钱">
+  <text x="10" y="22" font-size="14" fill="#555">付的钱 30 元</text>
+  <rect x="10" y="32" width="340" height="26" rx="5" fill="#ffe8a3" stroke="#e0b100"/>
+  <rect x="10" y="72" width="272" height="26" rx="5" fill="#ffb4a2"/>
+  <text x="146" y="90" font-size="14" text-anchor="middle">花掉 8×3=24 元</text>
+  <rect x="282" y="72" width="68" height="26" rx="5" fill="#b2f2bb" stroke="#2fa36b" stroke-dasharray="4 3"/>
+  <text x="316" y="90" font-size="14" text-anchor="middle" font-weight="700" fill="#2f7a4f">找回?</text>
+  <text x="316" y="115" font-size="12" text-anchor="middle" fill="#2f7a4f">问的是这一段</text>
+</svg>
+
+<h3>第三招：想好先算什么，再回头对一对 ✅</h3>
+<p>先算 3 盒一共多少钱：3 个 8 元，8×3=24（元）。<br>再算找回多少：付的钱 − 花掉的钱 = 找回的钱。</p>
+<div class="calc">  30 − 8 × 3
+= 30 − 24
+= 6（元）</div>
+<p>（先乘除后加减，所以先算 8×3，这里不用加括号。）</p>
+<p>回头对一对：问「找回多少元」，答「找回 6 元」✔；24+6=30，正好是付的钱 ✔。</p>
+<p>马虎熊红着脸说：「原来 24 元是我<b>花掉</b>的钱，不是<b>找回</b>的钱！」</p>
+<div class="say">小美说：「侦探破案有三招——<b>圈问题、贴标签、回头对一对</b>。还有 5 个小案子，我们一起破！」</div>
+
+<details class="tip"><summary>家长提示</summary><div>
+念完问孩子：「马虎熊的计算错了吗？」（没错）「那错在哪？」（没看清问的是什么）。请孩子自己说一遍「三招」。
+</div></details>
+</div>
+
+<!-- ================= 案子1 ================= -->
+<div class="card">
+<span class="tag">小案子 1 · 约 3 分钟</span><span class="tag b">多余条件</span>
+<h2>手工店的账本</h2>
+
+<svg viewBox="0 0 360 140" aria-label="中国结和香包">
+  <rect width="360" height="140" rx="16" fill="#fff4f0"/>
+  <g transform="translate(90,20)">
+    <line x1="0" y1="0" x2="0" y2="14" stroke="#c92a2a" stroke-width="3"/>
+    <rect x="-20" y="14" width="40" height="40" rx="6" fill="#e03131" transform="rotate(45 0 34)"/>
+    <path d="M-8 64 l-6 26 M0 64 v28 M8 64 l6 26" stroke="#e03131" stroke-width="3"/>
+    <rect x="-40" y="98" width="80" height="26" rx="13" fill="#fff" stroke="#e03131"/>
+    <text x="0" y="116" font-size="15" text-anchor="middle" fill="#c92a2a" font-weight="700">每个6元</text>
+  </g>
+  <g transform="translate(260,20)">
+    <line x1="0" y1="0" x2="0" y2="18" stroke="#2f9e44" stroke-width="3"/>
+    <path d="M-24 22 Q0 10 24 22 L18 74 Q0 84 -18 74 Z" fill="#40c057"/>
+    <circle cx="0" cy="46" r="8" fill="#ffd43b"/>
+    <rect x="-40" y="98" width="80" height="26" rx="13" fill="#fff" stroke="#2f9e44"/>
+    <text x="0" y="116" font-size="15" text-anchor="middle" fill="#2f9e44" font-weight="700">每个9元</text>
+  </g>
+  <text x="150" y="70" font-size="15" text-anchor="middle" fill="#c92a2a">中国结</text>
+  <text x="320" y="70" font-size="15" text-anchor="middle" fill="#2f9e44">香包</text>
+</svg>
+
+<div class="q">奶奶的手工店里，中国结每个 6 元，香包每个 9 元。星期六上午，卖出了 4 个中国结和 7 个香包。<br><b>上午卖中国结一共收了多少元？</b></div>
+<div class="todo">✏️ 请你：① 用彩笔圈出问题；② 想一想，哪些条件这道题<b>用不上</b>，用铅笔轻轻划掉。</div>
+
+<details class="tip"><summary>家长提示（怎么追问）</summary><div><ul>
+<li>「问题问的是卖什么东西的钱？」——只问中国结。</li>
+<li>「香包的 9 元、7 个，这道题要用吗？」——不用。题目里有用不上的条件很正常，不是每个数都要用。</li>
+<li>「4 个中国结，每个 6 元，那是几个 6 元？」</li>
+</ul></div></details>
+
+<details class="ans"><summary>点我看答案</summary><div><ul>
+<li>用得上：中国结每个 6 元、卖了 4 个。<br>用不上：香包每个 9 元、卖了 7 个。</li>
+<li>4 个中国结，每个 6 元，就是 4 个 6 元：6+6+6+6=24，用乘法写成 <b>6×4=24（元）</b>。</li>
+<li>也就是：每个的价钱 × 个数 = 一共的钱。</li>
+<li><b>答：上午卖中国结一共收了 24 元。</b></li>
+</ul>
+<p><b>加分追问</b>：「上午一共收了多少元？」这时香包的条件就用上了：</p>
+<div class="calc">  6 × 4 + 9 × 7
+= 24 + 63
+= 87（元）</div>
+<p>（既有乘又有加，先算乘，再算加。）</p>
+</div></details>
+</div>
+
+<!-- ================= 案子2 ================= -->
+<div class="card">
+<span class="tag">小案子 2 · 约 4 分钟</span><span class="tag b">问“几瓶”别答“几颗”</span>
+<h2>纸星星装瓶</h2>
+<div class="q">小美折了 40 颗纸星星，同桌折了 28 颗。每 4 颗装一个小瓶。<br><b>小美比同桌多装几瓶？</b></div>
+<div class="todo">✏️ 请你：圈出问题最后两个字，答案的单位应该是什么？</div>
+
+<p class="how">线段图：每一小格是 4 颗，正好装 1 瓶。</p>
+<svg viewBox="0 0 360 150" aria-label="纸星星线段图">
+  <g font-size="14">
+    <text x="0" y="34">小美</text>
+    <text x="0" y="84">同桌</text>
+  </g>
+    <rect x="50" y="22" width="30" height="20" fill="#ffa8a8" stroke="#fff" stroke-width="2"/>
+  <rect x="80" y="22" width="30" height="20" fill="#ffa8a8" stroke="#fff" stroke-width="2"/>
+  <rect x="110" y="22" width="30" height="20" fill="#ffa8a8" stroke="#fff" stroke-width="2"/>
+  <rect x="140" y="22" width="30" height="20" fill="#ffa8a8" stroke="#fff" stroke-width="2"/>
+  <rect x="170" y="22" width="30" height="20" fill="#ffa8a8" stroke="#fff" stroke-width="2"/>
+  <rect x="200" y="22" width="30" height="20" fill="#ffa8a8" stroke="#fff" stroke-width="2"/>
+  <rect x="230" y="22" width="30" height="20" fill="#ffa8a8" stroke="#fff" stroke-width="2"/>
+  <rect x="260" y="22" width="30" height="20" fill="#ffa8a8" stroke="#fff" stroke-width="2"/>
+  <rect x="290" y="22" width="30" height="20" fill="#ffa8a8" stroke="#fff" stroke-width="2"/>
+  <rect x="320" y="22" width="30" height="20" fill="#ffa8a8" stroke="#fff" stroke-width="2"/>
+  <rect x="50" y="72" width="30" height="20" fill="#ffe066" stroke="#fff" stroke-width="2"/>
+  <rect x="80" y="72" width="30" height="20" fill="#ffe066" stroke="#fff" stroke-width="2"/>
+  <rect x="110" y="72" width="30" height="20" fill="#ffe066" stroke="#fff" stroke-width="2"/>
+  <rect x="140" y="72" width="30" height="20" fill="#ffe066" stroke="#fff" stroke-width="2"/>
+  <rect x="170" y="72" width="30" height="20" fill="#ffe066" stroke="#fff" stroke-width="2"/>
+  <rect x="200" y="72" width="30" height="20" fill="#ffe066" stroke="#fff" stroke-width="2"/>
+  <rect x="230" y="72" width="30" height="20" fill="#ffe066" stroke="#fff" stroke-width="2"/>
+  <text x="350" y="20" font-size="13" text-anchor="end" fill="#555">40 颗</text>
+  <text x="275" y="70" font-size="13" text-anchor="end" fill="#555">28 颗</text>
+  <path d="M260 100 v8 h90 v-8" stroke="#e5484d" stroke-width="2" fill="none"/>
+  <text x="305" y="128" font-size="14" text-anchor="middle" fill="#e5484d" font-weight="700">多 ? 瓶</text>
+  <text x="305" y="146" font-size="12" text-anchor="middle" fill="#888">（多出来的 12 颗）</text>
+</svg>
+
+<details class="tip"><summary>家长提示（怎么追问）</summary><div><ul>
+<li>「问的是多几<b>颗</b>，还是多几<b>瓶</b>？」——几瓶，所以答案单位是「瓶」。</li>
+<li>如果孩子写 40−28=12 就停了，追问：「这个 12 是 12 颗，还是 12 瓶？」——12 颗。「题目要的是瓶，还差一步吗？」</li>
+<li>除法让孩子用口诀反查：40÷4 想「4×（　）=40」；28÷4 想「四七二十八」；12÷4 想「三四十二」。</li>
+<li>能用两种方法做最好。</li>
+</ul></div></details>
+
+<details class="ans"><summary>点我看答案</summary><div>
+<p><b>方法一</b>：先分别算各装几瓶。<br>40÷4=10（瓶），28÷4=7（瓶），10−7=3（瓶）。</p>
+<p><b>方法二</b>：先算多几颗，再看多的这些能装几瓶。<br>40−28=12（颗），12÷4=3（瓶）。</p>
+<div class="calc">  (40 − 28) ÷ 4
+= 12 ÷ 4
+= 3（瓶）</div>
+<p>要先算减法，所以 40−28 要加括号。两种思路，答案一样。</p>
+<p><b>答：小美比同桌多装 3 瓶。</b></p>
+<p class="warn">⚠️ 易错：答「多 12 瓶」或「多 12 颗」都不对。12 颗只是中间结果，不是问题要的。</p>
+</div></details>
+</div>
+
+<!-- ================= 案子3 ================= -->
+<div class="card">
+<span class="tag">小案子 3 · 约 3 分钟</span><span class="tag b">单位易混</span>
+<h2>彩带对折剪开</h2>
+<div class="q">一根彩带长 8 分米。把它对折，再沿着折痕剪开，得到同样长的 2 段。<br><b>每段长多少厘米？</b></div>
+<div class="todo">✏️ 请你：圈出题目里<b>给的单位</b>和<b>问的单位</b>，它们一样吗？</div>
+
+<svg viewBox="0 0 360 230" aria-label="彩带对折剪开示意">
+  <text x="0" y="18" font-size="13" fill="#555">① 剪之前</text>
+  <rect x="20" y="28" width="320" height="22" rx="4" fill="#f783ac"/>
+  <text x="180" y="44" font-size="14" text-anchor="middle" fill="#fff" font-weight="700">8 分米</text>
+  <text x="0" y="86" font-size="13" fill="#555">② 对折</text>
+  <rect x="20" y="96" width="160" height="22" rx="4" fill="#f783ac"/>
+  <rect x="20" y="106" width="160" height="22" rx="4" fill="#e64980" opacity=".85"/>
+  <path d="M180 96 q18 16 0 32" stroke="#a61e4d" stroke-width="3" fill="none"/>
+  <text x="200" y="118" font-size="13" fill="#a61e4d">折痕，剪这里 ✂️</text>
+  <text x="0" y="164" font-size="13" fill="#555">③ 剪开后</text>
+  <rect x="20" y="174" width="150" height="22" rx="4" fill="#f783ac"/>
+  <rect x="190" y="174" width="150" height="22" rx="4" fill="#f783ac"/>
+  <text x="95" y="222" font-size="15" text-anchor="middle" fill="#a61e4d" font-weight="700">? 厘米</text>
+  <text x="265" y="222" font-size="15" text-anchor="middle" fill="#a61e4d" font-weight="700">? 厘米</text>
+</svg>
+
+<p class="how">拿出直尺看一看：从 0 到 10 是 10 厘米，就是 1 分米。</p>
+<svg viewBox="0 0 360 96" aria-label="直尺：10厘米是1分米">
+  <rect x="10" y="20" width="340" height="50" rx="6" fill="#fff3bf" stroke="#e0b100"/>
+  <line x1="20.0" y1="20" x2="20.0" y2="42" stroke="#7a5d00" stroke-width="1"/>
+  <text x="20.0" y="62" font-size="11" text-anchor="middle" fill="#7a5d00">0</text>
+  <line x1="23.2" y1="20" x2="23.2" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="26.4" y1="20" x2="26.4" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="29.6" y1="20" x2="29.6" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="32.8" y1="20" x2="32.8" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="36.0" y1="20" x2="36.0" y2="34" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="39.2" y1="20" x2="39.2" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="42.4" y1="20" x2="42.4" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="45.6" y1="20" x2="45.6" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="48.8" y1="20" x2="48.8" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="52.0" y1="20" x2="52.0" y2="42" stroke="#7a5d00" stroke-width="1"/>
+  <text x="52.0" y="62" font-size="11" text-anchor="middle" fill="#7a5d00">1</text>
+  <line x1="55.2" y1="20" x2="55.2" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="58.4" y1="20" x2="58.4" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="61.6" y1="20" x2="61.6" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="64.8" y1="20" x2="64.8" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="68.0" y1="20" x2="68.0" y2="34" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="71.2" y1="20" x2="71.2" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="74.4" y1="20" x2="74.4" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="77.6" y1="20" x2="77.6" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="80.8" y1="20" x2="80.8" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="84.0" y1="20" x2="84.0" y2="42" stroke="#7a5d00" stroke-width="1"/>
+  <text x="84.0" y="62" font-size="11" text-anchor="middle" fill="#7a5d00">2</text>
+  <line x1="87.2" y1="20" x2="87.2" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="90.4" y1="20" x2="90.4" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="93.6" y1="20" x2="93.6" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="96.8" y1="20" x2="96.8" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="100.0" y1="20" x2="100.0" y2="34" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="103.2" y1="20" x2="103.2" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="106.4" y1="20" x2="106.4" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="109.6" y1="20" x2="109.6" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="112.8" y1="20" x2="112.8" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="116.0" y1="20" x2="116.0" y2="42" stroke="#7a5d00" stroke-width="1"/>
+  <text x="116.0" y="62" font-size="11" text-anchor="middle" fill="#7a5d00">3</text>
+  <line x1="119.2" y1="20" x2="119.2" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="122.4" y1="20" x2="122.4" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="125.6" y1="20" x2="125.6" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="128.8" y1="20" x2="128.8" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="132.0" y1="20" x2="132.0" y2="34" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="135.2" y1="20" x2="135.2" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="138.4" y1="20" x2="138.4" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="141.6" y1="20" x2="141.6" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="144.8" y1="20" x2="144.8" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="148.0" y1="20" x2="148.0" y2="42" stroke="#7a5d00" stroke-width="1"/>
+  <text x="148.0" y="62" font-size="11" text-anchor="middle" fill="#7a5d00">4</text>
+  <line x1="151.2" y1="20" x2="151.2" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="154.4" y1="20" x2="154.4" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="157.6" y1="20" x2="157.6" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="160.8" y1="20" x2="160.8" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="164.0" y1="20" x2="164.0" y2="34" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="167.2" y1="20" x2="167.2" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="170.4" y1="20" x2="170.4" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="173.6" y1="20" x2="173.6" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="176.8" y1="20" x2="176.8" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="180.0" y1="20" x2="180.0" y2="42" stroke="#7a5d00" stroke-width="1"/>
+  <text x="180.0" y="62" font-size="11" text-anchor="middle" fill="#7a5d00">5</text>
+  <line x1="183.2" y1="20" x2="183.2" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="186.4" y1="20" x2="186.4" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="189.6" y1="20" x2="189.6" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="192.8" y1="20" x2="192.8" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="196.0" y1="20" x2="196.0" y2="34" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="199.2" y1="20" x2="199.2" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="202.4" y1="20" x2="202.4" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="205.6" y1="20" x2="205.6" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="208.8" y1="20" x2="208.8" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="212.0" y1="20" x2="212.0" y2="42" stroke="#7a5d00" stroke-width="1"/>
+  <text x="212.0" y="62" font-size="11" text-anchor="middle" fill="#7a5d00">6</text>
+  <line x1="215.2" y1="20" x2="215.2" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="218.4" y1="20" x2="218.4" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="221.6" y1="20" x2="221.6" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="224.8" y1="20" x2="224.8" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="228.0" y1="20" x2="228.0" y2="34" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="231.2" y1="20" x2="231.2" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="234.4" y1="20" x2="234.4" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="237.6" y1="20" x2="237.6" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="240.8" y1="20" x2="240.8" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="244.0" y1="20" x2="244.0" y2="42" stroke="#7a5d00" stroke-width="1"/>
+  <text x="244.0" y="62" font-size="11" text-anchor="middle" fill="#7a5d00">7</text>
+  <line x1="247.2" y1="20" x2="247.2" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="250.4" y1="20" x2="250.4" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="253.6" y1="20" x2="253.6" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="256.8" y1="20" x2="256.8" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="260.0" y1="20" x2="260.0" y2="34" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="263.2" y1="20" x2="263.2" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="266.4" y1="20" x2="266.4" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="269.6" y1="20" x2="269.6" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="272.8" y1="20" x2="272.8" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="276.0" y1="20" x2="276.0" y2="42" stroke="#7a5d00" stroke-width="1"/>
+  <text x="276.0" y="62" font-size="11" text-anchor="middle" fill="#7a5d00">8</text>
+  <line x1="279.2" y1="20" x2="279.2" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="282.4" y1="20" x2="282.4" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="285.6" y1="20" x2="285.6" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="288.8" y1="20" x2="288.8" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="292.0" y1="20" x2="292.0" y2="34" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="295.2" y1="20" x2="295.2" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="298.4" y1="20" x2="298.4" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="301.6" y1="20" x2="301.6" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="304.8" y1="20" x2="304.8" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="308.0" y1="20" x2="308.0" y2="42" stroke="#7a5d00" stroke-width="1"/>
+  <text x="308.0" y="62" font-size="11" text-anchor="middle" fill="#7a5d00">9</text>
+  <line x1="311.2" y1="20" x2="311.2" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="314.4" y1="20" x2="314.4" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="317.6" y1="20" x2="317.6" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="320.8" y1="20" x2="320.8" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="324.0" y1="20" x2="324.0" y2="34" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="327.2" y1="20" x2="327.2" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="330.4" y1="20" x2="330.4" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="333.6" y1="20" x2="333.6" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="336.8" y1="20" x2="336.8" y2="28" stroke="#7a5d00" stroke-width="1"/>
+  <line x1="340.0" y1="20" x2="340.0" y2="42" stroke="#7a5d00" stroke-width="1"/>
+  <text x="340.0" y="62" font-size="11" text-anchor="middle" fill="#7a5d00">10</text>
+  <path d="M20 14 v-6 h320 v6" stroke="#3d7bfd" stroke-width="2" fill="none"/>
+    <text x="180" y="92" font-size="14" text-anchor="middle" fill="#3d7bfd" font-weight="700">10 厘米 = 1 分米</text>
+</svg>
+
+<details class="tip"><summary>家长提示（怎么追问）</summary><div><ul>
+<li>「题目给的是什么单位？问的是什么单位？」——给的是分米，问的是厘米，不一样，要先换成一样的。</li>
+<li>「1 分米是多少厘米？」——10 厘米。让孩子在直尺上指出 10 厘米那一段。</li>
+<li>「对折再剪开，是把彩带平均分成了几段？」——2 段。</li>
+</ul></div></details>
+
+<details class="ans"><summary>点我看答案</summary><div><ul>
+<li>先换单位。想：1 分米是 10 厘米，8 分米是 8 个 10 厘米，就是 80 厘米。</li>
+<li>对折剪开，是平均分成 2 段：<b>80÷2=40（厘米）</b>。</li>
+<li>检查：40+40=80（厘米），80 厘米就是 8 分米 ✔。</li>
+<li><b>答：每段长 40 厘米。</b></li>
+</ul>
+<p class="warn">⚠️ 易错：答「4 分米」——长度其实一样，但题目要的是厘米，要按问的单位写；答「4 厘米」就差太远了，4 厘米只有一小截。</p>
+</div></details>
+
+<h3>小侦探快答：填单位</h3>
+<p>联系生活想一想，括号里填 毫米 / 厘米 / 米：</p>
+<ul>
+<li>跳绳长约 2（　　）</li>
+<li>大拇指指甲盖宽约 1（　　）</li>
+<li>1 元硬币厚约 2（　　）</li>
+</ul>
+<details class="ans"><summary>点我看答案</summary><div>
+跳绳约 2 <b>米</b>；指甲盖宽约 1 <b>厘米</b>；1 元硬币厚约 2 <b>毫米</b>。
+</div></details>
+</div>
+
+<!-- ================= 案子4 ================= -->
+<div class="card">
+<span class="tag">小案子 4 · 约 3 分钟</span><span class="tag b">同级从左往右</span><span class="tag g">括号的作用</span>
+<h2>图书角的书</h2>
+<div class="q">图书角原来有 56 本书。上午借走了 18 本，下午又还回来 25 本。<br><b>现在图书角有多少本书？</b></div>
+<p>马虎熊是这样算的：</p>
+<div class="calc">  56 − 18 + 25
+= 56 − 43
+= 13（本）</div>
+<p class="warn">↑ 他先算了 18+25</p>
+<div class="todo">✏️ 请你当侦探：马虎熊错在哪里？正确的应该怎么算？</div>
+
+<svg viewBox="0 0 360 130" aria-label="从左往右小火车">
+  <text x="0" y="16" font-size="13" fill="#555">从左往右的小火车 🚂</text>
+  <g font-size="17" text-anchor="middle" font-weight="700">
+    <rect x="4" y="30" width="70" height="40" rx="8" fill="#ffd8a8"/><text x="39" y="57">56</text>
+    <rect x="98" y="30" width="70" height="40" rx="8" fill="#ffc9c9"/><text x="133" y="57">−18</text>
+    <rect x="192" y="30" width="70" height="40" rx="8" fill="#b2f2bb"/><text x="227" y="57">+25</text>
+    <rect x="286" y="30" width="70" height="40" rx="8" fill="#a5d8ff"/><text x="321" y="57">?</text>
+  </g>
+  <g fill="#555"><circle cx="20" cy="76" r="5"/><circle cx="58" cy="76" r="5"/><circle cx="114" cy="76" r="5"/><circle cx="152" cy="76" r="5"/><circle cx="208" cy="76" r="5"/><circle cx="246" cy="76" r="5"/><circle cx="302" cy="76" r="5"/><circle cx="340" cy="76" r="5"/></g>
+  <line x1="74" y1="50" x2="98" y2="50" stroke="#555" stroke-width="3"/><line x1="168" y1="50" x2="192" y2="50" stroke="#555" stroke-width="3"/><line x1="262" y1="50" x2="286" y2="50" stroke="#555" stroke-width="3"/>
+  <text x="86" y="104" font-size="13" text-anchor="middle" fill="#e5484d">第1步</text>
+  <text x="180" y="104" font-size="13" text-anchor="middle" fill="#e5484d">第2步</text>
+  <text x="180" y="124" font-size="12" text-anchor="middle" fill="#888">一节一节往右开，不能跳车厢</text>
+</svg>
+
+<details class="tip"><summary>家长提示（怎么追问）</summary><div><ul>
+<li>「这个算式里只有什么运算？」——只有加、减。「课本上说只有加减法要怎样算？」——从左往右按顺序计算。</li>
+<li>让孩子在第一步要算的 56−18 下面<b>画横线</b>，再写下一行。</li>
+<li>编故事对比：「借走 18 本，又<b>借走</b> 25 本，还剩几本？」这才是 56−(18+25)。「我们的故事里，25 本是借走还是还回来？」——还回来，所以不能先把 18 和 25 合起来。</li>
+<li>56−18 是退位减：个位 6 减 8 不够，从十位退 1，16−8=8；十位 5 退 1 剩 4，4−1=3，所以是 38。</li>
+</ul></div></details>
+
+<details class="ans"><summary>点我看答案</summary><div>
+<div class="calc">  56 − 18 + 25
+= 38 + 25
+= 63（本）</div>
+<ul>
+<li>只有加、减法的算式，从左往右按顺序计算：先算 56−18=38，再算 38+25=63。</li>
+<li>马虎熊先算 18+25，等于偷偷加了一个括号，变成 56−(18+25)，意思变成了「借走 18 本又借走 25 本」，得数就成了 13 本。<b>括号可以改变运算顺序；加不加括号得数可能不同，要算出来才知道。</b></li>
+<li><b>答：现在图书角有 63 本书。</b></li>
+<li>回头检查：还回来的 25 本比借走的 18 本多，所以现在应该比原来 56 本多，63 本说得通 ✔。</li>
+</ul></div></details>
+</div>
+
+<!-- ================= 案子5 ================= -->
+<div class="card">
+<span class="tag">小案子 5 · 加油站（可选）· 约 2 分钟</span><span class="tag b">几倍 还是 多几</span>
+<h2>贴纸比一比</h2>
+<div class="q">小明有 5 张贴纸。<br>(1) 小红的贴纸是小明的 <b>3 倍</b>，小红有几张？<br>(2) 小丽的贴纸比小明<b>多 3 张</b>，小丽有几张？</div>
+
+<svg viewBox="0 0 360 150" aria-label="几倍和多几的线段图">
+  <g font-size="14"><text x="0" y="30">小明</text><text x="0" y="80">小红</text><text x="0" y="130">小丽</text></g>
+  <rect x="44" y="14" width="90" height="24" rx="4" fill="#ffd43b"/><text x="89" y="31" font-size="13" text-anchor="middle">5张</text>
+  <rect x="44" y="64" width="90" height="24" rx="4" fill="#ffd43b"/><rect x="136" y="64" width="90" height="24" rx="4" fill="#ffd43b"/><rect x="228" y="64" width="90" height="24" rx="4" fill="#ffd43b"/>
+  <text x="89" y="81" font-size="13" text-anchor="middle">5张</text><text x="181" y="81" font-size="13" text-anchor="middle">5张</text><text x="273" y="81" font-size="13" text-anchor="middle">5张</text>
+  <text x="181" y="104" font-size="12" text-anchor="middle" fill="#e5484d">3 个 5 张 → 3 倍</text>
+  <rect x="44" y="114" width="90" height="24" rx="4" fill="#ffd43b"/><rect x="136" y="114" width="54" height="24" rx="4" fill="#74c0fc"/>
+  <text x="89" y="131" font-size="13" text-anchor="middle">5张</text><text x="163" y="131" font-size="13" text-anchor="middle">3张</text>
+  <text x="200" y="131" font-size="12" fill="#1c7ed6">← 只多出这一小段</text>
+</svg>
+
+<details class="tip"><summary>家长提示（怎么追问）</summary><div><ul>
+<li>「“3 倍”是说小红有几个小明那么多？」——3 个。「“多 3 张”呢？」——只是比小明多出来 3 张。</li>
+<li>让孩子指着图说：哪一段是小明的 5 张？</li>
+</ul></div></details>
+
+<details class="ans"><summary>点我看答案</summary><div><ul>
+<li>(1) 小红的是小明的 3 倍，就是 3 个 5 张：5+5+5=15，写成 <b>5×3=15（张）</b>。</li>
+<li>(2) 小丽比小明多 3 张，就是在 5 张上再加 3 张：<b>5+3=8（张）</b>。</li>
+<li>先看清是「几倍」还是「多几」，画图想一想，不要只看见数字 3 就动手算。</li>
+</ul></div></details>
+</div>
+
+<!-- ================= 小结 ================= -->
+<div class="card memo">
+<h2>📌 今天记住什么</h2>
+<ol>
+<li><b>先圈问题</b>：问的是什么？单位是什么？答的单位要和问的一样。</li>
+<li><b>给每个数贴标签</b>：它是什么、单位是什么。用不上的条件可以划掉；单位不一样，先换成一样的。</li>
+<li><b>只有加减（或只有乘除），从左往右算</b>；不能偷偷先算后面的——加了括号，意思就变了。</li>
+</ol>
+<p style="text-align:center;font-size:1.6em;margin:6px 0">🔍 ⭕ 🏷️ ✅</p>
+</div>
+
+<p class="foot">参考说明：本读物原创编写，题目与情境均为新编。结构上参考了公开的数学读物与教学思路——「生活情境串题 + 线段图讲故事」（如国内《发现数学》一类生活数学故事书、线段图解题教学设计）、「错误示范再纠正」，以及国外 MathStart 系列（故事 + 图示模型 + 家长活动）和 Bedtime Math（家长陪读、分层小问题）的呈现方式；未摘抄任何版权原文。讲法和结论以人教版三年级上册课本为准（第二单元例1、例3、例4、例6；第三单元毫米、分米的认识）。</p>
+</div>
+<script>
+window.addEventListener('beforeprint',function(){document.querySelectorAll('details').forEach(function(d){d.open=true;});});
+</script>
+</body>
+</html>
