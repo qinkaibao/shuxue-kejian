@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<title>雾海灯塔：一次靠“看清”找到回家路的冒险</title>
+<style>
+:root{--ink:#2b2b3a;--muted:#6b6b80;--bg:#f4f7fb;--pri:#1d6fa5;--red:#e5484d;--green:#2fa36b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:20px;line-height:1.85;padding:env(safe-area-inset-top) 0 40px}
+.wrap{max-width:720px;margin:0 auto;padding:14px 16px}
+h1{font-size:1.7em;text-align:center;margin:14px 0 0;letter-spacing:2px}
+.sub{text-align:center;color:var(--muted);font-size:.85em;margin:4px 0 14px}
+.how{background:#fff;border-radius:16px;padding:12px 16px;font-size:.85em;color:var(--muted);box-shadow:0 2px 8px rgba(0,0,0,.05)}
+h2.chap{font-size:1.2em;color:var(--pri);margin:34px 0 10px;padding-bottom:6px;border-bottom:3px dotted #b9d3e6}
+p{margin:10px 0;text-indent:0}
+.scene svg{width:100%;height:auto;display:block;margin:14px 0;border-radius:18px}
+.stop{background:#fff7e0;border:3px solid #ffd166;border-radius:20px;padding:14px 14px 6px;margin:22px 0}
+.stop-h{font-weight:800;color:#b5470f;font-size:1.08em}
+.focus{display:inline-block;font-size:.72em;background:#ffe8dc;color:#b5470f;border-radius:99px;padding:1px 10px;margin:4px 0}
+.ask{font-size:1.02em;margin:6px 0 10px}
+details{border-radius:14px;margin:10px 0;overflow:hidden;border:2px solid #eee;background:#fff}
+summary{cursor:pointer;list-style:none;padding:11px 14px;font-weight:700;-webkit-tap-highlight-color:transparent}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▶ ";font-size:.8em}details[open] summary::before{content:"▼ "}
+details>div{padding:2px 14px 10px}
+details.tip{border-color:#cfe0ff}details.tip summary{background:#eef4ff;color:#3d7bfd}
+details.ans{border-color:#cdeedd}details.ans summary{background:#eafaf1;color:var(--green)}
+details svg{width:100%;height:auto;display:block;margin:8px 0}
+ul{padding-left:1.15em;margin:6px 0}li{margin:6px 0}
+.calc-inline{font-family:"SF Mono",Menlo,monospace;background:#f1f1f6;border-radius:6px;padding:0 4px;word-break:keep-all}
+.check{font-weight:700;color:var(--green)}
+.memo{background:linear-gradient(135deg,#fff1e6,#e7f5ff);border:3px dashed var(--pri);border-radius:20px;padding:16px;margin:30px 0}
+.memo h2{margin:0 0 6px;color:var(--pri);font-size:1.2em}.memo li{margin:12px 0;font-size:1.05em}
+.foot{font-size:.72em;color:var(--muted);line-height:1.6}
+@media print{body{font-size:15px;background:#fff}.stop,.scene{break-inside:avoid}summary::before{content:""}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="girl" viewBox="0 0 60 120">
+  <circle cx="12" cy="22" r="8" fill="#3b2a20"/><circle cx="48" cy="22" r="8" fill="#3b2a20"/>
+  <circle cx="30" cy="26" r="18" fill="#ffe0bd"/>
+  <path d="M12 22 Q30 0 48 22 Q40 14 30 16 Q20 14 12 22Z" fill="#3b2a20"/>
+  <circle cx="24" cy="27" r="2.4" fill="#222"/><circle cx="36" cy="27" r="2.4" fill="#222"/>
+  <path d="M25 35 Q30 39 35 35" stroke="#222" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <circle cx="19" cy="33" r="3" fill="#ffb3a7"/><circle cx="41" cy="33" r="3" fill="#ffb3a7"/>
+  <path d="M14 46 h32 l6 46 h-44z" fill="#e8453c"/>
+  <line x1="30" y1="46" x2="30" y2="64" stroke="#c9a227" stroke-width="1.5"/>
+  <circle cx="30" cy="69" r="6" fill="#dff1ff" stroke="#c9a227" stroke-width="2.5"/>
+  <rect x="20" y="92" width="7" height="22" fill="#3b4a6b"/><rect x="33" y="92" width="7" height="22" fill="#3b4a6b"/>
+  <rect x="17" y="112" width="12" height="6" rx="3" fill="#333"/><rect x="31" y="112" width="12" height="6" rx="3" fill="#333"/>
+</symbol>
+<symbol id="boy" viewBox="0 0 60 120">
+  <circle cx="30" cy="26" r="18" fill="#f7d3a8"/>
+  <path d="M11 22 Q30 2 49 22 Z" fill="#2f6fde"/><rect x="28" y="18" width="28" height="6" rx="3" fill="#2f6fde"/>
+  <circle cx="24" cy="28" r="2.4" fill="#222"/><circle cx="36" cy="28" r="2.4" fill="#222"/>
+  <path d="M24 35 Q30 41 36 35" stroke="#222" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <rect x="13" y="46" width="34" height="42" rx="8" fill="#37b26c"/>
+  <rect x="17" y="88" width="10" height="26" fill="#444"/><rect x="33" y="88" width="10" height="26" fill="#444"/>
+  <rect x="15" y="112" width="13" height="6" rx="3" fill="#222"/><rect x="32" y="112" width="13" height="6" rx="3" fill="#222"/>
+</symbol>
+<symbol id="granny" viewBox="0 0 60 120">
+  <circle cx="30" cy="9" r="8" fill="#cfcfcf"/>
+  <circle cx="30" cy="28" r="18" fill="#ffe3c4"/>
+  <path d="M12 26 Q30 6 48 26 Q30 16 12 26Z" fill="#d6d6d6"/>
+  <circle cx="23" cy="29" r="5" fill="none" stroke="#555" stroke-width="1.5"/><circle cx="37" cy="29" r="5" fill="none" stroke="#555" stroke-width="1.5"/>
+  <path d="M25 38 Q30 42 35 38" stroke="#222" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M12 48 h36 l6 52 h-48z" fill="#8e6cc9"/>
+  <rect x="18" y="100" width="9" height="14" fill="#555"/><rect x="33" y="100" width="9" height="14" fill="#555"/>
+  <rect x="15" y="112" width="13" height="6" rx="3" fill="#222"/><rect x="32" y="112" width="13" height="6" rx="3" fill="#222"/>
+</symbol>
+<symbol id="grandpa" viewBox="0 0 60 120">
+  <circle cx="30" cy="28" r="18" fill="#f2c79b"/>
+  <rect x="10" y="8" width="40" height="12" rx="4" fill="#1d3557"/><rect x="6" y="18" width="48" height="5" rx="2" fill="#1d3557"/>
+  <circle cx="30" cy="13" r="3" fill="#ffd166"/>
+  <circle cx="24" cy="28" r="2.4" fill="#222"/><circle cx="36" cy="28" r="2.4" fill="#222"/>
+  <path d="M16 34 Q30 54 44 34 Q30 42 16 34Z" fill="#eee"/>
+  <path d="M12 48 h36 v42 h-36z" fill="#f4a261"/><rect x="12" y="48" width="36" height="8" fill="#e76f51"/>
+  <rect x="16" y="90" width="11" height="24" fill="#264653"/><rect x="33" y="90" width="11" height="24" fill="#264653"/>
+  <rect x="14" y="112" width="14" height="6" rx="3" fill="#222"/><rect x="32" y="112" width="14" height="6" rx="3" fill="#222"/>
+</symbol>
+<symbol id="haishu" viewBox="0 0 60 120">
+  <ellipse cx="30" cy="12" rx="26" ry="6" fill="#e9c46a"/><path d="M16 12 Q30 -6 44 12Z" fill="#e9c46a"/>
+  <circle cx="30" cy="28" r="17" fill="#d9a066"/>
+  <circle cx="24" cy="28" r="2.4" fill="#222"/><circle cx="36" cy="28" r="2.4" fill="#222"/>
+  <path d="M24 36 Q30 40 36 36" stroke="#222" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <rect x="12" y="46" width="36" height="44" rx="6" fill="#fff"/>
+  <g stroke="#3d7bfd" stroke-width="4"><line x1="12" y1="54" x2="48" y2="54"/><line x1="12" y1="66" x2="48" y2="66"/><line x1="12" y1="78" x2="48" y2="78"/></g>
+  <rect x="16" y="90" width="11" height="24" fill="#555"/><rect x="33" y="90" width="11" height="24" fill="#555"/>
+</symbol>
+<symbol id="tower" viewBox="0 0 80 200">
+  <path d="M22 200 L30 50 H50 L58 200Z" fill="#fff"/>
+  <path d="M25.5 135 L28 95 H52 L54.5 135Z" fill="#e63946"/><path d="M23 180 L24.5 160 H55.5 L57 180Z" fill="#e63946"/>
+  <rect x="26" y="30" width="28" height="22" fill="#ffe8a3" stroke="#333" stroke-width="2"/>
+  <path d="M22 30 L40 10 L58 30Z" fill="#e63946"/><rect x="20" y="50" width="40" height="5" fill="#333"/>
+  <rect x="35" y="170" width="10" height="30" rx="5" fill="#6b4a2b"/>
+</symbol>
+</defs></svg>
+<div class="wrap">
+<h1>🌫️ 雾海灯塔</h1>
+<p class="sub">一次靠“看清”找到回家路的冒险<br>人教版三年级上册 · 课外数学故事 · 约 15～20 分钟</p>
+<div class="how"><b>家长用法</b>：您来念故事。读到黄色的「✋ 停一停，想一想」时停下来，先让孩子说、在纸上算，再点开答案。「家长：怎么追问」和答案都是<b>点一下才展开</b>。准备一支笔、一张纸，有直尺更好。</div>
+<h2 class="chap">第一章　大雾来了</h2>
+<div class="scene"><svg viewBox="0 0 360 230" aria-label="海边小镇和小岛上的灯塔">
+<defs><linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bde0fe"/><stop offset="1" stop-color="#fef6e4"/></linearGradient></defs>
+<rect width="360" height="230" rx="18" fill="url(#sky1)"/>
+<circle cx="300" cy="44" r="22" fill="#ffd166"/>
+<rect x="0" y="140" width="360" height="90" fill="#4ea8de"/>
+<path d="M0 150 q20 -8 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" stroke="#fff" stroke-width="2" fill="none" opacity=".7"/>
+<path d="M200 150 Q250 112 330 150Z" fill="#7cb46b"/>
+<use href="#tower" x="236" y="48" width="48" height="120"/>
+<g><rect x="10" y="104" width="40" height="40" fill="#f4a261"/><path d="M6 106 L30 84 L54 106Z" fill="#e76f51"/>
+<rect x="56" y="112" width="34" height="32" fill="#e9edc9"/><path d="M52 114 L73 94 L94 114Z" fill="#457b9d"/>
+<rect x="22" y="118" width="12" height="12" fill="#fff"/><rect x="66" y="122" width="10" height="10" fill="#fff"/></g>
+<rect x="0" y="140" width="110" height="10" fill="#c89b6d"/>
+<g transform="translate(120,170)"><path d="M0 0 h70 l-12 18 h-46z" fill="#2a6f97"/><rect x="28" y="-22" width="4" height="22" fill="#555"/><path d="M32 -22 l22 18 h-22z" fill="#fff"/><text x="34" y="13" font-size="10" text-anchor="middle" fill="#fff">海鸥号</text></g>
+<path d="M150 70 q6 -6 12 0 q6 -6 12 0" stroke="#333" stroke-width="2" fill="none"/>
+<path d="M190 90 q5 -5 10 0 q5 -5 10 0" stroke="#333" stroke-width="2" fill="none"/>
+</svg></div>
+<p>国庆假期刚过的那个周末，小美跟着妈妈来到海边的小镇，看望外公外婆。</p>
+<p>外公是个老渔夫，一大早就开着他的蓝色小渔船“海鸥号”出海打鱼去了。表哥阿乐也在外婆家。阿乐比小美大一岁，做什么都想抢第一，口头禅是：“我算得最快！”</p>
+<p>下午三点，海面上忽然起了大雾。白茫茫的雾一团一团涌过来，像有人把一大锅牛奶倒进了海里，连码头边的船都看不清了。</p>
+<div class="scene"><svg viewBox="0 0 360 210" aria-label="大雾里的外公和对讲机">
+<rect width="360" height="210" rx="18" fill="#d9e2ec"/>
+<rect x="0" y="120" width="360" height="90" fill="#7d99b3"/>
+<g transform="translate(40,92)"><path d="M0 40 h110 l-18 26 h-74z" fill="#2a6f97"/><rect x="40" y="0" width="34" height="40" fill="#fff" stroke="#2a6f97" stroke-width="3"/>
+<use href="#grandpa" x="44" y="-6" width="26" height="52"/></g>
+<ellipse cx="30" cy="60" rx="70" ry="18" fill="#fff" opacity="0.6"/><ellipse cx="92" cy="74" rx="70" ry="18" fill="#fff" opacity="0.6"/><ellipse cx="154" cy="60" rx="70" ry="18" fill="#fff" opacity="0.6"/><ellipse cx="216" cy="74" rx="70" ry="18" fill="#fff" opacity="0.6"/><ellipse cx="278" cy="60" rx="70" ry="18" fill="#fff" opacity="0.6"/><ellipse cx="340" cy="74" rx="70" ry="18" fill="#fff" opacity="0.6"/><ellipse cx="402" cy="60" rx="70" ry="18" fill="#fff" opacity="0.6"/><ellipse cx="30" cy="150" rx="70" ry="18" fill="#fff" opacity="0.45"/><ellipse cx="92" cy="164" rx="70" ry="18" fill="#fff" opacity="0.45"/><ellipse cx="154" cy="150" rx="70" ry="18" fill="#fff" opacity="0.45"/><ellipse cx="216" cy="164" rx="70" ry="18" fill="#fff" opacity="0.45"/><ellipse cx="278" cy="150" rx="70" ry="18" fill="#fff" opacity="0.45"/><ellipse cx="340" cy="164" rx="70" ry="18" fill="#fff" opacity="0.45"/><ellipse cx="402" cy="150" rx="70" ry="18" fill="#fff" opacity="0.45"/>
+<rect x="250" y="40" width="70" height="120" rx="12" fill="#333"/><rect x="262" y="56" width="46" height="34" rx="4" fill="#9be7a0"/>
+<text x="285" y="78" font-size="13" text-anchor="middle">沙沙…</text>
+<g fill="#666"><circle cx="272" cy="110" r="5"/><circle cx="288" cy="110" r="5"/><circle cx="304" cy="110" r="5"/><circle cx="272" cy="128" r="5"/><circle cx="288" cy="128" r="5"/><circle cx="304" cy="128" r="5"/></g>
+<rect x="296" y="10" width="6" height="32" fill="#333"/>
+<path d="M232 80 q-10 20 0 40 M220 72 q-16 28 0 56" stroke="#e63946" stroke-width="3" fill="none"/>
+<text x="180" y="200" font-size="13" text-anchor="middle" fill="#fff">“雾太大了……我看不见回港的路……”</text>
+</svg></div>
+<p>外婆桌上的对讲机“沙沙”地响起来，是外公的声音：“雾太大了……我看不见回港的路……要是小岛上的灯塔亮着就好了……”</p>
+<p>外婆一下子站了起来。小岛上那座红白相间的老灯塔，已经好多年没有点亮过了。</p>
+<p>“外婆，我们去把灯塔点亮！”小美说。</p>
+<p>外婆从抽屉里翻出一把生锈的铜钥匙，还有一张发黄的纸条：“这是灯塔老看守留下来的。走，我们一起去。不过外婆眼睛花了，路上要靠你们俩动脑筋。”</p>
+<p>小美把放大镜挂在脖子上。那是外公送给她的生日礼物。外公说过：“看海，要看清方向；读题，要看清问题。”</p>
+<h2 class="chap">第二章　码头的船票</h2>
+<div class="scene"><svg viewBox="0 0 360 250" aria-label="码头告示牌和海叔">
+<rect width="360" height="250" rx="18" fill="#e8f1f8"/>
+<ellipse cx="30" cy="30" rx="70" ry="18" fill="#fff" opacity="0.7"/><ellipse cx="92" cy="44" rx="70" ry="18" fill="#fff" opacity="0.7"/><ellipse cx="154" cy="30" rx="70" ry="18" fill="#fff" opacity="0.7"/><ellipse cx="216" cy="44" rx="70" ry="18" fill="#fff" opacity="0.7"/><ellipse cx="278" cy="30" rx="70" ry="18" fill="#fff" opacity="0.7"/><ellipse cx="340" cy="44" rx="70" ry="18" fill="#fff" opacity="0.7"/><ellipse cx="402" cy="30" rx="70" ry="18" fill="#fff" opacity="0.7"/>
+<rect x="0" y="190" width="360" height="60" fill="#5b8db8"/>
+<rect x="0" y="180" width="360" height="14" fill="#a47148"/>
+<rect x="150" y="30" width="200" height="140" rx="8" fill="#fff8e1" stroke="#8d6e63" stroke-width="4"/>
+<rect x="245" y="170" width="10" height="14" fill="#8d6e63"/>
+<g font-size="15"><text x="250" y="54" text-anchor="middle" font-weight="700" fill="#6d4c41">去灯塔岛的小船</text>
+<text x="164" y="82">· 每条船坐 4 人</text><text x="164" y="106">· 码头一共有 6 条船</text>
+<text x="164" y="130">· 今天已经开出 2 条</text><text x="164" y="156" fill="#c62828" font-weight="700">· 船票每人 6 元</text></g>
+<use href="#haishu" x="90" y="64" width="56" height="112"/>
+<use href="#boy" x="8" y="72" width="50" height="100"/>
+<g><rect x="4" y="30" width="96" height="34" rx="12" fill="#fff" stroke="#bbb"/><path d="M16 63 l6 12 l6 -12z" fill="#fff" stroke="#bbb"/><rect x="15" y="61" width="14" height="4" fill="#fff"/><text x="52.0" y="52" font-size="14" text-anchor="middle">我算得最快！</text></g>
+</svg></div>
+<p>码头上只剩一条小船还没开走。撑船的海叔戴着大草帽，正在解缆绳。旁边立着一块告示牌，上面写着好几个数。</p>
+<p>海叔说：“快上船，雾越来越大了！你们<b>三个人</b>，一共要付多少元船票？”</p>
+<p>阿乐眼睛一亮，掏出小本子：“看我的！4、6、2、6……我算得最快！6×4=24，24−2=22……”</p>
+<p>“阿乐，等一下！”小美举起放大镜，先把海叔的问题在心里又念了一遍。</p>
+<div class="stop"><div class="stop-h">✋ 停一停，想一想 ①</div>
+<div class="focus">练的是：看清问什么 · 用不上的条件</div>
+<div class="ask">海叔问的是什么？告示牌上这么多数，哪些用得上？哪些用不上？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul><li>请孩子把海叔的问题复述一遍：问的是“三个人一共付多少元”。</li><li>“‘三个人’这个数，告示牌上有吗？”——没有，要从故事里找：小美、阿乐、外婆。</li><li>“告示牌上有两个 6，一个是 6 元，一个是 6 条船，哪个跟船票有关？”</li></ul></div></details>
+<details class="ans"><summary>点我看答案和讲解</summary><div><ul><li>问的是：三个人一共要付多少元船票，单位是“元”。</li><li>用得上：船票每人 6 元；坐船的有 3 个人。</li><li>用不上：每条船坐 4 人、一共有 6 条船、已经开出 2 条。这些数是真的，但和这个问题没关系。</li><li>3 个人，每人 6 元，就是 3 个 6 元：6+6+6=18，写成 <b>6×3=18（元）</b>。也就是：每人的价钱 × 人数 = 一共的钱。</li><li>阿乐算的 6×4=24，是“6 条船一共能坐多少人”，不是船票钱。他算得快，却答了别的问题。</li></ul><p class="check">答：三个人一共要付 18 元船票。</p></div></details>
+</div>
+<p>“18 元！”小美说。海叔笑着竖起大拇指：“对喽，一分不差。”</p>
+<p>阿乐挠挠头：“原来不是每个数都要用啊……”外婆数出 18 元递给海叔。小船“突突突”地开进了大雾里。</p>
+<div class="scene"><svg viewBox="0 0 360 200" aria-label="小船开进大雾">
+<rect width="360" height="200" rx="18" fill="#dde6ee"/>
+<rect x="0" y="120" width="360" height="80" fill="#6f93b5"/>
+<g opacity=".55"><use href="#tower" x="290" y="20" width="40" height="100"/></g>
+<g transform="translate(60,96)"><path d="M0 30 h170 l-24 30 h-122z" fill="#b5651d"/>
+<use href="#haishu" x="4" y="-36" width="32" height="64"/><use href="#granny" x="44" y="-30" width="30" height="60"/><use href="#boy" x="80" y="-28" width="30" height="60"/><use href="#girl" x="116" y="-30" width="32" height="64"/></g>
+<ellipse cx="30" cy="40" rx="70" ry="18" fill="#fff" opacity="0.7"/><ellipse cx="92" cy="54" rx="70" ry="18" fill="#fff" opacity="0.7"/><ellipse cx="154" cy="40" rx="70" ry="18" fill="#fff" opacity="0.7"/><ellipse cx="216" cy="54" rx="70" ry="18" fill="#fff" opacity="0.7"/><ellipse cx="278" cy="40" rx="70" ry="18" fill="#fff" opacity="0.7"/><ellipse cx="340" cy="54" rx="70" ry="18" fill="#fff" opacity="0.7"/><ellipse cx="402" cy="40" rx="70" ry="18" fill="#fff" opacity="0.7"/><ellipse cx="30" cy="170" rx="70" ry="18" fill="#fff" opacity="0.5"/><ellipse cx="92" cy="184" rx="70" ry="18" fill="#fff" opacity="0.5"/><ellipse cx="154" cy="170" rx="70" ry="18" fill="#fff" opacity="0.5"/><ellipse cx="216" cy="184" rx="70" ry="18" fill="#fff" opacity="0.5"/><ellipse cx="278" cy="170" rx="70" ry="18" fill="#fff" opacity="0.5"/><ellipse cx="340" cy="184" rx="70" ry="18" fill="#fff" opacity="0.5"/><ellipse cx="402" cy="170" rx="70" ry="18" fill="#fff" opacity="0.5"/>
+<text x="210" y="96" font-size="14" fill="#333">突突突……</text>
+</svg></div>
+<h2 class="chap">第三章　断掉的木桥</h2>
+<p>小船靠了岸，海叔说他在码头等着。三个人沿着小路往灯塔走。雾气湿湿地贴在脸上，远远能看见灯塔模模糊糊的影子。</p>
+<p>走到半路，前面忽然出现一条深沟。原来的小木桥被海浪冲断了，只剩两根木桩。沟边插着一块木牌：<b>沟宽 9 分米</b>。</p>
+<p>草丛里躺着两块旧木板。红木板上用粉笔写着“85 厘米”，蓝木板上写着“1 米”。</p>
+<div class="scene"><svg viewBox="0 0 360 240" aria-label="断木桥和两块木板">
+<rect width="360" height="240" rx="18" fill="#e9f5db"/>
+<path d="M0 120 H140 L150 240 H0Z" fill="#8ab17d"/><path d="M220 120 H360 V240 H210Z" fill="#8ab17d"/>
+<path d="M140 120 L150 240 H210 L220 120Z" fill="#5c3d2e"/>
+<path d="M140 120 l12 18 M220 120 l-10 16" stroke="#3e2723" stroke-width="3"/>
+<rect x="226" y="62" width="70" height="34" rx="4" fill="#fff8e1" stroke="#8d6e63" stroke-width="3"/><rect x="258" y="96" width="6" height="26" fill="#8d6e63"/>
+<text x="261" y="85" font-size="15" text-anchor="middle" font-weight="700" fill="#c62828">沟宽9分米</text>
+<path d="M140 108 H220" stroke="#c62828" stroke-width="2" stroke-dasharray="4 3"/>
+<g transform="translate(10,180) rotate(-6)"><rect width="120" height="16" rx="3" fill="#e76f51"/><text x="60" y="13" font-size="12" text-anchor="middle" fill="#fff">85 厘米</text></g>
+<g transform="translate(230,186) rotate(4)"><rect width="122" height="16" rx="3" fill="#457b9d"/><text x="61" y="13" font-size="12" text-anchor="middle" fill="#fff">1 米</text></g>
+<use href="#boy" x="20" y="40" width="46" height="92"/><use href="#girl" x="74" y="38" width="48" height="96"/>
+<g><rect x="2" y="6" width="140" height="34" rx="12" fill="#fff" stroke="#bbb"/><path d="M14 39 l6 12 l6 -12z" fill="#fff" stroke="#bbb"/><rect x="13" y="37" width="14" height="4" fill="#fff"/><text x="72.0" y="28" font-size="14" text-anchor="middle">85比9大多了！</text></g>
+</svg></div>
+<p>阿乐一把抓起红木板：“85 比 9 大多了，比 1 也大！就用这块最长的！”</p>
+<p>小美赶紧拉住他：“别急！木板要是太短，搭不到对面，人会掉下去的！”</p>
+<div class="stop"><div class="stop-h">✋ 停一停，想一想 ②</div>
+<div class="focus">练的是：看清单位 · 不同单位先换成一样的再比</div>
+<div class="ask">沟宽 9 分米，红木板 85 厘米，蓝木板 1 米。哪块木板能搭过这条沟？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul><li>“85 后面是什么单位？9 后面呢？1 后面呢？”——厘米、分米、米，三个都不一样。</li><li>“单位不一样，能直接比 85 和 9 谁大吗？”——不能，要先换成一样的单位。</li><li>可以拿出直尺：10 厘米是 1 分米，让孩子比画一下 9 分米大概多长。</li></ul></div></details>
+<details class="ans"><summary>点我看答案和讲解</summary><div><ul><li>三个数的单位都不一样，不能只看数的大小，要先换成同一个单位。都换成厘米：</li><li>沟宽：想：1 分米是 10 厘米，9 分米是 9 个 10 厘米，就是 <b>90 厘米</b>。</li><li>红木板：85 厘米 &lt; 90 厘米，比沟宽还短 90−85=5（厘米），搭不过去。</li><li>蓝木板：1 米 = 100 厘米，100 厘米 &gt; 90 厘米，够长，两头还能各搭上一点。</li><li>所以要用<b>蓝木板</b>。阿乐只看了“85 比 9 大”，没看单位，差点出危险。</li></ul><svg viewBox="0 0 360 150" aria-label="都换成厘米再比较">
+<text x="0" y="16" font-size="13" fill="#555">都换成厘米再比：</text>
+<text x="0" y="46" font-size="13">沟宽</text><rect x="60" y="32" width="216" height="20" rx="4" fill="#5c3d2e"/><text x="282" y="47" font-size="13">90厘米</text>
+<text x="0" y="86" font-size="13">红木板</text><rect x="60" y="72" width="204" height="20" rx="4" fill="#e76f51"/><text x="270" y="87" font-size="13" fill="#c62828">85厘米 短5</text>
+<text x="0" y="126" font-size="13">蓝木板</text><rect x="60" y="112" width="240" height="20" rx="4" fill="#457b9d"/><text x="306" y="127" font-size="13" fill="#2f7a4f">100厘米</text>
+<line x1="276" y1="26" x2="276" y2="140" stroke="#c62828" stroke-dasharray="4 3"/>
+</svg><p class="check">答：蓝木板（1 米）能搭过去，红木板（85 厘米）太短。</p></div></details>
+</div>
+<p>他们把蓝木板稳稳地架在沟上，两头都压住了木桩。外婆扶着两个孩子，一个一个慢慢走了过去。</p>
+<p>走到对面，阿乐回头看了看那块红木板，小声说：“刚才要是用它……”他吐了吐舌头，不敢往下想了。</p>
+<h2 class="chap">第四章　灯塔的密码锁</h2>
+<div class="scene"><svg viewBox="0 0 360 260" aria-label="灯塔门上的密码锁">
+<rect width="360" height="260" rx="18" fill="#cfd8dc"/>
+<ellipse cx="30" cy="20" rx="70" ry="18" fill="#fff" opacity="0.6"/><ellipse cx="92" cy="34" rx="70" ry="18" fill="#fff" opacity="0.6"/><ellipse cx="154" cy="20" rx="70" ry="18" fill="#fff" opacity="0.6"/><ellipse cx="216" cy="34" rx="70" ry="18" fill="#fff" opacity="0.6"/><ellipse cx="278" cy="20" rx="70" ry="18" fill="#fff" opacity="0.6"/><ellipse cx="340" cy="34" rx="70" ry="18" fill="#fff" opacity="0.6"/><ellipse cx="402" cy="20" rx="70" ry="18" fill="#fff" opacity="0.6"/>
+<path d="M90 260 L110 30 H250 L270 260Z" fill="#f5f5f5"/>
+<rect x="140" y="110" width="80" height="150" rx="40" fill="#6b4a2b"/>
+<rect x="160" y="150" width="40" height="56" rx="6" fill="#b08d57" stroke="#5d4037" stroke-width="2"/>
+<rect x="166" y="158" width="28" height="16" rx="3" fill="#1b1b1b"/><text x="180" y="171" font-size="12" text-anchor="middle" fill="#ff5252">27 ✗</text>
+<circle cx="172" cy="186" r="3" fill="#333"/><circle cx="180" cy="186" r="3" fill="#333"/><circle cx="188" cy="186" r="3" fill="#333"/>
+<circle cx="172" cy="196" r="3" fill="#333"/><circle cx="180" cy="196" r="3" fill="#333"/><circle cx="188" cy="196" r="3" fill="#333"/>
+<rect x="120" y="54" width="120" height="44" rx="6" fill="#fff8e1" stroke="#8d6e63" stroke-width="2"/>
+<text x="180" y="74" font-size="13" text-anchor="middle">密码 = 72 − 27 + 18</text>
+<text x="180" y="91" font-size="11" text-anchor="middle" fill="#c62828">只能试 3 次！</text>
+<use href="#boy" x="14" y="128" width="52" height="104"/><g transform="translate(334,128) scale(-1,1)"><use href="#girl" width="54" height="108"/></g>
+<g><rect x="4" y="92" width="92" height="34" rx="12" fill="#fff" stroke="#bbb"/><path d="M16 125 l6 12 l6 -12z" fill="#fff" stroke="#bbb"/><rect x="15" y="123" width="14" height="4" fill="#fff"/><text x="50.0" y="114" font-size="14" text-anchor="middle">还剩2次…</text></g>
+</svg></div>
+<p>灯塔的木门终于出现在眼前。铜钥匙插进去，锁却没开——门上还挂着一把老式密码锁，要按两位数。锁旁边刻着一行字：</p>
+<p><b>密码 = 72 − 27 + 18。只能试 3 次，3 次都错，锁就会卡死到明天早上。</b></p>
+<p>外婆展开那张发黄的纸条，上面是老看守的字：“开门的人，要像小火车一样，一节一节往前走。”</p>
+<p>阿乐抢着说：“我知道！先算 27+18=45，再算 72−45=27！”他“嘀、嘀”按下了 2 和 7。</p>
+<p>“嘟——”锁上的小灯一闪，亮起了红光：<b>错误！还剩 2 次。</b></p>
+<p>阿乐急得直跺脚。雾里远远传来一声汽笛——外公还在海上，等着灯塔的光。</p>
+<div class="stop"><div class="stop-h">✋ 停一停，想一想 ③</div>
+<div class="focus">练的是：同级运算从左往右 · 括号的作用</div>
+<div class="ask">阿乐错在哪里？正确的密码是多少？纸条上的“小火车”是什么意思？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul><li>“72 − 27 + 18 里只有什么运算？”——只有加、减。</li><li>“课本上说，只有加、减法的算式要怎样算？”——从左往右按顺序计算。</li><li>请孩子在第一步 72−27 下面画横线，再一步一步写下来。</li><li>72−27 是退位减：个位 2 减 7 不够，从十位退 1，12−7=5；十位 7 退 1 剩 6，6−2=4，得 45。</li></ul></div></details>
+<details class="ans"><summary>点我看答案和讲解</summary><div><ul><li>只有加、减法的算式，从左往右按顺序计算。</li><li><span class='calc-inline'>72 − 27 + 18 = 45 + 18 = 63</span>，先算 72−27=45，再算 45+18=63。密码是 <b>63</b>。</li><li>老看守说的“小火车一节一节往前走”，就是从左往右，一步都不能跳。</li><li>阿乐先算了 27+18，等于偷偷给它们加了一个括号：72−(27+18)=72−45=27。<b>括号可以改变运算顺序</b>，加不加括号，得数就可能不一样。</li><li>回头检查：63−18=45，45+27=72，倒推回去正好是 72 ✔。</li></ul><svg viewBox="0 0 360 120" aria-label="从左往右的小火车">
+<text x="0" y="16" font-size="13" fill="#555">一节一节往前开，不能跳车厢：</text>
+<g font-size="17" text-anchor="middle" font-weight="700">
+<rect x="4" y="30" width="70" height="40" rx="8" fill="#ffd8a8"/><text x="39" y="57">72</text>
+<rect x="98" y="30" width="70" height="40" rx="8" fill="#ffc9c9"/><text x="133" y="57">−27</text>
+<rect x="192" y="30" width="70" height="40" rx="8" fill="#b2f2bb"/><text x="227" y="57">+18</text>
+<rect x="286" y="30" width="70" height="40" rx="8" fill="#a5d8ff"/><text x="321" y="57">63</text></g>
+<g fill="#555"><circle cx="20" cy="76" r="5"/><circle cx="58" cy="76" r="5"/><circle cx="114" cy="76" r="5"/><circle cx="152" cy="76" r="5"/><circle cx="208" cy="76" r="5"/><circle cx="246" cy="76" r="5"/><circle cx="302" cy="76" r="5"/><circle cx="340" cy="76" r="5"/></g>
+<line x1="74" y1="50" x2="98" y2="50" stroke="#555" stroke-width="3"/><line x1="168" y1="50" x2="192" y2="50" stroke="#555" stroke-width="3"/><line x1="262" y1="50" x2="286" y2="50" stroke="#555" stroke-width="3"/>
+<text x="86" y="104" font-size="13" text-anchor="middle" fill="#e5484d">第1步 得45</text>
+<text x="227" y="104" font-size="13" text-anchor="middle" fill="#e5484d">第2步 得63</text>
+</svg><p class="check">答：正确的密码是 63。</p></div></details>
+</div>
+<p>小美深吸一口气，按下 6，再按下 3。</p>
+<p>“咔哒！”绿灯亮了。木门“吱呀——”一声，慢慢打开了。</p>
+<h2 class="chap">第五章　点亮灯塔</h2>
+<p>他们沿着一圈一圈的旋转楼梯往上爬，一直爬到灯塔顶上。大灯的玻璃罩里落满了灰——大灯早就坏了。</p>
+<p>墙边挂着一排小灯，下面放着一个木箱，箱子上贴着老看守的字条：<b>“大灯坏了，可以用小灯。每盏小灯装 3 节电池。”</b>箱子里有 <b>4 盒</b>电池，<b>每盒 6 节</b>。</p>
+<div class="scene"><svg viewBox="0 0 360 250" aria-label="灯塔顶上的电池箱和小灯">
+<rect width="360" height="250" rx="18" fill="#2b2d42"/>
+<rect x="20" y="20" width="320" height="120" rx="10" fill="#3d405b"/>
+<g><g transform="translate(36,40)"><rect x="6" y="0" width="8" height="10" fill="#999"/><circle cx="10" cy="22" r="11" fill="#6c757d"/></g><g transform="translate(66,40)"><rect x="6" y="0" width="8" height="10" fill="#999"/><circle cx="10" cy="22" r="11" fill="#6c757d"/></g><g transform="translate(96,40)"><rect x="6" y="0" width="8" height="10" fill="#999"/><circle cx="10" cy="22" r="11" fill="#6c757d"/></g><g transform="translate(126,40)"><rect x="6" y="0" width="8" height="10" fill="#999"/><circle cx="10" cy="22" r="11" fill="#6c757d"/></g><g transform="translate(156,40)"><rect x="6" y="0" width="8" height="10" fill="#999"/><circle cx="10" cy="22" r="11" fill="#6c757d"/></g><g transform="translate(186,40)"><rect x="6" y="0" width="8" height="10" fill="#999"/><circle cx="10" cy="22" r="11" fill="#6c757d"/></g><g transform="translate(216,40)"><rect x="6" y="0" width="8" height="10" fill="#999"/><circle cx="10" cy="22" r="11" fill="#6c757d"/></g><g transform="translate(246,40)"><rect x="6" y="0" width="8" height="10" fill="#999"/><circle cx="10" cy="22" r="11" fill="#6c757d"/></g><g transform="translate(276,40)"><rect x="6" y="0" width="8" height="10" fill="#999"/><circle cx="10" cy="22" r="11" fill="#6c757d"/></g><g transform="translate(306,40)"><rect x="6" y="0" width="8" height="10" fill="#999"/><circle cx="10" cy="22" r="11" fill="#6c757d"/></g></g><text x="180" y="100" font-size="14" text-anchor="middle" fill="#ddd">一排小灯，都还黑着</text><rect x="130" y="150" width="200" height="80" rx="6" fill="#a47148"/><text x="230" y="168" font-size="11" text-anchor="middle" fill="#fff">每盏小灯装 3 节电池</text><rect x="140" y="176" width="42" height="46" rx="4" fill="#ffd166"/><rect x="144" y="180" width="8" height="14" rx="2" fill="#2a9d8f"/><rect x="157" y="180" width="8" height="14" rx="2" fill="#2a9d8f"/><rect x="170" y="180" width="8" height="14" rx="2" fill="#2a9d8f"/><rect x="144" y="200" width="8" height="14" rx="2" fill="#2a9d8f"/><rect x="157" y="200" width="8" height="14" rx="2" fill="#2a9d8f"/><rect x="170" y="200" width="8" height="14" rx="2" fill="#2a9d8f"/><rect x="188" y="176" width="42" height="46" rx="4" fill="#ffd166"/><rect x="192" y="180" width="8" height="14" rx="2" fill="#2a9d8f"/><rect x="205" y="180" width="8" height="14" rx="2" fill="#2a9d8f"/><rect x="218" y="180" width="8" height="14" rx="2" fill="#2a9d8f"/><rect x="192" y="200" width="8" height="14" rx="2" fill="#2a9d8f"/><rect x="205" y="200" width="8" height="14" rx="2" fill="#2a9d8f"/><rect x="218" y="200" width="8" height="14" rx="2" fill="#2a9d8f"/><rect x="236" y="176" width="42" height="46" rx="4" fill="#ffd166"/><rect x="240" y="180" width="8" height="14" rx="2" fill="#2a9d8f"/><rect x="253" y="180" width="8" height="14" rx="2" fill="#2a9d8f"/><rect x="266" y="180" width="8" height="14" rx="2" fill="#2a9d8f"/><rect x="240" y="200" width="8" height="14" rx="2" fill="#2a9d8f"/><rect x="253" y="200" width="8" height="14" rx="2" fill="#2a9d8f"/><rect x="266" y="200" width="8" height="14" rx="2" fill="#2a9d8f"/><rect x="284" y="176" width="42" height="46" rx="4" fill="#ffd166"/><rect x="288" y="180" width="8" height="14" rx="2" fill="#2a9d8f"/><rect x="301" y="180" width="8" height="14" rx="2" fill="#2a9d8f"/><rect x="314" y="180" width="8" height="14" rx="2" fill="#2a9d8f"/><rect x="288" y="200" width="8" height="14" rx="2" fill="#2a9d8f"/><rect x="301" y="200" width="8" height="14" rx="2" fill="#2a9d8f"/><rect x="314" y="200" width="8" height="14" rx="2" fill="#2a9d8f"/><use href="#boy" x="20" y="128" width="50" height="100"/><use href="#girl" x="76" y="126" width="52" height="104"/><g><rect x="10" y="96" width="112" height="34" rx="12" fill="#fff" stroke="#bbb"/><path d="M22 129 l6 12 l6 -12z" fill="#fff" stroke="#bbb"/><rect x="21" y="127" width="14" height="4" fill="#fff"/><text x="66.0" y="118" font-size="14" text-anchor="middle">能点24盏！</text></g></svg></div>
+<p>对讲机又响了，外公的声音断断续续：“……小灯……你们能点亮几盏……越多越亮……”</p>
+<p>阿乐抢着喊：“4 盒，每盒 6 节，6×4=24！能点亮 24 盏！”</p>
+<p>小美却举着放大镜，盯着箱子上的字条，没有马上说话。</p>
+<div class="stop"><div class="stop-h">✋ 停一停，想一想 ④</div>
+<div class="focus">练的是：看清问什么、单位是什么 · 乘除也从左往右</div>
+<div class="ask">外公问的是能点亮几<b>盏</b>灯。阿乐算出的 24，是 24 盏灯，还是 24 节电池？到底能点亮几盏？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul><li>“外公问的最后一个字是什么？”——盏，答案的单位应该是“盏”。</li><li>“24 是什么？”——4 盒，每盒 6 节，一共 24 <b>节电池</b>，不是 24 盏灯。</li><li>“每盏灯要几节？24 节里面有几个 3？”请孩子用口诀想：三（八）二十四。</li></ul></div></details>
+<details class="ans"><summary>点我看答案和讲解</summary><div><ul><li>先算一共有多少节电池：4 盒，每盒 6 节，就是 4 个 6 节，<b>6×4=24（节）</b>。</li><li>再算能点几盏：每盏用 3 节，24 里面有几个 3？三八二十四，<b>24÷3=8（盏）</b>。</li><li>合成一个综合算式：<span class='calc-inline'>6 × 4 ÷ 3 = 24 ÷ 3 = 8（盏）</span>。只有乘、除法，也是从左往右按顺序计算。</li><li>阿乐的 24 是电池的节数，还差一步。问的是“盏”，答的也要是“盏”。</li><li>回头检查：8 盏，每盏 3 节，8×3=24，正好用完 24 节电池 ✔。</li></ul><svg viewBox="0 0 360 150" aria-label="24节电池每3节一组"><text x="0" y="16" font-size="13" fill="#555">24 节电池，每 3 节圈成一盏灯：</text><rect x="6" y="30" width="80" height="46" rx="10" fill="none" stroke="#e5484d" stroke-width="2" stroke-dasharray="5 3"/><rect x="18" y="40" width="12" height="26" rx="3" fill="#2a9d8f"/><rect x="40" y="40" width="12" height="26" rx="3" fill="#2a9d8f"/><rect x="62" y="40" width="12" height="26" rx="3" fill="#2a9d8f"/><text x="80" y="44" font-size="11" text-anchor="end" fill="#e5484d">1</text><rect x="94" y="30" width="80" height="46" rx="10" fill="none" stroke="#e5484d" stroke-width="2" stroke-dasharray="5 3"/><rect x="106" y="40" width="12" height="26" rx="3" fill="#2a9d8f"/><rect x="128" y="40" width="12" height="26" rx="3" fill="#2a9d8f"/><rect x="150" y="40" width="12" height="26" rx="3" fill="#2a9d8f"/><text x="168" y="44" font-size="11" text-anchor="end" fill="#e5484d">2</text><rect x="182" y="30" width="80" height="46" rx="10" fill="none" stroke="#e5484d" stroke-width="2" stroke-dasharray="5 3"/><rect x="194" y="40" width="12" height="26" rx="3" fill="#2a9d8f"/><rect x="216" y="40" width="12" height="26" rx="3" fill="#2a9d8f"/><rect x="238" y="40" width="12" height="26" rx="3" fill="#2a9d8f"/><text x="256" y="44" font-size="11" text-anchor="end" fill="#e5484d">3</text><rect x="270" y="30" width="80" height="46" rx="10" fill="none" stroke="#e5484d" stroke-width="2" stroke-dasharray="5 3"/><rect x="282" y="40" width="12" height="26" rx="3" fill="#2a9d8f"/><rect x="304" y="40" width="12" height="26" rx="3" fill="#2a9d8f"/><rect x="326" y="40" width="12" height="26" rx="3" fill="#2a9d8f"/><text x="344" y="44" font-size="11" text-anchor="end" fill="#e5484d">4</text><rect x="6" y="88" width="80" height="46" rx="10" fill="none" stroke="#e5484d" stroke-width="2" stroke-dasharray="5 3"/><rect x="18" y="98" width="12" height="26" rx="3" fill="#2a9d8f"/><rect x="40" y="98" width="12" height="26" rx="3" fill="#2a9d8f"/><rect x="62" y="98" width="12" height="26" rx="3" fill="#2a9d8f"/><text x="80" y="102" font-size="11" text-anchor="end" fill="#e5484d">5</text><rect x="94" y="88" width="80" height="46" rx="10" fill="none" stroke="#e5484d" stroke-width="2" stroke-dasharray="5 3"/><rect x="106" y="98" width="12" height="26" rx="3" fill="#2a9d8f"/><rect x="128" y="98" width="12" height="26" rx="3" fill="#2a9d8f"/><rect x="150" y="98" width="12" height="26" rx="3" fill="#2a9d8f"/><text x="168" y="102" font-size="11" text-anchor="end" fill="#e5484d">6</text><rect x="182" y="88" width="80" height="46" rx="10" fill="none" stroke="#e5484d" stroke-width="2" stroke-dasharray="5 3"/><rect x="194" y="98" width="12" height="26" rx="3" fill="#2a9d8f"/><rect x="216" y="98" width="12" height="26" rx="3" fill="#2a9d8f"/><rect x="238" y="98" width="12" height="26" rx="3" fill="#2a9d8f"/><text x="256" y="102" font-size="11" text-anchor="end" fill="#e5484d">7</text><rect x="270" y="88" width="80" height="46" rx="10" fill="none" stroke="#e5484d" stroke-width="2" stroke-dasharray="5 3"/><rect x="282" y="98" width="12" height="26" rx="3" fill="#2a9d8f"/><rect x="304" y="98" width="12" height="26" rx="3" fill="#2a9d8f"/><rect x="326" y="98" width="12" height="26" rx="3" fill="#2a9d8f"/><text x="344" y="102" font-size="11" text-anchor="end" fill="#e5484d">8</text></svg><p class="check">答：能点亮 8 盏小灯。</p></div></details>
+</div>
+<p>箱子底下还压着一本旧本子，封面上写着《灯塔日志》。小美先把它放进了口袋。</p>
+<p>“8 盏！”小美说，“24 是电池的节数，每 3 节点亮 1 盏，所以是 8 盏。”</p>
+<p>阿乐愣了一下，马上笑了：“对！这回我来装！”两个人一盏一盏地装电池。1 盏、2 盏、3 盏……第 8 盏亮起来的时候，灯塔顶上一下子亮堂堂的。</p>
+<div class="scene"><svg viewBox="0 0 360 230" aria-label="灯塔亮了，光照进大雾">
+<rect width="360" height="230" rx="18" fill="#1d2d44"/>
+<path d="M70 66 L360 10 L360 130Z" fill="#ffe066" opacity=".45"/>
+<path d="M70 66 L360 40 L360 96Z" fill="#fff3bf" opacity=".6"/>
+<rect x="0" y="170" width="360" height="60" fill="#14213d"/>
+<path d="M0 176 q20 -6 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" stroke="#4ea8de" stroke-width="2" fill="none"/>
+<use href="#tower" x="30" y="30" width="80" height="180"/>
+<circle cx="70" cy="66" r="14" fill="#fff9db"/>
+<ellipse cx="30" cy="120" rx="70" ry="18" fill="#fff" opacity="0.25"/><ellipse cx="92" cy="134" rx="70" ry="18" fill="#fff" opacity="0.25"/><ellipse cx="154" cy="120" rx="70" ry="18" fill="#fff" opacity="0.25"/><ellipse cx="216" cy="134" rx="70" ry="18" fill="#fff" opacity="0.25"/><ellipse cx="278" cy="120" rx="70" ry="18" fill="#fff" opacity="0.25"/><ellipse cx="340" cy="134" rx="70" ry="18" fill="#fff" opacity="0.25"/><ellipse cx="402" cy="120" rx="70" ry="18" fill="#fff" opacity="0.25"/>
+<g transform="translate(250,150)"><path d="M0 20 h80 l-14 18 h-52z" fill="#2a6f97"/><rect x="30" y="-6" width="24" height="26" fill="#fff"/><use href="#grandpa" x="32" y="-14" width="20" height="40"/></g>
+<g><rect x="196" y="96" width="150" height="34" rx="12" fill="#fff9db" stroke="#bbb"/><path d="M322 129 l6 12 l6 -12z" fill="#fff9db" stroke="#bbb"/><rect x="321" y="127" width="14" height="4" fill="#fff9db"/><text x="271.0" y="118" font-size="14" text-anchor="middle">看见了！我看见光了！</text></g>
+</svg></div>
+<p>八道金黄的光一齐穿进大雾，在海面上铺出一条亮闪闪的路。</p>
+<p>对讲机里传来外公响亮的声音：“看见了！我看见光了！我找到方向了！”</p>
+<h2 class="chap">尾声　灯塔日志</h2>
+<div class="scene"><svg viewBox="0 0 360 240" aria-label="外公回到码头，大家抱在一起">
+<defs><linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb4a2"/><stop offset="1" stop-color="#ffe5d9"/></linearGradient></defs>
+<rect width="360" height="240" rx="18" fill="url(#sky2)"/>
+<circle cx="300" cy="150" r="30" fill="#ffd166" opacity=".9"/>
+<rect x="0" y="160" width="360" height="80" fill="#4ea8de"/>
+<rect x="0" y="186" width="250" height="14" fill="#a47148"/>
+<g transform="translate(250,168)"><path d="M0 10 h90 l-14 20 h-62z" fill="#2a6f97"/><text x="45" y="25" font-size="10" text-anchor="middle" fill="#fff">海鸥号</text></g>
+<use href="#granny" x="20" y="70" width="58" height="116"/><use href="#grandpa" x="84" y="66" width="60" height="120"/><use href="#girl" x="150" y="84" width="52" height="104"/><use href="#boy" x="204" y="84" width="50" height="100"/>
+<g transform="translate(150,30)"><rect width="70" height="44" rx="4" fill="#8d6e63"/><rect x="6" y="6" width="58" height="32" fill="#fff8e1"/><text x="35" y="27" font-size="11" text-anchor="middle">灯塔日志</text></g>
+<text x="290" y="60" font-size="22">❤</text>
+</svg></div>
+<p>天快黑的时候，“海鸥号”稳稳地靠上了码头。外公跳下船，一把抱住了外婆、小美和阿乐。</p>
+<p>小美从口袋里掏出一本旧本子——就是在灯塔顶上木箱底下找到的那本《灯塔日志》。最后一页写着：</p>
+<p><b>“灯塔的光，是给看不清路的人的。做题也一样：先看清问的是什么，再看清单位，然后像小火车一样一步一步往前走，就不会迷路。”</b></p>
+<p>外公看着那一页，眯起眼睛笑了：“这本日志啊，是我年轻时候写的。那时候，我就是灯塔的看守。”</p>
+<p>小美和阿乐一下子瞪大了眼睛。</p>
+<p>阿乐摸摸后脑勺：“以后我不光要算得最快，还要先看得最清。”</p>
+<p>小美把放大镜举到眼前，对着大家眨了眨眼睛。</p>
+<div class="memo"><h2>📌 灯塔日志里的三句话</h2><p style="margin:0;font-size:.85em;color:#6b6b80">今天记住什么：</p><ol><li><b>先看清问什么</b>：问的是“几盏”，就别答“几节”；用不上的数，可以不用。</li><li><b>再看清单位</b>：分米、厘米、米不一样时，先换成一样的单位，再比、再算。</li><li><b>像小火车一样往前走</b>：只有加减（或只有乘除），从左往右算，不能跳着先算后面的。</li></ol>
+<p style="text-align:center;font-size:1.5em;margin:4px 0">🔍 📏 🚂</p></div>
+<p class="foot">参考说明：本故事原创编写，人物、情节、题目和数字都是新编的。写法上参考了公开的数学故事读物思路：冒险或旅行主线串起问题（如国内“数学西游记”“数学故事”类童书的闯关结构、《发现数学》一类生活数学故事），角色犯错再由主角纠正，以及国外 MathStart 系列（故事 + 图示模型）和 Bedtime Math（家长陪读、停下来提问）的呈现方式；没有摘抄任何版权原文。讲法和结论以人教版三年级上册课本为准：第二单元例1（印p6/PDF12）、例3（印p8/PDF14），第三单元“毫米、分米的认识”例1及练习五（印p22–23/PDF28–29）。</p>
+</div>
+<script>window.addEventListener('beforeprint',function(){document.querySelectorAll('details').forEach(function(d){d.open=true;});});</script>
+</body>
+</html>
