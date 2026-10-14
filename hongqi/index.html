@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<title>操场上的红旗</title>
+<style>
+:root{--ink:#2b2b3a;--muted:#6b6b80;--bg:#f4f7fb;--pri:#c1121f;--red:#e5484d;--green:#2fa36b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:20px;line-height:1.85;padding:env(safe-area-inset-top) 0 40px}
+.wrap{max-width:720px;margin:0 auto;padding:14px 16px}
+h1{font-size:1.7em;text-align:center;margin:14px 0 0;letter-spacing:2px}
+.sub{text-align:center;color:var(--muted);font-size:.85em;margin:4px 0 14px}
+.how{background:#fff;border-radius:16px;padding:12px 16px;font-size:.85em;color:var(--muted);box-shadow:0 2px 8px rgba(0,0,0,.05)}
+h2.chap{font-size:1.2em;color:var(--pri);margin:34px 0 10px;padding-bottom:6px;border-bottom:3px dotted #f1b0b0}
+p{margin:10px 0;text-indent:0}
+.scene svg{width:100%;height:auto;display:block;margin:14px 0;border-radius:18px}
+svg text{font-family:inherit}
+.stop{background:#fff7e0;border:3px solid #ffd166;border-radius:20px;padding:14px 14px 6px;margin:22px 0}
+.stop-h{font-weight:800;color:#b5470f;font-size:1.08em}
+.focus{display:inline-block;font-size:.72em;background:#ffe8dc;color:#b5470f;border-radius:99px;padding:1px 10px;margin:4px 0}
+.ask{font-size:1.02em;margin:6px 0 10px}
+details{border-radius:14px;margin:10px 0;overflow:hidden;border:2px solid #eee;background:#fff}
+summary{cursor:pointer;list-style:none;padding:11px 14px;font-weight:700;-webkit-tap-highlight-color:transparent}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▶ ";font-size:.8em}details[open] summary::before{content:"▼ "}
+details>div{padding:2px 14px 10px}
+details.tip{border-color:#cfe0ff}details.tip summary{background:#eef4ff;color:#3d7bfd}
+details.ans{border-color:#cdeedd}details.ans summary{background:#eafaf1;color:var(--green)}
+details svg{width:100%;height:auto;display:block;margin:8px 0}
+ul{padding-left:1.15em;margin:6px 0}li{margin:6px 0}
+.calc-inline{font-family:"SF Mono",Menlo,monospace;background:#f1f1f6;border-radius:6px;padding:0 4px;word-break:keep-all}
+.check{font-weight:700;color:var(--green)}
+.memo{background:linear-gradient(135deg,#fff1e6,#e7f5ff);border:3px dashed var(--pri);border-radius:20px;padding:16px;margin:30px 0}
+.memo h2{margin:0 0 6px;color:var(--pri);font-size:1.2em}.memo li{margin:12px 0;font-size:1.05em}
+.foot{font-size:.72em;color:var(--muted);line-height:1.6}
+@media print{
+  body{font-size:15px;background:#fff}
+  .stop,.scene{break-inside:avoid}
+  summary::before{content:""}
+  details > div{display:block !important}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="girl" viewBox="0 0 80 150">
+  <ellipse cx="62" cy="40" rx="9" ry="16" fill="#3b2a20"/>
+  <circle cx="40" cy="34" r="18" fill="#ffe0bd"/>
+  <path d="M22 30 Q40 8 58 28 Q46 18 40 20 Q28 16 22 30Z" fill="#3b2a20"/>
+  <circle cx="33" cy="35" r="2.3" fill="#222"/><circle cx="47" cy="35" r="2.3" fill="#222"/>
+  <path d="M34 44 Q40 48 46 44" stroke="#222" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <circle cx="27" cy="42" r="3" fill="#ffb4a2"/><circle cx="53" cy="42" r="3" fill="#ffb4a2"/>
+  <path d="M22 54 h36 l6 44 H16 Z" fill="#e63946"/>
+  <path d="M30 54 h20 v9 H30 Z" fill="#fff"/>
+  <rect x="16" y="70" width="12" height="16" rx="3" fill="#ffd166"/>
+  <rect x="24" y="98" width="32" height="16" rx="3" fill="#1d3557"/>
+  <rect x="28" y="114" width="9" height="22" fill="#ffe0bd"/><rect x="44" y="114" width="9" height="22" fill="#ffe0bd"/>
+  <ellipse cx="32" cy="140" rx="11" ry="5" fill="#fff" stroke="#ccc"/><ellipse cx="49" cy="140" rx="11" ry="5" fill="#fff" stroke="#ccc"/>
+</symbol>
+<symbol id="boy" viewBox="0 0 80 150">
+  <circle cx="40" cy="34" r="18" fill="#f6d0a8"/>
+  <path d="M22 30 L28 12 L36 28 L40 10 L46 28 L54 12 L58 30 Q40 20 22 30Z" fill="#5c3317"/>
+  <path d="M28 28 L36 32" stroke="#5c3317" stroke-width="2"/><path d="M52 28 L44 32" stroke="#5c3317" stroke-width="2"/>
+  <circle cx="33" cy="36" r="2.3" fill="#222"/><circle cx="47" cy="36" r="2.3" fill="#222"/>
+  <path d="M32 45 Q40 52 48 45" stroke="#222" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <rect x="20" y="54" width="40" height="44" rx="8" fill="#ffd166"/>
+  <rect x="24" y="98" width="14" height="28" fill="#457b9d"/><rect x="42" y="98" width="14" height="28" fill="#457b9d"/>
+  <rect x="20" y="124" width="20" height="8" rx="3" fill="#e63946"/><rect x="40" y="124" width="20" height="8" rx="3" fill="#e63946"/>
+  <path d="M22 132 q8 10 4 16" stroke="#fff" stroke-width="2" fill="none"/>
+</symbol>
+<symbol id="teacher" viewBox="0 0 80 160">
+  <circle cx="40" cy="12" r="8" fill="#3b2a20"/>
+  <circle cx="40" cy="36" r="16" fill="#ffe0bd"/>
+  <path d="M24 32 Q40 14 56 32 Q40 24 24 32Z" fill="#3b2a20"/>
+  <circle cx="34" cy="36" r="2" fill="#222"/><circle cx="46" cy="36" r="2" fill="#222"/>
+  <path d="M35 44 Q40 48 45 44" stroke="#222" stroke-width="1.6" fill="none"/>
+  <circle cx="40" cy="62" r="4" fill="#dee2e6" stroke="#495057"/>
+  <path d="M40 66 q16 10 8 20" stroke="#495057" stroke-width="1.5" fill="none"/>
+  <path d="M16 56 h48 l4 62 H12 Z" fill="#1d6fa5"/>
+  <path d="M40 56 v62" stroke="#fff" stroke-width="2"/>
+  <rect x="22" y="118" width="14" height="28" fill="#1d3557"/><rect x="44" y="118" width="14" height="28" fill="#1d3557"/>
+  <rect x="18" y="144" width="20" height="8" rx="3" fill="#fff"/><rect x="42" y="144" width="20" height="8" rx="3" fill="#fff"/>
+</symbol>
+<symbol id="yflag" viewBox="0 0 36 48">
+  <rect x="4" y="2" width="3" height="44" fill="#868e96"/>
+  <path d="M7 4 h22 l-5 8 l5 8 H7 Z" fill="#ffd166" stroke="#e09f3e"/>
+</symbol>
+<symbol id="rflag" viewBox="0 0 36 48">
+  <rect x="4" y="2" width="3" height="44" fill="#868e96"/>
+  <path d="M7 4 h22 l-5 8 l5 8 H7 Z" fill="#e63946" stroke="#9b2226"/>
+</symbol>
+</defs></svg>
+
+<div class="wrap">
+<h1>🚩 操场上的红旗</h1>
+<p class="sub">先看清，再把红旗升起来<br>给小美的课外数学故事（人教版三年级上册） · 约 15～20 分钟</p>
+<div class="how"><b>家长用法</b>：您来念故事。读到黄色的「✋ 停一停，想一想」时停下来，先让孩子说、在纸上算，再点开答案。「家长：怎么追问」和答案在屏幕上都是<b>点一下才展开</b>。打印时这两处会自动展开。准备一支笔、一张纸。</div>
+<h2 class="chap">第一章　旗杆还是空的</h2><div class="scene"><svg viewBox="0 0 360 250" aria-label="运动会早上，旗杆上还没有旗"><rect width="360" height="250" rx="18" fill="#e8f6ef"/>
+<defs><linearGradient id="skyA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bde0fe"/><stop offset="1" stop-color="#e8f6ef"/></linearGradient></defs>
+<rect width="360" height="250" fill="url(#skyA)"/>
+<circle cx="310" cy="42" r="20" fill="#ffd166"/>
+<ellipse cx="40" cy="48" rx="28" ry="12" fill="#fff"/><ellipse cx="62" cy="46" rx="20" ry="10" fill="#fff"/>
+<rect x="0" y="168" width="360" height="82" fill="#7cb518"/>
+<ellipse cx="180" cy="196" rx="150" ry="26" fill="none" stroke="#c1121f" stroke-width="8"/>
+<ellipse cx="180" cy="196" rx="118" ry="16" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="8 6"/>
+<rect x="10" y="118" width="64" height="50" fill="#f4a261"/><path d="M6 120 L42 96 L78 120Z" fill="#e76f51"/>
+<rect x="34" y="136" width="14" height="22" fill="#6d4c41"/><rect x="18" y="132" width="12" height="12" fill="#fff"/>
+<line x1="118" y1="36" x2="118" y2="176" stroke="#adb5bd" stroke-width="5"/>
+<circle cx="118" cy="34" r="6" fill="#dee2e6" stroke="#868e96"/>
+<path d="M118 48 q10 8 0 16 q10 8 0 16" fill="none" stroke="#868e96" stroke-width="2"/>
+<use href="#teacher" x="140" y="112" width="58" height="120"/><use href="#girl" x="200" y="128" width="52" height="104"/><use href="#boy" x="258" y="132" width="50" height="100"/>
+<g><rect x="196" y="78" width="150" height="36" rx="12" fill="#fff" stroke="#bbb"/><path d="M214 114 l6 12 l6 -12" fill="#fff" stroke="#bbb"/><rect x="212" y="112" width="16" height="4" fill="#fff"/><text x="271.0" y="100" font-size="14" text-anchor="middle">我算得最快！</text></g>
+<text x="118" y="28" font-size="12" text-anchor="middle" fill="#555">旗还没挂</text>
+</svg></div><p>秋天的操场干干净净。跑道红红的，草坪绿绿的，风一吹，草尖轻轻点头。正中间立着一根银色旗杆，高高的，顶上却空空的。</p><p>今天学校开运动会。小美吃过早饭就来了，胳膊上套着红袖标，来帮林老师布置。同班的豆豆也来了。他的鞋带还散着一截，人已经先跑到旗杆底下。豆豆做什么都想抢在前面，口头禅是：“我算得最快！”</p><p>林老师吹了一声哨子，笑着说：“别光跑。开幕要升红旗。旗还在箱子里，先帮我看清楚、数清楚。少一面，开幕式就不好看了。”</p><p>小美抬头看了看那根空旗杆，说：“那我们先看字条上写的是什么。”</p><h2 class="chap">第二章　黄旗和红旗</h2><div class="scene"><svg viewBox="0 0 360 250" aria-label="旗箱上写着：红旗是黄旗的3倍"><rect width="360" height="250" rx="18" fill="#e8f6ef"/>
+<rect width="360" height="250" fill="#fff8ee"/>
+<rect x="0" y="190" width="360" height="60" fill="#d8c3a5"/>
+<rect x="36" y="150" width="150" height="70" rx="6" fill="#c48a4a" stroke="#8d5a2b" stroke-width="3"/>
+<rect x="36" y="128" width="150" height="28" rx="4" fill="#e0a15a"/>
+<use href="#yflag" x="48" y="92" width="26" height="40"/><use href="#yflag" x="74" y="92" width="26" height="40"/><use href="#yflag" x="100" y="92" width="26" height="40"/><use href="#yflag" x="126" y="92" width="26" height="40"/><use href="#yflag" x="152" y="92" width="26" height="40"/>
+<rect x="200" y="36" width="146" height="78" rx="8" fill="#fff" stroke="#c1121f" stroke-width="3"/>
+<text x="273" y="62" font-size="15" text-anchor="middle">黄旗 5 面</text>
+<text x="273" y="88" font-size="15" text-anchor="middle" font-weight="700" fill="#c1121f">红旗是黄旗的3倍</text>
+<use href="#girl" x="24" y="140" width="52" height="104"/><use href="#boy" x="210" y="144" width="50" height="100"/>
+<g><rect x="150" y="150" width="130" height="36" rx="12" fill="#fff" stroke="#bbb"/><path d="M168 186 l6 12 l6 -12" fill="#fff" stroke="#bbb"/><rect x="166" y="184" width="16" height="4" fill="#fff"/><text x="215.0" y="172" font-size="14" text-anchor="middle">5+3=8！</text></g>
+</svg></div><p>器材室门口摆着一只大纸箱。黄旗已经扎成一捆，数过了，一共 <b>5 面</b>。箱盖上的字条写着：</p><p><b>红旗是黄旗的 3 倍。</b></p><p>豆豆眼睛一亮，手指在空中点了三下：“5 再多 3，5+3=8！红旗 8 面！我算得最快！”他已经伸手去抱旗了。</p><p>小美按住箱盖：“等一下。你把字条再念一遍。上面写的是『3 倍』，还是『多 3 面』？”</p><div class="stop"><div class="stop-h">✋ 停一停，想一想 ①</div>
+<div class="focus">练的是：几倍和多几 · 画一画再比</div>
+<div class="ask">红旗有几面？如果字条写成「红旗比黄旗多 3 面」，又是几面？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul><li>请孩子把字条原句念出来：红旗是黄旗的 3 倍。</li><li>“3 倍”要再画几段、每段都和黄旗一样长？“多 3 面”是在黄旗后面再添出几面？</li><li>请孩子在纸上画：先画一条表示 5 面黄旗；红旗照这条的长度连画 3 段。另起一条，只比黄旗多出 3。</li><li>先看两条红线哪条更长，再写算式。先别把做法收成一句口诀。</li></ul></div></details>
+<details class="ans"><summary>点我看答案和讲解</summary><div><ul><li>「是黄旗的 3 倍」：有 3 段和黄旗一样长。5+5+5=15，写成 <b>5×3=15（面）</b>。</li><li>豆豆把「3 倍」听成「多 3 面」：5+3=<b>8（面）</b>。</li><li>要是字条真写「红旗比黄旗多 3 面」，才是 5+3=8（面）。今天写的是 3 倍，所以是 15 面。</li><li>回头看：15 里面有 3 个 5，15÷5=3，正好是 3 倍。8 只比 5 多 3，那是多 3 面。</li><li>8 面比 15 面少 15−8=7（面），所以豆豆说少了 7 面。</li></ul><svg viewBox="0 0 360 210" aria-label="线段图：3倍是三段一样长，多3只是多出一小段">
+<text x="8" y="20" font-size="14" fill="#555">一段一样长，代表 5 面</text>
+<text x="8" y="48" font-size="14">黄旗</text>
+<rect x="70" y="32" width="90" height="24" rx="3" fill="#ffd166" stroke="#333"/>
+<text x="115" y="49" font-size="14" text-anchor="middle">5面</text>
+<text x="8" y="92" font-size="14">3倍</text>
+<rect x="70" y="74" width="90" height="24" fill="#e63946"/><rect x="160" y="74" width="90" height="24" fill="#c1121f"/><rect x="250" y="74" width="90" height="24" fill="#e63946"/>
+<text x="115" y="91" font-size="14" text-anchor="middle" fill="#fff">5</text>
+<text x="205" y="91" font-size="14" text-anchor="middle" fill="#fff">5</text>
+<text x="295" y="91" font-size="14" text-anchor="middle" fill="#fff">5</text>
+<path d="M70 104 v8 h270 v-8" fill="none" stroke="#c1121f" stroke-width="2"/>
+<text x="205" y="128" font-size="14" text-anchor="middle" fill="#c1121f">3 段一样长：5×3=15面</text>
+<text x="8" y="164" font-size="14">多3面</text>
+<rect x="70" y="146" width="90" height="24" rx="3" fill="#ffd166" stroke="#333"/>
+<rect x="160" y="146" width="54" height="24" rx="3" fill="#adb5bd" stroke="#333"/>
+<text x="115" y="163" font-size="14" text-anchor="middle">5</text>
+<text x="187" y="163" font-size="13" text-anchor="middle">3</text>
+<text x="70" y="196" font-size="14" fill="#555">5+3=8面。只长出一截，不是 3 倍</text>
+</svg><p class="check">答：红旗有 15 面。多 3 面的话，才是 8 面。</p></div></details>
+</div><p>“15 面。”小美说，“3 倍，是有 3 段和黄旗一样长。5 加 5 再加 5。多 3 面，才是在 5 后面再添 3 面。”</p><p>豆豆把抱起来的旗又放回去，重新数。一、二、三……数到十五，他吐了吐舌头：“8 面少了 7 面呢。跑道一圈都插不满。”</p><div class="scene"><svg viewBox="0 0 360 230" aria-label="十五面红旗抱到旗杆边上"><rect width="360" height="230" rx="18" fill="#e8f6ef"/>
+<rect width="360" height="230" fill="#e9f7ef"/>
+<rect x="0" y="160" width="360" height="70" fill="#7cb518"/>
+<line x1="28" y1="30" x2="28" y2="168" stroke="#adb5bd" stroke-width="5"/>
+<circle cx="28" cy="28" r="5" fill="#dee2e6"/>
+<use href="#rflag" x="12" y="78" width="26" height="40"/><use href="#rflag" x="35" y="78" width="26" height="40"/><use href="#rflag" x="58" y="78" width="26" height="40"/><use href="#rflag" x="81" y="78" width="26" height="40"/><use href="#rflag" x="104" y="78" width="26" height="40"/><use href="#rflag" x="127" y="78" width="26" height="40"/><use href="#rflag" x="150" y="78" width="26" height="40"/><use href="#rflag" x="173" y="78" width="26" height="40"/><use href="#rflag" x="196" y="78" width="26" height="40"/><use href="#rflag" x="219" y="78" width="26" height="40"/><use href="#rflag" x="242" y="78" width="26" height="40"/><use href="#rflag" x="265" y="78" width="26" height="40"/><use href="#rflag" x="288" y="78" width="26" height="40"/><use href="#rflag" x="311" y="78" width="26" height="40"/><use href="#rflag" x="334" y="78" width="26" height="40"/>
+<text x="180" y="70" font-size="15" text-anchor="middle" fill="#c1121f">红旗 15 面</text>
+<use href="#girl" x="40" y="150" width="52" height="104"/><use href="#boy" x="100" y="154" width="50" height="100"/>
+<text x="250" y="200" font-size="14" fill="#333">先放在旗杆边，开幕再升</text>
+</svg></div><p>两个人把 <b>15 面</b>红旗抱到旗杆边上，先不升。最大的那一面，林老师留到开幕再用。跑道旁，小红旗一面一面插好了。</p><h2 class="chap">第三章　棚子里的记录本</h2><div class="scene"><svg viewBox="0 0 360 250" aria-label="物资棚的告示：记录本、奖品和矿泉水"><rect width="360" height="250" rx="18" fill="#e8f6ef"/>
+<rect width="360" height="250" fill="#e7f5ff"/>
+<path d="M20 90 L180 40 L340 90 Z" fill="#ffd166" stroke="#e09f3e"/>
+<rect x="40" y="90" width="280" height="120" fill="#fff"/>
+<rect x="56" y="104" width="120" height="90" rx="6" fill="#fff8e1" stroke="#8d6e63" stroke-width="3"/>
+<text x="116" y="128" font-size="14" text-anchor="middle">记录本 每本4元</text>
+<text x="116" y="152" font-size="14" text-anchor="middle" fill="#6d4c41">奖品 8 种</text>
+<text x="116" y="176" font-size="14" text-anchor="middle" fill="#6d4c41">矿泉水 2 箱</text>
+<g><rect x="196" y="112" width="36" height="46" rx="3" fill="#4dabf7"/><rect x="240" y="112" width="36" height="46" rx="3" fill="#4dabf7"/><text x="236" y="176" font-size="12" text-anchor="middle">2箱</text></g>
+<g><rect x="200" y="188" width="12" height="16" rx="2" fill="#f4a261"/><rect x="214" y="188" width="12" height="16" rx="2" fill="#f4a261"/><rect x="228" y="188" width="12" height="16" rx="2" fill="#f4a261"/><rect x="242" y="188" width="12" height="16" rx="2" fill="#f4a261"/><rect x="256" y="188" width="12" height="16" rx="2" fill="#f4a261"/><rect x="270" y="188" width="12" height="16" rx="2" fill="#f4a261"/><rect x="284" y="188" width="12" height="16" rx="2" fill="#f4a261"/><rect x="298" y="188" width="12" height="16" rx="2" fill="#f4a261"/></g>
+<use href="#girl" x="8" y="168" width="52" height="104"/>
+</svg></div><p>记分台还缺记录本。棚子里立着一块小告示，风吹得它一角翘起来：</p><p>记录本每本 <b>4 元</b>。旁边还写着：奖品一共 <b>8 种</b>，矿泉水 <b>2 箱</b>。</p><div class="scene"><svg viewBox="0 0 360 240" aria-label="林老师拿出20元，问还差多少元"><rect width="360" height="240" rx="18" fill="#e8f6ef"/>
+<rect width="360" height="240" fill="#fff8ee"/>
+<rect x="0" y="180" width="360" height="60" fill="#efe6d6"/>
+<rect x="150" y="70" width="150" height="80" rx="8" fill="#b7e4c7" stroke="#2d6a4f" stroke-width="3"/>
+<text x="225" y="100" font-size="22" text-anchor="middle" fill="#1b4332">20元</text>
+<text x="225" y="128" font-size="14" text-anchor="middle">我付这些</text>
+<g><rect x="40" y="86" width="28" height="36" rx="2" fill="#fff" stroke="#4dabf7"/><rect x="74" y="86" width="28" height="36" rx="2" fill="#fff" stroke="#4dabf7"/><rect x="108" y="86" width="28" height="36" rx="2" fill="#fff" stroke="#4dabf7"/><text x="88" y="140" font-size="13" text-anchor="middle">要买6本</text><text x="88" y="158" font-size="13" text-anchor="middle">每本4元</text></g>
+<use href="#teacher" x="160" y="134" width="58" height="120"/><use href="#girl" x="230" y="150" width="52" height="104"/><use href="#boy" x="290" y="154" width="50" height="100"/>
+<g><rect x="200" y="36" width="148" height="36" rx="12" fill="#fff" stroke="#bbb"/><path d="M218 72 l6 12 l6 -12" fill="#fff" stroke="#bbb"/><rect x="216" y="70" width="16" height="4" fill="#fff"/><text x="274.0" y="58" font-size="14" text-anchor="middle">6本！还剩4元！</text></g>
+</svg></div><p>林老师拿起一沓本子：“买 <b>6 本</b>。我这里付 <b>20 元</b>，还差多少元？”</p><p>豆豆抢着喊：“6 本！……不对不对。付了 20 元，那就是还剩 4 元！我算得最快！”</p><p>小美没有接话。她看着告示，又看着林老师手里的 20 元，把问题轻轻重复了一遍：“还差多少元。”</p><div class="stop"><div class="stop-h">✋ 停一停，想一想 ②</div>
+<div class="focus">练的是：看清问什么 · 还差和还剩 · 用不上的数</div>
+<div class="ask">林老师问的是还差多少元。哪些数用得上？豆豆喊的「6 本」和「还剩 4 元」，错在哪儿？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul><li>请孩子把林老师的问题复述一遍：还差多少元。单位是元。</li><li>“6 本”是求出来的，还是老师已经说了的？</li><li>钱不够的时候，叫还差，还是叫还剩？还差是要补上；还剩是付完以后多出来的。</li><li>奖品 8 种、矿泉水 2 箱，跟“还差多少元”有关系吗？</li><li>可以先算 6 本一共多少钱，再拿 24 和 20 比一比谁大。</li></ul></div></details>
+<details class="ans"><summary>点我看答案和讲解</summary><div><ul><li>用得上：每本 4 元，买 6 本，付 20 元。</li><li>用不上：奖品 8 种、矿泉水 2 箱。它们是真的，可这道问题不问它们。</li><li>6 本一共：4×6=<b>24（元）</b>。四六二十四。</li><li>付了 20 元，<b>24−20=4（元）</b>。24 比 20 大，钱不够，所以是还差 4 元。</li><li>豆豆喊“6 本”：6 是要买的本数，题目里已经有了。问的是多少元，不是多少本。</li><li>豆豆喊“还剩 4 元”：方向反了。还剩是多出来的；现在是不够，要再补 4 元。</li><li>回头看：20+4=24，正好是 6 本的钱。</li></ul><svg viewBox="0 0 360 168" aria-label="24元里付了20元，还差4元">
+<text x="8" y="20" font-size="14" fill="#555">先算一共要多少钱：4×6=24元</text>
+<rect x="16" y="36" width="240" height="28" rx="4" fill="#d8f3dc" stroke="#2d6a4f"/>
+<rect x="256" y="36" width="48" height="28" rx="4" fill="#ffd6d6" stroke="#c1121f" stroke-dasharray="4 3"/>
+<text x="136" y="55" font-size="14" text-anchor="middle">付了 20 元</text>
+<text x="280" y="55" font-size="13" text-anchor="middle" fill="#c1121f">差4</text>
+<text x="16" y="86" font-size="14">24 比 20 大，不够，是还差 4 元</text>
+<text x="16" y="112" font-size="14">回头看：20+4=24，正好够 6 本</text>
+<line x1="16" y1="132" x2="168" y2="132" stroke="#888"/>
+<text x="16" y="128" font-size="14" fill="#888">奖品 8 种</text>
+<line x1="188" y1="132" x2="330" y2="132" stroke="#888"/>
+<text x="188" y="128" font-size="14" fill="#888">矿泉水 2 箱</text>
+<text x="16" y="156" font-size="14" fill="#888">这两样是真的，这道问题用不上</text>
+</svg><p class="check">答：还差 4 元。</p></div></details>
+</div><p>“还差 4 元。”小美说，“6 本一共 24 元，付 20 元还不够。4 元是要补上的，不是剩下来的。奖品和矿泉水，这道问题先放着。”</p><div class="scene"><svg viewBox="0 0 360 220" aria-label="补上4元，六本记录本买好了"><rect width="360" height="220" rx="18" fill="#e8f6ef"/>
+<rect width="360" height="220" fill="#f0fff4"/>
+<rect x="24" y="36" width="200" height="36" rx="6" fill="#b7e4c7"/><text x="124" y="60" font-size="16" text-anchor="middle">20元 + 4元 = 24元</text>
+<rect x="240" y="36" width="90" height="36" rx="6" fill="#ffd6d6"/><text x="285" y="60" font-size="16" text-anchor="middle" fill="#c1121f">补上4元</text>
+<g transform="translate(30,100)"><rect width="40" height="52" rx="3" fill="#fff" stroke="#1d6fa5" stroke-width="2"/><rect width="40" height="10" fill="#1d6fa5"/><text x="20" y="34" font-size="12" text-anchor="middle">记录</text></g><g transform="translate(82,100)"><rect width="40" height="52" rx="3" fill="#fff" stroke="#1d6fa5" stroke-width="2"/><rect width="40" height="10" fill="#1d6fa5"/><text x="20" y="34" font-size="12" text-anchor="middle">记录</text></g><g transform="translate(134,100)"><rect width="40" height="52" rx="3" fill="#fff" stroke="#1d6fa5" stroke-width="2"/><rect width="40" height="10" fill="#1d6fa5"/><text x="20" y="34" font-size="12" text-anchor="middle">记录</text></g><g transform="translate(186,100)"><rect width="40" height="52" rx="3" fill="#fff" stroke="#1d6fa5" stroke-width="2"/><rect width="40" height="10" fill="#1d6fa5"/><text x="20" y="34" font-size="12" text-anchor="middle">记录</text></g><g transform="translate(238,100)"><rect width="40" height="52" rx="3" fill="#fff" stroke="#1d6fa5" stroke-width="2"/><rect width="40" height="10" fill="#1d6fa5"/><text x="20" y="34" font-size="12" text-anchor="middle">记录</text></g><g transform="translate(290,100)"><rect width="40" height="52" rx="3" fill="#fff" stroke="#1d6fa5" stroke-width="2"/><rect width="40" height="10" fill="#1d6fa5"/><text x="20" y="34" font-size="12" text-anchor="middle">记录</text></g>
+<text x="180" y="180" font-size="15" text-anchor="middle">6 本，一本不多</text>
+</svg></div><p>林老师从另一个口袋摸出 4 元，和那 20 元放在一起。本子买好了，整整齐齐 6 本。</p><p>豆豆挠挠头：“8 种奖品、2 箱水，我都看见了。原来看见了，也可以先不用。”</p><h2 class="chap">第四章　白板上的两道式子</h2><div class="scene"><svg viewBox="0 0 360 260" aria-label="白板上的两道式子"><rect width="360" height="260" rx="18" fill="#e8f6ef"/>
+<rect width="360" height="260" fill="#e7f5ff"/>
+<rect x="70" y="28" width="250" height="150" rx="8" fill="#f8f9fa" stroke="#495057" stroke-width="6"/>
+<rect x="40" y="70" width="30" height="8" fill="#868e96"/><rect x="320" y="90" width="30" height="8" fill="#868e96"/>
+<text x="195" y="62" font-size="16" text-anchor="middle">最后分成几大组？</text>
+<text x="195" y="100" font-size="22" text-anchor="middle">24÷4÷2</text>
+<text x="195" y="142" font-size="22" text-anchor="middle">24÷(4×2)</text>
+<use href="#girl" x="8" y="150" width="52" height="104"/><use href="#boy" x="70" y="154" width="50" height="100"/>
+<g><rect x="4" y="112" width="150" height="36" rx="12" fill="#fff" stroke="#bbb"/><path d="M22 148 l6 12 l6 -12" fill="#fff" stroke="#bbb"/><rect x="20" y="146" width="16" height="4" fill="#fff"/><text x="79.0" y="134" font-size="14" text-anchor="middle">不一样！左边大！</text></g>
+</svg></div><p>入场彩排快开始了。操场边站着 <b>24</b> 名小同学，每人一根彩棒。一块白板被风吹得轻轻响，上面写着两种分法，问最后分成几大组：</p><p><b>24÷4÷2</b></p><p><b>24÷(4×2)</b></p><p>林老师说：“得数一样吗？想清楚再告诉我。小同学们还等着站队呢。”</p><p>豆豆扫了一眼括号，就举手：“不一样！有括号就不一样！你看，4×2=8，另一边根本没有 8，所以左边大！我算得最快！”他的笔尖停在 8 上，两道式子都没有算完。</p><p>小美侧过身，挡住照在白板上的阳光：“8 还不是最后的得数。两边都要走到头。”</p><div class="stop"><div class="stop-h">✋ 停一停，想一想 ③</div>
+<div class="focus">练的是：两边都算完再比 · 括号里面先算</div>
+<div class="ask">24÷4÷2 和 24÷(4×2)，得数一样吗？豆豆错在哪里？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul><li>“24÷4÷2 里只有什么运算？”——只有除法。只有乘、除法，从左往右算。</li><li>“24÷(4×2) 要先算哪里？”——先算括号里面。</li><li>请孩子把两边都写完，写出最后的得数，再比。只算到 4×2=8，还不能比。</li><li>可以连着问：24 人先 4 人一小队，有几小队？再 2 个小队并成一个大组，有几大组？另一种：每大组 4×2 人，24 人能分成几大组？</li></ul></div></details>
+<details class="ans"><summary>点我看答案和讲解</summary><div><ul><li>24÷4÷2=6÷2=<b>3</b>。先算 24÷4=6，再算 6÷2=3。从左往右。</li><li>24÷(4×2)=24÷8=<b>3</b>。括号里先算 4×2=8，再算 24÷8=3。八三二十四。</li><li>运算顺序不一样，这回得数一样，都是 3。看见括号，不能马上说“不一样”。</li><li>豆豆只算出括号里的 8，没算 24÷8，就说左边大。比之前，两边都要算完。</li><li>在彩排里，3 是 <b>3 大组</b>。一种：4 人一小队，24÷4=6 小队，再两小队并一组，6÷2=3 大组。另一种：每大组 8 人，24÷8=3 大组。人还是这 24 人。</li><li>回头看：3×8=24；另一边 3×2=6，6×4=24。</li><li>如果孩子认定“有括号得数就变”，可以再看一道已经算完的：24÷4+2=8，24÷(4+2)=4。那一道顺序变了，得数也变了。今天这道顺序不同，得数却一样。所以要算完再比。</li></ul><svg viewBox="0 0 360 176" aria-label="两道式子都算完，得数都是3">
+<text x="8" y="18" font-size="14" fill="#555">两边都走到头，再比</text>
+<rect x="8" y="30" width="166" height="78" rx="10" fill="#fff4e6" stroke="#f4a261"/>
+<text x="91" y="50" font-size="14" text-anchor="middle">24÷4÷2</text>
+<text x="91" y="72" font-size="14" text-anchor="middle">先 24÷4=6</text>
+<text x="91" y="94" font-size="14" text-anchor="middle">再 6÷2=3</text>
+<rect x="186" y="30" width="166" height="78" rx="10" fill="#e7f5ff" stroke="#4dabf7"/>
+<text x="269" y="50" font-size="14" text-anchor="middle">24÷(4×2)</text>
+<text x="269" y="72" font-size="14" text-anchor="middle">先 4×2=8</text>
+<text x="269" y="94" font-size="14" text-anchor="middle">再 24÷8=3</text>
+<text x="180" y="132" font-size="16" text-anchor="middle" font-weight="700" fill="#2d6a4f">都是 3</text>
+<text x="180" y="158" font-size="14" text-anchor="middle" fill="#555">只算到 8 就停，还不能比</text>
+</svg><p class="check">答：两道式子得数一样，都是 3。</p></div></details>
+</div><p>“都是 3 大组。”小美说。</p><p>豆豆对着白板把两道式子又写了一遍，写到最后都是 3，才点头：“刚才我停得太早了。”</p><div class="scene"><svg viewBox="0 0 360 230" aria-label="二十四名同学分成三个大组"><rect width="360" height="230" rx="18" fill="#e8f6ef"/>
+<rect width="360" height="230" fill="#e9f7ef"/>
+<rect x="0" y="170" width="360" height="60" fill="#7cb518"/>
+<ellipse cx="180" cy="188" rx="160" ry="18" fill="none" stroke="#c1121f" stroke-width="6"/>
+<circle cx="30" cy="70" r="6" fill="#e63946"/><circle cx="46" cy="70" r="6" fill="#e63946"/><circle cx="62" cy="70" r="6" fill="#e63946"/><circle cx="78" cy="70" r="6" fill="#e63946"/><circle cx="30" cy="86" r="6" fill="#e63946"/><circle cx="46" cy="86" r="6" fill="#e63946"/><circle cx="62" cy="86" r="6" fill="#e63946"/><circle cx="78" cy="86" r="6" fill="#e63946"/><text x="54" y="118" font-size="13" text-anchor="middle">第1大组</text>
+<circle cx="150" cy="70" r="6" fill="#1d6fa5"/><circle cx="166" cy="70" r="6" fill="#1d6fa5"/><circle cx="182" cy="70" r="6" fill="#1d6fa5"/><circle cx="198" cy="70" r="6" fill="#1d6fa5"/><circle cx="150" cy="86" r="6" fill="#1d6fa5"/><circle cx="166" cy="86" r="6" fill="#1d6fa5"/><circle cx="182" cy="86" r="6" fill="#1d6fa5"/><circle cx="198" cy="86" r="6" fill="#1d6fa5"/><text x="174" y="118" font-size="13" text-anchor="middle">第2大组</text>
+<circle cx="270" cy="70" r="6" fill="#2a9d8f"/><circle cx="286" cy="70" r="6" fill="#2a9d8f"/><circle cx="302" cy="70" r="6" fill="#2a9d8f"/><circle cx="318" cy="70" r="6" fill="#2a9d8f"/><circle cx="270" cy="86" r="6" fill="#2a9d8f"/><circle cx="286" cy="86" r="6" fill="#2a9d8f"/><circle cx="302" cy="86" r="6" fill="#2a9d8f"/><circle cx="318" cy="86" r="6" fill="#2a9d8f"/><text x="294" y="118" font-size="13" text-anchor="middle">第3大组</text>
+<text x="180" y="40" font-size="16" text-anchor="middle">24 人，3 个大组</text>
+<text x="180" y="210" font-size="14" text-anchor="middle" fill="#333">彩棒举起来，走了一圈</text>
+</svg></div><p>24 名小同学分成 3 个大组。彩棒举起来，在跑道上走了一圈。脚步齐的时候，豆豆在旁边帮着喊口令，这次没有抢着报数。</p><h2 class="chap">第五章　广播里的队</h2><div class="scene"><svg viewBox="0 0 360 250" aria-label="二十八名同学等着入场，问题是排成几队"><rect width="360" height="250" rx="18" fill="#e8f6ef"/>
+<rect width="360" height="250" fill="#fff4e6"/>
+<rect x="16" y="16" width="200" height="36" rx="8" fill="#333"/>
+<text x="116" y="40" font-size="14" text-anchor="middle" fill="#fff">广播：要排成几队？</text>
+<circle cx="70" cy="70" r="10" fill="#f4a261" stroke="#333"/><circle cx="106" cy="70" r="10" fill="#f4a261" stroke="#333"/><circle cx="142" cy="70" r="10" fill="#f4a261" stroke="#333"/><circle cx="178" cy="70" r="10" fill="#f4a261" stroke="#333"/><circle cx="214" cy="70" r="10" fill="#f4a261" stroke="#333"/><circle cx="250" cy="70" r="10" fill="#f4a261" stroke="#333"/><circle cx="286" cy="70" r="10" fill="#f4a261" stroke="#333"/><circle cx="70" cy="98" r="10" fill="#f4a261" stroke="#333"/><circle cx="106" cy="98" r="10" fill="#f4a261" stroke="#333"/><circle cx="142" cy="98" r="10" fill="#f4a261" stroke="#333"/><circle cx="178" cy="98" r="10" fill="#f4a261" stroke="#333"/><circle cx="214" cy="98" r="10" fill="#f4a261" stroke="#333"/><circle cx="250" cy="98" r="10" fill="#f4a261" stroke="#333"/><circle cx="286" cy="98" r="10" fill="#f4a261" stroke="#333"/><circle cx="70" cy="126" r="10" fill="#f4a261" stroke="#333"/><circle cx="106" cy="126" r="10" fill="#f4a261" stroke="#333"/><circle cx="142" cy="126" r="10" fill="#f4a261" stroke="#333"/><circle cx="178" cy="126" r="10" fill="#f4a261" stroke="#333"/><circle cx="214" cy="126" r="10" fill="#f4a261" stroke="#333"/><circle cx="250" cy="126" r="10" fill="#f4a261" stroke="#333"/><circle cx="286" cy="126" r="10" fill="#f4a261" stroke="#333"/><circle cx="70" cy="154" r="10" fill="#f4a261" stroke="#333"/><circle cx="106" cy="154" r="10" fill="#f4a261" stroke="#333"/><circle cx="142" cy="154" r="10" fill="#f4a261" stroke="#333"/><circle cx="178" cy="154" r="10" fill="#f4a261" stroke="#333"/><circle cx="214" cy="154" r="10" fill="#f4a261" stroke="#333"/><circle cx="250" cy="154" r="10" fill="#f4a261" stroke="#333"/><circle cx="286" cy="154" r="10" fill="#f4a261" stroke="#333"/>
+<text x="250" y="200" font-size="14" fill="#c1121f">一共 28 人</text>
+<text x="250" y="222" font-size="14">每队 4 人</text>
+<g><rect x="8" y="190" width="120" height="36" rx="12" fill="#fff" stroke="#bbb"/><path d="M26 226 l6 12 l6 -12" fill="#fff" stroke="#bbb"/><rect x="24" y="224" width="16" height="4" fill="#fff"/><text x="68.0" y="212" font-size="14" text-anchor="middle">28人！</text></g>
+</svg></div><p>广播响了：“请三年级入场队伍准备。一共 <b>28 人</b>，<b>每队 4 人</b>。请告诉裁判：要排成几队？”</p><p>豆豆一听数字就喊：“28！28 人！”</p><p>裁判老师摇摇头，本子停在半空：“我要填的是队，不是人。”</p><p>小美看看排成一长溜的同学，又看看豆豆：“28 是人数。问题问的是几队。”</p><div class="stop"><div class="stop-h">✋ 停一停，想一想 ④</div>
+<div class="focus">练的是：看清问什么 · 几队不是几人</div>
+<div class="ask">28 人，每队 4 人，要排成几队？豆豆喊的 28，是 28 什么？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul><li>“问题的最后一个字是什么？”——队。答案后面要带“队”。</li><li>“28 是已经知道的什么？”——一共有 28 人。</li><li>“28 里面有几个 4？”可以想口诀：四七二十八。</li><li>排完以后用乘法看回去：队数乘每队人数，是不是回到 28 人。</li></ul></div></details>
+<details class="ans"><summary>点我看答案和讲解</summary><div><ul><li>问的是几队，不是几人。</li><li>28÷4=<b>7（队）</b>。四七二十八。</li><li>豆豆答 28，28 是人数。单位答错了，等于把题目里的数又说了一遍。</li><li>回头看：7 队，每队 4 人，7×4=28（人）。</li></ul><svg viewBox="0 0 360 168" aria-label="28个点分成7队，每队4人">
+<text x="8" y="18" font-size="14" fill="#555">28 人，每 4 人圈成一队，一共 7 队</text>
+<circle cx="16" cy="48" r="6" fill="#457b9d"/><circle cx="32" cy="48" r="6" fill="#457b9d"/><circle cx="48" cy="48" r="6" fill="#457b9d"/><circle cx="64" cy="48" r="6" fill="#457b9d"/><text x="40" y="70" font-size="13" text-anchor="middle">1队</text><circle cx="104" cy="48" r="6" fill="#e63946"/><circle cx="120" cy="48" r="6" fill="#e63946"/><circle cx="136" cy="48" r="6" fill="#e63946"/><circle cx="152" cy="48" r="6" fill="#e63946"/><text x="128" y="70" font-size="13" text-anchor="middle">2队</text><circle cx="192" cy="48" r="6" fill="#2a9d8f"/><circle cx="208" cy="48" r="6" fill="#2a9d8f"/><circle cx="224" cy="48" r="6" fill="#2a9d8f"/><circle cx="240" cy="48" r="6" fill="#2a9d8f"/><text x="216" y="70" font-size="13" text-anchor="middle">3队</text><circle cx="280" cy="48" r="6" fill="#f4a261"/><circle cx="296" cy="48" r="6" fill="#f4a261"/><circle cx="312" cy="48" r="6" fill="#f4a261"/><circle cx="328" cy="48" r="6" fill="#f4a261"/><text x="304" y="70" font-size="13" text-anchor="middle">4队</text>
+<circle cx="16" cy="108" r="6" fill="#9b5de5"/><circle cx="32" cy="108" r="6" fill="#9b5de5"/><circle cx="48" cy="108" r="6" fill="#9b5de5"/><circle cx="64" cy="108" r="6" fill="#9b5de5"/><text x="40" y="130" font-size="13" text-anchor="middle">5队</text><circle cx="104" cy="108" r="6" fill="#e9c46a"/><circle cx="120" cy="108" r="6" fill="#e9c46a"/><circle cx="136" cy="108" r="6" fill="#e9c46a"/><circle cx="152" cy="108" r="6" fill="#e9c46a"/><text x="128" y="130" font-size="13" text-anchor="middle">6队</text><circle cx="192" cy="108" r="6" fill="#e76f51"/><circle cx="208" cy="108" r="6" fill="#e76f51"/><circle cx="224" cy="108" r="6" fill="#e76f51"/><circle cx="240" cy="108" r="6" fill="#e76f51"/><text x="216" y="130" font-size="13" text-anchor="middle">7队</text>
+<text x="280" y="130" font-size="15" fill="#2d6a4f">28÷4=7（队）</text>
+<text x="280" y="152" font-size="13" fill="#555">问的是队，不是人</text>
+</svg><p class="check">答：要排成 7 队。</p></div></details>
+</div><p>七队很快排好了。每队 4 人，肩膀挨着肩膀。豆豆从排头跑到排尾，嘴里数的是队：“1 队、2 队……7 队。”他停下来，笑了一下：“人是 28，队是 7。这回我看清了。”</p><div class="scene"><svg viewBox="0 0 360 220" aria-label="七队排好，每队四人"><rect width="360" height="220" rx="18" fill="#e8f6ef"/>
+<rect width="360" height="220" fill="#e7f5ff"/>
+<rect x="0" y="180" width="360" height="40" fill="#7cb518"/>
+<circle cx="28" cy="70" r="8" fill="#457b9d"/><circle cx="28" cy="92" r="8" fill="#457b9d"/><circle cx="28" cy="114" r="8" fill="#457b9d"/><circle cx="28" cy="136" r="8" fill="#457b9d"/><text x="28" y="168" font-size="12" text-anchor="middle">1队</text><circle cx="78" cy="70" r="8" fill="#e63946"/><circle cx="78" cy="92" r="8" fill="#e63946"/><circle cx="78" cy="114" r="8" fill="#e63946"/><circle cx="78" cy="136" r="8" fill="#e63946"/><text x="78" y="168" font-size="12" text-anchor="middle">2队</text><circle cx="128" cy="70" r="8" fill="#2a9d8f"/><circle cx="128" cy="92" r="8" fill="#2a9d8f"/><circle cx="128" cy="114" r="8" fill="#2a9d8f"/><circle cx="128" cy="136" r="8" fill="#2a9d8f"/><text x="128" y="168" font-size="12" text-anchor="middle">3队</text><circle cx="178" cy="70" r="8" fill="#f4a261"/><circle cx="178" cy="92" r="8" fill="#f4a261"/><circle cx="178" cy="114" r="8" fill="#f4a261"/><circle cx="178" cy="136" r="8" fill="#f4a261"/><text x="178" y="168" font-size="12" text-anchor="middle">4队</text><circle cx="228" cy="70" r="8" fill="#9b5de5"/><circle cx="228" cy="92" r="8" fill="#9b5de5"/><circle cx="228" cy="114" r="8" fill="#9b5de5"/><circle cx="228" cy="136" r="8" fill="#9b5de5"/><text x="228" y="168" font-size="12" text-anchor="middle">5队</text><circle cx="278" cy="70" r="8" fill="#e9c46a"/><circle cx="278" cy="92" r="8" fill="#e9c46a"/><circle cx="278" cy="114" r="8" fill="#e9c46a"/><circle cx="278" cy="136" r="8" fill="#e9c46a"/><text x="278" y="168" font-size="12" text-anchor="middle">6队</text><circle cx="328" cy="70" r="8" fill="#1d3557"/><circle cx="328" cy="92" r="8" fill="#1d3557"/><circle cx="328" cy="114" r="8" fill="#1d3557"/><circle cx="328" cy="136" r="8" fill="#1d3557"/><text x="328" y="168" font-size="12" text-anchor="middle">7队</text>
+<text x="180" y="32" font-size="16" text-anchor="middle">7 队，每队 4 人</text>
+<text x="180" y="204" font-size="14" text-anchor="middle">7×4=28人</text>
+</svg></div><h2 class="chap">尾声　红旗升起来</h2><p>小美指了指豆豆散开的鞋带。豆豆蹲下去，慢慢系好，才站起来。</p><div class="scene"><svg viewBox="0 0 360 260" aria-label="最大的一面红旗升上旗杆"><rect width="360" height="260" rx="18" fill="#e8f6ef"/>
+<defs><linearGradient id="skyB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8ecae6"/><stop offset="1" stop-color="#fff1e6"/></linearGradient></defs>
+<rect width="360" height="260" fill="url(#skyB)"/>
+<circle cx="300" cy="48" r="22" fill="#ffd166"/>
+<rect x="0" y="200" width="360" height="60" fill="#7cb518"/>
+<line x1="150" y1="24" x2="150" y2="210" stroke="#adb5bd" stroke-width="6"/>
+<circle cx="150" cy="22" r="6" fill="#dee2e6"/>
+<path d="M150 36 h70 l-12 16 l12 16 h-70 z" fill="#e63946"/>
+<path d="M150 36 q8 16 0 32" fill="none" stroke="#9b2226" stroke-width="2"/>
+<use href="#rflag" x="16" y="168" width="26" height="40"/><use href="#rflag" x="34" y="168" width="26" height="40"/><use href="#rflag" x="52" y="168" width="26" height="40"/><use href="#rflag" x="70" y="168" width="26" height="40"/><use href="#rflag" x="88" y="168" width="26" height="40"/><use href="#rflag" x="106" y="168" width="26" height="40"/><use href="#rflag" x="124" y="168" width="26" height="40"/><use href="#rflag" x="142" y="168" width="26" height="40"/>
+<use href="#teacher" x="230" y="134" width="58" height="120"/><use href="#girl" x="200" y="150" width="52" height="104"/><use href="#boy" x="260" y="154" width="50" height="100"/>
+<text x="250" y="140" font-size="14" text-anchor="middle">开幕式</text>
+</svg></div><p>阳光正好。林老师把最大的那面红旗交给旗手。跑道边上，十五面小红旗已经插好，像一串红色的逗号。</p><div class="scene"><svg viewBox="0 0 360 250" aria-label="林老师表扬：先看清，再算"><rect width="360" height="250" rx="18" fill="#e8f6ef"/>
+<rect width="360" height="250" fill="#fff4e6"/>
+<rect x="0" y="190" width="360" height="60" fill="#7cb518"/>
+<line x1="300" y1="20" x2="300" y2="200" stroke="#adb5bd" stroke-width="4"/>
+<path d="M300 28 h48 l-8 12 l8 12 h-48 z" fill="#e63946"/>
+<use href="#teacher" x="10" y="84" width="58" height="120"/><use href="#girl" x="70" y="100" width="52" height="104"/><use href="#boy" x="140" y="104" width="50" height="100"/>
+<g><rect x="150" y="36" width="190" height="58" rx="12" fill="#fff" stroke="#bbb"/><path d="M168 94 l6 12 l6 -12" fill="#fff" stroke="#bbb"/><rect x="166" y="92" width="16" height="4" fill="#fff"/><text x="245.0" y="58" font-size="14" text-anchor="middle">先看清，再算。</text><text x="245.0" y="76" font-size="14" text-anchor="middle">问的是几队，不是几人。</text></g>
+<text x="40" y="230" font-size="14" fill="#1d3557">红旗在风里一下一下地响</text>
+</svg></div><p>林老师看着他们俩，说：“今天豆豆算得很快。小美每次都先看清，再动手。先看清问的是几面、几元、几组，还是几队；看清是 3 倍，还是多 3；两道式子，要两边都算完再比。记住这句话：<b>先看清，再算。</b>”</p><p>鼓点响起来。红旗沿着旗杆一点点往上走，展开，在风里一下一下地响。</p><p>操场安静了一小会儿，然后掌声涌过来。运动会开幕了。</p><p>豆豆把哨绳轻轻碰了碰小美的手背，小声说：“以后我还想算得快。不过，要先看得清。”</p><p>小美点点头。红旗在旗杆顶上，正正地飘着。</p>
+<div class="memo"><h2>📌 升旗前的三句话</h2><p style="margin:0;font-size:.85em;color:#6b6b80">今天记住什么：</p><ol><li><b>3 倍和多 3 不是一回事</b>：3 倍是 3 段一样长，5+5+5=15；多 3 面才是 5+3=8。</li><li><b>先看清问什么</b>：还差是不够、要补上；还剩是多出来的。问几队，别答几人。用不上的数，可以先放着。</li><li><b>两边都算完再比</b>：24÷4÷2 和 24÷(4×2) 算完都是 3。只算到一半，不能说不一样。</li></ol>
+<p style="text-align:center;font-size:1.5em;margin:4px 0">🚩 👀 🚩</p></div>
+<p class="foot">参考说明：本故事原创编写，人物、情节、题目和数字都是新编的。写法上参考了公开的数学故事读物思路：一件校园里的事串起几个问题，急性子抢答，主角停下来看清再算，以及家长陪读、读到停一停就先让孩子说的呈现方式；没有摘抄任何版权原文。讲法以人教版三年级上册第二单元为准：例5（印p13／PDF19，页面图 p019.jpg）几倍和线段图；例4（印p12／PDF18，页面图 p018.jpg）两步问题，课本原题问还剩，本故事改问还差，把这两个词分开；例3（印p8／PDF14，页面图 p014.jpg）有括号要先算括号里面，并对照练习二里先算完再比较的成组题（印p10／PDF16，例如 6÷3÷2 与 6÷(3×2)）；例6（印p14／PDF20）答案的单位要和问题对齐，问几条就别答几颗，本故事里是问几队就别答几人。</p>
+</div>
+<script>window.addEventListener('beforeprint',function(){document.querySelectorAll('details').forEach(function(d){d.open=true;});});</script>
+</body>
+</html>
