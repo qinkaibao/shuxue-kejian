@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<title>失踪的饼干——小侦探小美</title>
+<style>
+:root{--ink:#3a2a22;--muted:#7a6558;--bg:#fff6ee;--pri:#8c4a2f;--green:#2f7d4a}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:20px;line-height:1.85;padding:env(safe-area-inset-top) 0 40px}
+.wrap{max-width:720px;margin:0 auto;padding:14px 16px}
+h1{font-size:1.55em;text-align:center;margin:14px 0 0;letter-spacing:1px;line-height:1.35}
+.sub{text-align:center;color:var(--muted);font-size:.85em;margin:4px 0 14px}
+.how{background:#fff;border-radius:16px;padding:12px 16px;font-size:.85em;color:var(--muted);box-shadow:0 2px 8px rgba(0,0,0,.05)}
+h2.chap{font-size:1.2em;color:var(--pri);margin:34px 0 10px;padding-bottom:6px;border-bottom:3px dotted #e6c2a6}
+p{margin:10px 0}
+.scene svg{width:100%;height:auto;display:block;margin:14px 0;border-radius:18px}
+svg text{font-family:inherit}
+.clue{background:#fff;border-radius:14px;padding:12px 14px;margin:12px 0;border:2px dashed #e0b08a;box-shadow:0 2px 8px rgba(140,74,47,.05)}
+.clue b{color:var(--pri)}
+.stop{background:#fff7e0;border:3px solid #ffd166;border-radius:20px;padding:14px 14px 6px;margin:22px 0}
+.stop-h{font-weight:800;color:#b5470f;font-size:1.08em}
+.focus{display:inline-block;font-size:.72em;background:#ffe8dc;color:#b5470f;border-radius:99px;padding:1px 10px;margin:4px 0}
+.ask{font-size:1.02em;margin:6px 0 10px}
+details{border-radius:14px;margin:10px 0;overflow:hidden;border:2px solid #eee;background:#fff}
+summary{cursor:pointer;list-style:none;padding:11px 14px;font-weight:700;-webkit-tap-highlight-color:transparent}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▶ ";font-size:.8em}details[open] summary::before{content:"▼ "}
+details>div{padding:2px 14px 10px}
+details.tip{border-color:#cfe0ff}details.tip summary{background:#eef4ff;color:#3d7bfd}
+details.ans{border-color:#cdeedd}details.ans summary{background:#eafaf1;color:var(--green)}
+details svg{width:100%;height:auto;display:block;margin:8px 0}
+ul{padding-left:1.15em;margin:6px 0}li{margin:6px 0}
+.check{font-weight:700;color:var(--green)}
+.memo{background:linear-gradient(135deg,#fff1e0,#f3e6d4);border:3px dashed var(--pri);border-radius:20px;padding:16px;margin:30px 0}
+.memo h2{margin:0 0 6px;color:var(--pri);font-size:1.15em}.memo li{margin:12px 0;font-size:1.02em}
+.foot{font-size:.72em;color:var(--muted);line-height:1.65}
+@media print{
+  body{font-size:15px;background:#fff}
+  .stop,.scene,.clue{break-inside:avoid}
+  summary::before{content:""}
+  details > div{display:block !important}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="girl" viewBox="0 0 80 150">
+  <ellipse cx="64" cy="48" rx="8" ry="14" fill="#3b2a20"/>
+  <circle cx="40" cy="34" r="18" fill="#ffe0bd"/>
+  <path d="M22 32 Q40 6 60 28 Q46 16 40 20 Q28 14 22 32Z" fill="#3b2a20"/>
+  <circle cx="33" cy="35" r="2.2" fill="#222"/><circle cx="47" cy="35" r="2.2" fill="#222"/>
+  <path d="M34 44 Q40 48 46 44" stroke="#222" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  <circle cx="28" cy="42" r="2.6" fill="#ffb4a2"/><circle cx="52" cy="42" r="2.6" fill="#ffb4a2"/>
+  <path d="M20 54 h40 l4 40 H16 Z" fill="#2a9d8f"/>
+  <path d="M32 54 h16 v8 H32Z" fill="#fff"/>
+  <rect x="12" y="66" width="16" height="20" rx="2" fill="#fff8e1" stroke="#c47b4a" stroke-width="1.4"/>
+  <path d="M15 72 h10 M15 77 h10 M15 82 h7" stroke="#c47b4a" stroke-width="1.2"/>
+  <rect x="24" y="94" width="14" height="28" rx="3" fill="#6d4c41"/><rect x="42" y="94" width="14" height="28" rx="3" fill="#6d4c41"/>
+  <ellipse cx="31" cy="126" rx="10" ry="5" fill="#fff" stroke="#c47b4a"/><ellipse cx="49" cy="126" rx="10" ry="5" fill="#fff" stroke="#c47b4a"/>
+</symbol>
+<symbol id="boy" viewBox="0 0 80 150">
+  <circle cx="40" cy="34" r="18" fill="#f6d0a8"/>
+  <path d="M22 30 L28 12 L36 28 L40 10 L46 28 L54 12 L58 30 Q40 20 22 30Z" fill="#5c3317"/>
+  <circle cx="33" cy="36" r="2.2" fill="#222"/><circle cx="47" cy="36" r="2.2" fill="#222"/>
+  <path d="M33 45 Q40 50 47 45" stroke="#222" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  <rect x="20" y="54" width="40" height="40" rx="8" fill="#ffd166"/>
+  <rect x="24" y="94" width="14" height="26" fill="#457b9d"/><rect x="42" y="94" width="14" height="26" fill="#457b9d"/>
+  <rect x="20" y="118" width="20" height="8" rx="3" fill="#e07a3d"/><rect x="40" y="118" width="20" height="8" rx="3" fill="#e07a3d"/>
+  <path d="M26 118 q4 -5 8 0" stroke="#fff" stroke-width="1.6" fill="none"/>
+  <path d="M46 118 q4 -5 8 0" stroke="#fff" stroke-width="1.6" fill="none"/>
+</symbol>
+<symbol id="teacher" viewBox="0 0 80 160">
+  <circle cx="40" cy="36" r="16" fill="#ffe0bd"/>
+  <path d="M24 32 Q40 14 56 32 Q40 24 24 32Z" fill="#3b2a20"/>
+  <circle cx="34" cy="36" r="1.8" fill="#222"/><circle cx="46" cy="36" r="1.8" fill="#222"/>
+  <path d="M35 44 Q40 47 45 44" stroke="#222" stroke-width="1.4" fill="none"/>
+  <path d="M16 54 h48 l4 58 H12 Z" fill="#c47b4a"/>
+  <path d="M40 54 v58" stroke="#fff" stroke-width="2"/>
+  <rect x="22" y="112" width="14" height="28" fill="#6d4c41"/><rect x="44" y="112" width="14" height="28" fill="#6d4c41"/>
+  <rect x="18" y="138" width="20" height="7" rx="2" fill="#fff"/><rect x="42" y="138" width="20" height="7" rx="2" fill="#fff"/>
+</symbol>
+<symbol id="fang" viewBox="0 0 80 150">
+  <circle cx="40" cy="34" r="18" fill="#ffe0bd"/>
+  <circle cx="40" cy="20" r="10" fill="#3b2a20"/>
+  <path d="M22 32 Q40 16 58 32 Q40 24 22 32Z" fill="#3b2a20"/>
+  <circle cx="33" cy="36" r="2" fill="#222"/><circle cx="47" cy="36" r="2" fill="#222"/>
+  <path d="M34 45 Q40 48 46 45" stroke="#222" stroke-width="1.5" fill="none"/>
+  <path d="M20 54 h40 l6 42 H14 Z" fill="#f4a7b9"/>
+  <rect x="24" y="96" width="14" height="26" fill="#6d4c41"/><rect x="42" y="96" width="14" height="26" fill="#6d4c41"/>
+  <ellipse cx="31" cy="126" rx="10" ry="5" fill="#fff"/><ellipse cx="49" cy="126" rx="10" ry="5" fill="#fff"/>
+</symbol>
+<symbol id="cookie" viewBox="0 0 28 28">
+  <circle cx="14" cy="14" r="12" fill="#f0b429" stroke="#c47b4a" stroke-width="1.5"/>
+  <circle cx="9" cy="11" r="1.6" fill="#6b3e26"/><circle cx="16" cy="9" r="1.4" fill="#6b3e26"/>
+  <circle cx="13" cy="16" r="1.5" fill="#6b3e26"/><circle cx="18" cy="15" r="1.2" fill="#6b3e26"/>
+</symbol>
+<symbol id="ccookie" viewBox="0 0 28 28">
+  <circle cx="14" cy="14" r="12" fill="#8c4a2f" stroke="#5c3317" stroke-width="1.5"/>
+  <circle cx="9" cy="11" r="1.5" fill="#f3d5b5"/><circle cx="16" cy="10" r="1.3" fill="#f3d5b5"/>
+  <circle cx="12" cy="17" r="1.4" fill="#f3d5b5"/><circle cx="18" cy="15" r="1.1" fill="#f3d5b5"/>
+</symbol>
+</defs></svg>
+
+<div class="wrap">
+<h1>🍪 失踪的饼干——小侦探小美</h1>
+<p class="sub">线索读对了，才不会冤枉人<br>人教版三年级上册 · 课外数学故事 · 约 15～20 分钟</p>
+<div class="how"><b>家长用法</b>：您来念故事。读到黄色的「✋ 停一停，想一想」时停下来，先让孩子说、在纸上画，再点开答案。「家长：怎么追问」和答案在屏幕上都是<b>点一下才展开</b>。打印时这两处会自动展开。准备一支笔、一张纸。</div>
+
+<h2 class="chap">第一章　空着的那一格</h2>
+<div class="scene"><svg viewBox="0 0 360 260" aria-label="义卖桌的巧克力格子是空的，豆豆指着小宇">
+<rect width="360" height="260" fill="#fff3e4"/>
+<rect x="0" y="168" width="360" height="92" fill="#f0d8b8"/>
+<rect x="24" y="150" width="312" height="18" rx="3" fill="#f6e7c1" stroke="#e0b08a"/>
+<rect x="36" y="78" width="140" height="74" rx="8" fill="#fff" stroke="#c47b4a" stroke-width="2"/>
+<text x="106" y="98" font-size="13" text-anchor="middle" fill="#8c4a2f">原味</text>
+<rect x="48" y="106" width="28" height="34" rx="3" fill="#f4d2a4" stroke="#8c4a2f"/><rect x="82" y="106" width="28" height="34" rx="3" fill="#f4d2a4" stroke="#8c4a2f"/><rect x="116" y="106" width="28" height="34" rx="3" fill="#f4d2a4" stroke="#8c4a2f"/>
+<rect x="186" y="78" width="140" height="74" rx="8" fill="#fff" stroke="#8c4a2f" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="256" y="110" font-size="15" text-anchor="middle" fill="#8c4a2f">巧克力</text>
+<text x="256" y="132" font-size="13" text-anchor="middle" fill="#c47b4a">空的</text>
+<use href="#teacher" x="8" y="118" width="46" height="92"/>
+<use href="#girl" x="250" y="150" width="48" height="96"/>
+<use href="#boy" x="300" y="154" width="46" height="92"/>
+<circle cx="210" cy="196" r="16" fill="#f6d0a8"/><path d="M198 190 Q210 176 222 190" fill="#5c3317"/><rect x="198" y="208" width="24" height="28" rx="4" fill="#90be6d"/>
+<rect x="214" y="214" width="18" height="12" rx="2" fill="#f4e1c1" stroke="#c47b4a"/>
+<g><rect x="118" y="28" width="150" height="36" rx="12" fill="#fff" stroke="#bbb"/><path d="M136 64 l6 10 l6 -10" fill="#fff" stroke="#bbb"/><text x="193" y="51" font-size="14" text-anchor="middle">他偷吃了！</text></g>
+</svg></div>
+<p>义卖会就在放学之前。教室后面铺着浅黄桌布，左格摆着原味饼干，右格写着「巧克力」，里面却空空的。</p>
+<p>小美把小本子抱在胸口。豆豆也挤了进来。上一回，他答应过要先看清楚再开口。今天鞋带系得紧紧的，人还是跑在前面。口头禅没变：「我算得最快！」</p>
+<p>林老师看着空格子，眉头皱起来：「簿子上写，原味和巧克力都要上桌。右格是空的，数目对不上。少了饼干，一会儿卖的时候同学们会着急。」</p>
+<p>桌角站着小宇，嘴边有一点渣。豆豆的手指已经点过去了：「空的！就是他偷吃了！我算得最快！」</p>
+<p>小宇赶紧咽了一下，声音轻轻的：「这是我自己的小面包……」口袋里露出一角面包纸。</p>
+<p>小美看了看空格，又看了看那角面包纸。她在心里把两样东西分开：渣可能是面包的，也可能是饼干的。现在指人，太早。她按住豆豆的手腕：「先别抓人。写下来的线索，还一个字都没读。」</p>
+
+<h2 class="chap">第二章　纸条上的盒和块</h2>
+<div class="scene"><svg viewBox="0 0 360 250" aria-label="乐乐的纸条：原味留下3盒，每盒4块，盒字上有水渍">
+<rect width="360" height="250" fill="#fff8ee"/>
+<rect x="40" y="28" width="200" height="160" rx="8" fill="#fffdf8" stroke="#d4b483" stroke-width="3"/>
+<text x="140" y="68" font-size="18" text-anchor="middle">原味留下 3</text>
+<text x="168" y="68" font-size="18" font-weight="700" fill="#8c4a2f">盒</text>
+<text x="140" y="108" font-size="18" text-anchor="middle">每盒 4 块</text>
+<ellipse cx="176" cy="62" rx="22" ry="16" fill="#cfe8f7" opacity=".55"/>
+<circle cx="278" cy="78" r="46" fill="none" stroke="#5c6b73" stroke-width="6"/>
+<circle cx="278" cy="78" r="36" fill="#fff" opacity=".3"/>
+<line x1="310" y1="112" x2="340" y2="150" stroke="#5c6b73" stroke-width="8" stroke-linecap="round"/>
+<text x="278" y="74" font-size="20" text-anchor="middle" font-weight="700" fill="#8c4a2f">盒</text>
+<text x="278" y="96" font-size="12" text-anchor="middle" fill="#555">看清楚</text>
+<use href="#girl" x="20" y="150" width="48" height="96"/>
+<use href="#boy" x="80" y="156" width="46" height="92"/>
+<g><rect x="130" y="168" width="150" height="36" rx="12" fill="#fff" stroke="#bbb"/><text x="205" y="191" font-size="14" text-anchor="middle">只剩 3 块！</text></g>
+</svg></div>
+<p>原味格子里有三个纸盒，盒盖上各贴着一枚圆圆的贴纸。盒子底下压着乐乐留下的纸条。纸条被水渍圈了一下，那个「盒」字晕开了，远远看，有点像「块」。</p>
+<div class="clue"><b>原味留下 3 盒</b><br><b>每盒 4 块</b></div>
+<p>豆豆凑得很近，只抓最显眼的数字：「原味 3 块！下面又写每盒 4 块。盒子沉甸甸的，饼干却只剩 3 块，被人吃过！小宇刚才就站在这儿！」</p>
+<p>小宇的耳朵红了。他没再说话，只把面包纸按进口袋里。</p>
+<p>小美把纸条拿到窗边。她没有笑豆豆。她在心里一个字一个字再读了一遍：3 的后面是盒。下一行才出现块。盒是装饼干的盒子，块是饼干自己。这两个字一分开，两行字就不打架了。</p>
+<p>她把放大的那个字指给豆豆：「你读到的 3，后面跟着的是哪一个字？」</p>
+<div class="stop"><div class="stop-h">✋ 停一停，想一想 ①</div>
+<div class="focus">审线索：这个 3 是盒，还是块</div>
+<div class="ask">纸条上，3 的后面是「盒」还是「块」？原味一共有多少块？要是把 3 盒读成 3 块，为什么会去怪小宇？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul><li>请孩子把两行原句读出来，用手指点住「盒」和「块」。</li><li>「盒」在数什么？「块」在数什么？3 盒是 3 个盒子，不是 3 块饼干。</li><li>每盒 4 块，有 3 盒，就是 3 个 4。可以先加：4+4+4。再写成 4×3。口诀三四十二，用来回头对。</li><li>先别把「看见盒和块，就用乘法」当成一句口诀。先说清每盒一样多、一共有几盒。</li></ul></div></details>
+<details class="ans"><summary>点我看答案和讲解</summary><div><ul><li>3 的后面是<b>盒</b>。下一行的「块」，是在说每一盒里面有几块。</li><li>每盒 4 块，3 盒：4+4+4=<b>12</b>，也就是 3 个 4，写成 <b>4×3=12（块）</b>。口诀三四十二。</li><li>豆豆读成 3 块：就会觉得「只剩 3 块」和「每盒 4 块」打架。盒子却是沉的，于是怪身边的小宇。</li><li>12 比 3 多 12−3=<b>9</b>。这 9 块还在三个盒子里，不是被吃掉的。</li><li>回头对：3 盒都在桌上。4×3=12，12÷4=3，正好 3 盒。</li></ul>
+<svg viewBox="0 0 360 150" aria-label="三个盒子，每盒四块，一共十二块">
+<text x="8" y="20" font-size="14" fill="#555">3 个 4：4+4+4=12</text>
+<rect x="16" y="36" width="100" height="70" rx="8" fill="#fff4e0" stroke="#8c4a2f"/>
+<use href="#cookie" x="28" y="46" width="22" height="22"/><use href="#cookie" x="58" y="46" width="22" height="22"/>
+<use href="#cookie" x="28" y="74" width="22" height="22"/><use href="#cookie" x="58" y="74" width="22" height="22"/>
+<text x="66" y="124" font-size="13" text-anchor="middle">4块</text>
+<rect x="130" y="36" width="100" height="70" rx="8" fill="#fff4e0" stroke="#8c4a2f"/>
+<use href="#cookie" x="142" y="46" width="22" height="22"/><use href="#cookie" x="172" y="46" width="22" height="22"/>
+<use href="#cookie" x="142" y="74" width="22" height="22"/><use href="#cookie" x="172" y="74" width="22" height="22"/>
+<text x="180" y="124" font-size="13" text-anchor="middle">4块</text>
+<rect x="244" y="36" width="100" height="70" rx="8" fill="#fff4e0" stroke="#8c4a2f"/>
+<use href="#cookie" x="256" y="46" width="22" height="22"/><use href="#cookie" x="286" y="46" width="22" height="22"/>
+<use href="#cookie" x="256" y="74" width="22" height="22"/><use href="#cookie" x="286" y="74" width="22" height="22"/>
+<text x="294" y="124" font-size="13" text-anchor="middle">4块</text>
+<text x="180" y="146" font-size="14" text-anchor="middle" fill="#8c4a2f">4×3=12块</text>
+</svg>
+<p class="check">答：是 3 盒，一共 12 块。读成 3 块，就会把还在盒子里的饼干算成被人吃了。</p></div></details>
+</div>
+<p>「是盒。」小美说，「3 盒。每盒 4 块，一盒、两盒、三盒，4+4+4。」</p>
+<p>豆豆扳着手指：「4，8，12。十二块。」</p>
+<p>「3 个 4 是 12，写成 4×3=12。口诀三四十二，可以回头对一下。」小美把 12 写进小本子，「纸条没有说只剩 3 块。三个盒子都在，摇起来是沉的。12 比 3 多出的 9 块，就在盒子里面。小宇先不用背这个。」</p>
+<p>她没有拉开那角面包纸。渣还不能当证据，可这一条线索，也还不够抓人。右格的巧克力，仍旧是空的。</p>
+<div class="scene"><svg viewBox="0 0 360 200" aria-label="三盒原味摆在桌上，每盒四块">
+<rect width="360" height="200" fill="#fff6ee"/>
+<rect x="0" y="150" width="360" height="50" fill="#f0d8b8"/>
+<rect x="20" y="36" width="90" height="100" rx="8" fill="#fff" stroke="#c47b4a" stroke-width="2"/>
+<use href="#cookie" x="32" y="48" width="26" height="26"/><use href="#cookie" x="66" y="48" width="26" height="26"/>
+<use href="#cookie" x="32" y="82" width="26" height="26"/><use href="#cookie" x="66" y="82" width="26" height="26"/>
+<rect x="124" y="36" width="90" height="100" rx="8" fill="#fff" stroke="#c47b4a" stroke-width="2"/>
+<use href="#cookie" x="136" y="48" width="26" height="26"/><use href="#cookie" x="170" y="48" width="26" height="26"/>
+<use href="#cookie" x="136" y="82" width="26" height="26"/><use href="#cookie" x="170" y="82" width="26" height="26"/>
+<rect x="228" y="36" width="90" height="100" rx="8" fill="#fff" stroke="#c47b4a" stroke-width="2"/>
+<use href="#cookie" x="240" y="48" width="26" height="26"/><use href="#cookie" x="274" y="48" width="26" height="26"/>
+<use href="#cookie" x="240" y="82" width="26" height="26"/><use href="#cookie" x="274" y="82" width="26" height="26"/>
+<text x="180" y="28" font-size="15" text-anchor="middle" fill="#8c4a2f">原味 3 盒，一共 12 块</text>
+<text x="180" y="182" font-size="14" text-anchor="middle">盒子是沉的，饼干还在里面</text>
+</svg></div>
+
+<h2 class="chap">第三章　证人说的那一句</h2>
+<div class="scene"><svg viewBox="0 0 360 250" aria-label="小安跑进来说：巧克力块数是原味的2倍">
+<rect width="360" height="250" fill="#f7f0e4"/>
+<rect x="0" y="180" width="360" height="70" fill="#e7d3b8"/>
+<rect x="250" y="40" width="90" height="150" rx="4" fill="#f3e6d0" stroke="#c4a484"/>
+<rect x="268" y="110" width="54" height="80" rx="2" fill="#d8b48a"/>
+<circle cx="312" cy="150" r="3" fill="#8c4a2f"/>
+<use href="#girl" x="20" y="140" width="48" height="96"/>
+<use href="#boy" x="78" y="146" width="46" height="92"/>
+<use href="#fang" x="150" y="144" width="46" height="92"/>
+<circle cx="230" cy="150" r="16" fill="#ffe0bd"/><path d="M216 146 Q230 128 244 146" fill="#3b2a20"/><rect x="216" y="164" width="28" height="32" rx="6" fill="#90caf9"/>
+<path d="M200 168 q-16 8 -8 16" stroke="#90caf9" stroke-width="4" fill="none"/>
+<g><rect x="150" y="28" width="190" height="52" rx="12" fill="#fff" stroke="#bbb"/><text x="245" y="50" font-size="14" text-anchor="middle">块数是原味的 2 倍</text><text x="245" y="70" font-size="13" text-anchor="middle" fill="#555">小安听见小芳这样说</text></g>
+<g><rect x="70" y="96" width="120" height="34" rx="12" fill="#fff" stroke="#bbb"/><text x="130" y="118" font-size="14" text-anchor="middle">多 2 ！就是 14！</text></g>
+</svg></div>
+<p>走廊里一阵脚步。小安扶着门框喘气：「我看见小芳了！她抱着巧克力往走廊那边走，嘴里说：我拿的块数，是乐乐原味的 2 倍。放到袋子里，等会儿再上桌。」</p>
+<p>豆豆的眼睛一下子亮了：「2 倍！就是多 2！原味 12，多 2 就是 14。她抱那么大一包，怎么会只有 14 块？路上吃掉了！抓小芳！」</p>
+<p>小芳正好出现在门口。她怀里已经空了，眼睛一下子湿了：「我没有吃。我放好了，就回来搬桌子。」</p>
+<p>小美拦住豆豆的手。她在心里把那句话拆开：小安说的是「2 倍」，豆豆接成了「多 2」。倍，是有几段一样长。多，是在后面再添上几块。2 这个数字两边都有，管的事情不一样。</p>
+<p>她蹲下来，在地砖上用粉笔划了一段，写上 12。「原味是这一段。2 倍，就要再有一段，和这一段一样长。你先别写乘。先把两段画完。」</p>
+<div class="stop"><div class="stop-h">✋ 停一停，想一想 ②</div>
+<div class="focus">2 倍和多 2：先画两段再比</div>
+<div class="ask">原味 12 块。巧克力的块数是它的 2 倍，是多少块？如果是多 2 块，又是多少块？豆豆那样算，会以为小芳吃掉了多少块？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul><li>请孩子先复述小安的原话：块数是原味的 2 倍。</li><li>「2 倍」要画几段？每一段是不是都和原味一样长？请在纸上画出来，再把两段加起来。</li><li>「多 2 块」是在 12 后面再添几块？请另画一条，只长出 2。</li><li>今天这一段是 12，用加法把两段合起来就行。先不要另背一句「几倍就用乘法」。</li></ul></div></details>
+<details class="ans"><summary>点我看答案和讲解</summary><div><ul><li>2 倍：有 2 段和原味一样长。12+12=<b>24（块）</b>。</li><li>多 2 块：12 后面再添 2，12+2=<b>14（块）</b>。</li><li>豆豆把 2 倍听成多 2。24 比 14 多 24−14=<b>10</b>，他就会以为小芳吃掉了 10 块。</li><li>回头看：24−12=12。多出来的是整整一段，和原味一样长，所以是 2 倍。多出来的是 12 块，不是 2 块。</li><li>两段同样多，加法就够。课本例题里数目较小，写成一份的数乘几倍；今天先把两段画清、加完。</li></ul>
+<svg viewBox="0 0 360 168" aria-label="线段图：2倍是两段一样长，多2只是再添2">
+<text x="8" y="18" font-size="14" fill="#555">一段代表 12 块</text>
+<text x="8" y="48" font-size="14">原味</text>
+<rect x="70" y="30" width="120" height="26" rx="3" fill="#f0b429" stroke="#8c4a2f"/>
+<text x="130" y="48" font-size="14" text-anchor="middle">12</text>
+<text x="8" y="92" font-size="14">2倍</text>
+<rect x="70" y="74" width="120" height="26" fill="#8c4a2f"/><rect x="190" y="74" width="120" height="26" fill="#6b3e26"/>
+<text x="130" y="92" font-size="14" text-anchor="middle" fill="#fff">12</text>
+<text x="250" y="92" font-size="14" text-anchor="middle" fill="#fff">12</text>
+<text x="70" y="118" font-size="13" fill="#8c4a2f">两段一样长：12+12=24块</text>
+<text x="8" y="148" font-size="14">多2</text>
+<rect x="70" y="130" width="120" height="26" rx="3" fill="#f0b429" stroke="#8c4a2f"/>
+<rect x="190" y="130" width="36" height="26" rx="3" fill="#ced4da" stroke="#333"/>
+<text x="130" y="148" font-size="14" text-anchor="middle">12</text>
+<text x="208" y="148" font-size="13" text-anchor="middle">2</text>
+<text x="236" y="148" font-size="13" fill="#555">→14块</text>
+</svg>
+<p class="check">答：巧克力是 24 块。多 2 块才是 14 块。豆豆会多算小芳吃了 10 块。</p></div></details>
+</div>
+<p>小美等豆豆把第二段画完，才开口：「两段一样长，12+12=24。巧克力是 24 块。」</p>
+<p>她又在旁边画了一小截：「多 2 块，才是 12 后面再添 2，那是 14 块。」</p>
+<p>豆豆盯着两段一样长的线，又看看自己写下的 14。「24 比 14 多……」他算了算，「24−14=10。我刚才等于说，小芳吃了 10 块。」</p>
+<p>小芳摇头，声音还发紧：「10 块我一块都没拿进嘴里。我装的时候，记得一共就是这些，24 块。」</p>
+<p>小美把 24 写在 12 的下面。「小安的话和 24 对得上。这一条，抓不了小芳。可盒子是怎么装的，这句话还没说。」</p>
+<div class="scene"><svg viewBox="0 0 360 180" aria-label="地上的粉笔线段：两段12，旁边一小段2">
+<rect width="360" height="180" fill="#f4efe6"/>
+<text x="180" y="28" font-size="15" text-anchor="middle" fill="#8c4a2f">2 倍：两段一样长</text>
+<rect x="30" y="48" width="140" height="32" rx="4" fill="#f0b429" stroke="#8c4a2f"/>
+<text x="100" y="70" font-size="16" text-anchor="middle">12</text>
+<rect x="170" y="48" width="140" height="32" rx="4" fill="#8c4a2f"/>
+<text x="240" y="70" font-size="16" text-anchor="middle" fill="#fff">12</text>
+<text x="180" y="104" font-size="15" text-anchor="middle">12+12=24 块</text>
+<rect x="30" y="124" width="140" height="28" rx="4" fill="#f0b429" stroke="#8c4a2f"/>
+<rect x="170" y="124" width="40" height="28" rx="4" fill="#ced4da" stroke="#666"/>
+<text x="100" y="144" font-size="14" text-anchor="middle">12</text>
+<text x="190" y="144" font-size="14" text-anchor="middle">2</text>
+<text x="230" y="144" font-size="14" fill="#555">多 2 块 = 14</text>
+</svg></div>
+
+<h2 class="chap">第四章　同一句口诀，两种装法</h2>
+<div class="scene"><svg viewBox="0 0 360 300" aria-label="四种装法都是24块，盒数各不相同">
+<rect width="360" height="300" fill="#fff8ee"/>
+<text x="180" y="24" font-size="15" text-anchor="middle" fill="#8c4a2f">四种都是 24 块</text>
+<text x="8" y="52" font-size="13" fill="#555">豆豆</text>
+<rect x="58" y="34" width="36" height="28" rx="3" fill="#f4d2a4" stroke="#8c4a2f"/><text x="76" y="53" font-size="12" text-anchor="middle">8</text>
+<rect x="100" y="34" width="36" height="28" rx="3" fill="#f4d2a4" stroke="#8c4a2f"/><text x="118" y="53" font-size="12" text-anchor="middle">8</text>
+<rect x="142" y="34" width="36" height="28" rx="3" fill="#f4d2a4" stroke="#8c4a2f"/><text x="160" y="53" font-size="12" text-anchor="middle">8</text>
+<text x="190" y="53" font-size="13">每盒8块</text>
+<text x="8" y="100" font-size="13" fill="#555">小宇</text>
+<rect x="58" y="82" width="32" height="28" rx="3" fill="#e7c8a0" stroke="#8c4a2f"/><text x="74" y="101" font-size="12" text-anchor="middle">6</text>
+<rect x="94" y="82" width="32" height="28" rx="3" fill="#e7c8a0" stroke="#8c4a2f"/><text x="110" y="101" font-size="12" text-anchor="middle">6</text>
+<rect x="130" y="82" width="32" height="28" rx="3" fill="#e7c8a0" stroke="#8c4a2f"/><text x="146" y="101" font-size="12" text-anchor="middle">6</text>
+<rect x="166" y="82" width="32" height="28" rx="3" fill="#e7c8a0" stroke="#8c4a2f"/><text x="182" y="101" font-size="12" text-anchor="middle">6</text>
+<text x="210" y="101" font-size="13">每盒6块</text>
+<text x="8" y="148" font-size="13" fill="#555">乐乐</text>
+<rect x="58" y="130" width="28" height="28" rx="3" fill="#fff" stroke="#8c4a2f"/><text x="72" y="149" font-size="12" text-anchor="middle">4</text>
+<rect x="90" y="130" width="28" height="28" rx="3" fill="#fff" stroke="#8c4a2f"/><text x="104" y="149" font-size="12" text-anchor="middle">4</text>
+<rect x="122" y="130" width="28" height="28" rx="3" fill="#fff" stroke="#8c4a2f"/><text x="136" y="149" font-size="12" text-anchor="middle">4</text>
+<rect x="154" y="130" width="28" height="28" rx="3" fill="#fff" stroke="#8c4a2f"/><text x="168" y="149" font-size="12" text-anchor="middle">4</text>
+<rect x="186" y="130" width="28" height="28" rx="3" fill="#fff" stroke="#8c4a2f"/><text x="200" y="149" font-size="12" text-anchor="middle">4</text>
+<rect x="218" y="130" width="28" height="28" rx="3" fill="#fff" stroke="#8c4a2f"/><text x="232" y="149" font-size="12" text-anchor="middle">4</text>
+<text x="254" y="149" font-size="13">每盒4块</text>
+<text x="8" y="196" font-size="13" fill="#555">补上</text>
+<rect x="58" y="178" width="24" height="26" rx="2" fill="#f6e2c8" stroke="#8c4a2f"/><text x="70" y="196" font-size="11" text-anchor="middle">3</text>
+<rect x="86" y="178" width="24" height="26" rx="2" fill="#f6e2c8" stroke="#8c4a2f"/><text x="98" y="196" font-size="11" text-anchor="middle">3</text>
+<rect x="114" y="178" width="24" height="26" rx="2" fill="#f6e2c8" stroke="#8c4a2f"/><text x="126" y="196" font-size="11" text-anchor="middle">3</text>
+<rect x="142" y="178" width="24" height="26" rx="2" fill="#f6e2c8" stroke="#8c4a2f"/><text x="154" y="196" font-size="11" text-anchor="middle">3</text>
+<rect x="170" y="178" width="24" height="26" rx="2" fill="#f6e2c8" stroke="#8c4a2f"/><text x="182" y="196" font-size="11" text-anchor="middle">3</text>
+<rect x="198" y="178" width="24" height="26" rx="2" fill="#f6e2c8" stroke="#8c4a2f"/><text x="210" y="196" font-size="11" text-anchor="middle">3</text>
+<rect x="226" y="178" width="24" height="26" rx="2" fill="#f6e2c8" stroke="#8c4a2f"/><text x="238" y="196" font-size="11" text-anchor="middle">3</text>
+<rect x="254" y="178" width="24" height="26" rx="2" fill="#f6e2c8" stroke="#8c4a2f"/><text x="266" y="196" font-size="11" text-anchor="middle">3</text>
+<text x="286" y="196" font-size="13">8盒</text>
+<text x="16" y="236" font-size="14">小宇和乐乐用的是同一句口诀</text>
+<text x="16" y="260" font-size="14">豆豆和补上的那排，也是同一句</text>
+<text x="16" y="286" font-size="14" fill="#8c4a2f">口诀只说乘积是 24，还没说哪个数是盒</text>
+</svg></div>
+<p>走廊尽头靠着一只布袋，袋口系着。小芳说：「饼干在里面。我昨天装得太急。每盒是一样多的，这个我记得。到底几块，他们三个记得不一样，我自己也慌忘了。林老师说先别拆，一拆就碎，义卖会不好看。」</p>
+<p>三个人争着说。</p>
+<p>豆豆拍胸口：「我记得最清楚！每盒 8 块，装了 3 盒。8+8+8=24。3 个 8，口诀三八二十四，8×3=24。」</p>
+<p>小宇接着喊：「每盒 6 块，4 盒。4 个 6，四六二十四，6×4=24。」</p>
+<p>乐乐摇头：「每盒 4 块，6 盒。6 个 4，也是四六二十四，4×6=24。你和我说的是同一句口诀，装法根本不一样！」</p>
+<p>两个人都愣住了。同一句「四六二十四」，一个说 4 盒，一个说 6 盒。</p>
+<p>小美在本子上把三排都画下来。她心里一沉：三排的块数都是 24，都和小安说的 2 倍对得上。只看总块数，她自己也挑不准。挑错了，一会儿开盒一数，数目还是对不上，豆豆又要说有人偷吃。</p>
+<p>她又补了一排。「三八二十四也不只一种。3 个 8，是豆豆说的 3 盒。换成 8 个 3，就是每盒 3 块、8 盒，3×8=24。口诀相同，哪个数是盒、哪个数是块，口诀没说。这一排三个人都没记得，我写上，免得漏掉。」</p>
+<p>布袋的绳子上挂着一块小纸牌。小美用袖子擦掉灰，读出声来：</p>
+<div class="clue"><b>巧克力比原味多 3 盒</b></div>
+<p>豆豆抢着接：「多 3，就是 3 倍！原味 3 盒，3 倍是 3 段一样长，3+3+3=9 盒！袋子里要是没有 9 盒，就是乐乐把盒子弄丢了。他偏偏记得 6 盒，心里有鬼！」</p>
+<p>乐乐的嘴张着，没发出声音。</p>
+<p>小美把纸牌转过来，让每个字都对着光。「你再读这几个字：比原味，多 3 盒。多 3 盒，是在原味的盒数后面再添 3 盒。3 倍，才是连着 3 段一样长。纸牌上没有『倍』这个字。」</p>
+<p>她看着四排盒子：「四种装法，块数都是 24，2 倍这一条都过了。纸牌问的是盒。盒数对不上的，就不用再往下乘。」</p>
+<div class="stop"><div class="stop-h">✋ 停一停，想一想 ③</div>
+<div class="focus">同一总数，试几种装法 · 口诀反着查</div>
+<div class="ask">原味是 3 盒。纸牌说巧克力比原味多 3 盒。下面四种都是 24 块，哪一种的盒数也对？另外三种，盒数差在哪里？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul><li>「多 3 盒」是在 3 盒后面再添几盒？请先算出巧克力应该有几盒。</li><li>若读成「是原味的 3 倍」，要画几段一样长的盒数？那是几盒？</li><li>四种里，盒数已经不是 6 的，就不用再算块数。是 6 盒的，再用口诀反查：四六二十四，24 里面有几个 6、几个 4。</li><li>同一句口诀可以有两种装法。问孩子：四六二十四，哪一个数是盒，哪一个数是每盒的块？</li></ul></div></details>
+<details class="ans"><summary>点我看答案和讲解</summary><div><ul><li>多 3 盒：原味 3 盒，再添 3 盒，3+3=<b>6 盒</b>。6−3=3，正好多 3 盒。</li><li>读成 3 倍：3 段一样长，3+3+3=9，写成 3×3=<b>9 盒</b>。纸牌上没有「倍」。</li><li>口诀里，24 能拆成这两对（两个数都是一位数）：三八二十四、四六二十四。每对都能换成两种装法。</li><li>每盒 8 块、3 盒：8×3=24。盒数是 3，和原味一样多，不多。</li><li>每盒 6 块、4 盒：6×4=24。4−3=1，只多 1 盒。</li><li>每盒 4 块、6 盒：4×6=24。6−3=3，多 3 盒。这一条对上了。</li><li>每盒 3 块、8 盒：3×8=24。8−3=5，多 5 盒。</li><li>反着查：因为四六二十四，所以 24÷6=<b>4</b>，24÷4=<b>6</b>。6 盒、每盒 4 块，正着反着都是它。</li><li>盒数必须是 6。不是 6 盒的装法，都和纸牌对不上。是 6 盒、又要每盒一样多，24 块就只能是每盒 4 块。所以不是「三个人里猜中一个」，是所有平均装法里只剩这一种。</li><li>若把多 3 盒读成 3 倍，就要去找 9 盒，然后怪记得 6 盒的乐乐，说他少报了 9−6=3 盒。</li></ul>
+<svg viewBox="0 0 360 210" aria-label="四种装法里只有6盒对上多3盒">
+<text x="8" y="20" font-size="14">3盒 · 每盒8块 · 不多</text>
+<text x="200" y="20" font-size="14" fill="#a33">盒数对不上</text>
+<text x="8" y="52" font-size="14">4盒 · 每盒6块 · 只多1盒</text>
+<text x="230" y="52" font-size="14" fill="#a33">对不上</text>
+<rect x="8" y="68" width="344" height="36" rx="8" fill="#e8f6ee" stroke="#2f7d4a"/>
+<text x="180" y="92" font-size="16" text-anchor="middle" fill="#2f7d4a">6盒 · 每盒4块 · 多3盒 · 4×6=24</text>
+<text x="8" y="132" font-size="14">8盒 · 每盒3块 · 多5盒</text>
+<text x="210" y="132" font-size="14" fill="#a33">对不上</text>
+<text x="8" y="164" font-size="14">误读成 3 倍：3+3+3=9盒</text>
+<text x="8" y="192" font-size="14" fill="#555">反查：24÷6=4，24÷4=6</text>
+</svg>
+<p class="check">答：只有每盒 4 块、6 盒，和每一条线索都对得上。</p></div></details>
+</div>
+<p>「只有一种对得上。」小美说，「原味 3 盒。多 3 盒，是再添 3 盒，3+3=6 盒。」</p>
+<p>她指着第一排：「3 盒和原味一样多，一盒都没多。块数是 24，盒数这条过不了。」</p>
+<p>第二排：「4 盒只比 3 盒多 1 盒。」</p>
+<p>她补的那排：「8 盒比 3 盒多 5 盒。三八二十四对了块数，没对上盒数。」</p>
+<p>最后一排，她的笔停住：「6 盒。6−3=3，正好多 3 盒。每盒 4 块。4×6=24。倒过来，四六二十四，24÷6=4，24÷4=6。不是 6 盒的，都不用再乘。是 6 盒、每盒又一样多，就只能是 4 块。」</p>
+<p>豆豆看看乐乐，把手放下了。「9 盒是我把多 3 盒读成了 3 倍。乐乐记得的 6，反而对。四六二十四，盒是 6，块是 4。」</p>
+<div class="scene"><svg viewBox="0 0 360 240" aria-label="布袋上的纸牌写着多3盒，墙角还有没有贴纸的空盒">
+<rect width="360" height="240" fill="#f3eadf"/>
+<rect x="0" y="190" width="360" height="50" fill="#e4d2bc"/>
+<ellipse cx="120" cy="150" rx="70" ry="28" fill="#c47b4a"/>
+<path d="M50 150 Q50 70 120 60 Q190 70 190 150" fill="#d08a55" stroke="#8c4a2f"/>
+<rect x="78" y="78" width="84" height="36" rx="4" fill="#fff" stroke="#8c4a2f"/>
+<text x="120" y="94" font-size="11" text-anchor="middle">巧克力比原味</text>
+<text x="120" y="108" font-size="12" text-anchor="middle" font-weight="700">多 3 盒</text>
+<rect x="230" y="120" width="36" height="28" rx="3" fill="#f7f1e8" stroke="#b9a48c"/><rect x="270" y="112" width="36" height="36" rx="3" fill="#f7f1e8" stroke="#b9a48c"/><rect x="250" y="148" width="40" height="24" rx="3" fill="#f7f1e8" stroke="#b9a48c"/>
+<text x="278" y="190" font-size="13" text-anchor="middle" fill="#666">空盒 · 没贴纸</text>
+<use href="#girl" x="8" y="140" width="44" height="88"/>
+<g><rect x="200" y="28" width="148" height="36" rx="12" fill="#fff" stroke="#bbb"/><text x="274" y="51" font-size="14" text-anchor="middle">加上空的是 9 盒！</text></g>
+</svg></div>
+<p>他们这才解开袋口。袋里是贴着巧克力圆贴纸的盒子。墙角另有一叠扁扁的纸盒，没有贴纸，也没有分量。</p>
+<p>豆豆已经数上了：「1、2、3……把墙角的也数进去，9 个！你看，就是 3 倍！有的是空的，饼干被人吃光了，盒子还在！」</p>
+<p>小美按住他的手：「空盒没有贴纸，摇起来是轻的。线索里的盒，是巧克力饼干的盒。备用的空盒，不能加进这一条。我们只数有贴纸的。」</p>
+<p>有贴纸的，六个。小芳打开最上面的一盒，里面是 4 块，整整齐齐。其余的，她没有拆。</p>
+<p>「6 盒，每盒 4 块。」她小声说，「和乐乐记得的一样。我没吃。」</p>
+<div class="scene"><svg viewBox="0 0 360 210" aria-label="六盒贴了贴纸的巧克力饼干，最上面一盒打开是四块">
+<rect width="360" height="210" fill="#fff6ee"/>
+<rect x="16" y="70" width="48" height="58" rx="4" fill="#f4d2a4" stroke="#8c4a2f"/><circle cx="40" cy="88" r="8" fill="#8c4a2f"/>
+<rect x="70" y="70" width="48" height="58" rx="4" fill="#f4d2a4" stroke="#8c4a2f"/><circle cx="94" cy="88" r="8" fill="#8c4a2f"/>
+<rect x="124" y="70" width="48" height="58" rx="4" fill="#f4d2a4" stroke="#8c4a2f"/><circle cx="148" cy="88" r="8" fill="#8c4a2f"/>
+<rect x="178" y="70" width="48" height="58" rx="4" fill="#f4d2a4" stroke="#8c4a2f"/><circle cx="202" cy="88" r="8" fill="#8c4a2f"/>
+<rect x="232" y="70" width="48" height="58" rx="4" fill="#f4d2a4" stroke="#8c4a2f"/><circle cx="256" cy="88" r="8" fill="#8c4a2f"/>
+<rect x="286" y="48" width="62" height="80" rx="6" fill="#fff" stroke="#8c4a2f" stroke-width="2"/>
+<use href="#ccookie" x="294" y="56" width="22" height="22"/><use href="#ccookie" x="318" y="56" width="22" height="22"/>
+<use href="#ccookie" x="294" y="84" width="22" height="22"/><use href="#ccookie" x="318" y="84" width="22" height="22"/>
+<text x="150" y="32" font-size="15" text-anchor="middle" fill="#8c4a2f">有贴纸的 6 盒</text>
+<text x="150" y="160" font-size="14" text-anchor="middle">打开一盒：4 块</text>
+<text x="150" y="186" font-size="14" text-anchor="middle">4×6=24，24÷6=4</text>
+</svg></div>
+
+<h2 class="chap">第五章　倒着走一遍</h2>
+<p>小美还没有让大家把袋子搬上桌。她说：「抓人的话，我说了不算。要从最后得到的结果，往回对每一条线索。有一条对不上，就还得查。」</p>
+<p>林老师把收饼干的本子从窗台上拿过来。上面一行字，是早上登记的：</p>
+<div class="clue">仓库取出 <b>20</b> 块，试吃盘放上 <b>8</b> 块，小芳补来 <b>24</b> 块。<br><b>20 − 8 + 24</b></div>
+<p>豆豆拿起笔：「后面好算。8+24=32。20 减 32，减不过去！不够，还是少了，有人拿走了！」</p>
+<p>小美看着那一行。她在心里把式子从左看到右：先是减，后是加，中间没有括号。8 和 24 不能先捆成一包。事情也是按这个顺序发生的：先取出，再分到试吃盘，再补上巧克力。</p>
+<p>她说：「这道式子只有减法和加法，没有括号。要从左边先算。」</p>
+<div class="stop"><div class="stop-h">✋ 停一停，想一想 ④</div>
+<div class="focus">倒回去对线索 · 只有加减，从左往右</div>
+<div class="ask">20−8+24 要从哪一边算起？得数是多少块？这个得数，和原味 12 块、巧克力 24 块对得上吗？试吃盘上的 8 块，算不算被人偷吃？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul><li>「式子里有括号吗？有没有乘除？」——没有。只有加、减法，从左往右。</li><li>请孩子先算 20−8，把得数写下来，再加 24。可以写成两步，像把每次的结果落在下一行。</li><li>如果先算 8+24，式子上要有括号，写成 20−(8+24)。本子上没有。</li><li>算完再倒着问：36 里面，原味是多少，巧克力是多少？试吃的 8 块还在不在盘子里？12 和 8 加回去，是不是仓库取出的 20？</li></ul></div></details>
+<details class="ans"><summary>点我看答案和讲解</summary><div><ul><li>只有加、减法，从左往右：先 20−8=<b>12</b>，再 12+24=<b>36</b>。</li><li>写成每次的结果：20−8+24 = 12+24 = <b>36（块）</b>。这 36 块是要卖的：原味 12 块加巧克力 24 块。</li><li>豆豆先算 8+24=32，再拿 20 去减。32 比 20 大，减不过去，他就以为少了。那样做，等于写成 20−(8+24)。本子上没有括号，不能把后面两个数先加在一起。</li><li>倒着代回线索：</li><li>排法：6 盒，每盒 4 块。4×6=24。24÷6=4，24÷4=6。四六二十四，对得回去。</li><li>纸牌：6−3=3，巧克力比原味多 3 盒。3+3=6。若是 3 倍才是 9 盒。</li><li>2 倍：24 是两段 12，12+12=24。24−12=12，多出来的是一整段，不是多 2 块。14 对不上 24，那 10 块没有被人吃掉。</li><li>纸条：3 盒，每盒 4 块。4+4+4=12，4×3=12。不是 3 块。</li><li>试吃盘上的 8 块还在。12+8=20，回到仓库取出的 20。减号表示挪到试吃盘，不是消失。</li><li>36−24=12，36−12=24。要卖的饼干一块都在。</li></ul>
+<svg viewBox="0 0 360 200" aria-label="20减8再加24，从左往右得到36">
+<text x="16" y="28" font-size="16">20 − 8 + 24</text>
+<text x="16" y="58" font-size="16">= 12 + 24</text>
+<text x="16" y="88" font-size="16">= 36（块）</text>
+<text x="180" y="28" font-size="14" fill="#555">先 20−8=12</text>
+<text x="180" y="52" font-size="14" fill="#555">再 12+24=36</text>
+<rect x="16" y="110" width="100" height="36" rx="6" fill="#fff4e0" stroke="#c47b4a"/>
+<text x="66" y="134" font-size="14" text-anchor="middle">原味 12</text>
+<rect x="126" y="110" width="108" height="36" rx="6" fill="#f0d8c4" stroke="#8c4a2f"/>
+<text x="180" y="134" font-size="14" text-anchor="middle">巧克力 24</text>
+<rect x="244" y="110" width="100" height="36" rx="6" fill="#e7f5ff" stroke="#3d7bfd"/>
+<text x="294" y="134" font-size="14" text-anchor="middle">试吃 8</text>
+<text x="16" y="174" font-size="14">12+24=36 要卖的</text>
+<text x="16" y="196" font-size="14">12+8=20 仓库取出的还在</text>
+</svg>
+<p class="check">答：从左往右得 36 块，就是原味 12 块加巧克力 24 块。试吃的 8 块还在盘子里，没有人偷吃。</p></div></details>
+</div>
+<p>小美在小本子上另起一页，从最后一行往上念。</p>
+<p>「先看刚刚得到的：巧克力 6 盒，每盒 4 块。4×6=24。倒过来 24÷4=6，24÷6=4。四六二十四，对得回去。」</p>
+<p>「往上一条，纸牌说多 3 盒。6−3=3。原味是 3 盒，再添 3 盒就是 6 盒，3+3=6。要是 3 倍，才是 3+3+3=9 盒。袋子里有贴纸的是 6 盒。墙角那 3 个空盒加进去会变成 9，可空盒不是巧克力。」</p>
+<p>「再往上，小安说的是 2 倍。24 是两段 12，12+12=24。24−12=12，多出来的整整一段，和原味一样长。多 2 块只会得到 14。14 对不上 24。那 10 块不是被吃掉的，是把 2 倍听成了多 2。」</p>
+<p>豆豆摸了摸鼻子，没有抢话。</p>
+<p>「再往上，乐乐的纸条是 3 盒，每盒 4 块。4+4+4=12，4×3=12。三四十二。不是 3 块。」</p>
+<p>「最上面，林老师的式子。只有加减，没有括号，从左往右：20−8=12，12+24=36。」她把两次结果写在下一行，「12 是桌上的原味，24 是袋子里的巧克力。要卖的 36 块都在。36−24=12，36−12=24，倒回来也是这两堆。」</p>
+<div class="scene"><svg viewBox="0 0 360 230" aria-label="试吃盘8块、原味12块、巧克力24块都还在">
+<rect width="360" height="230" fill="#fff8ee"/>
+<ellipse cx="70" cy="78" rx="52" ry="28" fill="#fff" stroke="#c47b4a" stroke-width="2"/>
+<use href="#cookie" x="40" y="58" width="18" height="18"/><use href="#cookie" x="60" y="56" width="18" height="18"/><use href="#cookie" x="80" y="58" width="18" height="18"/><use href="#cookie" x="50" y="74" width="18" height="18"/>
+<use href="#cookie" x="70" y="74" width="18" height="18"/><use href="#cookie" x="90" y="72" width="18" height="18"/><use href="#cookie" x="58" y="88" width="18" height="18"/><use href="#cookie" x="80" y="88" width="18" height="18"/>
+<text x="70" y="128" font-size="13" text-anchor="middle">试吃盘 8 块</text>
+<rect x="150" y="48" width="70" height="64" rx="6" fill="#fff4e0" stroke="#c47b4a"/>
+<text x="185" y="76" font-size="14" text-anchor="middle">原味</text>
+<text x="185" y="98" font-size="14" text-anchor="middle">12块</text>
+<text x="185" y="128" font-size="13" text-anchor="middle">3盒×4</text>
+<rect x="250" y="48" width="90" height="64" rx="6" fill="#f3d0b0" stroke="#8c4a2f"/>
+<text x="295" y="76" font-size="14" text-anchor="middle">巧克力</text>
+<text x="295" y="98" font-size="14" text-anchor="middle">24块</text>
+<text x="295" y="128" font-size="13" text-anchor="middle">6盒×4</text>
+<text x="180" y="164" font-size="15" text-anchor="middle">20−8+24 = 12+24 = 36</text>
+<text x="180" y="190" font-size="14" text-anchor="middle">12+8=20，仓库取出的还在</text>
+<text x="180" y="214" font-size="14" text-anchor="middle" fill="#2f7d4a">要卖的 36 块，一块没少</text>
+</svg></div>
+<p>他们走到窗台。试吃盘里摆着 8 块小饼干，一块没少。小美把 12 和 8 加在一起：「12+8=20。仓库取出的 20，分成了桌上的原味和试吃盘。这个减号，是挪了地方，不是被人吃掉。」</p>
+<p>小宇把面包纸全部掏出来，摊在手心上。渣是面包的。口袋里没有饼干屑。</p>
+<p>小芳、乐乐、小宇都看着豆豆。豆豆把笔帽盖上，耳朵还是热的：「三条路我都差点儿把人抓了。小宇、小芳、乐乐，都是我读快了。」</p>
+
+<h2 class="chap">尾声　饼干回到桌上</h2>
+<div class="scene"><svg viewBox="0 0 360 240" aria-label="原味三盒和巧克力六盒都摆上义卖桌">
+<rect width="360" height="240" fill="#fff3e4"/>
+<rect x="0" y="168" width="360" height="72" fill="#f0d8b8"/>
+<rect x="16" y="150" width="328" height="16" rx="3" fill="#f6e7c1" stroke="#e0b08a"/>
+<text x="78" y="36" font-size="14" text-anchor="middle" fill="#8c4a2f">原味 3 盒</text>
+<rect x="28" y="48" width="36" height="44" rx="3" fill="#f4d2a4" stroke="#8c4a2f"/><rect x="70" y="48" width="36" height="44" rx="3" fill="#f4d2a4" stroke="#8c4a2f"/><rect x="112" y="48" width="36" height="44" rx="3" fill="#f4d2a4" stroke="#8c4a2f"/>
+<text x="250" y="36" font-size="14" text-anchor="middle" fill="#8c4a2f">巧克力 6 盒</text>
+<rect x="168" y="48" width="28" height="40" rx="3" fill="#e7c4a4" stroke="#8c4a2f"/><circle cx="182" cy="64" r="6" fill="#6b3e26"/>
+<rect x="200" y="48" width="28" height="40" rx="3" fill="#e7c4a4" stroke="#8c4a2f"/><circle cx="214" cy="64" r="6" fill="#6b3e26"/>
+<rect x="232" y="48" width="28" height="40" rx="3" fill="#e7c4a4" stroke="#8c4a2f"/><circle cx="246" cy="64" r="6" fill="#6b3e26"/>
+<rect x="264" y="48" width="28" height="40" rx="3" fill="#e7c4a4" stroke="#8c4a2f"/><circle cx="278" cy="64" r="6" fill="#6b3e26"/>
+<rect x="296" y="48" width="28" height="40" rx="3" fill="#e7c4a4" stroke="#8c4a2f"/><circle cx="310" cy="64" r="6" fill="#6b3e26"/>
+<rect x="328" y="48" width="24" height="40" rx="3" fill="#e7c4a4" stroke="#8c4a2f"/><circle cx="340" cy="64" r="5" fill="#6b3e26"/>
+<use href="#teacher" x="8" y="112" width="44" height="88"/>
+<use href="#girl" x="70" y="132" width="46" height="92"/>
+<use href="#boy" x="130" y="138" width="44" height="88"/>
+<use href="#fang" x="190" y="136" width="44" height="88"/>
+<g><rect x="200" y="150" width="148" height="36" rx="12" fill="#fff" stroke="#bbb"/><text x="274" y="173" font-size="13" text-anchor="middle">6盒，每盒4块</text></g>
+<text x="300" y="130" font-size="14" fill="#8c4a2f">义卖开始</text>
+</svg></div>
+<p>六盒巧克力放到右格，三盒原味还在左格。桌布一下子满了。右格不再是空的。</p>
+<p>林老师看着这两格，说：「今天没有人偷吃。空着的格子，是袋子还在走廊。数目对不上，是因为盒和块读混了，2 倍听成了多 2，同一句口诀又装成了好几种。记住：<b>一条线索对不上，就不能抓人。抓之前，把线索倒着再走一遍。</b>」</p>
+<p>义卖的小牌子立起来。第一个来看的同学问：「巧克力还有吗？」</p>
+<p>豆豆这次先看了看右格，才回答：「有。6 盒，每盒 4 块。」</p>
+<p>他侧过脸，对小美很小声地说：「我还是想算得快。可快之前，要把字读对。」</p>
+<p>小美把小本子合上。饼干一块都没有失踪。</p>
+
+<div class="memo"><h2>📌 抓人之前的四句话</h2><p style="margin:0 0 8px;font-size:.85em;color:#7a6558">今天记住什么：</p>
+<ol>
+<li><b>先读单位。</b>盒是盒子，块是饼干。3 盒、每盒 4 块，是 4+4+4=12 块，写成 4×3=12。</li>
+<li><b>2 倍是两段一样长。</b>12+12=24。多 2 块，才是 12 后面再添 2，得 14。</li>
+<li><b>同一句口诀可以有两种装法。</b>24 块先对上了，还要看盒数。比原味多 3 盒，就只剩每盒 4 块、6 盒。再用四六二十四反着查：24÷6=4，24÷4=6。</li>
+<li><b>查完要倒着走。</b>只有加减、没有括号的 20−8+24，从左往右：先 20−8=12，再 12+24=36。每一条线索都代回去，才说没有人偷吃。</li>
+</ol>
+<p style="text-align:center;font-size:1.4em;margin:8px 0 0">🍪 🔍 🍪</p>
+</div>
+<p class="foot">参考说明：本故事原创编写，人物、情节、题目和数字都是新编的，没有摘抄任何版权原文。写法上借鉴了这几本书的结构：李毓佩《爱克斯探长》用一条线索推进一步，读错线索就会抓错人；斯图尔特·J·墨菲的 MathStart 在结尾把已经得到的结果倒回去，对着每一条条件再看一遍；埃莉诺·J·平切斯《一百只饥饿的蚂蚁》让同一总数试几种排法，只有一种同时满足全部条件。急性子同学抢着下结论、细心的人拦住，借用了杨红樱《马小跳玩数学》那种身边同学一起把事情想清楚的角色搭配，人物和情节是新的。讲法对照人教版三年级上册第二单元，不照搬例题数字：例1（印 p6／PDF 12，页面图 p012.jpg）只有加、减法，从左往右，这里写成 20−8+24；例3（印 p8／PDF 14，页面图 p014.jpg）没有括号，就不能把后面两个数先捆在一起；例5（印 p13／PDF 19，页面图 p019.jpg）先画线段，看清是几倍，两段一样长再相加，不先背「几倍就用乘法」；例4（印 p12／PDF 18，页面图 p018.jpg）回顾时把结果代回去；例6（印 p14／PDF 20，页面图 p020.jpg）单位要和线索对齐，盒是盒、块是块。排法反查用二年级表内口诀：三四十二、四六二十四、三八二十四。</p>
+</div>
+<script>window.addEventListener('beforeprint',function(){document.querySelectorAll('details').forEach(function(d){d.open=true;});});</script>
+</body>
+</html>
