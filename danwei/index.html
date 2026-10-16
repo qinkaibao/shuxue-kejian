@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<title>失踪的单位牌——寻宝的小美</title>
+<style>
+:root{--ink:#1a333c;--muted:#5c7380;--bg:#f2fafb;--pri:#0c7490;--green:#1f7a4d}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:20px;line-height:1.85;padding:env(safe-area-inset-top) 0 40px}
+.wrap{max-width:720px;margin:0 auto;padding:14px 16px}
+h1{font-size:1.55em;text-align:center;margin:14px 0 0;letter-spacing:1px;line-height:1.35}
+.sub{text-align:center;color:var(--muted);font-size:.85em;margin:4px 0 14px}
+.how{background:#fff;border-radius:16px;padding:12px 16px;font-size:.85em;color:var(--muted);box-shadow:0 2px 8px rgba(0,0,0,.05)}
+h2.chap{font-size:1.2em;color:var(--pri);margin:34px 0 10px;padding-bottom:6px;border-bottom:3px dotted #b7dde6}
+p{margin:10px 0}
+.scene svg{width:100%;height:auto;display:block;margin:14px 0;border-radius:18px}
+svg text{font-family:inherit}
+.clue{background:#fff;border-radius:14px;padding:12px 14px;margin:12px 0;border:2px dashed #7ec8d3;box-shadow:0 2px 8px rgba(12,116,144,.05)}
+.clue b{color:var(--pri)}
+.stop{background:#fff7e0;border:3px solid #ffd166;border-radius:20px;padding:14px 14px 6px;margin:22px 0}
+.stop-h{font-weight:800;color:#b5470f;font-size:1.08em}
+.focus{display:inline-block;font-size:.72em;background:#e5f6f8;color:#0c7490;border-radius:99px;padding:1px 10px;margin:4px 0}
+.ask{font-size:1.02em;margin:6px 0 10px}
+details{border-radius:14px;margin:10px 0;overflow:hidden;border:2px solid #eee;background:#fff}
+summary{cursor:pointer;list-style:none;padding:11px 14px;font-weight:700;-webkit-tap-highlight-color:transparent}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▶ ";font-size:.8em}details[open] summary::before{content:"▼ "}
+details>div{padding:2px 14px 10px}
+details.tip{border-color:#cfe0ff}details.tip summary{background:#eef4ff;color:#3d7bfd}
+details.ans{border-color:#cdeedd}details.ans summary{background:#eafaf1;color:var(--green)}
+details svg{width:100%;height:auto;display:block;margin:8px 0}
+ul{padding-left:1.15em;margin:6px 0}li{margin:6px 0}
+.check{font-weight:700;color:var(--green)}
+.memo{background:linear-gradient(135deg,#e7f7f4,#d5eef8);border:3px dashed var(--pri);border-radius:20px;padding:16px;margin:30px 0}
+.memo h2{margin:0 0 6px;color:var(--pri);font-size:1.15em}.memo li{margin:12px 0;font-size:1.02em}
+.foot{font-size:.72em;color:var(--muted);line-height:1.65}
+@media print{
+  body{font-size:15px;background:#fff}
+  .stop,.scene,.clue{break-inside:avoid}
+  summary::before{content:""}
+  details > div{display:block !important}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="girl" viewBox="0 0 80 150">
+  <ellipse cx="64" cy="48" rx="8" ry="14" fill="#3b2a20"/>
+  <circle cx="40" cy="34" r="18" fill="#ffe0bd"/>
+  <path d="M22 32 Q40 6 60 28 Q46 16 40 20 Q28 14 22 32Z" fill="#3b2a20"/>
+  <circle cx="33" cy="35" r="2.2" fill="#222"/><circle cx="47" cy="35" r="2.2" fill="#222"/>
+  <path d="M34 44 Q40 48 46 44" stroke="#222" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  <circle cx="28" cy="42" r="2.6" fill="#ffb4a2"/><circle cx="52" cy="42" r="2.6" fill="#ffb4a2"/>
+  <path d="M20 54 h40 l4 40 H16 Z" fill="#1a8a96"/>
+  <path d="M32 54 h16 v8 H32Z" fill="#fff"/>
+  <rect x="12" y="66" width="16" height="20" rx="2" fill="#fff8e1" stroke="#0c7490" stroke-width="1.4"/>
+  <path d="M15 72 h10 M15 77 h10 M15 82 h7" stroke="#0c7490" stroke-width="1.2"/>
+  <rect x="24" y="94" width="14" height="28" rx="3" fill="#6d4c41"/><rect x="42" y="94" width="14" height="28" rx="3" fill="#6d4c41"/>
+  <ellipse cx="31" cy="126" rx="10" ry="5" fill="#fff" stroke="#0c7490"/><ellipse cx="49" cy="126" rx="10" ry="5" fill="#fff" stroke="#0c7490"/>
+</symbol>
+<symbol id="boy" viewBox="0 0 80 150">
+  <circle cx="40" cy="34" r="18" fill="#f6d0a8"/>
+  <path d="M22 30 L28 12 L36 28 L40 10 L46 28 L54 12 L58 30 Q40 20 22 30Z" fill="#5c3317"/>
+  <circle cx="33" cy="36" r="2.2" fill="#222"/><circle cx="47" cy="36" r="2.2" fill="#222"/>
+  <path d="M33 45 Q40 50 47 45" stroke="#222" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  <rect x="20" y="54" width="40" height="40" rx="8" fill="#ffd166"/>
+  <rect x="24" y="94" width="14" height="26" fill="#457b9d"/><rect x="42" y="94" width="14" height="26" fill="#457b9d"/>
+  <rect x="20" y="118" width="20" height="8" rx="3" fill="#e07a3d"/><rect x="40" y="118" width="20" height="8" rx="3" fill="#e07a3d"/>
+  <path d="M26 118 q4 -5 8 0" stroke="#fff" stroke-width="1.6" fill="none"/>
+  <path d="M46 118 q4 -5 8 0" stroke="#fff" stroke-width="1.6" fill="none"/>
+</symbol>
+<symbol id="teacher" viewBox="0 0 80 160">
+  <circle cx="40" cy="36" r="16" fill="#ffe0bd"/>
+  <path d="M24 32 Q40 14 56 32 Q40 24 24 32Z" fill="#3b2a20"/>
+  <circle cx="34" cy="36" r="1.8" fill="#222"/><circle cx="46" cy="36" r="1.8" fill="#222"/>
+  <path d="M35 44 Q40 47 45 44" stroke="#222" stroke-width="1.4" fill="none"/>
+  <path d="M16 54 h48 l4 58 H12 Z" fill="#3d8b8b"/>
+  <path d="M40 54 v58" stroke="#fff" stroke-width="2"/>
+  <rect x="22" y="112" width="14" height="28" fill="#6d4c41"/><rect x="44" y="112" width="14" height="28" fill="#6d4c41"/>
+  <rect x="18" y="138" width="20" height="7" rx="2" fill="#fff"/><rect x="42" y="138" width="20" height="7" rx="2" fill="#fff"/>
+</symbol>
+<symbol id="butterfly" viewBox="0 0 70 50">
+  <ellipse cx="22" cy="22" rx="16" ry="12" fill="#f4a7c5" stroke="#c45b86"/>
+  <ellipse cx="48" cy="22" rx="16" ry="12" fill="#9fd7ee" stroke="#3d8eb5"/>
+  <ellipse cx="24" cy="34" rx="10" ry="8" fill="#f7c6d8"/>
+  <ellipse cx="46" cy="34" rx="10" ry="8" fill="#c5e6f5"/>
+  <rect x="32" y="14" width="6" height="24" rx="3" fill="#5c3317"/>
+  <path d="M34 16 q-8 -12 -2 -14" stroke="#5c3317" fill="none" stroke-width="1.4"/>
+  <path d="M38 16 q8 -12 2 -14" stroke="#5c3317" fill="none" stroke-width="1.4"/>
+</symbol>
+</defs></svg>
+
+<div class="wrap">
+<h1>📏 失踪的单位牌——寻宝的小美</h1>
+<p class="sub">牌贴对了，路才不会走反<br>给小朋友的课外数学故事（人教版三年级上册） · 约 15～20 分钟</p>
+<div class="how"><b>家长用法</b>：您来念故事。读到黄色的「✋ 停一停，想一想」时停下来，先让孩子说、用手比画，再点开答案。「家长：怎么追问」和答案在屏幕上都是<b>点一下才展开</b>。打印时这两处会自动展开。准备一支笔、一张纸。</div>
+
+<h2 class="chap">第一章　五个空钩子</h2>
+<div class="scene"><svg viewBox="0 0 360 250" aria-label="走廊展板上五个钩子是空的，身份牌掉在地上，豆豆正要乱挂">
+<rect width="360" height="250" fill="#e7f6f8"/>
+<rect x="0" y="190" width="360" height="60" fill="#d5e4ea"/>
+<rect x="28" y="24" width="250" height="150" rx="8" fill="#f7fbfc" stroke="#7ec8d3" stroke-width="3"/>
+<g fill="#0c7490">
+<circle cx="62" cy="58" r="5"/><circle cx="112" cy="58" r="5"/><circle cx="162" cy="58" r="5"/><circle cx="212" cy="58" r="5"/><circle cx="252" cy="58" r="5"/>
+</g>
+<text x="62" y="86" font-size="11" text-anchor="middle" fill="#5c7380">毫米</text>
+<text x="112" y="86" font-size="11" text-anchor="middle" fill="#5c7380">厘米</text>
+<text x="162" y="86" font-size="11" text-anchor="middle" fill="#5c7380">分米</text>
+<text x="212" y="86" font-size="11" text-anchor="middle" fill="#5c7380">米</text>
+<text x="252" y="86" font-size="11" text-anchor="middle" fill="#5c7380">千米</text>
+<text x="153" y="130" font-size="15" text-anchor="middle" fill="#0c7490">钩子是空的</text>
+<text x="153" y="152" font-size="13" text-anchor="middle" fill="#5c7380">五张身份牌掉在地上</text>
+<rect x="48" y="168" width="36" height="26" rx="3" fill="#cfe8f2" stroke="#0c7490" transform="rotate(-8 66 181)"/>
+<rect x="90" y="174" width="36" height="26" rx="3" fill="#d8f3e8" stroke="#1f7a4d" transform="rotate(6 108 187)"/>
+<rect x="132" y="166" width="36" height="26" rx="3" fill="#fff3c4" stroke="#c47b4a" transform="rotate(-3 150 179)"/>
+<text x="66" y="186" font-size="10" text-anchor="middle">毫米</text>
+<text x="108" y="192" font-size="10" text-anchor="middle">厘米</text>
+<text x="150" y="184" font-size="10" text-anchor="middle">分米</text>
+<use href="#girl" x="230" y="140" width="46" height="92"/>
+<use href="#boy" x="290" y="146" width="44" height="88"/>
+<g><rect x="188" y="118" width="130" height="32" rx="12" fill="#fff" stroke="#bbb"/><text x="253" y="139" font-size="13" text-anchor="middle">我算得最快！</text></g>
+</svg></div>
+<p>星期五下午，走廊尽头的展板空着。五个木钩子排成一排，底下用油漆写着：毫米、厘米、分米、米、千米。钩子上本来挂着五张身份牌。今天牌全掉在地上，扣成一叠，像被风翻乱的扑克。</p>
+<p>下午一年级要去公园寻宝。寻宝图上的空格，得把单位认对，路才指得对。牌要是贴错，小朋友会走到池塘边，或者走到根本走不完的路上。</p>
+<p>小美把小本子抱在胸口。豆豆已经蹲下去抓牌。他答应过自己要看清楚，鞋带却还是散着一截，人跑在前面。口头禅没变：「我算得最快！」</p>
+<p>林老师把寻宝图摊在窗台上，图角压着一块橡皮。「箱子在公园公交站旁边。展板修好，箱子才开。你们俩把五张牌认回来，我在终点等。别跑。单位看错，路就会反。」</p>
+<p>小美捡起最上面一张。牌是天蓝色的：</p>
+<div class="clue"><b>我是厘米。</b>量书本、量手掌，找我。<br>规矩：<b>1 厘米 = 10 毫米。1 米 = 100 厘米。</b></div>
+<p>豆豆抽出一张绿色的，字还没读完：「都是长度！随便挂！挂完就能去开箱子！我算得最快！」</p>
+<p>小美把绿色牌转过来。上面写着：我是分米。1 米 = 10 分米。她把五张牌收进布袋，没有往钩子上按。「每张牌管的事情不一样。先别挂。图上的第一空，在校门口。」</p>
+<p>五张牌的规矩，她只在本子边抄了一行小标题，好随时翻：</p>
+<div class="clue"><b>毫米最短。厘米管小东西。分米是 10 厘米。米管门和路。千米管很远的路，1 千米 = 1000 米。</b></div>
+
+<h2 class="chap">第二章　门有多高，翅膀有多小</h2>
+<div class="scene"><svg viewBox="0 0 360 270" aria-label="校门大约两米高，门框上有一只小纸蝴蝶，窗台放着写错的量感小抄">
+<rect width="360" height="270" fill="#eef8fb"/>
+<rect x="0" y="210" width="360" height="60" fill="#d7ebe4"/>
+<rect x="36" y="28" width="150" height="190" rx="4" fill="#c5dde3" stroke="#0c7490" stroke-width="4"/>
+<rect x="52" y="46" width="118" height="158" rx="2" fill="#f4fbff" stroke="#7ec8d3"/>
+<text x="111" y="78" font-size="14" text-anchor="middle" fill="#0c7490">校门</text>
+<text x="111" y="102" font-size="13" text-anchor="middle">大约高 2 ____</text>
+<use href="#butterfly" x="150" y="36" width="52" height="38"/>
+<text x="176" y="86" font-size="11" text-anchor="middle" fill="#5c7380">翅膀 35 ____</text>
+<rect x="210" y="48" width="132" height="78" rx="6" fill="#fff" stroke="#c47b4a" stroke-width="2"/>
+<text x="276" y="70" font-size="12" text-anchor="middle" fill="#a33">量感小抄</text>
+<text x="276" y="92" font-size="12" text-anchor="middle">床长 2 分米</text>
+<text x="276" y="112" font-size="12" text-anchor="middle">鞋长 20 分米</text>
+<use href="#girl" x="214" y="150" width="48" height="96"/>
+<use href="#boy" x="280" y="156" width="46" height="92"/>
+<g><rect x="196" y="128" width="150" height="32" rx="12" fill="#fff" stroke="#bbb"/><text x="271" y="149" font-size="13" text-anchor="middle">2 就贴分米！</text></g>
+</svg></div>
+<p>校门关着一条缝。门框上用夹子夹着一只纸蝴蝶，翅膀上印着细格子。寻宝图的第一行写着：</p>
+<div class="clue"><b>这扇门大约高 2____。</b><br><b>纸蝴蝶的一边翅膀大约长 35____。</b><br>两张身份牌认对，门卫室的窗子才交出下一张图。</div>
+<p>窗台上压着一张铅笔小抄，字迹很冲，还画了两个箭头：</p>
+<div class="clue"><b>床大约长 2 分米。</b><br><b>鞋大约长 20 分米。</b></div>
+<p>豆豆一拍小抄：「有人写好了！数字小，就用小单位。门高才写着 2，贴分米。蝴蝶写着 35，比 2 大，贴厘米。床也是 2 分米，门还能比床高到哪儿去？我算得最快！」</p>
+<p>他把分米牌按向那个 2，又把厘米牌按向那个 35。</p>
+<p>窗子没有开。玻璃里面有人轻轻敲了两下。一年级还在等下一张图。</p>
+<p>小美没有笑他。她看着那扇门，又看着自己的鞋。门比她整个人还高。鞋只盖住地面短短一截。这两样东西，不该领同一张牌。</p>
+<p>她把小抄拿远一点。「这张先别信。你用手比一比。一拃大约是 1 分米。2 分米只有两拃。门要是只有两拃高，我们得爬着进去。」</p>
+<p>豆豆举起手，在门的下沿就比完了。上面还空着一大块天。</p>
+<p>小美又点了点纸蝴蝶。「35 厘米，大约有一把学生尺那么长。这只翅膀比指甲盖大一圈，没有尺子那么长。很小的长度，毫米牌才肯认。」</p>
+<div class="stop"><div class="stop-h">✋ 停一停，想一想 ①</div>
+<div class="focus">选对单位：门和翅膀各领哪张牌</div>
+<div class="ask">门大约高 2，该认哪张牌？纸蝴蝶的一边翅膀大约长 35，该认哪张牌？小抄上「床大约长 2 分米」「鞋大约长 20 分米」，错在哪里？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul>
+<li>请孩子先指一指真的门，再比画两拃（大约 2 分米）。问：门有这么矮吗？</li>
+<li>2 的后面如果写分米，只有大约 20 厘米，连书包都进不去。门比人还高，大约是 2 米。</li>
+<li>请孩子用手指比一比 35 毫米（大约三四个指甲盖拼起来），再比一比 35 厘米（大约一把学生尺）。蝴蝶翅膀更像哪一个？</li>
+<li>床要是只有 2 分米，人只能睡在一本词典上。床大约长 2 米。</li>
+<li>鞋要是有 20 分米，先换算：1 米 = 10 分米，20 分米 = 2 米，跟门差不多高。真鞋大约长 20 厘米。</li>
+</ul></div></details>
+<details class="ans"><summary>点我看答案和讲解</summary><div><ul>
+<li>门大约高 <b>2 米</b>。不是 2 分米。2 分米 = 20 厘米，只有大约两拃，门没有这么矮。</li>
+<li>蝴蝶一边翅膀大约长 <b>35 毫米</b>。不是 35 厘米。35 厘米大约是一把学生尺，纸蝴蝶没有那么大。</li>
+<li>小抄写反了量感。床大约长 <b>2 米</b>，不是 2 分米。</li>
+<li>鞋大约长 <b>20 厘米</b>，不是 20 分米。20 分米 = 2 米，一只鞋不能跟门一样高。</li>
+<li>数字大，不一定用大单位。35 比 2 大，可蝴蝶比门小得多。先看东西有多长，再选牌。</li>
+</ul>
+<svg viewBox="0 0 360 168" aria-label="门用米，蝴蝶翅膀用毫米；床和鞋的小抄是错的">
+<text x="8" y="20" font-size="14" fill="#555">先看东西有多长，再选牌</text>
+<rect x="8" y="36" width="168" height="58" rx="8" fill="#e7f6f8" stroke="#0c7490"/>
+<text x="92" y="60" font-size="15" text-anchor="middle">门高 2 米</text>
+<text x="92" y="82" font-size="13" text-anchor="middle" fill="#a33">不是 2 分米</text>
+<rect x="184" y="36" width="168" height="58" rx="8" fill="#fff4f8" stroke="#c45b86"/>
+<text x="268" y="60" font-size="15" text-anchor="middle">翅膀 35 毫米</text>
+<text x="268" y="82" font-size="13" text-anchor="middle" fill="#a33">不是 35 厘米</text>
+<text x="8" y="122" font-size="14">床大约 2 米，不是 2 分米</text>
+<text x="8" y="148" font-size="14">鞋大约 20 厘米。20 分米 = 2 米</text>
+</svg>
+<p class="check">答：门认「米」，翅膀认「毫米」。床不是 2 分米，鞋不是 20 分米。</p></div></details>
+</div>
+<p>「门是 2 米。」小美说，「分米牌先拿下来。2 分米进不去这扇门。」</p>
+<p>她把毫米牌对准纸蝴蝶。「翅膀是 35 毫米。厘米牌也先拿下来。35 厘米太长了，夹子夹不住一只那么大的翅膀。」</p>
+<p>豆豆看看自己的鞋，又看看门，耳朵热了。「小抄说鞋长 20 分米。20 分米是 2 米，那我的鞋跟门一样高，我还怎么跑？鞋大概只有 20 厘米。床要是 2 分米，我得站着睡觉。」</p>
+<p>窗子还是关着。豆豆不甘心，又翻米牌：「那米很大！换成厘米，3 米就是 30 厘米，到我膝盖。门高 2 米就是 20 厘米，还不如分米！」</p>
+<p>小美用手指点着牌上的规矩。「这里写的是 1 米 = 100 厘米，不是 10 厘米。米换厘米，要乘 100。3 米 = 300 厘米，不是 30 厘米。2 米 = 200 厘米。30 厘米只有一把尺子那么长，量不到门框上沿。」</p>
+<p>豆豆又把分米牌倒过来看：「1 米 = 10 分米。那我反过来，100 分米就是 1000 米！旗杆都顶到云上去了！」</p>
+<p>「倍数不要乘反。」小美说，「10 个分米才是 1 米。100 分米里面有多少个 10？100÷10=10。所以 100 分米 = 10 米，不是 1000 米。10 米大约有三层楼。校门没有那么高。图上写的这扇门，大约 2 米。」</p>
+<p>她把米牌、毫米牌在空格旁边立了一立，让窗子看见，又收进布袋。不是不要分米，是这扇门和这只翅膀不归它管。图上的空格印下了「米」和「毫米」，牌本身还要带回走廊。</p>
+<p>窗子「咔」地开了一条缝。下一张图被推了出来，角上盖着一枚小蝴蝶印。</p>
+
+<h2 class="chap">第三章　两条一样长的丝带</h2>
+<div class="scene"><svg viewBox="0 0 360 250" aria-label="岔路口左边70毫米、右边7厘米，中间小门要填等于号才开">
+<rect width="360" height="250" fill="#f3faf6"/>
+<rect x="0" y="196" width="360" height="54" fill="#d5ebe3"/>
+<path d="M40 196 Q90 120 70 70" stroke="#c9ddd4" stroke-width="28" fill="none"/>
+<path d="M300 196 Q270 120 290 70" stroke="#c9ddd4" stroke-width="28" fill="none"/>
+<rect x="150" y="78" width="60" height="118" rx="4" fill="#7dcea0" stroke="#1f7a4d" stroke-width="3"/>
+<circle cx="196" cy="140" r="4" fill="#f6e27a"/>
+<text x="180" y="68" font-size="13" text-anchor="middle" fill="#1f7a4d">中间小门</text>
+<rect x="16" y="28" width="100" height="36" rx="6" fill="#f4a7c5"/>
+<text x="66" y="51" font-size="13" text-anchor="middle">70 毫米</text>
+<rect x="244" y="28" width="100" height="36" rx="6" fill="#9fd7ee"/>
+<text x="294" y="51" font-size="13" text-anchor="middle">7 厘米</text>
+<rect x="118" y="150" width="124" height="36" rx="8" fill="#fff" stroke="#0c7490"/>
+<text x="180" y="174" font-size="16" text-anchor="middle">70毫米 ○ 7厘米</text>
+<use href="#boy" x="8" y="140" width="44" height="88"/>
+<g><rect x="48" y="108" width="100" height="32" rx="12" fill="#fff" stroke="#bbb"/><text x="98" y="129" font-size="13" text-anchor="middle">70 比 7 大！</text></g>
+</svg></div>
+<p>新图只有三行：</p>
+<div class="clue"><b>花园岔路口。</b><br>左边丝带长 <b>70 毫米</b>，右边丝带长 <b>7 厘米</b>。<br>中间木牌：<b>70 毫米 ○ 7 厘米</b>。填 &gt; 走左边，填 &lt; 走右边，填 = 开中间的小门。</div>
+<p>三条小路并排。左边通向池塘，右边绕进花架，中间一扇绿色小门关着。两条丝带钉在木牌两侧，看起来都短短的。</p>
+<p>豆豆眼快：「70 比 7 大！填大于，走左边！我算得最快！」</p>
+<p>他在圆圈里写下 &gt;，人已经迈出去。左边小路转了一个弯，尽头是一张长椅。椅背上写着一行小字：你在比 70 和 7。两张牌还不是一家的。</p>
+<p>豆豆走回来，鞋上沾了一点潮泥。他不服气，抓起厘米牌，规矩只看了一半：「厘米很小，1 厘米该等于 100 毫米吧？7 厘米 = 700 毫米。70 比 700 小，那就填小于，走右边！」</p>
+<p>小美把厘米牌整张读完。「牌上写的是 1 厘米 = 10 毫米。100 是米换成厘米才用的。你把两张牌的倍数换错了。」</p>
+<p>她自己也盯着 70 和 7 看了一会儿。70 那个数字确实更大。可丝带是拿来比长短的，不是拿来比谁的数字好看。她把两条丝带并在同一只手上，又看看牌。</p>
+<div class="stop"><div class="stop-h">✋ 停一停，想一想 ②</div>
+<div class="focus">毫米和厘米：先换成同一家再比</div>
+<div class="ask">70 毫米 ○ 7 厘米，圆圈里该填 &gt;、&lt; 还是 =？为什么不能只看 70 和 7 谁大？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul>
+<li>请孩子读出厘米牌上的那句规矩：1 厘米等于多少毫米？</li>
+<li>7 厘米是几个 10 毫米？可以先写 10+10+10+10+10+10+10，再写成 7×10。</li>
+<li>换成毫米以后，左边是多少，右边是多少？一样长，填什么符号？</li>
+<li>如果有人把规矩记成 1 厘米 = 100 毫米，7 厘米会变成多少毫米？那样就会填错小于。</li>
+</ul></div></details>
+<details class="ans"><summary>点我看答案和讲解</summary><div><ul>
+<li>单位不同，不能直接比 70 和 7。先换成同一种单位。</li>
+<li>1 厘米 = 10 毫米。7 厘米 = 7×10 = <b>70 毫米</b>。</li>
+<li>左边 70 毫米，右边也是 70 毫米。<b>70 毫米 = 7 厘米</b>。圆圈里填 <b>=</b>。</li>
+<li>倒过来也对：70 毫米 = 70÷10 = <b>7 厘米</b>。</li>
+<li>豆豆填 &gt;，是只看了数字，70&gt;7，没看单位。左边那条路就会走回长椅。</li>
+<li>若把 1 厘米记成 100 毫米，7 厘米变成 700 毫米，70&lt;700，就会错填 &lt;。厘米牌上是 10，不是 100。</li>
+</ul>
+<svg viewBox="0 0 360 150" aria-label="7厘米换成70毫米，和左边一样长">
+<text x="8" y="22" font-size="14" fill="#555">1厘米 = 10毫米</text>
+<rect x="16" y="40" width="140" height="28" rx="4" fill="#f4a7c5" stroke="#c45b86"/>
+<text x="86" y="59" font-size="14" text-anchor="middle">70 毫米</text>
+<rect x="180" y="40" width="140" height="28" rx="4" fill="#9fd7ee" stroke="#3d8eb5"/>
+<text x="250" y="59" font-size="14" text-anchor="middle">7 厘米</text>
+<text x="180" y="96" font-size="15" text-anchor="middle" fill="#0c7490">7×10 = 70毫米</text>
+<text x="180" y="124" font-size="16" text-anchor="middle" fill="#1f7a4d">70毫米 = 7厘米</text>
+</svg>
+<p class="check">答：填等于号。两条丝带一样长，开中间的小门。</p></div></details>
+</div>
+<p>「一样长。」小美说，「7 厘米 = 70 毫米。圆圈里是等于，不是大于，也不是小于。」</p>
+<p>豆豆把 &gt; 擦掉，写上 =。绿色小门「吱呀」一声开了。门后是一条石子路，路尽头隐隐有个站牌。</p>
+<p>他回头看了一眼池塘那边。「70 比 7 大，丝带却一样长。数字大，路不一定更长。」</p>
+<p>小美把厘米牌放回布袋最上面。下一截路，还用得着它。</p>
+
+<h2 class="chap">第四章　石子路走到站牌</h2>
+<div class="scene"><svg viewBox="0 0 360 230" aria-label="石子路上一步50厘米，豆豆把20000厘米当成了20000米">
+<rect width="360" height="230" fill="#f4fbf8"/>
+<rect x="0" y="150" width="360" height="80" fill="#e4efe8"/>
+<ellipse cx="40" cy="168" rx="16" ry="8" fill="#c5d5cc"/><ellipse cx="90" cy="176" rx="16" ry="8" fill="#c5d5cc"/>
+<ellipse cx="140" cy="166" rx="16" ry="8" fill="#c5d5cc"/><ellipse cx="190" cy="176" rx="16" ry="8" fill="#c5d5cc"/>
+<ellipse cx="240" cy="168" rx="16" ry="8" fill="#c5d5cc"/>
+<rect x="270" y="46" width="70" height="110" rx="4" fill="#f7fbfc" stroke="#0c7490" stroke-width="3"/>
+<rect x="292" y="58" width="26" height="18" rx="2" fill="#ffd166"/>
+<text x="305" y="100" font-size="13" text-anchor="middle" fill="#0c7490">公交站</text>
+<text x="305" y="122" font-size="12" text-anchor="middle">小窗</text>
+<use href="#girl" x="20" y="100" width="46" height="92"/>
+<use href="#boy" x="80" y="108" width="44" height="88"/>
+<g><rect x="120" y="24" width="150" height="36" rx="12" fill="#fff" stroke="#bbb"/><text x="195" y="47" font-size="14" text-anchor="middle">20000 米！取消！</text></g>
+<text x="130" y="214" font-size="14" text-anchor="middle" fill="#a33">一步 50 厘米 × 400 步</text>
+</svg></div>
+<p>石子路不陡，一下一下踩得很清楚。寻宝图的第三行写着：</p>
+<div class="clue">沿石子路走到公交站。<br>一步大约长 <b>50 厘米</b>，照地图走 <b>400 步</b>。<br>这段路一共多少<b>米</b>？把米数说给站牌上的小窗。说对了，最后一张图才出来。</div>
+<p>豆豆把步子迈得很大，边走边算。走到一个长条椅，他已经写完了：「400×50。4×5=20，后面再补三个 0，20000！两万米！我算得最快！」</p>
+<p>他一屁股坐到椅子上。「从这儿到公交站要走两万米，得到晚上。寻宝取消。算得快也没用。」</p>
+<p>地面上有人用油漆写了一行小字，专门对着这张椅子：答案如果大得像出城，先看看单位是不是还停在厘米。</p>
+<p>小美心里也咯噔了一下。20000 这个数很大，大得让人想转身。她没有先安慰豆豆，也没有先否定他的乘法。400 个 50，确实是 20000。她把图凑近，点住「厘米」两个字。</p>
+<p>「20000 的后面，是厘米。你把厘米当成米了。」</p>
+<div class="stop"><div class="stop-h">✋ 停一停，想一想 ③</div>
+<div class="focus">先算出厘米，再换成米</div>
+<div class="ask">一步 50 厘米，走 400 步。这段路一共多少米？为什么不是 20000 米？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul>
+<li>一步的单位是什么？问句最后要的单位又是什么？</li>
+<li>请孩子先算 400×50。得数 20000 的后面，应该写厘米还是米？</li>
+<li>1 米 = 100 厘米。厘米换成米，是乘 100 还是除以 100？</li>
+<li>可以分成两步写：先 400×50=20000（厘米），再 20000÷100=？</li>
+<li>20000 米有多远？那是 20 千米，会走出城。200 米，才像校门口这段石子路。</li>
+</ul></div></details>
+<details class="ans"><summary>点我看答案和讲解</summary><div><ul>
+<li>400 步，每步 50 厘米：400×50 = <b>20000（厘米）</b>。这一步豆豆乘对了。</li>
+<li>问的是多少米。1 米 = 100 厘米，所以 20000÷100 = <b>200（米）</b>。</li>
+<li><b>20000 厘米 = 200 米</b>。不是 20000 米。</li>
+<li>若只把厘米两个字改成米，路就会变成 20 千米，站牌小窗不会开。</li>
+<li>若除以 10，得到 2000 米，那是把「10 厘米 = 1 分米」用到了米身上。厘米换米要除以 100。</li>
+<li>回头对：200 米 = 20000 厘米。20000÷50 = 400，正好 400 步。</li>
+</ul>
+<svg viewBox="0 0 360 150" aria-label="400乘50得20000厘米，再除以100得200米">
+<text x="16" y="28" font-size="16">400 × 50 = 20000 厘米</text>
+<text x="16" y="62" font-size="16">1 米 = 100 厘米</text>
+<text x="16" y="96" font-size="16">20000 ÷ 100 = 200 米</text>
+<text x="16" y="132" font-size="15" fill="#a33">不是 20000 米</text>
+</svg>
+<p class="check">答：这段路是 200 米。</p></div></details>
+</div>
+<p>「200 米。」小美说，「400×50=20000，单位还是厘米。100 厘米才是 1 米。20000÷100=200。是 200 米，不是 20000 米。」</p>
+<p>豆豆从椅子上站起来，朝前看。石子路看得见头，站牌就在前面不远处。「200 米，走到就到。20000 米，那是我把厘米的牌子摘掉了。」</p>
+<p>他们把 200 这个数对准站牌上的小窗，说了一遍。小窗弹开，吐出一张车票形状的硬纸。那是最后一张图。</p>
+
+<h2 class="chap">第五章　站牌上的两个数</h2>
+<div class="scene"><svg viewBox="0 0 360 250" aria-label="公交站旁的绿箱子有两个小窗，一个问千米，一个问还剩多少米">
+<rect width="360" height="250" fill="#e7f4f8"/>
+<rect x="0" y="190" width="360" height="60" fill="#d5e4ea"/>
+<rect x="24" y="36" width="16" height="150" fill="#8d99ae"/>
+<rect x="8" y="28" width="120" height="46" rx="4" fill="#0c7490"/>
+<text x="68" y="48" font-size="12" text-anchor="middle" fill="#fff">每隔 500 米</text>
+<text x="68" y="66" font-size="12" text-anchor="middle" fill="#fff">一共 6 站</text>
+<rect x="160" y="70" width="170" height="110" rx="8" fill="#1f7a4d" stroke="#145c38" stroke-width="3"/>
+<rect x="176" y="86" width="64" height="36" rx="4" fill="#fff"/>
+<rect x="250" y="86" width="64" height="36" rx="4" fill="#fff"/>
+<text x="208" y="109" font-size="12" text-anchor="middle" fill="#0c7490">？千米</text>
+<text x="282" y="109" font-size="12" text-anchor="middle" fill="#0c7490">？米</text>
+<text x="245" y="150" font-size="13" text-anchor="middle" fill="#fff">绿箱子</text>
+<text x="245" y="168" font-size="12" text-anchor="middle" fill="#d5f5e3">两个数都对才开</text>
+<use href="#girl" x="20" y="150" width="44" height="88"/>
+<use href="#boy" x="70" y="154" width="42" height="84"/>
+</svg></div>
+<p>硬纸上画着公交站，旁边就是一只上了锁的绿箱子。锁上有两个小窗。</p>
+<div class="clue"><b>单位牌之家在前方公交线。每隔 500 米一站，一共 6 站。这段是 ____ 千米。</b><br><b>箱子侧面板上还有一行：这条寻宝路线全长 6400 米，其中 2 千米已经用虚线画好。还没画的是 ____ 米。</b><br>两个空都填对，锁才开。打开以后，把五张身份牌带回走廊。</div>
+<p>豆豆一看见 6 和 500，笔就落下了。「6×500=3000。3000 千米！我算得最快！单位牌之家远得要命，一年级得到明天。箱子肯定是空的！」</p>
+<p>他填完左边，又去减右边。「6400 米减去 2，6400−2=6398 米。2 很小，减不减少都差不多！」</p>
+<p>小美按住他的笔。千米牌还在布袋最底下，绿边，字很少。她把牌抽出来，读给两个人听：「我是千米。量很远的路，找我。规矩只有一句：1 千米 = 1000 米。」</p>
+<p>「3000 是乘对了。」她说，「可 500 的后面是米。3000 米，还没有换成千米。2 千米也不是 2 米。你把千米牌上的 1000 弄丢了。」</p>
+<div class="stop"><div class="stop-h">✋ 停一停，想一想 ④</div>
+<div class="focus">千米和米：乘完还要看 1000</div>
+<div class="ask">6 站，每站 500 米，这段是多少千米？路线全长 6400 米，其中 2 千米已经画好，还没画的是多少米？豆豆的 3000 千米和 6398 米，错在哪里？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul>
+<li>先让孩子算 6×500。问：3000 的后面是米还是千米？图上每一站写的是 500 米。</li>
+<li>千米牌怎么说？1 千米等于多少米？3000 米里面有几个 1000，就是几千米。</li>
+<li>2 千米要先换成米，才能和 6400 米相减。2 千米是 2 米、200 米，还是 2000 米？</li>
+<li>请孩子写两步：2×1000=2000，再 6400−2000。</li>
+<li>如果直接用 6400−2，减掉的只是 2 米，千米的牌子没有上场。</li>
+</ul></div></details>
+<details class="ans"><summary>点我看答案和讲解</summary><div><ul>
+<li>6 站，每站 500 米：6×500 = <b>3000（米）</b>。</li>
+<li>1 千米 = 1000 米。3000÷1000 = <b>3</b>。所以 <b>3000 米 = 3 千米</b>。不是 3000 千米。</li>
+<li>3000 千米会把 1000 又乘进去一次，路就远得不像这条公交线。</li>
+<li>若把 3000 除以 100，得到 30 千米，那是拿厘米换米的 100，去换千米。千米看的是 1000。</li>
+<li>2 千米 = 2×1000 = <b>2000 米</b>。不是 2 米，也不是 200 米。</li>
+<li>还没画的：6400−2000 = <b>4400（米）</b>。</li>
+<li>豆豆算的 6400−2=6398，是把 2 千米当成了 2 米。</li>
+<li>回头对：4400+2000=6400。3 千米 = 3000 米，3000÷500=6，正好 6 站。</li>
+</ul>
+<svg viewBox="0 0 360 170" aria-label="6站是3千米，6400米减去2000米还剩4400米">
+<text x="12" y="26" font-size="15">6 × 500 = 3000 米 = 3 千米</text>
+<text x="12" y="52" font-size="14" fill="#a33">不是 3000 千米</text>
+<text x="12" y="88" font-size="15">2 千米 = 2000 米</text>
+<text x="12" y="116" font-size="15">6400 − 2000 = 4400 米</text>
+<text x="12" y="146" font-size="14" fill="#a33">不是 6400 − 2 = 6398 米</text>
+</svg>
+<p class="check">答：6 站是 3 千米。还没画的是 4400 米。</p></div></details>
+</div>
+<p>小美还没有去转锁。她把小本子翻到新的一页。「两个数我先写上：3 千米，4400 米。可开锁的话，我说了不算。要从最后这两个数，倒着对回每一条线索。有一条对不上，锁就先别动。」</p>
+<p>豆豆把笔帽盖上，难得没有抢。</p>
+<p>「先看刚刚得到的。」小美指着箱子侧面，「还没画的是 4400 米。4400+2000=6400，回到路线全长。加上去的 2000，是 2 千米，不是 2 米。所以不能写 6400−2。」</p>
+<p>「左边的空，3 千米。3×1000=3000 米。3000÷500=6，正好 6 站。6×500=3000 米，3000 米 = 3 千米。不是 3000 千米。」</p>
+<p>她往上翻。「再上一条，石子路。200 米 = 20000 厘米。20000÷50=400，正好地图上的 400 步。400×50=20000 厘米，再除以 100 才是 200 米。不是 20000 米。」</p>
+<p>豆豆点头。「那条路我们看得见头。」</p>
+<p>「再上一条，丝带。7×10=70，所以 7 厘米 = 70 毫米。等于号对。70 比 7 大，丝带一样长。1 厘米是 10 毫米，不是 100 毫米。」</p>
+<p>「最上面，校门口。门大约 2 米，不是 2 分米。2 分米只有大约 20 厘米。蝴蝶翅膀大约 35 毫米，不是 35 厘米。35 厘米有一把尺子那么长。」</p>
+<p>她又补上小抄和乘反的两句，声音放慢：「床大约 2 米，不是 2 分米。鞋大约 20 厘米，不是 20 分米。20 分米 = 2 米。还有，3 米 = 300 厘米，不是 30 厘米。100 分米 = 10 米，不是 1000 米。倍数要按身份牌上的那一句，不能自己加一个 0。」</p>
+<p>每一条都对上了。她这才把 3 和 4400 填进两个小窗。</p>
+<p>锁「嗒」地开了。</p>
+
+<h2 class="chap">尾声　五张牌回到钩子上</h2>
+<div class="scene"><svg viewBox="0 0 360 250" aria-label="五张身份牌按毫米到千米挂回展板，下面垂着彩带">
+<rect width="360" height="250" fill="#e7f6f8"/>
+<rect x="0" y="200" width="360" height="50" fill="#d5e4ea"/>
+<rect x="16" y="16" width="328" height="120" rx="8" fill="#f7fbfc" stroke="#7ec8d3" stroke-width="3"/>
+<g>
+<rect x="28" y="36" width="52" height="64" rx="4" fill="#cfe8f2" stroke="#0c7490"/><text x="54" y="72" font-size="12" text-anchor="middle">毫米</text>
+<rect x="88" y="36" width="52" height="64" rx="4" fill="#d8f3e8" stroke="#1f7a4d"/><text x="114" y="72" font-size="12" text-anchor="middle">厘米</text>
+<rect x="148" y="36" width="52" height="64" rx="4" fill="#fff3c4" stroke="#c47b4a"/><text x="174" y="72" font-size="12" text-anchor="middle">分米</text>
+<rect x="208" y="36" width="52" height="64" rx="4" fill="#fde2c8" stroke="#e07a3d"/><text x="234" y="72" font-size="12" text-anchor="middle">米</text>
+<rect x="268" y="36" width="52" height="64" rx="4" fill="#d6e4ff" stroke="#3d5a80"/><text x="294" y="72" font-size="12" text-anchor="middle">千米</text>
+</g>
+<text x="180" y="118" font-size="12" text-anchor="middle" fill="#5c7380">1厘米=10毫米 · 1千米=1000米</text>
+<use href="#teacher" x="8" y="124" width="42" height="84"/>
+<use href="#girl" x="120" y="140" width="46" height="92"/>
+<use href="#boy" x="180" y="146" width="44" height="88"/>
+<g><rect x="220" y="150" width="130" height="34" rx="12" fill="#fff" stroke="#bbb"/><text x="285" y="172" font-size="12" text-anchor="middle">先看是哪一张牌</text></g>
+</svg></div>
+<p>箱子里没有新玩具，也没有一把现成的金钥匙。里面是一卷彩带，五截颜色分开，正好给五张身份牌当挂钩绳。还有一块可以挂上展板的小木牌，上面是空的，等他们自己写。</p>
+<p>林老师就在站牌后面，没有提前把答案说出来。她只问：「倒着走过了吗？」</p>
+<p>「走过了。」豆豆说。他这次先看了看千米牌，才把数字念出来，「6 站是 3 千米。还剩 4400 米。石子路是 200 米。两条丝带一样长。门是米，蝴蝶是毫米。」</p>
+<p>他们回到走廊。五个钩子还空着。小美按从短到长的顺序把牌挂回去：毫米、厘米、分米、米、千米。彩带垂在牌下面。豆豆在那块小木牌上抄规矩，一句一句对着身份牌，没有再自己加 0：</p>
+<div class="clue"><b>1 厘米 = 10 毫米。1 米 = 10 分米 = 100 厘米。1 千米 = 1000 米。</b></div>
+<p>一年级的小朋友在走廊那头探头。寻宝图上的空格，现在都有单位了。</p>
+<p>林老师看着这五张牌，说：「今天箱子打不开，不是路太远，是牌认错了。门贴成分米，翅膀贴成厘米，70 就比 7 大，20000 厘米变成了 20000 米，3000 米又变成了 3000 千米。记住：<b>单位就是身份牌。牌贴错，路就错。走完要倒着再对一遍。</b>」</p>
+<p>豆豆把鞋带系上。他侧过脸，对小美很小声地说：「我还是想算得快。可快之前，要先看是哪一张牌。」</p>
+<p>小美把小本子合上。五张牌都回到了自己的钩子上。</p>
+
+<div class="memo"><h2>📌 贴牌之前的四句话</h2><p style="margin:0 0 8px;font-size:.85em;color:#5c7380">今天记住什么：</p>
+<ol>
+<li><b>先选对身份牌。</b>门大约高 2 米，不是 2 分米。蝴蝶翅膀大约长 35 毫米，不是 35 厘米。床大约 2 米，鞋大约 20 厘米；20 分米是 2 米，不能拿来量鞋。</li>
+<li><b>单位不同，先换成一样的再比。</b>1 厘米 = 10 毫米，所以 7 厘米 = 70 毫米，70 毫米 = 7 厘米。</li>
+<li><b>先算完，再换单位。</b>400×50=20000 厘米。20000 厘米 = 200 米，不是 20000 米。</li>
+<li><b>千米和米差的是 1000。</b>6×500=3000 米 = 3 千米。2 千米 = 2000 米，6400−2000=4400 米。填完倒着再对一遍。</li>
+</ol>
+<p style="text-align:center;font-size:1.4em;margin:8px 0 0">📏 🦋 📏</p>
+</div>
+<p class="foot">参考说明：本故事原创编写，人物、情节、题目和数字都是新编的，没有摘抄任何版权原文。写法上借鉴了这几本书的结构：李毓佩《奇妙的数王国》给每个单位一张「身份牌」和一句规矩，牌认错就会走错路；《数学帮帮忙》（Math Matters）让生活里的麻烦逼出数学——展板空了、寻宝要走错，才不得不看清单位；斯图尔特·J·墨菲的 MathStart 一个故事盯住一件事，结尾把已经得到的结果倒回去，对着每一条线索再看一遍。急性子同学抢着算、细心的人拦住，借用了杨红樱《马小跳玩数学》那种身边同学一起把事情想清楚的角色搭配，人物和情节是新的。讲法对照人教版三年级上册长度单位相关内容（毫米、厘米、分米、米、千米的认识和简单换算），不照搬例题，也不编造页码。</p>
+</div>
+<script>window.addEventListener('beforeprint',function(){document.querySelectorAll('details').forEach(function(d){d.open=true;});});</script>
+</body>
+</html>
