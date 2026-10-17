@@ -46,6 +46,50 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 .ck{display:flex;align-items:center;gap:10px;margin:12px 0;font-size:1.05em}
 .ck input{width:1.4em;height:1.4em;accent-color:var(--pri)}
 .line{border-bottom:2px solid #2b2b3a;display:inline-block;min-width:3.2em;text-align:center}
+.prog{background:var(--card);border-radius:14px;padding:12px 14px;margin:14px 0;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.prog b{font-size:.95em}
+
+button{font-family:inherit;touch-action:manipulation;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.prog .pbar{height:14px;background:#ffe8b0;border-radius:9px;overflow:hidden;margin:8px 0 4px}
+.prog .pfill{height:100%;background:linear-gradient(90deg,#ffb703,#fb8500);border-radius:9px;transition:width .5s}
+.prog .ptxt{font-size:16px;color:#8a6d3b;text-align:center;margin:0}
+.q-act{margin:14px 0 8px;padding:14px 12px;background:#fff;border-radius:16px;border:2px solid #ffe8b0;box-shadow:0 2px 8px rgba(255,122,69,.08)}
+.q-act.done{border-color:#9ce2c0;background:#f6fff9}
+.q-act .prompt{font-size:1.05em;font-weight:700;color:#1f3b73;margin:0 0 10px;line-height:1.45}
+.q-act .opts{display:grid;grid-template-columns:1fr;gap:10px}
+.q-act .opts.two{grid-template-columns:1fr 1fr}
+.q-act .opt{border:3px solid #cfe0ff;background:#f5f9ff;border-radius:16px;font-size:1.08em;padding:12px 14px;text-align:left;min-height:56px;color:#1f2d4d;transition:background .2s}
+.q-act .opt.c{text-align:center;font-size:1.35em;font-weight:700}
+.q-act .opt.sel{border-color:#3b82f6;background:#dbeafe}
+.q-act .opt.ok{border-color:#2fb344;background:#dcfce7}
+.q-act .opt.bad{border-color:#f03e3e;background:#ffe3e3;animation:shake .4s}
+.q-act .opt:disabled{cursor:default}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.q-act .fb{margin-top:10px;font-size:1em;border-radius:14px;padding:0}
+.q-act .fb .good{background:#dcfce7;color:#14692c;border-radius:14px;padding:10px 14px;font-weight:700}
+.q-act .fb .hint{background:#fff4e0;color:#9a4b00;border-radius:14px;padding:10px 14px}
+.q-act .fb .exp{background:#e7f0ff;color:#1d3f8a;border-radius:14px;padding:10px 14px}
+.q-act .eqs{font-size:1.2em;line-height:2;margin:4px 0}
+.q-act .eqline{white-space:nowrap;overflow-x:auto;padding-bottom:4px}
+.q-act .blank{display:inline-block;min-width:68px;height:48px;line-height:42px;border:3px solid #9bbcf5;border-radius:12px;background:#fff;text-align:center;vertical-align:middle;font-weight:700;color:#1d3f8a;margin:0 4px;cursor:pointer;padding:0 6px;font-size:1.1em}
+.q-act .blank.focus{border-color:#fb8500;box-shadow:0 0 0 3px #ffe1b3}
+.q-act .blank.ok{border-color:#2fb344;background:#dcfce7}
+.q-act .blank.bad{border-color:#f03e3e;background:#ffe3e3}
+.q-act .units{display:inline-flex;gap:8px;vertical-align:middle;margin-left:6px;flex-wrap:wrap}
+.q-act .unit{border:3px solid #ffd8a8;background:#fff4e6;border-radius:12px;font-size:1.1em;min-width:58px;min-height:48px;font-weight:700;color:#a14a00;padding:4px 10px}
+.q-act .unit.sel{border-color:#fb8500;background:#ffd8a8}
+.q-act .unit.ok{border-color:#2fb344;background:#dcfce7;color:#14692c}
+.q-act .unit.bad{border-color:#f03e3e;background:#ffe3e3}
+.q-act .unitq{font-size:.95em;color:#8a6d3b}
+.q-act .pad{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:10px}
+.q-act .pad button{border:none;background:#fff1d6;border-radius:14px;font-size:1.35em;font-weight:700;min-height:52px;color:#5a3d00;box-shadow:0 3px 0 #f1c26b}
+.q-act .pad button:active{transform:translateY(2px);box-shadow:0 1px 0 #f1c26b}
+.q-act .pad .del{background:#ffe3e3;color:#c92a2a;box-shadow:0 3px 0 #f5a3a3}
+.q-act .row{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:10px}
+.q-act .btn{border:none;border-radius:16px;font-size:1.1em;font-weight:700;padding:10px 22px;min-height:52px;color:#fff;background:#3b82f6;box-shadow:0 4px 0 #1d5fd0}
+.q-act .btn:active{transform:translateY(2px);box-shadow:0 2px 0 #1d5fd0}
+.q-act .btn[disabled]{opacity:.45}
+
 @page{margin:12mm}
 @media print{
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -55,6 +99,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
   details,details>div{display:block !important;visibility:visible !important;height:auto !important}
   details:not([open])>*:not(summary){display:block !important}
   .lastpage{break-before:page}
+  .prog,.q-act .pad,.q-act .row{display:none}
 }
 </style>
 </head>
@@ -76,8 +121,14 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <h1>📒 错题练习册</h1>
 <p class="sub">先看清问什么，再说先算哪一步<br>给小美的练习 · 人教版三年级上册 · 约 20 分钟 · 家长陪做</p>
 
+<div class="prog" id="prog" aria-live="polite">
+  <b>做题进度</b>
+  <div class="pbar prog-bar" role="progressbar" aria-valuemin="0" aria-valuemax="31" aria-valuenow="0"><div class="prog-fill" class="pfill" id="progFill"></div></div>
+  <p class="ptxt" id="progText">已完成 0 / 31 题（答对才计入）</p>
+</div>
+
 <div class="card how">
-<b>家长用法</b>：您念题，小美自己圈、说、算，写在纸上。每题有「家长提示」和「答案」，都是<b>点一下才展开</b>。做完一题再对答案。<br>
+<b>家长用法</b>：您念题，小美在手机上选答案或填空，点「检查 ✓」看对错；也可以写在纸上再对照。每题有「家长提示」和「答案」，都是<b>点一下才展开</b>。做完一题再对答案。<br>
 三关一共 31 题：审题 7 题、运算 14 题、长度 10 题。打印时，提示和答案会自动展开。
 </div>
 
@@ -91,6 +142,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <h2>故事书还剩多少本？</h2>
 <div class="q">书店有 180 本故事书。上午借出 67 本，下午又借出 48 本。<br><b>现在还剩多少本？</b></div>
 <div class="todo">✏️ 先圈问句里的「还剩」。想一想：67+48 得到的是「一共借出」，还是「还剩」？</div>
+<div class="q-act" data-q="1"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>「问的是还剩，还是一共借出？」——还剩。</li>
 <li>如果孩子算出 67+48=115 就停，问：「115 本是借走的，还是架上剩下的？」</li>
@@ -115,6 +167,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <h2>问的是每盒，还是一共？</h2>
 <div class="q">水果店里，4 袋橘子一共 28 元，5 盒草莓一共 40 元。<br>(1) <b>每盒草莓多少元？</b><br>(2) <b>橘子和草莓一共花了多少元？</b></div>
 <div class="todo">✏️ 两问各圈一次。第 (1) 问的单位是「每盒……元」，第 (2) 问的才是「一共……元」。</div>
+<div class="q-act" data-q="2"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>「第 (1) 问有没有让你把 28 和 40 加起来？」——没有，它问的是每盒草莓。</li>
 <li>「40 元是 5 盒的钱，求 1 盒，用什么法？」——除法。用口诀：五八四十。</li>
@@ -138,6 +191,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <h2>3 倍，和多 3 张</h2>
 <div class="q">小宇有 8 张卡片。<br>(1) 小琪的卡片<b>是小宇的 3 倍</b>，小琪有几张？<br>(2) 小北的卡片<b>比小宇多 3 张</b>，小北有几张？</div>
 <div class="todo">✏️ 用笔把「3 倍」和「多 3 张」圈出来。先说：3 倍是 3 个 8，多 3 张是 8 再加 3。</div>
+<div class="q-act" data-q="3"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>让孩子伸出手指比划：3 倍是几份同样多？多 3 张是在原来上面添几张？</li>
 <li>如果两问都用乘法，或都用加法，把第 6、7 题的线段图也翻出来对照。</li>
@@ -160,6 +214,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <h2>先圈问句和单位</h2>
 <div class="q">果园里，苹果每箱 9 千克，梨每箱 7 千克。今天运走了 5 箱苹果和 8 箱梨。<br><b>运走的苹果一共多少千克？</b></div>
 <div class="todo">✏️ ① 圈出问句；② 圈出问句里的单位「千克」；③ 把这题用不上的条件划掉，再列式。</div>
+<div class="q-act" data-q="4"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>「问的是苹果还是梨？单位是箱还是千克？」——苹果，千克。</li>
 <li>「梨的 7 千克、8 箱，这题要用吗？」——不用。有用不上的数很正常。</li>
@@ -196,6 +251,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
   <text x="180" y="138" text-anchor="middle" font-size="13" fill="#888">先把 3 段 8 厘米合起来，再从总长里去掉</text>
 </svg>
 <div class="todo">✏️ 对着图说：哪一段是要求的？已知的 3 段要先合起来，还是先用 90 去除以某个数？</div>
+<div class="q-act" data-q="5"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>「3 段同样是 8 厘米，合起来先算什么？」——先算 8×3。</li>
 <li>「总长 90 里，去掉这 3 段，剩下的就是 ?。用加法还是减法？」——减法。</li>
@@ -234,6 +290,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
   <text x="190" y="156" text-anchor="middle" font-size="13" fill="#888">求小熊一共多少个</text>
 </svg>
 <div class="todo">✏️ 数一数小熊有几段。每段都是 7 个，求一共多少个。</div>
+<div class="q-act" data-q="6"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>「图上小熊有几个小兔那么多？」——4 个，所以是 4 倍，用乘法。</li>
 <li>不要做成 7+4。4 是「4 份」，不是「多 4 个」。</li>
@@ -265,6 +322,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
   <text x="284" y="154" text-anchor="middle" font-size="14" fill="#1c7ed6">只多出这一截</text>
 </svg>
 <div class="todo">✏️ 指一指：哪一截是多出来的 16 厘米？蓝绳的整段是「25 再添 16」，还是「25 的几倍」？</div>
+<div class="q-act" data-q="7"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>「多 16 厘米，是乘 16，还是加 16？」——加。图上只有一小截是新长出来的。</li>
 <li>和上一题比一比：上一题是好几段同样长，这一题是同样的一段再加一截。</li>
@@ -286,6 +344,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <span class="tag">第 8 题</span><span class="tag b">同级 · 从左往右</span>
 <h2>85 − 25 + 47</h2>
 <div class="q"><b>85 − 25 + 47 =</b></div>
+<div class="q-act" data-q="8"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>「这里有乘法吗？」——没有，只有加减，从左边先算。</li>
 <li>请孩子在 85−25 下面画一条线，算完再往右。</li>
@@ -305,6 +364,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <span class="tag">第 9 题</span><span class="tag b">同级 · 从左往右</span>
 <h2>93 − 48 + 36</h2>
 <div class="q"><b>93 − 48 + 36 =</b></div>
+<div class="q-act" data-q="9"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>93−48 是退位减：个位 3 减 8 不够，向十位借 1。</li>
 <li>仍然从左往右，算完减法再加 36。</li>
@@ -323,6 +383,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <span class="tag">第 10 题</span><span class="tag b">同级 · 从左往右</span>
 <h2>8 × 6 ÷ 3 × 2</h2>
 <div class="q"><b>8 × 6 ÷ 3 × 2 =</b></div>
+<div class="q-act" data-q="10"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>「只有乘和除，从哪边开始？」——从左边。</li>
 <li>一步写一行：先 8×6，再除以 3，最后再乘 2。</li>
@@ -344,6 +405,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <span class="tag">第 11 题</span><span class="tag b">同级 · 从左往右</span>
 <h2>450 − 180 + 27</h2>
 <div class="q"><b>450 − 180 + 27 =</b></div>
+<div class="q-act" data-q="11"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>仍然只有加减。先算 450−180，可以用 45 个十减 18 个十。</li>
 <li>27 是加上去的，不要和 180 捆在一起先减。</li>
@@ -363,6 +425,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <span class="tag">第 12 题</span><span class="tag b">先乘除，后加减</span>
 <h2>80 − 6 × 9</h2>
 <div class="q"><b>80 − 6 × 9 =</b></div>
+<div class="q-act" data-q="12"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>「减法和乘法都有，先做哪一个？」——先做乘法。</li>
 <li>让孩子先把 6×9 圈起来，算出 54，再去减。</li>
@@ -382,6 +445,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <span class="tag">第 13 题</span><span class="tag b">先乘除，后加减</span>
 <h2>352 − 7 × 8</h2>
 <div class="q"><b>352 − 7 × 8 =</b></div>
+<div class="q-act" data-q="13"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>先用口诀算 7×8，一句话：七八五十六。</li>
 <li>再算 352−56。可以先减 50，再减 6。</li>
@@ -400,6 +464,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <span class="tag">第 14 题</span><span class="tag b">先乘除，后加减</span>
 <h2>36 − 4 × 5</h2>
 <div class="q"><b>36 − 4 × 5 =</b></div>
+<div class="q-act" data-q="14"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>先圈 4×5。四五二十，再拿 36 去减。</li>
 <li>如果孩子脱口说 32×5，就是先做了减法。</li>
@@ -418,6 +483,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <span class="tag">第 15 题</span><span class="tag b">先乘除，后加减</span>
 <h2>45 ÷ 5 + 38</h2>
 <div class="q"><b>45 ÷ 5 + 38 =</b></div>
+<div class="q-act" data-q="15"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>除法在加法前面，而且要先做。口诀：五九四十五。</li>
 <li>得到 9 以后，再加 38。</li>
@@ -436,6 +502,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <span class="tag">第 16 题</span><span class="tag g">括号</span>
 <h2>48 ÷ (3 + 5)</h2>
 <div class="q"><b>48 ÷ (3 + 5) =</b></div>
+<div class="q-act" data-q="16"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>手指点着括号：「小括号在，就先算里面。」</li>
 <li>算完 3+5，括号可以划掉，变成 48÷8。</li>
@@ -456,6 +523,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <span class="tag">第 17 题</span><span class="tag g">括号</span>
 <h2>426 − (851 − 637)</h2>
 <div class="q"><b>426 − (851 − 637) =</b></div>
+<div class="q-act" data-q="17"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>先只看括号里的 851−637，可以在草稿纸上列竖式。</li>
 <li>括号算完，再用 426 去减那个得数。不要先用 426 减 851。</li>
@@ -475,6 +543,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <h2>568 + 274</h2>
 <div class="q"><b>用竖式计算：568 + 274 =</b></div>
 <div class="todo">✏️ 数位对齐。个位算完，记住进位，再算十位。</div>
+<div class="q-act" data-q="18"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>从个位加起。哪一位满 10，就向左进 1。</li>
 <li>十位加完若又满 10，百位还要加上这个进位。</li>
@@ -501,6 +570,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <h2>500 − 246</h2>
 <div class="q"><b>用竖式计算：500 − 246 =</b></div>
 <div class="todo">✏️ 个位是 0，十位也是 0。想好向哪一位借。</div>
+<div class="q-act" data-q="19"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>个位 0 减 6 不够，看十位，十位也是 0，只能向百位借。</li>
 <li>百位借走 1 后变成 4。借来的 1 个百先变成 10 个十，十位再借 1 个十给个位，十位剩 9，个位是 10。</li>
@@ -526,6 +596,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <span class="tag">第 20 题</span><span class="tag g">口算进位</span>
 <h2>46 + 57</h2>
 <div class="q"><b>口算：46 + 57 =</b></div>
+<div class="q-act" data-q="20"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>不要列竖式。先说个位 6+7 得多少，满十了怎么办。</li>
 <li>十位别忘了加上进上来的 1。</li>
@@ -544,6 +615,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <span class="tag">第 21 题</span><span class="tag g">口算进位</span>
 <h2>250 + 180</h2>
 <div class="q"><b>口算：250 + 180 =</b></div>
+<div class="q-act" data-q="21"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>个位都是 0，好办。十位 5 个十加 8 个十，满不满 10 个十？</li>
 <li>满了就要向百位进 1。也可以想：250+200=450，180 比 200 少 20，450−20。</li>
@@ -591,6 +663,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <span class="tag">第 22 题</span><span class="tag b">填单位</span>
 <h2>黑板有多长</h2>
 <div class="q">教室里的黑板长约 4（　　）。<br>在括号里填 <b>毫米、厘米、分米或米</b>。</div>
+<div class="q-act" data-q="22"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>让孩子张开双臂比一比。4 米大约要从教室这头走到那头的一截；4 厘米只有一块橡皮那么长。</li>
 <li>这题填大概单位，不用精确测量。</li>
@@ -606,6 +679,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <span class="tag">第 23 题</span><span class="tag b">填单位</span>
 <h2>一只蜜蜂</h2>
 <div class="q">一只蜜蜂长约 15（　　）。<br>在括号里填 <b>毫米、厘米、分米或米</b>。</div>
+<div class="q-act" data-q="23"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>「15 米长的蜜蜂」比教室还长，可能吗？</li>
 <li>指甲盖大约宽 1 厘米。蜜蜂比指甲盖稍长一点，但远没有 15 厘米。15 毫米就是 1 厘米 5 毫米。</li>
@@ -621,6 +695,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <span class="tag">第 24 题</span><span class="tag b">填单位</span>
 <h2>一块橡皮</h2>
 <div class="q">一块橡皮长约 4（　　）。<br>在括号里填 <b>毫米、厘米、分米或米</b>。</div>
+<div class="q-act" data-q="24"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>拿出一块真的橡皮，让孩子看着填，不要凭空猜。</li>
 <li>4 毫米很薄很短，4 分米是 40 厘米，比文具盒还长。</li>
@@ -636,6 +711,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <span class="tag">第 25 题</span><span class="tag b">换算 · 下楼</span>
 <h2>6 分米 = （　　）厘米</h2>
 <div class="q"><b>6 分米 = （　　）厘米</b></div>
+<div class="q-act" data-q="25"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>看楼梯：分米到厘米，是下楼还是上楼？下楼，做乘法。</li>
 <li>「1 分米是多少厘米？」——10 厘米。6 分米就是 6 个 10 厘米。</li>
@@ -652,6 +728,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <span class="tag">第 26 题</span><span class="tag b">换算 · 上楼</span>
 <h2>700 厘米 = （　　）米</h2>
 <div class="q"><b>700 厘米 = （　　）米</b></div>
+<div class="q-act" data-q="26"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>厘米换成米，单位变大，是上楼，做除法。</li>
 <li>1 米 = 100 厘米。问 700 里面有几个 100。</li>
@@ -669,6 +746,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <span class="tag">第 27 题</span><span class="tag b">换算 · 下楼</span>
 <h2>3 千米 = （　　）米</h2>
 <div class="q"><b>3 千米 = （　　）米</b></div>
+<div class="q-act" data-q="27"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>楼梯最上面一阶：千米到米要 ×1000，不是 ×100，也不是 ×10。</li>
 <li>3 个 1000，可以写 1000+1000+1000。</li>
@@ -687,6 +765,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <span class="tag">第 28 题</span><span class="tag b">换算 · 上楼</span>
 <h2>40 毫米 = （　　）厘米</h2>
 <div class="q"><b>40 毫米 = （　　）厘米</b></div>
+<div class="q-act" data-q="28"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>毫米换成厘米，单位变大，做除法。</li>
 <li>1 厘米 = 10 毫米。40 里面有几个 10？</li>
@@ -704,6 +783,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <span class="tag">第 29 题</span><span class="tag b">比大小</span>
 <h2>50 毫米 ○ 6 厘米</h2>
 <div class="q"><b>50 毫米 ○ 6 厘米</b><br>在 ○ 里填 &gt;、&lt; 或 =。</div>
+<div class="q-act" data-q="29"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>单位不一样，不能直接比数字 50 和 6。50 看起来大，单位可能更小。</li>
 <li>选一个单位当「同一把尺子」。换成厘米，或换成毫米，都可以。</li>
@@ -722,6 +802,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <span class="tag">第 30 题</span><span class="tag b">比大小</span>
 <h2>2 米 ○ 18 分米</h2>
 <div class="q"><b>2 米 ○ 18 分米</b><br>在 ○ 里填 &gt;、&lt; 或 =。</div>
+<div class="q-act" data-q="30"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>1 米 = 10 分米。2 米是几个 10 分米？</li>
 <li>算完再和 18 分米比。不要只看 2 比 18 小。</li>
@@ -741,6 +822,7 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 <h2>走了多少米</h2>
 <div class="q">操场上，小美走了 150 步，每步长 60 厘米。<br><b>她一共走了多少米？</b></div>
 <div class="todo">✏️ 圈单位：条件里是「厘米」，问题里是「米」。先算出一共多少厘米，再换算。</div>
+<div class="q-act" data-q="31"></div>
 <details class="tip"><summary>家长提示</summary><div><ul>
 <li>「150 步，每步 60 厘米，是 150 个 60 厘米，先用什么法？」——乘法。</li>
 <li>「得数的单位先是厘米还是米？」——先是厘米。问题要米，还要上楼换算。</li>
@@ -780,6 +862,307 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
 </div>
 <script>
 (function () {
+  var KEY = 'lianxi_kejian_v1';
+  var PRAISE = ['对啦！', '真棒！', '完全正确！', '好厉害！', '你想清楚了！'];
+  var CFG = {
+    '1': { type: 'num', p: '列式计算：现在还剩多少本？', expr: '180 − 67 − 48 =', a: 65, units: ['本', '个'], u: '本',
+      hint: '问的是「还剩」，要从 180 里连续减去借出的。', exp: '180−67−48=65（本）。115 是一共借出，不是还剩。' },
+    '2': { type: 'blanks', p: '两问分别填得数：', lines: ['(1) 40 ÷ 5 = {} （元）', '(2) 28 + 40 = {} （元）'], a: [8, 68],
+      hint: '第(1)问用除法求每盒；第(2)问才把两样总价相加。', exp: '每盒草莓 8 元；一共 68 元。' },
+    '3': { type: 'blanks', p: '两问分别填得数：', lines: ['(1) 8 × 3 = {} （张）', '(2) 8 + 3 = {} （张）'], a: [24, 11],
+      hint: '「3 倍」用乘法；「多 3 张」用加法。', exp: '小琪 24 张；小北 11 张。' },
+    '4': { type: 'num', p: '运走的苹果一共多少千克？', expr: '9 × 5 =', a: 45, units: ['千克', '箱'], u: '千克',
+      hint: '只用苹果：5 箱，每箱 9 千克。', exp: '9×5=45（千克）。梨的条件用不上。' },
+    '5': { type: 'num', p: '彩绳「?」是多少厘米？', expr: '90 − 8 × 3 =', a: 66, units: ['厘米', '米'], u: '厘米',
+      hint: '先算 8×3，再用 90 减去。', exp: '90−8×3=66（厘米）。' },
+    '6': { type: 'num', p: '小熊采了多少个蘑菇？', expr: '7 × 4 =', a: 28, units: ['个', '段'], u: '个',
+      hint: '4 倍就是 4 个 7，用乘法。', exp: '7×4=28（个）。' },
+    '7': { type: 'num', p: '蓝绳长多少厘米？', expr: '25 + 16 =', a: 41, units: ['厘米', '米'], u: '厘米',
+      hint: '比红绳长 16 厘米，用加法。', exp: '25+16=41（厘米）。' },
+    '8': { type: 'num', p: '先算哪一步？写出得数。', expr: '85 − 25 + 47 =', a: 107,
+      hint: '只有加减，从左往右，先算 85−25。', exp: '85−25+47=107。' },
+    '9': { type: 'num', p: '写出得数。', expr: '93 − 48 + 36 =', a: 81, hint: '先算 93−48，再加 36。', exp: '93−48+36=81。' },
+    '10': { type: 'num', p: '写出得数。', expr: '8 × 6 ÷ 3 × 2 =', a: 32, hint: '乘除同级，从左往右。', exp: '8×6÷3×2=32。' },
+    '11': { type: 'num', p: '写出得数。', expr: '450 − 180 + 27 =', a: 297, hint: '先算 450−180，再加 27。', exp: '450−180+27=297。' },
+    '12': { type: 'num', p: '写出得数。', expr: '80 − 6 × 9 =', a: 26, hint: '先算 6×9，再减。', exp: '80−6×9=26。' },
+    '13': { type: 'num', p: '写出得数。', expr: '352 − 7 × 8 =', a: 296, hint: '先算 7×8=56。', exp: '352−7×8=296。' },
+    '14': { type: 'num', p: '写出得数。', expr: '36 − 4 × 5 =', a: 16, hint: '先算 4×5。', exp: '36−4×5=16。' },
+    '15': { type: 'num', p: '写出得数。', expr: '45 ÷ 5 + 38 =', a: 47, hint: '先算 45÷5。', exp: '45÷5+38=47。' },
+    '16': { type: 'num', p: '写出得数。', expr: '48 ÷ (3 + 5) =', a: 6, hint: '先算括号里的 3+5。', exp: '48÷(3+5)=6。' },
+    '17': { type: 'num', p: '写出得数。', expr: '426 − (851 − 637) =', a: 212, hint: '先算括号里的 851−637。', exp: '426−(851−637)=212。' },
+    '18': { type: 'num', p: '竖式得数。', expr: '568 + 274 =', a: 842, hint: '从个位加起，注意进位。', exp: '568+274=842。' },
+    '19': { type: 'num', p: '竖式得数。', expr: '500 − 246 =', a: 254, hint: '个位、十位都是 0，要向百位借。', exp: '500−246=254。' },
+    '20': { type: 'num', p: '口算得数。', expr: '46 + 57 =', a: 103, hint: '个位 6+7 满十进一。', exp: '46+57=103。' },
+    '21': { type: 'num', p: '口算得数。', expr: '250 + 180 =', a: 430, hint: '十位 5+8 满十，向百位进一。', exp: '250+180=430。' },
+    '22': { type: 'choice', p: '黑板长约 4（　　），选单位：', opts: ['毫米', '厘米', '分米', '米'], a: 3, center: true,
+      hint: '4 毫米、4 厘米都太短；黑板大约几米长。', exp: '答：4 米。' },
+    '23': { type: 'choice', p: '蜜蜂长约 15（　　），选单位：', opts: ['毫米', '厘米', '分米', '米'], a: 0, center: true,
+      hint: '比指甲盖稍长，用毫米。', exp: '答：15 毫米。' },
+    '24': { type: 'choice', p: '橡皮长约 4（　　），选单位：', opts: ['毫米', '厘米', '分米', '米'], a: 1, center: true,
+      hint: '直尺上大约 4 厘米像一块橡皮。', exp: '答：4 厘米。' },
+    '25': { type: 'num', p: '6 分米 =（　　）厘米', expr: '6 × 10 =', a: 60, units: ['厘米', '分米'], u: '厘米',
+      hint: '分米→厘米，下楼 ×10。', exp: '6 分米 = 60 厘米。' },
+    '26': { type: 'num', p: '700 厘米 =（　　）米', expr: '700 ÷ 100 =', a: 7, units: ['米', '厘米'], u: '米',
+      hint: '厘米→米，上楼 ÷100。', exp: '700 厘米 = 7 米。' },
+    '27': { type: 'num', p: '3 千米 =（　　）米', expr: '3 × 1000 =', a: 3000, units: ['米', '千米'], u: '米',
+      hint: '千米→米，×1000。', exp: '3 千米 = 3000 米。' },
+    '28': { type: 'num', p: '40 毫米 =（　　）厘米', expr: '40 ÷ 10 =', a: 4, units: ['厘米', '毫米'], u: '厘米',
+      hint: '毫米→厘米，÷10。', exp: '40 毫米 = 4 厘米。' },
+    '29': { type: 'choice', p: '50 毫米 ○ 6 厘米，○ 里填：', opts: ['<', '=', '>'], a: 0, center: true,
+      hint: '先把 50 毫米换成 5 厘米再比。', exp: '50 毫米 < 6 厘米。' },
+    '30': { type: 'choice', p: '2 米 ○ 18 分米，○ 里填：', opts: ['<', '=', '>'], a: 2, center: true,
+      hint: '2 米 = 20 分米，再和 18 分米比。', exp: '2 米 > 18 分米。' },
+    '31': { type: 'num', p: '小美一共走了多少米？', expr: '150 × 60 ÷ 100 =', a: 90, units: ['米', '厘米'], u: '米',
+      hint: '先算厘米，再换成米（÷100）。', exp: '150×60=9000 厘米 = 90 米。' }
+  };
+
+  function loadProg() { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { return {}; } }
+  function saveProg(p) { try { localStorage.setItem(KEY, JSON.stringify(p)); } catch (e) {} }
+  function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+  function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+
+  var activePad = null;
+
+  function parseNum(s) {
+    var m = String(s || '').replace(/\s/g, '').match(/-?\d+/);
+    return m ? +m[0] : NaN;
+  }
+
+  function padHTML() {
+    var k = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+    return '<div class="pad">' + k.map(function (n) { return '<button type="button" data-k="' + n + '">' + n + '</button>'; }).join('') +
+      '<button type="button" class="del" data-k="del">⌫</button><button type="button" class="del" data-k="clr">清空</button></div>';
+  }
+
+  function focusBlank(ctx, i) {
+    ctx.cur = i;
+    ctx.blanks.forEach(function (b, j) { b.classList.toggle('focus', j === i); });
+    activePad = ctx;
+  }
+
+  function padKey(ctx, k) {
+    if (!ctx || ctx.busy) return;
+    var b = ctx.blanks[ctx.cur];
+    if (!b || b.classList.contains('ok')) return;
+    b.classList.remove('bad');
+    var v = b.textContent;
+    if (k === 'del') v = v.slice(0, -1);
+    else if (k === 'clr') v = '';
+    else if (v.length < 5) v = (v === '0' ? '' : v) + k;
+    b.textContent = v;
+    saveDraft(ctx);
+  }
+
+  function bindPad(ctx, root) {
+    $$('.pad button', root).forEach(function (btn) {
+      btn.onclick = function () { padKey(ctx, btn.getAttribute('data-k')); };
+    });
+    ctx.blanks.forEach(function (bl, i) {
+      bl.onclick = function () { if (!ctx.busy) focusBlank(ctx, i); };
+    });
+  }
+
+  function saveDraft(ctx) {
+    var p = loadProg();
+    if (!p[ctx.q]) p[ctx.q] = {};
+    if (ctx.st.type === 'choice') return;
+    var vals = ctx.blanks.map(function (b) { return b.textContent; });
+    p[ctx.q].draft = vals;
+    if (ctx.unit) p[ctx.q].unit = ctx.unit;
+    saveProg(p);
+  }
+
+  function markCorrect(q) {
+    var p = loadProg();
+    if (!p[q]) p[q] = {};
+    p[q].correct = true;
+    saveProg(p);
+    updateProgress();
+  }
+
+  function fbEl(ctx, cls, html) {
+    ctx.el.querySelector('.fb').innerHTML = '<div class="' + cls + '">' + html + '</div>';
+  }
+
+  function complete(ctx, explained) {
+    ctx.busy = true;
+    ctx.el.classList.add('done');
+    if (!explained) {
+      fbEl(ctx, 'good', '✓ ' + pick(PRAISE));
+      markCorrect(ctx.q);
+    }
+    var chk = ctx.el.querySelector('.btn');
+    if (chk) chk.disabled = true;
+  }
+
+  function wrong(ctx, hint, reveal) {
+    ctx.att++;
+    if (ctx.att === 1 && hint) {
+      fbEl(ctx, 'hint', '💡 提示：' + hint + '<br>再试一次！');
+      return false;
+    }
+    fbEl(ctx, 'exp', '📖 讲解：' + (ctx.st.exp || ''));
+    if (reveal) reveal();
+    ctx.busy = true;
+    ctx.el.classList.add('done');
+    var chk = ctx.el.querySelector('.btn');
+    if (chk) chk.disabled = true;
+    return true;
+  }
+
+  function mountChoice(ctx) {
+    var st = ctx.st, body = ctx.el.querySelector('.body');
+    var cols = (st.opts.length <= 4 && st.center) ? ' two' : '';
+    body.innerHTML = '<div class="opts' + cols + '">' + st.opts.map(function (o, i) {
+      return '<button type="button" class="opt' + (st.center ? ' c' : '') + '" data-i="' + i + '">' + o + '</button>';
+    }).join('') + '</div>';
+    ctx.el.querySelector('.row').innerHTML = '';
+    $$('.opt', body).forEach(function (btn) {
+      btn.onclick = function () {
+        if (ctx.busy) return;
+        var i = +btn.getAttribute('data-i');
+        if (i === st.a) {
+          btn.classList.add('ok');
+          $$('.opt', body).forEach(function (x) { x.disabled = true; });
+          complete(ctx, false);
+        } else {
+          btn.classList.remove('bad'); void btn.offsetWidth; btn.classList.add('bad');
+          btn.disabled = true;
+          wrong(ctx, st.hint, function () {
+            $$('.opt', body)[st.a].classList.add('ok');
+            $$('.opt', body).forEach(function (x) { x.disabled = true; });
+          });
+        }
+      };
+    });
+  }
+
+  function mountNum(ctx) {
+    var st = ctx.st, body = ctx.el.querySelector('.body');
+    var h = '<div class="eqs"><div class="eqline">' + st.expr + ' <span class="blank"></span>';
+    if (st.units) {
+      h += '</div><div><span class="unitq">单位：</span><span class="units">' +
+        st.units.map(function (u) { return '<button type="button" class="unit" data-u="' + u + '">' + u + '</button>'; }).join('') + '</span>';
+    }
+    body.innerHTML = h + '</div></div>' + padHTML();
+    ctx.blanks = $$('.blank', body);
+    ctx.unit = null;
+    bindPad(ctx, body);
+    focusBlank(ctx, 0);
+    var p = loadProg()[ctx.q];
+    if (p && p.draft && p.draft[0]) ctx.blanks[0].textContent = p.draft[0];
+    if (p && p.unit) {
+      $$('.unit', body).forEach(function (u) {
+        if (u.getAttribute('data-u') === p.unit) { u.classList.add('sel'); ctx.unit = p.unit; }
+      });
+    }
+    $$('.unit', body).forEach(function (u) {
+      u.onclick = function () {
+        if (ctx.busy) return;
+        $$('.unit', body).forEach(function (x) { x.classList.remove('sel', 'bad'); });
+        u.classList.add('sel');
+        ctx.unit = u.getAttribute('data-u');
+        saveDraft(ctx);
+      };
+    });
+    ctx.el.querySelector('.row').innerHTML = '<button type="button" class="btn">检查 ✓</button>';
+    var check = function () {
+      if (ctx.busy) return;
+      var bl = ctx.blanks[0], v = bl.textContent;
+      if (v === '') { fbEl(ctx, 'hint', '先用下面的数字键填上得数哦。'); return; }
+      if (st.units && !ctx.unit) { fbEl(ctx, 'hint', '别忘了点一个单位。'); return; }
+      var nOk = parseNum(v) === st.a;
+      var uOk = !st.units || ctx.unit === st.u;
+      if (nOk) bl.classList.add('ok'); else bl.classList.add('bad');
+      if (st.units) { var us = body.querySelector('.unit.sel'); if (us) us.classList.add(uOk ? 'ok' : 'bad'); }
+      if (nOk && uOk) { complete(ctx, false); return; }
+      var hint = !nOk ? st.hint : '单位要和问题对上。';
+      wrong(ctx, hint, function () {
+        bl.textContent = st.a;
+        bl.classList.remove('bad'); bl.classList.add('ok');
+        if (st.units) $$('.unit', body).forEach(function (x) {
+          x.classList.remove('sel', 'bad');
+          if (x.getAttribute('data-u') === st.u) x.classList.add('ok');
+        });
+      });
+    };
+    ctx.el.querySelector('.btn').onclick = check;
+    ctx.checkFn = check;
+  }
+
+  function mountBlanks(ctx) {
+    var st = ctx.st, body = ctx.el.querySelector('.body');
+    body.innerHTML = '<div class="eqs">' + st.lines.map(function (l) {
+      return '<div class="eqline">' + l.replace(/\{\}/g, '<span class="blank"></span>') + '</div>';
+    }).join('') + '</div>' + padHTML();
+    ctx.blanks = $$('.blank', body);
+    bindPad(ctx, body);
+    focusBlank(ctx, 0);
+    var p = loadProg()[ctx.q];
+    if (p && p.draft) p.draft.forEach(function (v, i) { if (ctx.blanks[i]) ctx.blanks[i].textContent = v; });
+    ctx.el.querySelector('.row').innerHTML = '<button type="button" class="btn">检查 ✓</button>';
+    var check = function () {
+      if (ctx.busy) return;
+      var empty = -1;
+      ctx.blanks.forEach(function (x, i) { if (x.textContent === '') empty = i; });
+      if (empty >= 0) { fbEl(ctx, 'hint', '还有空没填哦（点方框可换位置）。'); focusBlank(ctx, empty); return; }
+      var all = true;
+      ctx.blanks.forEach(function (x, i) {
+        if (parseNum(x.textContent) === st.a[i]) x.classList.add('ok');
+        else { x.classList.add('bad'); all = false; }
+      });
+      if (all) { complete(ctx, false); return; }
+      wrong(ctx, st.hint, function () {
+        ctx.blanks.forEach(function (x, i) {
+          x.textContent = st.a[i]; x.classList.remove('bad'); x.classList.add('ok');
+        });
+      });
+    };
+    ctx.el.querySelector('.btn').onclick = check;
+    ctx.checkFn = check;
+  }
+
+  function mount(el) {
+    var q = el.getAttribute('data-q');
+    var st = CFG[q];
+    if (!st) return;
+    var ctx = { el: el, q: q, st: st, att: 0, busy: false, cur: 0, blanks: [] };
+    el.innerHTML = '<div class="prompt">' + st.p + '</div><div class="body"></div><div class="fb"></div><div class="row"></div>';
+    if (st.type === 'choice') mountChoice(ctx);
+    else if (st.type === 'num') mountNum(ctx);
+    else if (st.type === 'blanks') mountBlanks(ctx);
+    var prog = loadProg()[q];
+    if (prog && prog.correct) {
+      ctx.busy = true;
+      el.classList.add('done');
+      fbEl(ctx, 'good', '✓ 这题已经做对了（进度已保存）');
+    }
+  }
+
+  function updateProgress() {
+    var p = loadProg(), ok = 0;
+    Object.keys(CFG).forEach(function (k) { if (p[k] && p[k].correct) ok++; });
+    var fill = document.getElementById('progFill');
+    var text = document.getElementById('progText');
+    var bar = document.querySelector('.prog-bar');
+    if (fill) fill.style.width = Math.round(ok / 31 * 100) + '%';
+    if (text) text.textContent = '已完成 ' + ok + ' / 31 题（答对才计入）';
+    if (bar) bar.setAttribute('aria-valuenow', String(ok));
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (!activePad || activePad.busy) return;
+    if (!activePad.el.contains(document.activeElement) && !activePad.el.querySelector('.blank.focus')) return;
+    if (/^[0-9]$/.test(e.key)) { padKey(activePad, e.key); e.preventDefault(); }
+    else if (e.key === 'Backspace') { padKey(activePad, 'del'); e.preventDefault(); }
+    else if (e.key === 'Enter' && activePad.checkFn) { activePad.checkFn(); e.preventDefault(); }
+  });
+
+  function init() {
+    $$('.q-act').forEach(mount);
+    updateProgress();
+  }
+
   var prev = [];
   window.addEventListener('beforeprint', function () {
     prev = [];
@@ -791,6 +1174,9 @@ ul{padding-left:1.2em;margin:6px 0}li{margin:4px 0}
   window.addEventListener('afterprint', function () {
     prev.forEach(function (pair) { pair[0].open = pair[1]; });
   });
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
 })();
 </script>
 </body>
