@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<meta name="color-scheme" content="light">
+<title>竹尺巷的河灯</title>
+<style>
+:root{--ink:#3a2a22;--muted:#7a6558;--bg:#fff6ea;--card:#fff;--pri:#d3542a;--green:#1f7a4d;--blue:#2a6f97;--line:#f0d8b4}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{color-scheme:light;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:21px;line-height:1.75;padding:env(safe-area-inset-top) 0 48px}
+button,input{font-family:inherit;font-size:22px}
+button{cursor:pointer;touch-action:manipulation}
+img{max-width:100%;height:auto;display:block;border-radius:18px;margin:12px 0}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px 24px}
+.top{position:sticky;top:0;z-index:20;background:rgba(255,246,234,.96);backdrop-filter:blur(6px);padding:8px 16px 10px;border-bottom:1px solid var(--line)}
+.toprow{display:flex;justify-content:space-between;align-items:center;gap:8px 12px;flex-wrap:wrap}
+.top b{font-size:20px;color:var(--pri)}
+#progText{font-size:18px;color:var(--muted)}
+.bar{height:12px;background:#f3e1c8;border-radius:99px;overflow:hidden;margin-top:6px}
+#progFill{height:100%;width:0;background:linear-gradient(90deg,#e9c46a,#e76f51);border-radius:99px;transition:width .35s ease}
+h1{font-size:34px;line-height:1.3;margin:14px 0 4px;text-align:center}
+h2{font-size:28px;line-height:1.35;color:var(--pri);margin:8px 0 10px}
+.sub{text-align:center;color:var(--muted);font-size:18px;margin:0 0 12px}
+.how,.play,.memo{background:var(--card);border-radius:18px;padding:14px 14px;margin:14px 0;box-shadow:0 2px 10px rgba(90,50,20,.06)}
+.how{font-size:19px;color:#5c4a40}
+p{margin:10px 0}
+.chap{scroll-margin-top:76px}
+.gate{display:none;scroll-margin-top:76px}
+.gate.on{display:block}
+.play h3{margin:0 0 8px;font-size:24px}
+.bigread{background:#fff7e0;border-radius:14px;padding:10px 12px;font-size:22px;line-height:1.55}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.row button,.submit,.nudge,.ghost{min-height:54px;border-radius:14px;border:none;background:#e76f51;color:#fff;font-weight:700;padding:10px 14px;box-shadow:0 3px 0 #b8432a}
+.row button{flex:1 1 46%}
+.submit{width:100%;font-size:24px;margin-top:8px}
+button:disabled{opacity:.45}
+.done .submit,.done .retry{display:none}
+.nudge{background:#2a6f97;box-shadow:0 3px 0 #1d4e6f;font-size:20px}
+.ghost{background:#8c5a3c;box-shadow:0 3px 0 #6b3f2a}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opts.row3{display:grid;grid-template-columns:repeat(3,1fr)}
+.opt,.item{min-height:56px;border:3px solid #efd3b4;background:#fffaf5;border-radius:14px;padding:10px 12px;text-align:left;color:var(--ink);line-height:1.4}
+.opt.selected{border-color:var(--blue);background:#e7f4fb}
+.opt.correct,.item.ok{border-color:var(--green);background:#e5f6ec}
+.opt.wrong{border-color:#c0392b;background:#fff0ee;animation:shake .35s}
+.fill{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.fill input{min-height:56px;width:6.2em;max-width:100%;text-align:center;border:3px solid #efd3b4;border-radius:14px;background:#fff;color:var(--ink);font-weight:700}
+.fill input:focus{outline:none;border-color:var(--blue)}
+.fill input.correct{border-color:var(--green);background:#e5f6ec}
+.fill input.wrong{border-color:#c0392b;background:#fff0ee;animation:shake .35s}
+.qlabel{font-weight:700;margin:12px 0 6px}
+.fb{margin-top:10px;border-radius:14px;padding:0;font-size:20px;line-height:1.55}
+.fb.ok{background:#e5f6ec;color:var(--green);padding:10px 12px}
+.fb.no{background:#fff4e0;color:#9a4b00;padding:10px 12px}
+.part{margin-top:6px}
+.bins{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.bin{min-height:72px;border:3px dashed #e7c48a;border-radius:14px;padding:8px;background:#fffdf8}
+.row button.nudge{background:#2a6f97;box-shadow:0 3px 0 #1d4e6f}
+.row button.ghost{background:#8c5a3c;box-shadow:0 3px 0 #6b3f2a}
+.bin b{display:inline-block;min-width:3em;color:var(--pri)}
+.chip{display:inline-block;background:#e5f6ec;border-radius:99px;padding:2px 10px;margin:4px 4px 0 0;font-size:18px}
+.item{width:100%;margin:0 0 8px;display:block;touch-action:none}
+.item b{display:block;font-size:22px}
+.item span{color:#7a6558}
+.item.selected{border-color:var(--blue);background:#e7f4fb}
+.bin.shake{animation:shake .35s}
+.dots{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.dots span{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#fff;border:2px solid #c9d7e0;font-weight:700}
+.dots span.on{background:#f4a261;border-color:#d3542a;color:#fff}
+svg text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+#rulerSvg,#lensSvg{touch-action:none;width:100%;height:auto;background:#fffaf2;border-radius:16px}
+.memo{background:linear-gradient(135deg,#fff1e0,#e7f6ef);border:3px dashed var(--pri)}
+.memo li{margin:12px 0}
+.foot{font-size:16px;color:var(--muted);line-height:1.6}
+.retry{background:none;border:none;color:var(--blue);font-weight:700;min-height:48px;box-shadow:none;padding:8px}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@media (prefers-reduced-motion:reduce){#progFill,.opt.wrong,.fill input.wrong,.bin.shake{animation:none;transition:none}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="toprow"><b>竹尺巷的河灯</b><span id="progText">已打开 0 / 6 道门</span></div>
+  <div class="bar" id="progBar" role="progressbar" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0" aria-label="开门进度"><div id="progFill"></div></div>
+</header>
+<main class="wrap">
+<h1>竹尺巷的河灯</h1>
+<p class="sub">0 挨着边，单位才肯开门<br>人教版三年级上册 · 约 15～20 分钟</p>
+<div class="how">小美碰上关着的门，就在手机上拖一拖、点一点。选完或填完，按「提交」。答错会有提示，改完再交。一道门没开，后面的故事先不出来。进度记在这台手机里，关掉再打开还在。</div>
+
+<section class="chap" id="ch1">
+<h2>第一章　竹尺不从 1 起</h2>
+<img src="img/scene-lane.svg" width="360" height="230" alt="黄昏的巷子里有六道木门，扎丸子头的女孩拿着竹尺，黄背心男孩抱着纸灯笼跑在前面">
+<img src="img/scene-strip.svg" width="360" height="230" alt="木门上钉着一张窄纸条，旁边横着一把竹尺，女孩在看刻度">
+<p>河灯夜的前一个黄昏，竹尺巷静得能听见纸灯笼的竹骨在响。巷子尽头是周爷爷的灯笼铺。今晚河上要点灯，六道木门却都关着。门开不开，不看谁跑得快，看门上的长度有没有写对。</p>
+<p>小美把竹尺捧在手里。尺头有一个刻得很深的圆点，那是 0。周爷爷只叮嘱过一句：「量东西，0 要挨着边。从 1 开始，数就会多出一截。」</p>
+<p>邻居阿禾抱着一摞灯笼纸跑在前面，鞋带甩来甩去。他的口头禅是：「我量得最快！」</p>
+<p>第一道门上钉着一张窄纸条。门楣的字很少：量准它有多长，门才开。</p>
+<p>阿禾把竹尺按上去，拇指压住「1」那条长线，正好压在纸条左边。「右边到了 6 厘米还多一点点，我看成 62 毫米！够了吧？」</p>
+<p>门没有动。竹尺轻轻一弹，0 那一头翘在纸条外面，像在摇头。</p>
+<p>「尺不答应。」小美说，「你从 1 量的。0 还空在边上。右边那个数里，藏着不该算进去的一截。我们自己拖，让 0 挨着左边，再读右边。」</p>
+<div class="play" id="rulerPlay">
+  <h3>拖动竹尺，量这张纸条</h3>
+  <p>阿禾把 1 厘米压在纸条左边，红色的 0 还在虚线更左面。想让 0 靠过去，就把尺子往右拖。也可以一次挪 1 毫米或 1 厘米。</p>
+  <div id="rulerSvgWrap"></div>
+  <p class="bigread" id="rulerLive" aria-live="polite"></p>
+  <div class="row">
+    <button type="button" class="nudge" id="nLmm">尺子向左 1 毫米</button>
+    <button type="button" class="nudge" id="nRmm">尺子向右 1 毫米</button>
+    <button type="button" class="nudge" id="nLcm">尺子向左 1 厘米</button>
+    <button type="button" class="nudge" id="nRcm">尺子向右 1 厘米</button>
+  </div>
+  <p class="qlabel">纸条长多少毫米？只填数字。</p>
+  <div class="fill"><input id="rulerAns" type="text" inputmode="decimal" autocomplete="off" maxlength="6" aria-label="纸条长多少毫米"></div>
+  <button type="button" class="submit" id="rulerSubmit">交给门检查</button>
+  <div class="fb" id="rulerFb" role="status"></div>
+</div>
+</section>
+
+<section class="chap gate" id="ch2">
+<h2>第二章　门有多高，鞋有多短</h2>
+<p>第一道门开了一条缝。纸条长 52 毫米。0 挨着边，右边直接就是 5 厘米 2 毫米。从 1 厘米量起时，右边对着 62 毫米，还要再减去起点的 10 毫米。</p>
+<img src="img/scene-shop.svg" width="360" height="240" alt="一扇很高的铺门，门框上有一只小纸蝴蝶，旁边有床和一只红鞋，男孩在门下比画">
+<p>第二道门比第一道厚。雨水把四个单位冲淡了，只剩下数字。门框上还夹着一只小小的纸蝴蝶。</p>
+<p>纸条上是四件事：这扇门高约 2；纸蝴蝶一边翅膀约 35；周爷爷的床长约 2；阿禾的鞋长约 20。四个单位都放对，门才开。</p>
+<p>阿禾眼快：「2 很小，写分米。35 比 2 大，写厘米。床也是 2，还是分米。鞋写着 20，比 2 大，也写分米。我量得最快！」</p>
+<p>他把「分米」往门上按。门纹丝不动。</p>
+<p>小美没有笑他。「先别写。一拃大约 1 分米。你用手比一比，这扇门有几拃？纸蝴蝶有没有一把学生尺那么长？鞋要是写成 20 分米，先用 1 米＝10 分米换一下，这只鞋还穿得进吗？」</p>
+<p>阿禾举起手，在门的下沿就比完了。上面仍旧是一大块晚霞。蝴蝶的翅膀薄薄的，比指甲盖大一圈。他的鞋只盖住地面短短一截。</p>
+<div class="play">
+  <h3>把东西放进合适的单位</h3>
+  <p>先点一件东西，再点单位。也可以按住东西，拖到单位上松开。</p>
+  <div id="itemList"></div>
+  <div class="bins" id="binList"></div>
+  <div class="fb" id="unitFb" role="status"></div>
+</div>
+</section>
+
+<section class="chap gate" id="ch3">
+<h2>第三章　放大镜里的十个小格</h2>
+<p>第二道门松开了闩。门高约 2 米，不是 2 分米。2 分米大约只有 20 厘米。纸蝴蝶一边翅膀约 35 毫米，35 厘米才有一把学生尺那么长。床长约 2 米。鞋长约 20 厘米。20 分米＝2 米，一只鞋不能跟门一样高。</p>
+<img src="img/scene-lens.svg" width="360" height="230" alt="铜放大镜罩在竹尺的一小段上，镜片里刻度变大，旁边有纸蝴蝶和女孩">
+<p>第三道门前吊着两条灯穗，看起来都短短的。门上画着一个圆圈：70 毫米 ○ 7 厘米。填大于，走向旁边的水沟；填小于，走进花架；填等于，正门才开。</p>
+<p>阿禾已经迈出半步：「70 比 7 大！填大于！我量得最快！」</p>
+<p>水沟边的石头凉凉的。他探头看完，又跳回来，鞋帮湿了一点。「石头说，你在比 70 和 7，两家单位还没坐到一张桌子上。」</p>
+<p>他不服气：「厘米很小，1 厘米该等于 100 毫米吧？7 乘 100 是 700。70 比 700 小，那就填小于！」</p>
+<p>小美掏出周爷爷的铜放大镜。「100 先别用。1 厘米里面到底有几格，我们数清楚，再决定圆圈里填什么。」</p>
+<div class="play">
+  <h3>把放大镜拖到 0 和 1 中间</h3>
+  <p>按住圆镜拖动。盖住 0 到 1 厘米以后，按「数一数」。</p>
+  <div id="lensSvgWrap"></div>
+  <div class="dots" id="mmDots" hidden></div>
+  <button type="button" class="submit" id="countBtn">数一数这 1 厘米</button>
+  <div class="fb" id="lensMsg" role="status"></div>
+  <div class="gate" id="quizLensWrap">
+    <div id="quizLens"></div>
+  </div>
+</div>
+</section>
+
+<section class="chap gate" id="ch4">
+<h2>第四章　十段彩条和一根灯笼绳</h2>
+<p>等于号落上去，正门开了。1 厘米＝10 毫米。7 厘米＝7×10＝70 毫米。两条灯穗一样长。70 比 7 大，比的却不是同一家单位。100 是 1 米有多少厘米，不能借给毫米用。</p>
+<div id="equalBars"></div>
+<img src="img/scene-banner.svg" width="360" height="230" alt="两根木杆之间挂着十段彩色纸条拼成的横幅，下面有一卷细绳，两个孩子在看">
+<p>第四道门要一条 1 米长的横幅，挂上去，灯笼队才许通过。铺里找不到整张 1 米的纸，只有一叠正好 10 厘米的彩条。</p>
+<p>阿禾捏着一条比了比：「10 厘米很短。要拼到 1 米，得拼一百条吧？」</p>
+<p>「一条是 10 厘米，不是 1 厘米。」小美说，「你把条数和厘米数当成了同一个数。一条一条拼，拼到刚好 1 米就停。每一条也是 1 分米。」</p>
+<div class="play">
+  <h3>把 10 厘米的彩条拼成 1 米</h3>
+  <div id="stripSvgWrap"></div>
+  <p class="bigread" id="stripLive" aria-live="polite"></p>
+  <div class="row">
+    <button type="button" class="submit" id="addSeg" style="flex:1">拼上一段 10 厘米</button>
+    <button type="button" class="ghost" id="subSeg" style="flex:1">拿下一段</button>
+  </div>
+  <div class="gate" id="ropeBox">
+    <p>横幅齐了。门上还有第二句话，写在绳结旁边：灯笼绳长 2 米，剪下 8 分米去绑最前面那盏，还剩多少分米？</p>
+    <p>阿禾在墙上列式：「2 米＝200 分米。200−8＝192 分米。还剩这么长，够绕巷子！」墙上的粉笔亮了亮，又暗了。门不吃这个 192。</p>
+    <p>小美指着刚拼好的横幅。「你把米和分米的进率当成了 100。100 是厘米那一家。看这 10 格：它们是 1 米。2 米有几个这样的 10？100 分米换成米，是乘 1000，还是除以 10？300 厘米换成米，进率是 10，还是 100？」</p>
+    <div id="dmFig"></div>
+    <p>这 10 格是 1 米，也是 10 分米。灯笼绳有 2 米。</p>
+    <div id="quizRope"></div>
+  </div>
+</div>
+</section>
+
+<section class="chap gate" id="ch5">
+<h2>第五章　跑道上的一千米</h2>
+<p>第四道门开的时候，横幅被风托平。2 米＝20 分米，不是 200 分米。剪掉 8 分米，还剩 12 分米。12＋8＝20，20 分米又回到 2 米。100 分米＝10 米，不是 1000 米。300 厘米＝3 米，不是 30 米。10、100、1000 各管各的家。</p>
+<div id="cutFig"></div>
+<p>粉色是剪掉的 8 分米，绿色是剩下的 12 分米。上一行加下一行，是 2 米。</p>
+<img src="img/scene-track.svg" width="360" height="230" alt="绿色操场上有一圈跑道，穿红衣的女孩在跑，远处是河和一间小屋">
+<p>第五道门开在学校操场边上。门外就是河堤。门楣写着：跑到 1 千米，木桥才放灯笼过去。操场一圈 400 米。</p>
+<p>阿禾活动了一下脚踝，提笔就写：「400×2.5＝1 千米！」</p>
+<p>字写上去的一瞬间，门上的小灯暗了。2 圈再加半圈，路确实能凑成 1 千米。暗掉，是因为等号两边不是同一家人。</p>
+<p>「400 的单位是米。」小美说，「左边还是米，右边忽然写成千米，门不认。先把米数写完，换算另起一行。2 圈是 400×2，半圈是 400 的一半。加起来，再换成门要的千米。」</p>
+<p>阿禾不服：「那我写成 1000 千米，总该很大、很对了吧？」</p>
+<p>小美指指河堤外淡淡的山影。「1000 千米是一千个 1 千米。我们只是绕着操场跑。先看跑到多少米。」</p>
+<div class="play">
+  <h3>看小美跑完 2 圈加半圈</h3>
+  <p>小旗是起点。一圈 400 米。可以一圈一圈跑，也可以一口气跑到 2.5 圈。</p>
+  <div id="trackSvgWrap"></div>
+  <p class="bigread" id="lapLive" aria-live="polite">还在起点，0 米。</p>
+  <div class="row">
+    <button type="button" class="nudge" id="runLap">跑一圈</button>
+    <button type="button" class="nudge" id="runHalf">跑半圈</button>
+    <button type="button" class="submit" id="runAll" style="flex:1 1 100%">一口气跑 2.5 圈</button>
+    <button type="button" class="ghost" id="runReset">回到起点</button>
+  </div>
+  <div id="quizTrack"></div>
+  <div class="gate" id="lampBox">
+    <p>米数写对了，木桥还差一块牌子。河堤上每隔 500 米一盏灯，一共 6 盏，从操场口排到河岸。牌子问：这段是多少千米？</p>
+    <p>阿禾脱口而出：「6×500＝3000。填 3000！我量得最快！」</p>
+    <p>「3000 的后面是米。」小美说，「牌子问的是千米。算完米，还要再换一次。数对了，单位停在半路，门还是不开。」</p>
+    <div id="quizLamps"></div>
+  </div>
+</div>
+</section>
+
+<section class="chap gate" id="ch6">
+<h2>第六章　妈妈站在门边</h2>
+<p>桥栏上的灯一盏一盏亮到对岸。400×2＝800 米，半圈 200 米，一共 1000 米。1000 米＝1 千米，要另写一行，不能跟米写在同一个等号上，也不是 1000 千米。6 盏灯是 3000 米，等于 3 千米，不是 3000 千米。</p>
+<img src="img/scene-mom.svg" width="360" height="240" alt="穿紫衣的妈妈站在木门里，扎丸子头的女孩在门外抬头看，地上有一盏红灯笼">
+<p>最后一道门不高，恰好容得下一个人。妈妈赶来帮忙提灯笼，站在门边。门上新贴着一张纸条：妈妈高约 1 米 6 ____。单位填对，门才开。</p>
+<p>阿禾看了一眼就写：「厘米！1 米 6 厘米。」</p>
+<p>妈妈弯下腰，让他看自己的肩。「6 厘米大约有多长？比一比你的手指。」</p>
+<p>阿禾比了比。6 厘米只有一个手指节多一点。妈妈比 1 米高出的那一截，比这长得多，差不多到小美的额头再往上。</p>
+<p>「1 米 6 厘米，只比 1 米多出一点点。」小美说，「妈妈没有这么矮。毫米就更薄，6 毫米像一枚硬币的厚度。1 米后面再来一个 6，先想一想是哪一家单位。」</p>
+<div class="play">
+  <div id="quizMomUnit"></div>
+  <div class="gate" id="momRest">
+    <p>1 米＝100 厘米。6 分米要先变成厘米，再和 100 厘米加在一起。</p>
+    <div id="quizMomCm"></div>
+  </div>
+  <div class="gate" id="afterMom">
+    <p>小美点点头。6 分米＝60 厘米。100＋60＝160。妈妈大约高 160 厘米，也就是 1 米 6 分米。</p>
+    <div id="momFig"></div>
+    <p>蓝色 10 格是 1 米，紫色 6 格是多出来的 6 分米。合在一起是 16 分米。</p>
+    <p>门还要最后一次回头看。周爷爷拿出四段彩绳，让他们从大到小挂上最后一道门：200 厘米，30 分米，4 米，50 分米。</p>
+    <p>阿禾把 50 分米捏在最下面：「50 最小，因为 50 比 200 小。」</p>
+    <p>「你把 50 分米当成了 50 厘米。」小美说，「先全部换成厘米，再比谁长。分米换厘米，进率是 10。米换厘米，进率是 100。」</p>
+    <div id="quizSort"></div>
+    <div class="gate" id="sortTap">
+      <p class="qlabel">从大到小点。点错会告诉你为什么。</p>
+      <p class="bigread" id="orderRow">还没排。</p>
+      <div class="opts">
+        <button type="button" class="opt sortb" data-id="p50">50 分米＝500 厘米</button>
+        <button type="button" class="opt sortb" data-id="m4">4 米＝400 厘米</button>
+        <button type="button" class="opt sortb" data-id="p30">30 分米＝300 厘米</button>
+        <button type="button" class="opt sortb" data-id="c200">200 厘米＝200 厘米</button>
+      </div>
+      <button type="button" class="ghost" id="sortReset">重新排</button>
+      <div class="fb" id="sortFb" role="status"></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="chap gate" id="ending">
+<h2>河灯顺着刻度走</h2>
+<img src="img/scene-river.svg" width="360" height="230" alt="夜色里的河面上漂着四盏发光的纸灯笼，岸边站着女孩和戴帽子的老人">
+<div id="sortFig"></div>
+<p>四段彩绳按真正的长短挂好：50 分米，4 米，30 分米，200 厘米。换成厘米，是 500、400、300、200。最后一道门开了。</p>
+<p>灯笼队走到河边。纸灯一盏一盏放下水，河面像一条会发光的尺。</p>
+<p>周爷爷没有再出题。他只问：「倒着走过了吗？」</p>
+<p>小美从最后一道门往回说。</p>
+<p>「妈妈是 1 米 6 分米，等于 160 厘米，不是 1 米 6 厘米。四段绳子都换成厘米以后，50 分米最长，200 厘米最短。」</p>
+<p>「操场 2 圈加半圈是 1000 米，等于 1 千米。不能写成 400×2.5＝1 千米，等号两边单位不一样。6 盏灯是 3000 米，等于 3 千米，不是 3000 千米。」</p>
+<p>「灯笼绳 2 米等于 20 分米，不是 200 分米。剪掉 8 分米，还剩 12 分米。100 分米等于 10 米。300 厘米等于 3 米。」</p>
+<p>「两条灯穗一样长。1 厘米等于 10 毫米，所以 7 厘米等于 70 毫米。」</p>
+<p>「第一张纸条是 52 毫米。0 挨着边，直接读 52。从 1 起量，右边是 62 毫米，还要减去 10 毫米。」</p>
+<p>阿禾把鞋带系上。他很小声说：「我还是想量得快。可快之前，要先看 0 在不在边上，再看单位是哪一家。」</p>
+<p>小美把四句规矩用小字刻在竹尺的套子上。河灯往下游去，一盏跟着一盏，间隔稳稳的，像刻度。</p>
+<div class="memo">
+  <h2>竹尺套上的四句话</h2>
+  <ol>
+    <li><b>量长度从 0 起。</b>不从 0 起，就用终点减起点。从 1 厘米量到 6 厘米 2 毫米，是 62−10＝52 毫米。</li>
+    <li><b>先看东西有多长，再选单位。</b>门大约 2 米，蝴蝶翅膀大约 35 毫米，床大约 2 米，鞋大约 20 厘米。妈妈大约 1 米 6 分米，也就是 160 厘米。</li>
+    <li><b>进率别混。</b>1 厘米＝10 毫米，1 分米＝10 厘米，1 米＝10 分米＝100 厘米，1 千米＝1000 米。2 米＝20 分米，不是 200 分米。100 分米＝10 米。300 厘米＝3 米。</li>
+    <li><b>先算完，再换单位。</b>等号两边要同一家人。1000 米＝1 千米，要另写一行。3000 米＝3 千米，不是 3000 千米。</li>
+  </ol>
+</div>
+<p class="foot">参考说明：本故事为原创，人物、情节和数字都是新编的，没有摘抄版权原文。写法上借鉴了这些书的结构：李毓佩《奇妙的数王国》让每种单位守自己的规矩，规矩用错就会走错路；《数学帮帮忙》（Math Matters）用一件必须今晚办成的事，把数学从生活里逼出来；斯图尔特·J·墨菲的 MathStart 让一个故事盯住长度单位，结尾把已经走过的门倒回去再验一遍；杨红樱《马小跳玩数学》里急性子抢着答、旁边的人拦住，这里换成了新的人物和新的河灯夜。内容对照人教版三年级上册「毫米、分米和千米」的认识与换算，不照搬课本例题，也不编造页码。</p>
+</section>
+<p class="foot"><button type="button" class="ghost" id="resetBtn">清除这台手机上的进度</button><br>回到课件首页：<a href="../index.html">审题与数量关系</a></p>
+</main>
+<noscript>请允许浏览器运行脚本后再读这个故事。门要靠脚本打开。</noscript>
+<script>
+(function () {
+  var KEY = 'changdu-hedeng-v1';
+  var PX = 3.6;
+  var STRIP_LEFT = 70;
+  var STRIP_MM = 52;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var animating = false;
+  var countTimer = null;
+  var dragItem = null;
+  var rulerDrag = null;
+  var lensDrag = null;
+  var resetArmed = false;
+
+  var ITEMS = [
+    {id:'door', name:'巷口这扇门', num:'高约 2', ans:'米', bad:{
+      '分米':'2 分米大约只有 20 厘米，两拃那么高，人进不去。门比人还高，用米。',
+      '厘米':'2 厘米只有两颗指甲那么宽。',
+      '毫米':'2 毫米比一枚硬币还薄。',
+      '千米':'2 千米是一条长路，不是一扇门的高度。'
+    }},
+    {id:'wing', name:'纸蝴蝶一边翅膀', num:'约 35', ans:'毫米', bad:{
+      '厘米':'35 厘米大约一把学生尺那么长。这只翅膀没有那么大，用毫米。',
+      '分米':'35 分米＝350 厘米，是 3 米 5 分米，比门还高。',
+      '米':'35 米有十几层楼那么高。',
+      '千米':'35 千米能走出小镇。'
+    }},
+    {id:'bed', name:'周爷爷的床', num:'长约 2', ans:'米', bad:{
+      '分米':'2 分米的床，只能睡一本词典。床大约长 2 米。',
+      '厘米':'2 厘米比一块橡皮还短。',
+      '毫米':'2 毫米只是一点点厚。',
+      '千米':'2 千米的床，这条巷子放不下。'
+    }},
+    {id:'shoe', name:'阿禾的鞋', num:'长约 20', ans:'厘米', bad:{
+      '分米':'20 分米＝2 米。1 米＝10 分米，20÷10＝2。一只鞋不能跟门一样高。鞋大约长 20 厘米。',
+      '米':'20 米比一间教室还长。',
+      '毫米':'20 毫米＝2 厘米，比脚趾还短。',
+      '千米':'20 千米是很远的路，不是一只鞋。'
+    }}
+  ];
+
+  var ORDER = ['p50','m4','p30','c200'];
+  var NEXT_HINT = {
+    p50:'先点最长的。50 分米＝500 厘米，比 4 米的 400 厘米更长。',
+    m4:'500 厘米已经排好了。剩下里面，4 米＝400 厘米最长。',
+    p30:'还剩两段。30 分米＝300 厘米，比 200 厘米长。',
+    c200:'最后一段就是 200 厘米，它最短。'
+  };
+  var COLORS = ['#e76f51','#f4a261','#e9c46a','#2a9d8f','#3d7ea6','#e07a5f','#f2cc8f','#81b29a','#e76f51','#3d7ea6'];
+
+  function fresh() {
+    return {done:{}, placed:{}, strips:0, halves:0, reached:0, lensSeen:0, banner:0, order:[], origin:10, lx:250, ly:42};
+  }
+  function load() {
+    var s = fresh();
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (raw) {
+        var o = JSON.parse(raw);
+        if (o && typeof o === 'object') {
+          if (o.done) s.done = o.done;
+          if (o.placed) s.placed = o.placed;
+          if (typeof o.strips === 'number') s.strips = o.strips;
+          if (typeof o.halves === 'number') s.halves = o.halves;
+          if (o.reached) s.reached = 1;
+          if (o.lensSeen) s.lensSeen = 1;
+          if (o.banner) s.banner = 1;
+          if (o.order && o.order.length) s.order = o.order;
+          if (typeof o.origin === 'number') s.origin = o.origin;
+          if (typeof o.lx === 'number') s.lx = o.lx;
+          if (typeof o.ly === 'number') s.ly = o.ly;
+        }
+      }
+    } catch (e) {}
+    if (s.done.rope) { s.strips = 10; s.banner = 1; }
+    if (s.strips >= 10) s.banner = 1;
+    if (s.done.ruler) s.origin = 0;
+    if (s.done.units) {
+      for (var i = 0; i < ITEMS.length; i++) s.placed[ITEMS[i].id] = ITEMS[i].ans;
+    }
+    if (s.done.sortOrder) s.done.finale = 1;
+    if (s.done.finale) s.done.sortOrder = 1;
+    if (s.done.sortOrder && s.order.length < 4) s.order = ORDER.slice();
+    return s;
+  }
+  var state = load();
+  state.sel = '';
+
+  function save() {
+    try {
+      localStorage.setItem(KEY, JSON.stringify({
+        done: state.done, placed: state.placed, strips: state.strips, halves: state.halves,
+        reached: state.reached, lensSeen: state.lensSeen, banner: state.banner,
+        order: state.order, origin: state.origin, lx: state.lx, ly: state.ly
+      }));
+    } catch (e) {}
+  }
+  function clamp(n, a, b) { return Math.max(a, Math.min(b, n)); }
+  function normNum(s) {
+    s = String(s == null ? '' : s).replace(/[\s　]/g, '');
+    s = s.replace(/[０-９]/g, function (ch) { return String.fromCharCode(ch.charCodeAt(0) - 0xFF10 + 0x30); });
+    s = s.replace(/毫米|厘米|分米|千米|米/g, '');
+    if (/^-?\d+(\.\d+)?$/.test(s)) return String(Number(s));
+    return s;
+  }
+  function speak(mm) {
+    if (mm < 0) return '尺子外面';
+    var cm = Math.floor(mm / 10), r = mm % 10;
+    if (r === 0) return cm + ' 厘米（' + mm + ' 毫米）';
+    return cm + ' 厘米 ' + r + ' 毫米（' + mm + ' 毫米）';
+  }
+  function setFb(el, kind, text) {
+    if (!el) return;
+    el.className = 'fb ' + (kind || '');
+    el.textContent = text || '';
+  }
+
+  var GATES = [
+    ['ch2', function () { return !!state.done.ruler; }],
+    ['ch3', function () { return !!state.done.units; }],
+    ['ch4', function () { return !!state.done.lens; }],
+    ['ch5', function () { return !!state.done.rope; }],
+    ['ch6', function () { return !!state.done.track; }],
+    ['ending', function () { return !!state.done.finale; }],
+    ['quizLensWrap', function () { return !!(state.lensSeen || state.done.lens); }],
+    ['ropeBox', function () { return !!(state.banner || state.done.rope); }],
+    ['lampBox', function () { return !!state.done.trackQ; }],
+    ['momRest', function () { return !!state.done.momUnit; }],
+    ['afterMom', function () { return !!state.done.momCm; }],
+    ['sortTap', function () { return !!state.done.sortFill; }]
+  ];
+
+  function renderProgress() {
+    var keys = ['ruler','units','lens','rope','track','finale'];
+    var n = 0;
+    for (var i = 0; i < keys.length; i++) if (state.done[keys[i]]) n++;
+    var t = document.getElementById('progText');
+    var f = document.getElementById('progFill');
+    var b = document.getElementById('progBar');
+    if (t) t.textContent = '已打开 ' + n + ' / 6 道门';
+    if (f) f.style.width = (n / 6 * 100) + '%';
+    if (b) b.setAttribute('aria-valuenow', String(n));
+  }
+  function refresh(scroll) {
+    var newly = null;
+    for (var i = 0; i < GATES.length; i++) {
+      var el = document.getElementById(GATES[i][0]);
+      if (!el) continue;
+      var was = el.classList.contains('on');
+      var on = !!GATES[i][1]();
+      el.classList.toggle('on', on);
+      if (scroll && on && !was && !newly) newly = el;
+    }
+    renderProgress();
+    renderRuler();
+    renderUnits();
+    renderLens();
+    renderStrips();
+    renderTrack();
+    renderOrder();
+    if (newly) {
+      try { newly.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'start'}); } catch (e) {}
+    }
+  }
+
+  function buildRuler() {
+    var ticks = '';
+    for (var mm = 0; mm <= 100; mm++) {
+      var x = (mm * PX).toFixed(2);
+      var len = mm % 10 === 0 ? 34 : (mm % 5 === 0 ? 22 : 12);
+      ticks += '<line x1="'+x+'" y1="128" x2="'+x+'" y2="'+(128-len)+'" stroke="#3a2a22" stroke-width="'+(mm%10===0?2:1)+'"/>';
+      if (mm % 10 === 0) {
+        ticks += '<text x="'+x+'" y="78" text-anchor="middle" font-size="20" font-weight="700" fill="'+(mm===0?'#c0392b':'#3a2a22')+'">'+(mm/10)+'</text>';
+      }
+    }
+    var svg = '<svg id="rulerSvg" viewBox="0 0 360 200" role="img" aria-label="可以左右拖动的竹尺，红色是 0 刻度">';
+    svg += '<rect width="360" height="200" fill="#fffaf2"/>';
+    svg += '<rect x="70" y="142" width="187.2" height="32" rx="3" fill="#f4c7a1" stroke="#c9845a" stroke-width="2"/>';
+    svg += '<line x1="70" y1="64" x2="70" y2="176" stroke="#e76f51" stroke-width="2" stroke-dasharray="3 3"/>';
+    svg += '<text x="118" y="164" font-size="16" fill="#8c5a3c">纸条</text>';
+    svg += '<g id="rulerG"><rect x="-12" y="90" width="384" height="42" rx="6" fill="#e7c48a" stroke="#8c5a3c" stroke-width="2"/>';
+    svg += ticks;
+    svg += '<polygon points="0,132 -8,148 8,148" fill="#c0392b"/>';
+    svg += '</g></svg>';
+    document.getElementById('rulerSvgWrap').innerHTML = svg;
+    var svgEl = document.getElementById('rulerSvg');
+    svgEl.addEventListener('pointerdown', function (e) {
+      if (state.done.ruler) return;
+      rulerDrag = {x: e.clientX, origin: state.origin};
+      try { svgEl.setPointerCapture(e.pointerId); } catch (err) {}
+      e.preventDefault();
+    });
+    svgEl.addEventListener('pointermove', function (e) {
+      if (!rulerDrag) return;
+      var rect = svgEl.getBoundingClientRect();
+      var dMm = Math.round((e.clientX - rulerDrag.x) * (360 / rect.width) / PX);
+      state.origin = clamp(rulerDrag.origin - dMm, -12, 40);
+      renderRuler();
+    });
+    function endDrag() {
+      if (!rulerDrag) return;
+      rulerDrag = null;
+      save();
+    }
+    svgEl.addEventListener('pointerup', endDrag);
+    svgEl.addEventListener('pointercancel', endDrag);
+  }
+  function renderRuler() {
+    var g = document.getElementById('rulerG');
+    if (!g) return;
+    var o = state.done.ruler ? 0 : state.origin;
+    g.setAttribute('transform', 'translate(' + (STRIP_LEFT - o * PX) + ',0)');
+    var live = document.getElementById('rulerLive');
+    var text;
+    if (state.done.ruler) text = '0 挨着纸条左边。纸条长 52 毫米。第一道门已经开了。';
+    else if (o < 0) text = '0 跑进纸条里面了。把尺子往左挪，让红色的 0 正好挨着虚线。';
+    else if (o + STRIP_MM > 100) text = '纸条右边超出这把尺了。把尺子往右挪一挪。';
+    else if (o === 0) text = '0 已经挨着纸条左边。右边对着 ' + speak(STRIP_MM) + '。这个数就是纸条的长。';
+    else text = '纸条左边对着 ' + speak(o) + '，右边对着 ' + speak(o + STRIP_MM) + '。0 还没挨着边，右边的数还不是纸条的长。';
+    if (live) live.textContent = text;
+    var ans = document.getElementById('rulerAns');
+    var sub = document.getElementById('rulerSubmit');
+    var nudges = document.querySelectorAll('.nudge');
+    if (state.done.ruler) {
+      if (ans) { ans.value = '52'; ans.disabled = true; }
+      if (sub) { sub.disabled = true; sub.hidden = true; }
+      for (var i = 0; i < nudges.length; i++) {
+        if (nudges[i].id && nudges[i].id.charAt(0) === 'n') nudges[i].disabled = true;
+      }
+      setFb(document.getElementById('rulerFb'), 'ok', '0 挨着左边，右边就是 5 厘米 2 毫米，纸条长 52 毫米。第一道门开了。');
+    }
+  }
+  function nudge(dMm) {
+    if (state.done.ruler) return;
+    state.origin = clamp(state.origin - dMm, -12, 40);
+    save();
+    renderRuler();
+  }
+  function submitRuler() {
+    if (state.done.ruler) return;
+    var raw = document.getElementById('rulerAns').value;
+    var fb = document.getElementById('rulerFb');
+    if (!String(raw).replace(/\s/g, '')) { setFb(fb, 'no', '先写下纸条有多少毫米，再交给门。'); return; }
+    var got = normNum(raw);
+    var o = state.origin;
+    var right = o + STRIP_MM;
+    if (o === 0 && got === '52') {
+      state.done.ruler = 1;
+      state.origin = 0;
+      save();
+      refresh(true);
+      return;
+    }
+    var msg;
+    if (o < 0) msg = '0 跑进纸条里面了，左边对不到刻度。把尺子往左挪，让红色的 0 正好挨着虚线。';
+    else if (o === 10 && got === '62') msg = '右边确实对着 62 毫米，可左边对着 1 厘米，也就是 10 毫米。从 1 起量，要把起点减掉：62−10＝52。再把尺子向右挪 1 厘米，让 0 对准虚线，然后交 52。';
+    else if (o === 10 && got === '52') msg = '终点减起点，52 毫米算对了。可这道门要看见 0 挨着左边。现在还是 1 厘米压在虚线上。把尺子向右挪 1 厘米，再交一次。';
+    else if (o !== 0 && got === '52') msg = '52 毫米是纸条的长。可 0 还没有对准虚线，门不认。左边现在对着 ' + speak(o) + '。请把红色的 0 拖到纸条左边。';
+    else if (o === 0 && (got === '5.2' || got === '5')) msg = '0 对准了。5 厘米 2 毫米要写成毫米：1 厘米＝10 毫米，所以是 52 毫米。';
+    else if (o === 0) msg = '0 已经对准了。右边对着 5 厘米 2 毫米，纸条长 52 毫米。这一空填毫米的数字。';
+    else if (o > 0 && got === String(right)) msg = '你读的是右边的刻度 ' + right + ' 毫米。左边并不在 0，而在 ' + speak(o) + '。长度＝终点−起点＝' + right + '−' + o + '＝' + (right - o) + '。请先把 0 对准虚线，再读一次。';
+    else msg = '先看左边对着多少毫米，再看右边对着多少毫米。现在左边是 ' + o + ' 毫米，右边是 ' + right + ' 毫米。纸条的长是两边的差。门还要等 0 对准。';
+    setFb(fb, 'no', msg);
+  }
+
+  function renderUnits() {
+    var list = document.getElementById('itemList');
+    var bins = document.getElementById('binList');
+    if (!list || !bins) return;
+    var units = ['毫米','厘米','分米','米','千米'];
+    var ih = '';
+    for (var i = 0; i < ITEMS.length; i++) {
+      var it = ITEMS[i];
+      var done = state.placed[it.id];
+      ih += '<button type="button" class="item'+(done?' ok':'')+(state.sel===it.id?' selected':'')+'" data-id="'+it.id+'">';
+      ih += '<b>'+it.name+'</b><span>'+it.num+' ____</span>';
+      if (done) ih += '<small> 已放进「'+done+'」</small>';
+      ih += '</button>';
+    }
+    list.innerHTML = ih;
+    var bh = '';
+    for (var u = 0; u < units.length; u++) {
+      bh += '<div class="bin" data-u="'+units[u]+'"><b>'+units[u]+'</b><div>';
+      for (var k = 0; k < ITEMS.length; k++) {
+        if (state.placed[ITEMS[k].id] === units[u]) bh += '<span class="chip">'+ITEMS[k].name+'</span>';
+      }
+      bh += '</div></div>';
+    }
+    bins.innerHTML = bh;
+    var buttons = list.querySelectorAll('.item');
+    for (var n = 0; n < buttons.length; n++) buttons[n].addEventListener('pointerdown', itemDown);
+    var binEls = bins.querySelectorAll('.bin');
+    for (var m = 0; m < binEls.length; m++) {
+      binEls[m].addEventListener('click', function () {
+        if (state.done.units) return;
+        if (!state.sel) { setFb(document.getElementById('unitFb'), 'no', '先点一件东西，再点一个单位。也可以按住东西拖过来。'); return; }
+        placeItem(state.sel, this.getAttribute('data-u'));
+      });
+    }
+  }
+  function findItem(id) {
+    for (var i = 0; i < ITEMS.length; i++) if (ITEMS[i].id === id) return ITEMS[i];
+    return null;
+  }
+  function allPlaced() {
+    for (var i = 0; i < ITEMS.length; i++) if (state.placed[ITEMS[i].id] !== ITEMS[i].ans) return false;
+    return true;
+  }
+  function placeItem(id, unit) {
+    if (state.done.units) return;
+    var it = findItem(id);
+    if (!it) return;
+    if (it.ans === unit) {
+      state.placed[id] = unit;
+      state.sel = '';
+      save();
+      setFb(document.getElementById('unitFb'), 'ok', it.name + ' 归「' + unit + '」。');
+      renderUnits();
+      if (allPlaced()) {
+        state.done.units = 1;
+        save();
+        setFb(document.getElementById('unitFb'), 'ok', '四样都放对了。第二道门开了。');
+        refresh(true);
+      }
+    } else {
+      setFb(document.getElementById('unitFb'), 'no', (it.bad && it.bad[unit]) || '再想一想这样东西有多长。');
+      var bin = document.querySelector('.bin[data-u="'+unit+'"]');
+      if (bin) { bin.classList.remove('shake'); void bin.offsetWidth; bin.classList.add('shake'); }
+    }
+  }
+  function itemDown(e) {
+    var el = e.currentTarget;
+    if (el.classList.contains('ok') || state.done.units) return;
+    dragItem = {id: el.getAttribute('data-id'), x: e.clientX, y: e.clientY, moved: false, el: el};
+    try { el.setPointerCapture(e.pointerId); } catch (err) {}
+    el.addEventListener('pointermove', itemMove);
+    el.addEventListener('pointerup', itemUp);
+    el.addEventListener('pointercancel', itemUp);
+  }
+  function itemMove(e) {
+    if (!dragItem) return;
+    var dx = e.clientX - dragItem.x, dy = e.clientY - dragItem.y;
+    if (Math.abs(dx) > 8 || Math.abs(dy) > 8) dragItem.moved = true;
+    dragItem.el.style.transform = 'translate('+dx+'px,'+dy+'px)';
+  }
+  function itemUp(e) {
+    if (!dragItem) return;
+    var info = dragItem;
+    dragItem = null;
+    info.el.removeEventListener('pointermove', itemMove);
+    info.el.removeEventListener('pointerup', itemUp);
+    info.el.removeEventListener('pointercancel', itemUp);
+    info.el.style.visibility = 'hidden';
+    var under = document.elementFromPoint(e.clientX, e.clientY);
+    info.el.style.visibility = '';
+    info.el.style.transform = '';
+    if (!info.moved) {
+      state.sel = (state.sel === info.id) ? '' : info.id;
+      renderUnits();
+      return;
+    }
+    var bin = under && under.closest ? under.closest('.bin') : null;
+    if (bin) placeItem(info.id, bin.getAttribute('data-u'));
+    else setFb(document.getElementById('unitFb'), 'no', '拖到下面的单位上松开。');
+  }
+
+  function rulerBits(prefix, x0, ppm, y) {
+    var h = '<rect x="'+(x0-10)+'" y="'+(y-34)+'" width="'+(30*ppm+20)+'" height="42" rx="6" fill="#e7c48a" stroke="#8c5a3c"/>';
+    for (var mm = 0; mm <= 30; mm++) {
+      var x = x0 + mm * ppm;
+      var len = mm % 10 === 0 ? 28 : (mm % 5 === 0 ? 18 : 11);
+      h += '<line id="'+prefix+'t'+mm+'" x1="'+x+'" y1="'+y+'" x2="'+x+'" y2="'+(y-len)+'" stroke="#3a2a22" stroke-width="'+(mm%10===0?2.4:1)+'"/>';
+      if (mm % 10 === 0) h += '<text x="'+x+'" y="'+(y-40)+'" text-anchor="middle" font-size="22" font-weight="700" fill="'+(mm===0?'#c0392b':'#3a2a22')+'">'+(mm/10)+'</text>';
+    }
+    for (var c = 0; c < 10; c++) {
+      var cx = x0 + c * ppm;
+      h += '<rect id="'+prefix+'c'+c+'" x="'+cx+'" y="'+(y+6)+'" width="'+ppm+'" height="16" fill="#fff3c4" stroke="#c9845a"/>';
+    }
+    return h;
+  }
+  function buildLens() {
+    var svg = '<svg id="lensSvg" viewBox="0 0 360 210" role="img" aria-label="放大镜可以拖到 0 和 1 厘米中间">';
+    svg += '<rect width="360" height="210" fill="#f4fbff"/>';
+    svg += rulerBits('b', 30, 8, 132);
+    svg += '<defs><clipPath id="lensClip" clipPathUnits="userSpaceOnUse"><circle id="clipC" cx="300" cy="56" r="54"/></clipPath></defs>';
+    svg += '<g id="zoomG" clip-path="url(#lensClip)">'+rulerBits('z', 30, 8, 132)+'</g>';
+    svg += '<circle id="lensRing" cx="300" cy="56" r="54" fill="#d7f3ff" fill-opacity="0.15" stroke="#2a6f97" stroke-width="8"/>';
+    svg += '<rect id="lensHandle" x="336" y="96" width="14" height="46" rx="6" fill="#c9845a" transform="rotate(-30 343 110)"/>';
+    svg += '</svg>';
+    document.getElementById('lensSvgWrap').innerHTML = svg;
+    var dots = '';
+    for (var i = 1; i <= 10; i++) dots += '<span id="dot'+i+'">'+i+'</span>';
+    document.getElementById('mmDots').innerHTML = dots;
+    var hit = document.getElementById('lensRing');
+    hit.addEventListener('pointerdown', function (e) {
+      lensDrag = {x: e.clientX, y: e.clientY, lx: state.lx, ly: state.ly};
+      try { hit.setPointerCapture(e.pointerId); } catch (err) {}
+      e.preventDefault();
+    });
+    hit.addEventListener('pointermove', function (e) {
+      if (!lensDrag) return;
+      var svgEl = document.getElementById('lensSvg');
+      var rect = svgEl.getBoundingClientRect();
+      state.lx = clamp(lensDrag.lx + (e.clientX - lensDrag.x) * (360 / rect.width), 36, 320);
+      state.ly = clamp(lensDrag.ly + (e.clientY - lensDrag.y) * (210 / rect.height), 36, 180);
+      renderLens();
+    });
+    function endL() { if (!lensDrag) return; lensDrag = null; save(); }
+    hit.addEventListener('pointerup', endL);
+    hit.addEventListener('pointercancel', endL);
+    document.getElementById('countBtn').addEventListener('click', countCells);
+  }
+  function lensOver() {
+    return state.lx >= 46 && state.lx <= 114 && state.ly >= 96 && state.ly <= 168;
+  }
+  function paintCount(n) {
+    for (var i = 1; i <= 10; i++) {
+      var d = document.getElementById('dot'+i);
+      if (d) d.classList.toggle('on', i <= n);
+      var cell = document.getElementById('zc'+(i-1));
+      if (cell) cell.setAttribute('fill', i <= n ? '#f4a261' : '#fff3c4');
+    }
+  }
+  function renderLens() {
+    var ring = document.getElementById('lensRing');
+    var clip = document.getElementById('clipC');
+    var zoom = document.getElementById('zoomG');
+    if (!ring || !clip || !zoom) return;
+    ring.setAttribute('cx', state.lx);
+    ring.setAttribute('cy', state.ly);
+    clip.setAttribute('cx', state.lx);
+    clip.setAttribute('cy', state.ly);
+    var handle = document.getElementById('lensHandle');
+    if (handle) {
+      handle.setAttribute('x', state.lx + 36);
+      handle.setAttribute('y', state.ly + 20);
+      handle.setAttribute('transform', 'rotate(40 ' + (state.lx + 43) + ' ' + (state.ly + 43) + ')');
+    }
+    zoom.setAttribute('transform', 'translate('+state.lx+','+state.ly+') scale(2.25) translate('+(-state.lx)+','+(-state.ly)+')');
+    var dots = document.getElementById('mmDots');
+    if (dots) dots.hidden = !(lensOver() || state.lensSeen);
+    if (state.lensSeen && !countTimer) paintCount(10);
+  }
+  function countCells() {
+    var msg = document.getElementById('lensMsg');
+    if (!lensOver()) { setFb(msg, 'no', '放大镜还没盖住 0 到 1 厘米。把圆镜拖到这两个数中间。'); return; }
+    if (countTimer) { clearInterval(countTimer); countTimer = null; }
+    var n = 0;
+    function finish() {
+      paintCount(10);
+      var first = !state.lensSeen;
+      state.lensSeen = 1;
+      save();
+      setFb(msg, 'ok', '你数到了 10。每格是 1 毫米。把这个数填进下面的空，再看两条灯穗。');
+      if (first) refresh(true);
+    }
+    if (reduce) { finish(); return; }
+    paintCount(0);
+    countTimer = setInterval(function () {
+      n++;
+      paintCount(n);
+      if (n >= 10) { clearInterval(countTimer); countTimer = null; finish(); }
+    }, 280);
+  }
+
+  function mountQuiz(boxId, cfg) {
+    var box = document.getElementById(boxId);
+    if (!box) return;
+    var html = '';
+    for (var i = 0; i < cfg.parts.length; i++) {
+      var p = cfg.parts[i];
+      html += '<div class="part" data-i="'+i+'"><p class="qlabel">'+p.label+'</p>';
+      if (p.type === 'choice') {
+        html += '<div class="opts'+(p.cols===3?' row3':'')+'">';
+        for (var j = 0; j < p.options.length; j++) {
+          html += '<button type="button" class="opt" data-v="'+j+'">'+p.options[j]+'</button>';
+        }
+        html += '</div>';
+      } else {
+        html += '<div class="fill"><input type="text" inputmode="numeric" maxlength="6" autocomplete="off" aria-label="'+p.label.replace(/"/g,'')+'"></div>';
+      }
+      html += '</div>';
+    }
+    html += '<div class="row"><button type="button" class="submit">提交</button><button type="button" class="retry" hidden>再改一改</button></div>';
+    html += '<div class="fb" role="status"></div>';
+    box.innerHTML = html;
+    var submit = box.querySelector('.submit');
+    var retry = box.querySelector('.retry');
+    var fb = box.querySelector('.fb');
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('.opt') : null;
+      if (!b || box.classList.contains('done')) return;
+      var part = b.parentNode;
+      var buttons = part.querySelectorAll('.opt');
+      for (var k = 0; k < buttons.length; k++) {
+        buttons[k].classList.remove('selected');
+        buttons[k].setAttribute('aria-pressed','false');
+      }
+      b.classList.add('selected');
+      b.setAttribute('aria-pressed','true');
+    });
+    function fillCorrect() {
+      for (var i = 0; i < cfg.parts.length; i++) {
+        var p = cfg.parts[i];
+        var el = box.querySelector('.part[data-i="'+i+'"]');
+        if (p.type === 'choice') {
+          var btn = el.querySelector('.opt[data-v="'+p.answer+'"]');
+          if (btn) { btn.classList.add('selected','correct'); }
+        } else {
+          var inp = el.querySelector('input');
+          inp.value = p.answer;
+          inp.classList.add('correct');
+        }
+      }
+    }
+    function lock(msg) {
+      box.classList.add('done');
+      submit.disabled = true;
+      retry.hidden = true;
+      var ins = box.querySelectorAll('input, .opt');
+      for (var i = 0; i < ins.length; i++) ins[i].disabled = true;
+      setFb(fb, 'ok', msg);
+    }
+    function grade() {
+      if (box.classList.contains('done')) return;
+      if (cfg.before) {
+        var stop = cfg.before();
+        if (stop) { setFb(fb, 'no', stop); return; }
+      }
+      var allOk = true, missing = false, hint = '';
+      for (var i = 0; i < cfg.parts.length; i++) {
+        var p = cfg.parts[i];
+        var el = box.querySelector('.part[data-i="'+i+'"]');
+        if (p.type === 'choice') {
+          var sel = el.querySelector('.opt.selected');
+          var buttons = el.querySelectorAll('.opt');
+          for (var b = 0; b < buttons.length; b++) buttons[b].classList.remove('wrong','correct');
+          if (!sel) { missing = true; allOk = false; continue; }
+          var ok = String(sel.getAttribute('data-v')) === String(p.answer);
+          sel.classList.add(ok ? 'correct' : 'wrong');
+          if (!ok) {
+            allOk = false;
+            if (!hint) hint = (p.hints && p.hints[sel.getAttribute('data-v')]) || p.hint;
+          }
+        } else {
+          var inp = el.querySelector('input');
+          inp.classList.remove('wrong','correct');
+          var got = normNum(inp.value);
+          if (!got) { missing = true; allOk = false; continue; }
+          var good = got === normNum(p.answer);
+          inp.classList.add(good ? 'correct' : 'wrong');
+          if (!good) {
+            allOk = false;
+            if (!hint) hint = (p.hints && p.hints[got]) || p.hint;
+          }
+        }
+      }
+      if (missing) { setFb(fb, 'no', '还有空没填，或还有选项没选。'); return; }
+      if (!allOk) { setFb(fb, 'no', hint || '再看一看单位。'); retry.hidden = false; return; }
+      state.done[cfg.id] = 1;
+      save();
+      lock(cfg.ok);
+      if (cfg.onPass) cfg.onPass();
+    }
+    submit.addEventListener('click', grade);
+    retry.addEventListener('click', function () {
+      setFb(fb, '', '');
+      retry.hidden = true;
+      var bad = box.querySelectorAll('.wrong');
+      for (var i = 0; i < bad.length; i++) bad[i].classList.remove('wrong');
+    });
+    var inputs = box.querySelectorAll('input');
+    for (var q = 0; q < inputs.length; q++) {
+      inputs[q].addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') { e.preventDefault(); grade(); }
+      });
+    }
+    if (state.done[cfg.id]) {
+      fillCorrect();
+      lock(cfg.ok);
+    }
+  }
+
+  function buildStrips() {
+    var h = '<svg viewBox="0 0 360 78" role="img" aria-label="十段一样长的彩条，每段 10 厘米">';
+    for (var i = 0; i < 10; i++) {
+      var x = 6 + i * 35;
+      h += '<rect id="seg'+i+'" x="'+x+'" y="16" width="32" height="46" rx="4" fill="#fff" stroke="#c9845a" stroke-dasharray="4 3"/>';
+    }
+    h += '</svg>';
+    document.getElementById('stripSvgWrap').innerHTML = h;
+    var d = '<svg viewBox="0 0 360 78" role="img" aria-label="1 米分成 10 个分米">';
+    for (var k = 0; k < 10; k++) {
+      var dx = 6 + k * 35;
+      d += '<rect x="'+dx+'" y="12" width="32" height="44" rx="4" fill="#fff3c4" stroke="#c9845a"/>';
+      d += '<text x="'+(dx+16)+'" y="40" text-anchor="middle" font-size="16">'+(k+1)+'</text>';
+    }
+    d += '</svg>';
+    document.getElementById('dmFig').innerHTML = d;
+  }
+  function renderStrips() {
+    var first = document.getElementById('seg0');
+    if (!first) return;
+    for (var i = 0; i < 10; i++) {
+      var r = document.getElementById('seg'+i);
+      if (i < state.strips) {
+        r.setAttribute('fill', COLORS[i]);
+        r.removeAttribute('stroke-dasharray');
+      } else {
+        r.setAttribute('fill', '#fff');
+        r.setAttribute('stroke-dasharray', '4 3');
+      }
+    }
+    var live = document.getElementById('stripLive');
+    var n = state.strips;
+    if (live) {
+      if (!n) live.textContent = '还没拼。一段是 10 厘米，也是 1 分米。';
+      else if (n < 10) live.textContent = '已经拼了 ' + n + ' 段。' + n + '×10＝' + (n * 10) + ' 厘米，还没到 1 米。';
+      else live.textContent = '10 段 × 10 厘米 ＝ 100 厘米 ＝ 1 米。也就是 10 分米。';
+    }
+    var add = document.getElementById('addSeg');
+    var sub = document.getElementById('subSeg');
+    if (add) add.disabled = n >= 10 || !!state.done.rope;
+    if (sub) sub.disabled = n <= 0 || !!state.done.rope;
+  }
+
+  function pointAt(h) {
+    var laps = h / 2;
+    var t = laps - Math.floor(laps);
+    var ang = -Math.PI / 2 + t * 2 * Math.PI;
+    return {x: 180 + Math.cos(ang) * 146, y: 118 + Math.sin(ang) * 52};
+  }
+  function restText(h) {
+    var meters = h * 200;
+    var label = {0:'还在起点', 1:'半圈', 2:'1 圈', 3:'1 圈半', 4:'2 圈', 5:'2 圈加半圈（2.5 圈）', 6:'3 圈'}[h] || (h + ' 个半圈');
+    var extra = '';
+    if (h === 5) extra = ' 门要的是千米，还得再换一次。';
+    if (h === 6) extra = ' 这是 1200 米，比 1000 米多了半圈。';
+    return label + '，' + meters + ' 米。' + extra;
+  }
+  function buildTrack() {
+    var svg = '<svg id="trackSvg" viewBox="0 0 360 200" role="img" aria-label="操场跑道，一圈 400 米，小旗是起点">';
+    svg += '<rect width="360" height="200" fill="#e7f6ef"/>';
+    svg += '<ellipse cx="180" cy="118" rx="146" ry="52" fill="#d7eccf" stroke="#e07a5f" stroke-width="18"/>';
+    svg += '<ellipse cx="180" cy="118" rx="108" ry="28" fill="#e7f6ef" stroke="#f4f1de" stroke-width="4"/>';
+    svg += '<g transform="translate(180,66)"><line x1="0" y1="0" x2="0" y2="-26" stroke="#3a2a22" stroke-width="2"/><polygon points="0,-26 16,-20 0,-14" fill="#e76f51"/></g>';
+    svg += '<g id="runner" transform="translate(180,66)"><circle r="12" fill="#2a9d8f" stroke="#fff" stroke-width="3"/><circle cy="-18" r="8" fill="#ffe0bd" stroke="#3a2a22"/></g>';
+    svg += '</svg>';
+    document.getElementById('trackSvgWrap').innerHTML = svg;
+  }
+  function paintRunner(h, moving) {
+    var runner = document.getElementById('runner');
+    if (!runner) return;
+    var p = pointAt(h);
+    runner.setAttribute('transform', 'translate('+p.x.toFixed(1)+','+p.y.toFixed(1)+')');
+    var live = document.getElementById('lapLive');
+    if (!live) return;
+    if (moving) live.textContent = '正在跑，大约 ' + Math.round(h * 200) + ' 米';
+    else live.textContent = restText(state.halves);
+  }
+  function renderTrack() { paintRunner(state.halves, false); }
+  function animateTo(target) {
+    if (animating) return;
+    target = clamp(target, 0, 6);
+    var from = state.halves;
+    if (target === from) { renderTrack(); return; }
+    if (reduce) {
+      state.halves = target;
+      if (target >= 5) state.reached = 1;
+      save();
+      renderTrack();
+      return;
+    }
+    animating = true;
+    var t0 = performance.now();
+    var dur = Math.max(400, Math.abs(target - from) * 1100);
+    function frame(now) {
+      var p = Math.min(1, (now - t0) / dur);
+      var eased = 1 - Math.pow(1 - p, 2);
+      var cur = from + (target - from) * eased;
+      if (cur >= 4.98) state.reached = 1;
+      paintRunner(cur, true);
+      if (p < 1) requestAnimationFrame(frame);
+      else {
+        animating = false;
+        state.halves = target;
+        if (target >= 5) state.reached = 1;
+        save();
+        renderTrack();
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function buildFigs() {
+    var h = '<svg viewBox="0 0 360 168" role="img" aria-label="70 毫米和 7 厘米一样长，各有 7 个 1 厘米">';
+    h += '<text x="8" y="22" font-size="16" fill="#3a2a22">每格 1 厘米，里面有 10 个毫米</text>';
+    for (var row = 0; row < 2; row++) {
+      var y = 36 + row * 62;
+      h += '<text x="8" y="'+(y+24)+'" font-size="15" fill="#3a2a22">'+(row ? '7 厘米' : '70 毫米')+'</text>';
+      for (var i = 0; i < 7; i++) {
+        var x = 86 + i * 38;
+        h += '<rect x="'+x+'" y="'+y+'" width="36" height="34" fill="'+(row?'#9fd7ee':'#f4a7c5')+'" stroke="#3a2a22"/>';
+        for (var k = 1; k < 10; k++) {
+          var tx = (x + k * 3.6).toFixed(2);
+          h += '<line x1="'+tx+'" y1="'+(y+18)+'" x2="'+tx+'" y2="'+(y+34)+'" stroke="#3a2a22" stroke-width="0.7"/>';
+        }
+      }
+    }
+    h += '</svg>';
+    document.getElementById('equalBars').innerHTML = h;
+
+    var c = '<svg viewBox="0 0 360 120" role="img" aria-label="2 米是 20 个分米，前 8 个剪掉，剩下 12 个">';
+    for (var n = 0; n < 20; n++) {
+      var col = n % 10, r = Math.floor(n / 10);
+      c += '<rect x="'+(6+col*35)+'" y="'+(8+r*52)+'" width="32" height="40" rx="4" fill="'+(n<8?'#f4a7c5':'#cdeccd')+'" stroke="#3a2a22"/>';
+    }
+    c += '</svg>';
+    document.getElementById('cutFig').innerHTML = c;
+
+    var m = '<svg viewBox="0 0 360 70" role="img" aria-label="1 米是 10 分米，再加 6 分米">';
+    for (var d = 0; d < 16; d++) {
+      m += '<rect x="'+(4+d*22)+'" y="16" width="20" height="36" rx="3" fill="'+(d<10?'#9fd7ee':'#d7c0e8')+'" stroke="#3a2a22"/>';
+    }
+    m += '</svg>';
+    document.getElementById('momFig').innerHTML = m;
+
+    var rows = [['50 分米', 230], ['4 米', 184], ['30 分米', 138], ['200 厘米', 92]];
+    var s = '<svg viewBox="0 0 360 180" role="img" aria-label="四段彩绳换成厘米后从长到短">';
+    for (var z = 0; z < rows.length; z++) {
+      var y = 10 + z * 42;
+      s += '<text x="8" y="'+(y+22)+'" font-size="16" fill="#3a2a22">'+rows[z][0]+'</text>';
+      s += '<rect x="110" y="'+y+'" width="'+rows[z][1]+'" height="28" rx="6" fill="#f4a261"/>';
+    }
+    s += '</svg>';
+    document.getElementById('sortFig').innerHTML = s;
+  }
+
+  function renderOrder() {
+    var row = document.getElementById('orderRow');
+    if (!row) return;
+    if (!state.order.length) { row.textContent = state.done.sortOrder ? '50 分米，4 米，30 分米，200 厘米。' : '还没排。'; return; }
+    var names = {p50:'50 分米', m4:'4 米', p30:'30 分米', c200:'200 厘米'};
+    var bits = [];
+    for (var i = 0; i < state.order.length; i++) bits.push(names[state.order[i]]);
+    row.textContent = '从大到小：' + bits.join('，');
+    if (state.done.sortOrder) {
+      setFb(document.getElementById('sortFb'), 'ok', '挂好了。50 分米＞4 米＞30 分米＞200 厘米。最后一道门开了。');
+      var btns = document.querySelectorAll('.sortb');
+      for (var b = 0; b < btns.length; b++) btns[b].disabled = true;
+      var reset = document.getElementById('sortReset');
+      if (reset) reset.disabled = true;
+    }
+  }
+  function tapSort(id) {
+    if (state.done.sortOrder) return;
+    var fb = document.getElementById('sortFb');
+    if (state.order.indexOf(id) >= 0) { setFb(fb, 'no', '这段已经排过了。'); return; }
+    var expect = ORDER[state.order.length];
+    if (id !== expect) { setFb(fb, 'no', NEXT_HINT[expect]); return; }
+    state.order.push(id);
+    save();
+    renderOrder();
+    setFb(fb, 'ok', id === 'c200' ? '四段都挂好了。' : '这段对了，再点下一段。');
+    if (state.order.length === 4) {
+      state.done.sortOrder = 1;
+      state.done.finale = 1;
+      save();
+      refresh(true);
+    }
+  }
+
+  function syncTrackDoor() {
+    if (state.done.trackQ && state.done.lamps && !state.done.track) {
+      state.done.track = 1;
+      save();
+    }
+  }
+
+  buildRuler();
+  buildLens();
+  buildStrips();
+  buildTrack();
+  buildFigs();
+
+  document.getElementById('nLmm').onclick = function () { nudge(-1); };
+  document.getElementById('nRmm').onclick = function () { nudge(1); };
+  document.getElementById('nLcm').onclick = function () { nudge(-10); };
+  document.getElementById('nRcm').onclick = function () { nudge(10); };
+  document.getElementById('rulerSubmit').onclick = submitRuler;
+  document.getElementById('rulerAns').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); submitRuler(); }
+  });
+  document.getElementById('addSeg').onclick = function () {
+    if (state.done.rope || state.strips >= 10) return;
+    state.strips++;
+    if (state.strips >= 10) state.banner = 1;
+    save();
+    refresh(state.strips === 10);
+  };
+  document.getElementById('subSeg').onclick = function () {
+    if (state.done.rope || state.strips <= 0) return;
+    state.strips--;
+    save();
+    renderStrips();
+  };
+  document.getElementById('runLap').onclick = function () {
+    if (state.halves >= 6) return;
+    animateTo(Math.min(6, state.halves + 2));
+  };
+  document.getElementById('runHalf').onclick = function () {
+    if (state.halves >= 6) return;
+    animateTo(state.halves + 1);
+  };
+  document.getElementById('runAll').onclick = function () {
+    if (state.halves >= 5) { animateTo(5); return; }
+    animateTo(5);
+  };
+  document.getElementById('runReset').onclick = function () { animateTo(0); };
+  var sortBtns = document.querySelectorAll('.sortb');
+  for (var s = 0; s < sortBtns.length; s++) {
+    sortBtns[s].addEventListener('click', function () { tapSort(this.getAttribute('data-id')); });
+  }
+  document.getElementById('sortReset').onclick = function () {
+    if (state.done.sortOrder) return;
+    state.order = [];
+    save();
+    renderOrder();
+    setFb(document.getElementById('sortFb'), '', '');
+  };
+  document.getElementById('resetBtn').onclick = function () {
+    if (!resetArmed) {
+      resetArmed = true;
+      this.textContent = '再按一次，清除进度';
+      var btn = this;
+      setTimeout(function () { resetArmed = false; btn.textContent = '清除这台手机上的进度'; }, 4000);
+      return;
+    }
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    location.reload();
+  };
+
+  mountQuiz('quizLens', {
+    id: 'lens',
+    ok: '第三道门开了。1 厘米＝10 毫米，70 毫米＝7 厘米。',
+    before: function () {
+      if (!state.lensSeen) return '先把放大镜放到 0 和 1 中间，按「数一数」。';
+      return '';
+    },
+    onPass: function () { refresh(true); },
+    parts: [
+      {type:'fill', label:'1 厘米 ＝（　　）毫米', answer:'10', hint:'看放大镜里的小格。1 厘米里面有 10 格，每格 1 毫米。', hints:{
+        '100':'100 是 1 米等于多少厘米。厘米和毫米的进率是 10。',
+        '1000':'1000 是 1 千米等于多少米。这里数的是 1 厘米里的小格。',
+        '1':'1 厘米比 1 毫米长。小格有 10 个。'
+      }},
+      {type:'choice', cols:3, label:'70 毫米和 7 厘米比，填什么？', options:['大于','小于','等于'], answer:2, hint:'先把 7 厘米换成毫米，再和 70 比。', hints:{
+        '0':'70 比 7 大，可单位不一样，不能直接比数字。1 厘米＝10 毫米，7×10＝70。两边一样长。',
+        '1':'小于也不对。如果把 1 厘米记成 100 毫米，7 厘米会变成 700 毫米，才会觉得 70 更小。这里的进率是 10，不是 100。'
+      }}
+    ]
+  });
+  mountQuiz('quizRope', {
+    id: 'rope',
+    ok: '第四道门开了。2 米＝20 分米，还剩 12 分米。',
+    before: function () {
+      if (state.strips < 10) return '横幅还没到 1 米。请先拼满 10 段 10 厘米。';
+      return '';
+    },
+    onPass: function () { refresh(true); },
+    parts: [
+      {type:'fill', label:'2 米 ＝（　　）分米', answer:'20', hint:'1 米＝10 分米。2 米是两个 10。', hints:{
+        '200':'2×100＝200，这是把进率当成了米和厘米的 100。米和分米的进率是 10。2×10＝20。2 米＝200 厘米，不是 200 分米。',
+        '2':'2 还是米。换成更小的分米，数要变大，乘 10。',
+        '2000':'1000 是千米那一家的进率，不能用在分米上。',
+        '10':'10 分米是 1 米。绳子有 2 米，是两个 10。'
+      }},
+      {type:'fill', label:'剪去 8 分米，还剩（　　）分米', answer:'12', hint:'用分米减分米。2 米先换成 20 分米，再减 8。', hints:{
+        '192':'192 是用 200 去减。2 米只有 20 分米，20−8＝12。',
+        '28':'剪去是拿走，用减法，不是加法。',
+        '8':'8 是剪掉的那段，不是剩下的。'
+      }},
+      {type:'fill', label:'100 分米 ＝（　　）米', answer:'10', hint:'分米换成米，是换成更大的单位，数要变小。1 米＝10 分米。', hints:{
+        '1000':'小单位换大单位要除，不能乘。100÷10＝10。1000 是米和千米的进率。',
+        '100':'100 分米不是 100 米。1 米只有 10 分米。',
+        '1':'10 分米才是 1 米。100 里面有 10 个 10。'
+      }},
+      {type:'fill', label:'300 厘米 ＝（　　）米', answer:'3', hint:'厘米换成米，进率是 100。300 里面有几个 100？', hints:{
+        '30':'用了进率 10。厘米和米的进率是 100，不是 10。300÷100＝3。',
+        '300':'300 还是厘米的数。换成米，数要变小。',
+        '3000':'乘反了。厘米换米要除以 100。'
+      }}
+    ]
+  });
+  mountQuiz('quizTrack', {
+    id: 'trackQ',
+    ok: '米数对了。等号先停在米，换算再另写一行。',
+    before: function () {
+      if (!state.reached) return '先看小美跑到 1000 米。2 圈是 800 米，再加半圈。';
+      return '';
+    },
+    onPass: function () { refresh(true); },
+    parts: [
+      {type:'fill', label:'2 圈：400×2 ＝（　　）米', answer:'800', hint:'一圈 400 米，两圈是两个 400。', hints:{
+        '400':'400 是一圈。两圈要乘 2。',
+        '1000':'1000 米是 2 圈再加半圈。这一空只算 2 圈。',
+        '1':'1 是千米。这一行的单位还是米。'
+      }},
+      {type:'fill', label:'半圈：400÷2 ＝（　　）米', answer:'200', hint:'半圈是 400 米的一半。', hints:{
+        '400':'400 是一整圈。半圈要除以 2。',
+        '100':'半圈不是 100 米。400 的一半是 200。'
+      }},
+      {type:'fill', label:'2 圈加半圈一共（　　）米', answer:'1000', hint:'把两圈的米和半圈的米加起来。', hints:{
+        '1':'1 千米不能写在这一行。这一行的单位还是米。800＋200＝1000。',
+        '800':'800 只是 2 圈，还没加半圈的 200 米。',
+        '1200':'1200 米是 3 圈。2 圈加半圈是 1000 米。'
+      }},
+      {type:'fill', label:'这些米换成千米，是（　　）千米', answer:'1', hint:'1 千米＝1000 米。1000 米里面有几个 1000？', hints:{
+        '1000':'1000 是米。问的是千米，不能把米数直接填上。1000÷1000＝1。',
+        '100':'除以了 10。米换千米要除以 1000。',
+        '10':'10 不是这个进率。1000 米＝1 千米。'
+      }},
+      {type:'choice', label:'哪一句可以刻在门上？', options:[
+        '400×2.5＝1千米',
+        '先写 400×2.5＝1000（米），再另写一行 1000米＝1千米',
+        '400×2.5＝1000千米'
+      ], answer:1, hint:'等号两边的单位要一样。米和千米要分成两行。', hints:{
+        '0':'等号左边的 400 是米，右边写成了千米。两边不是同一家人。先写 1000 米，再另写一行换成 1 千米。',
+        '2':'1000 千米是很远的路。2 圈半只有 1000 米，也就是 1 千米，不是 1000 千米。'
+      }}
+    ]
+  });
+  mountQuiz('quizLamps', {
+    id: 'lamps',
+    ok: '6 盏灯是 3 千米。第五道门开了。',
+    onPass: function () { syncTrackDoor(); refresh(true); },
+    parts: [
+      {type:'fill', label:'6×500 ＝（　　）米', answer:'3000', hint:'6×5＝30，500 末尾还有两个 0。', hints:{
+        '3':'3 是换成千米以后的数。这一行先写米。6×500＝3000。',
+        '3500':'6×500 可以想成 6×5＝30，再补两个 0，是 3000。'
+      }},
+      {type:'fill', label:'换成（　　）千米', answer:'3', hint:'1 千米＝1000 米。3000 米里面有几个 1000？', hints:{
+        '3000':'3000 是米。牌子问的是千米。3000÷1000＝3。算出米，别忘了再换。',
+        '30':'除以了 100。100 是厘米换米的进率。米换千米要除以 1000。',
+        '300':'少除了一个 10。3000÷1000＝3。'
+      }}
+    ]
+  });
+  mountQuiz('quizMomUnit', {
+    id: 'momUnit',
+    ok: '是分米。再把 1 米 6 分米换成厘米。',
+    onPass: function () { refresh(true); },
+    parts: [
+      {type:'choice', cols:3, label:'妈妈高约 1 米 6（　　）', options:['厘米','分米','毫米'], answer:1, hint:'6 厘米只有一个手指节。妈妈高出 1 米的那一截比这长。', hints:{
+        '0':'1 米 6 厘米只比 1 米高出大约一个手指节。妈妈高出的那一截长得多。6 分米＝60 厘米，才比较像。',
+        '2':'6 毫米大约一枚硬币那么厚，站在旁边几乎看不出来。'
+      }}
+    ]
+  });
+  mountQuiz('quizMomCm', {
+    id: 'momCm',
+    ok: '160 厘米。1 米是 100 厘米，6 分米是 60 厘米。',
+    onPass: function () { refresh(true); },
+    parts: [
+      {type:'fill', label:'1 米 6 分米 ＝（　　）厘米', answer:'160', hint:'1 米＝100 厘米，6 分米＝60 厘米，两个数相加。', hints:{
+        '106':'这是把 6 当成了 6 厘米：100＋6＝106。6 分米＝60 厘米，100＋60＝160。',
+        '16':'16 是分米（10 分米加 6 分米）。换成厘米要乘 10：16×10＝160。',
+        '60':'60 厘米只是多出来的 6 分米，还要加上原来的 1 米，1 米＝100 厘米。',
+        '116':'100＋16＝116，16 是分米不是厘米。6 分米要先变成 60 厘米。',
+        '1060':'多乘了一位。1 米＝100 厘米，6 分米＝60 厘米，加起来是 160。'
+      }}
+    ]
+  });
+  mountQuiz('quizSort', {
+    id: 'sortFill',
+    ok: '都换成厘米了。比一比谁的厘米多，就先点谁。',
+    onPass: function () { refresh(true); },
+    parts: [
+      {type:'fill', label:'50 分米 ＝（　　）厘米', answer:'500', hint:'1 分米＝10 厘米。50 个 10 是多少？', hints:{
+        '50':'50 分米不是 50 厘米。1 分米＝10 厘米，50×10＝500。',
+        '5':'5 米是 50 分米换成米。这里要换成厘米。',
+        '5000':'进率不是 100。分米换厘米乘 10。'
+      }},
+      {type:'fill', label:'4 米 ＝（　　）厘米', answer:'400', hint:'1 米＝100 厘米。4 个 100 是多少？', hints:{
+        '40':'用了进率 10。米换厘米乘 100。4×100＝400。',
+        '4000':'1 米＝100 厘米，不是 1000。',
+        '4':'换成更小的厘米，数要变大。'
+      }},
+      {type:'fill', label:'30 分米 ＝（　　）厘米', answer:'300', hint:'和 50 分米同一家。30×10。', hints:{
+        '30':'30 分米不是 30 厘米。30×10＝300。',
+        '3':'3 是把它换成了米。这里要厘米。',
+        '3000':'多乘了 10。分米换厘米乘 10。'
+      }},
+      {type:'fill', label:'200 厘米 ＝（　　）厘米', answer:'200', hint:'它已经是厘米，不用再乘，也不用再除。', hints:{
+        '20':'200 厘米已经是厘米，不用再除以 10。',
+        '2':'2 米才是把它换成米。这一行要留在厘米。',
+        '2000':'不用再乘。它本来就是厘米。'
+      }}
+    ]
+  });
+
+  syncTrackDoor();
+  refresh(false);
+  if (state.done.ruler || state.done.units || state.done.lens || state.done.rope || state.done.track || state.done.finale) {
+    var ids = ['ch1','ch2','ch3','ch4','ch5','ch6','ending'];
+    var last = document.getElementById('ch1');
+    for (var i = 0; i < ids.length; i++) {
+      var el = document.getElementById(ids[i]);
+      if (el && (el.id === 'ch1' || el.classList.contains('on'))) last = el;
+    }
+    if (last && last.id !== 'ch1') {
+      try { last.scrollIntoView({block:'start'}); } catch (e) {}
+    }
+  }
+})();
+</script>
+</body>
+</html>

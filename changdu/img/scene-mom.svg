@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 240" role="img">
+  <rect width="360" height="240" fill="#f7f1e8"/>
+  <rect x="0" y="190" width="360" height="50" fill="#e7d3b4"/>
+  <rect x="150" y="28" width="120" height="168" rx="6" fill="#f4d6b0" stroke="#8c5a3c" stroke-width="5"/>
+  <rect x="166" y="46" width="88" height="128" rx="2" fill="#fffaf3"/>
+  <g transform="translate(176,58)">
+    <circle cx="34" cy="28" r="16" fill="#ffe0bd"/>
+    <path d="M18 26 Q34 8 50 26 Q34 16 18 26 Z" fill="#3b2a20"/>
+    <circle cx="28" cy="28" r="1.6" fill="#222"/>
+    <circle cx="40" cy="28" r="1.6" fill="#222"/>
+    <path d="M30 36 Q34 39 38 36" stroke="#222" fill="none"/>
+    <path d="M14 48 h40 l6 70 H10 Z" fill="#9b6bb3"/>
+    <rect x="20" y="118" width="10" height="22" fill="#5c4a42"/>
+    <rect x="36" y="118" width="10" height="22" fill="#5c4a42"/>
+  </g>
+  <g transform="translate(40,108)">
+    <circle cx="22" cy="20" r="14" fill="#ffe0bd"/>
+    <circle cx="12" cy="14" r="7" fill="#3b2a20"/>
+    <circle cx="32" cy="14" r="7" fill="#3b2a20"/>
+    <circle cx="17" cy="20" r="1.6" fill="#222"/>
+    <circle cx="27" cy="20" r="1.6" fill="#222"/>
+    <path d="M18 28 Q22 32 26 28" stroke="#222" fill="none"/>
+    <path d="M8 38 h30 l5 42 H4 Z" fill="#2a9d8f"/>
+    <rect x="10" y="80" width="8" height="18" fill="#3b4a6b"/>
+    <rect x="24" y="80" width="8" height="18" fill="#3b4a6b"/>
+    <rect x="8" y="96" width="12" height="5" rx="2" fill="#e76f51"/>
+    <rect x="22" y="96" width="12" height="5" rx="2" fill="#e76f51"/>
+  </g>
+  <rect x="286" y="150" width="48" height="40" rx="6" fill="#e76f51"/>
+  <polygon points="300,150 310,136 320,150" fill="#f4a261"/>
+</svg>

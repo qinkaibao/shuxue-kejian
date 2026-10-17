@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 230" role="img">
+  <rect width="360" height="230" fill="#eef6fb"/>
+  <rect x="0" y="176" width="360" height="54" fill="#d9ecf5"/>
+  <rect x="28" y="96" width="250" height="28" rx="6" fill="#e7c48a" stroke="#8c5a3c" stroke-width="3"/>
+  <g stroke="#6b3f2a">
+    <line x1="40" y1="96" x2="40" y2="124" stroke-width="2"/>
+    <line x1="70" y1="104" x2="70" y2="124" stroke-width="1"/>
+    <line x1="100" y1="96" x2="100" y2="124" stroke-width="2"/>
+    <line x1="130" y1="104" x2="130" y2="124" stroke-width="1"/>
+    <line x1="160" y1="96" x2="160" y2="124" stroke-width="2"/>
+    <line x1="190" y1="104" x2="190" y2="124" stroke-width="1"/>
+    <line x1="220" y1="96" x2="220" y2="124" stroke-width="2"/>
+    <line x1="250" y1="104" x2="250" y2="124" stroke-width="1"/>
+  </g>
+  <g transform="translate(78,28)">
+    <circle cx="62" cy="62" r="58" fill="#d7f3ff" fill-opacity=".55" stroke="#3d7ea6" stroke-width="8"/>
+    <circle cx="62" cy="62" r="46" fill="#ffffff" fill-opacity=".25" stroke="#9fd4ea" stroke-width="2"/>
+    <rect x="108" y="108" width="16" height="54" rx="6" fill="#c9845a" transform="rotate(-30 116 120)"/>
+    <g stroke="#3d7ea6" stroke-width="2">
+      <line x1="28" y1="70" x2="28" y2="86"/>
+      <line x1="40" y1="74" x2="40" y2="86"/>
+      <line x1="52" y1="70" x2="52" y2="86"/>
+      <line x1="64" y1="74" x2="64" y2="86"/>
+      <line x1="76" y1="70" x2="76" y2="86"/>
+      <line x1="88" y1="74" x2="88" y2="86"/>
+    </g>
+  </g>
+  <g transform="translate(250,120)">
+    <circle cx="24" cy="20" r="14" fill="#ffe0bd"/>
+    <circle cx="14" cy="14" r="7" fill="#3b2a20"/>
+    <circle cx="34" cy="14" r="7" fill="#3b2a20"/>
+    <circle cx="19" cy="20" r="1.5" fill="#222"/>
+    <circle cx="29" cy="20" r="1.5" fill="#222"/>
+    <path d="M20 27 Q24 30 28 27" stroke="#222" fill="none"/>
+    <path d="M10 36 h28 l4 36 H8 Z" fill="#2a9d8f"/>
+  </g>
+  <g transform="translate(40,40)">
+    <ellipse cx="36" cy="18" rx="16" ry="22" fill="#f4a7c5"/>
+    <ellipse cx="68" cy="18" rx="16" ry="22" fill="#9fd7ee"/>
+    <rect x="48" y="8" width="6" height="28" rx="3" fill="#5c3317"/>
+  </g>
+</svg>
