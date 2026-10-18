@@ -153,6 +153,8 @@
       + '.kr-raw{margin:8px 0 12px}'
       + '.kr-raw summary{cursor:pointer;font-size:20px;font-weight:bold;color:#1d5fd0;min-height:44px;line-height:44px}'
       + '.kr-ta{width:100%;min-height:220px;font-size:18px;line-height:1.5;border:3px solid #9bbcf5;border-radius:12px;padding:10px;color:#1f2d4d}'
+      + '.kr-overlay{position:fixed;inset:0;z-index:90;background:rgba(40,24,0,.45);overflow:auto;padding:16px 12px 32px}'
+      + '.kr-x{display:block;margin:0 auto 8px;border:none;background:#fff;color:#7a4b00;font-size:20px;font-weight:bold;min-height:44px;border-radius:12px;padding:6px 16px}'
       + '@media(max-width:700px){.kr-title{font-size:30px}.kr-q b{font-size:22px}.kr-go{font-size:26px}}';
     var style = document.createElement('style');
     style.textContent = css;
@@ -171,7 +173,6 @@
 
   function render(model, text, copiedMsg) {
     ensureStyle();
-    var host = hostEl();
     var rate = model.total ? Math.round(model.correct / model.total * 100) : 0;
     var list = '';
     for (var i = 0; i < model.rows.length; i++) {
@@ -181,8 +182,15 @@
         + '<span class="kr-res ' + row.st.kind + '">' + esc(row.st.label) + '</span></div>'
         + '<span class="kr-wrong">首次错答：' + esc(row.st.wrong || '无') + '</span></div>';
     }
-    host.innerHTML = ''
-      + '<button type="button" class="kr-go" id="krGo">交作业</button>'
+    var overlay = document.getElementById('krOverlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'krOverlay';
+      overlay.className = 'kr-overlay kr';
+      document.body.appendChild(overlay);
+    }
+    overlay.innerHTML = ''
+      + '<button type="button" class="kr-x" id="krClose">关闭</button>'
       + '<div class="kr-card" id="krCard">'
       + '<h2 class="kr-title">成绩单</h2>'
       + '<p class="kr-sub">' + esc(model.name) + ' · ' + esc(model.when) + '</p>'
@@ -199,7 +207,8 @@
       + '<details class="kr-raw" id="krRaw"><summary>纯文本（复制失败时，长按下面全选）</summary>'
       + '<textarea class="kr-ta" id="krTa" readonly>' + esc(text) + '</textarea></details>'
       + '</div>';
-    document.getElementById('krGo').onclick = openReport;
+    document.getElementById('krClose').onclick = function () { overlay.remove(); };
+    overlay.onclick = function (e) { if (e.target === overlay) overlay.remove(); };
     document.getElementById('krCopy').onclick = function () { copyText(model, text); };
     if (copiedMsg && copiedMsg.indexOf('长按') >= 0) {
       var raw = document.getElementById('krRaw');
@@ -240,10 +249,8 @@
     var text = buildText(model);
     render(model, text, '正在复制…');
     copyText(model, text);
-    var card = document.getElementById('krCard');
-    if (card && card.scrollIntoView) {
-      try { card.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) {}
-    }
+    var overlay = document.getElementById('krOverlay');
+    if (overlay) overlay.scrollTop = 0;
   }
 
   function mount(options) {
@@ -261,9 +268,11 @@
     }
     if (changed) save(data);
     ensureStyle();
-    var host = hostEl();
-    host.innerHTML = '<button type="button" class="kr-go" id="krGo">交作业</button><div id="krSlot"></div>';
-    document.getElementById('krGo').onclick = openReport;
+    if (!opts.noButton) {
+      var host = hostEl();
+      host.innerHTML = '<button type="button" class="kr-go" id="krGo">交作业</button>';
+      document.getElementById('krGo').onclick = openReport;
+    }
   }
 
   function miss(qid, answer) {
@@ -295,6 +304,7 @@
 
   global.KejianReport = {
     mount: mount,
+    open: openReport,
     miss: miss,
     pass: pass,
     clear: clear,

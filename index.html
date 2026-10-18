@@ -8,151 +8,175 @@
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{font-size:20px}
-body{margin:0;font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Source Han Sans SC",sans-serif;background:#fff8e7;color:#333;font-size:22px;line-height:1.5;-webkit-text-size-adjust:100%;touch-action:manipulation}
-#app{max-width:1100px;margin:0 auto;padding:0 12px 40px}
-.hdr{position:sticky;top:0;z-index:20;background:#fff8e7;display:flex;align-items:center;gap:12px;padding:8px 0}
-.hmark{background:#ffd166;border-radius:14px;font-size:22px;min-width:72px;height:52px;padding:0 14px;font-weight:bold;color:#5a3d00;box-shadow:0 3px 0 #e0a800;display:flex;align-items:center;justify-content:center}
-.htitle{font-weight:bold;font-size:22px;color:#e8590c;white-space:nowrap}
-.prog{flex:1;min-width:80px}
-.ptxt{font-size:18px;color:#8a6d3b;text-align:right}
-h1{font-size:34px;color:#e8590c;margin:10px 0 4px;text-align:center}
+body{margin:0;font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Source Han Sans SC",sans-serif;background:#fff8e7;color:#333;font-size:22px;line-height:1.5}
+#app{max-width:1100px;margin:0 auto;padding:8px 12px 40px}
+h1{font-size:34px;color:#e8590c;margin:8px 0 4px;text-align:center}
 .sub{text-align:center;color:#8a6d3b;font-size:20px;margin:0 0 8px}
-.card{background:#fff;border-radius:20px;box-shadow:0 4px 14px rgba(200,140,0,.15);padding:16px 20px;margin:10px 0}
-.prompt{font-size:23px;font-weight:bold;color:#1f3b73;margin:0;text-align:center}
-.flow{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px;font-size:20px}
+.card{background:#fff;border-radius:20px;box-shadow:0 4px 14px rgba(200,140,0,.15);padding:16px 18px;margin:10px 0}
+.flow{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;font-size:20px}
 .flow span{background:#e6f4ea;color:#1e7b34;border-radius:12px;padding:4px 12px;font-weight:bold}
 .flow i{font-style:normal;color:#aaa}
-.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start;margin-top:6px}
-.col h2{font-size:26px;color:#c2410c;margin:8px 0 10px;text-align:center}
-.levels{display:flex;flex-direction:column;gap:12px}
-a.lv{background:#fff;border-radius:20px;padding:14px 12px;box-shadow:0 4px 0 #f1c26b;display:flex;flex-direction:column;gap:8px;align-items:flex-start;color:#333;text-decoration:none;min-height:132px}
-a.lv:active{transform:translateY(2px)}
-a.lv:focus-visible{outline:3px solid #3b82f6;outline-offset:3px}
-.ic{font-size:36px;width:64px;height:64px;border-radius:16px;background:#fff3d6;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-a.lv b{display:block;font-size:22px;color:#c2410c;line-height:1.35}
-.date{display:block;font-size:16px;color:#e09f00;font-weight:bold;margin-top:2px}
-a.lv small{display:block;font-size:18px;color:#7a6a4a;line-height:1.45;margin-top:4px}
-.path{display:block;font-size:16px;color:#1d5fd0;font-weight:bold;margin-top:4px}
-.foot{text-align:center;color:#8a6d3b;font-size:18px;margin:18px 0 0}
-@media(min-width:860px){
-  a.lv{flex-direction:row;align-items:center;gap:14px;padding:14px 16px;min-height:108px}
-  a.lv b{font-size:24px}
-}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+.col h2{font-size:26px;color:#c2410c;margin:8px 0;text-align:center}
+.deck{display:flex;flex-direction:column;gap:14px}
+a.cover{display:block;background:#fff;border-radius:22px;overflow:hidden;text-decoration:none;color:#333;box-shadow:0 4px 0 #f1c26b}
+a.cover:active{transform:translateY(2px)}
+a.cover:focus-visible{outline:3px solid #3b82f6;outline-offset:3px}
+.banner{height:108px;display:flex;align-items:flex-end;justify-content:space-between;padding:12px 14px;position:relative}
+.banner .emoji{font-size:52px;line-height:1;filter:drop-shadow(0 2px 0 rgba(0,0,0,.08))}
+.badge{position:absolute;top:10px;left:10px;background:#e8590c;color:#fff;border-radius:999px;font-size:16px;font-weight:bold;padding:2px 10px}
+.tone-a{background:linear-gradient(135deg,#ffd166,#fb8500)}
+.tone-b{background:linear-gradient(135deg,#b2f2bb,#2fa36b)}
+.tone-c{background:linear-gradient(135deg,#a5d8ff,#3b82f6)}
+.tone-d{background:linear-gradient(135deg,#ffc9c9,#e8590c)}
+.tone-e{background:linear-gradient(135deg,#d0bfff,#7048e8)}
+.body{padding:12px 14px 14px}
+.body b{display:block;font-size:24px;color:#c2410c;line-height:1.3}
+.date{display:block;margin-top:2px;color:#e09f00;font-size:16px;font-weight:bold}
+.body small{display:block;margin-top:6px;color:#5c5346;font-size:18px;line-height:1.45}
+.meta{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-top:8px}
+.path{color:#1d5fd0;font-weight:bold;font-size:16px}
+.live{color:#8a6d3b;font-weight:bold;font-size:16px;text-align:right}
+.foot{text-align:center;color:#8a6d3b;font-size:18px}
 @media(max-width:700px){
-  h1{font-size:32px}
-  .col h2{font-size:24px}
-  .htitle{font-size:20px}
-  .ptxt{font-size:16px;text-align:left}
+  .cols{grid-template-columns:1fr}
+  h1{font-size:30px}
+  .banner{height:96px}
 }
 </style>
 </head>
 <body>
 <div id="app">
-  <div class="hdr">
-    <div class="hmark" aria-current="page">目录</div>
-    <div class="htitle">数学课件</div>
-    <div class="prog"><div class="ptxt">故事 6 个 · 练习 3 个</div></div>
-  </div>
   <h1>数学课件总目录</h1>
-  <p class="sub">新的排在前面。点一张卡片就进去。</p>
+  <p class="sub">新的排在前面。点一张封面就进去。</p>
   <div class="card">
-    <p class="prompt">左边是故事，右边是练习</p>
-    <div class="flow"><span>数学小故事</span><i>→</i><span>练习</span></div>
+    <div class="flow"><span>数学小故事</span><i>→</i><span>练习</span><i>→</i><span id="sumLine">练习星还没点亮</span></div>
   </div>
   <div class="cols">
     <section class="col" aria-label="数学小故事">
       <h2>数学小故事</h2>
-      <div class="levels">
-        <a class="lv" href="changdu/">
-          <div class="ic" aria-hidden="true">🏮</div>
-          <div>
-            <b>竹尺巷的河灯</b>
-            <span class="date">2026-10-18</span>
+      <div class="deck">
+        <a class="cover" href="changdu/">
+          <div class="banner tone-a"><span class="badge">新品</span><span class="emoji" aria-hidden="true">🏮</span></div>
+          <div class="body"><b>竹尺巷的河灯</b><span class="date">2026-10-18</span>
             <small>把尺子的 0 对准，再把门高、翅膀和跑道换成对的单位。</small>
-            <span class="path">/changdu/</span>
-          </div>
+            <div class="meta"><span class="path">/changdu/</span><span class="live" data-track="changdu">阅读故事</span></div></div>
         </a>
-        <a class="lv" href="danwei/">
-          <div class="ic" aria-hidden="true">📏</div>
-          <div>
-            <b>失踪的单位牌</b>
-            <span class="date">2026-10-16</span>
+        <a class="cover" href="danwei/">
+          <div class="banner tone-b"><span class="emoji" aria-hidden="true">📏</span></div>
+          <div class="body"><b>失踪的单位牌</b><span class="date">2026-10-16</span>
             <small>单位牌贴错路就走反，要把毫米到千米认回各自的钩子。</small>
-            <span class="path">/danwei/</span>
-          </div>
+            <div class="meta"><span class="path">/danwei/</span><span class="live">阅读故事</span></div></div>
         </a>
-        <a class="lv" href="binggan/">
-          <div class="ic" aria-hidden="true">🍪</div>
-          <div>
-            <b>失踪的饼干</b>
-            <span class="date">2026-10-14</span>
+        <a class="cover" href="binggan/">
+          <div class="banner tone-d"><span class="emoji" aria-hidden="true">🍪</span></div>
+          <div class="body"><b>失踪的饼干</b><span class="date">2026-10-14</span>
             <small>饼干数目对不上时，先看运算顺序，再判断有没有人偷吃。</small>
-            <span class="path">/binggan/</span>
-          </div>
+            <div class="meta"><span class="path">/binggan/</span><span class="live">阅读故事</span></div></div>
         </a>
-        <a class="lv" href="hongqi/">
-          <div class="ic" aria-hidden="true">🚩</div>
-          <div>
-            <b>操场上的红旗</b>
-            <span class="date">2026-10-14</span>
+        <a class="cover" href="hongqi/">
+          <div class="banner tone-d"><span class="emoji" aria-hidden="true">🚩</span></div>
+          <div class="body"><b>操场上的红旗</b><span class="date">2026-10-14</span>
             <small>分清 3 倍和多 3 面，还要看清问的是几队还是几人。</small>
-            <span class="path">/hongqi/</span>
-          </div>
+            <div class="meta"><span class="path">/hongqi/</span><span class="live">阅读故事</span></div></div>
         </a>
-        <a class="lv" href="gushi/">
-          <div class="ic" aria-hidden="true">🌫️</div>
-          <div>
-            <b>雾海灯塔</b>
-            <span class="date">2026-10-12</span>
+        <a class="cover" href="gushi/">
+          <div class="banner tone-e"><span class="emoji" aria-hidden="true">🌫️</span></div>
+          <div class="body"><b>雾海灯塔</b><span class="date">2026-10-12</span>
             <small>大雾里看清问的是什么、单位是什么，才找得到回家的灯塔。</small>
-            <span class="path">/gushi/</span>
-          </div>
+            <div class="meta"><span class="path">/gushi/</span><span class="live">阅读故事</span></div></div>
         </a>
-        <a class="lv" href="duwu/">
-          <div class="ic" aria-hidden="true">🔍</div>
-          <div>
-            <b>审题小侦探</b>
-            <span class="date">2026-10-12</span>
+        <a class="cover" href="duwu/">
+          <div class="banner tone-c"><span class="emoji" aria-hidden="true">🔍</span></div>
+          <div class="body"><b>审题小侦探</b><span class="date">2026-10-12</span>
             <small>算式可以没错，问题和单位看错了，答案仍然会错。</small>
-            <span class="path">/duwu/</span>
-          </div>
+            <div class="meta"><span class="path">/duwu/</span><span class="live">阅读故事</span></div></div>
         </a>
       </div>
     </section>
-    <section class="col" aria-label="练习">
+    <section class="col" id="practice" aria-label="练习">
       <h2>练习</h2>
-      <div class="levels">
-        <a class="lv" href="danwei-lianxi/">
-          <div class="ic" aria-hidden="true">📐</div>
-          <div>
-            <b>长度单位换算</b>
-            <span class="date">2026-10-18</span>
+      <div class="deck">
+        <a class="cover" href="danwei-lianxi/">
+          <div class="banner tone-c"><span class="badge">新品</span><span class="emoji" aria-hidden="true">📐</span></div>
+          <div class="body"><b>长度单位换算</b><span class="date">2026-10-18</span>
             <small>先看进率，再做 26 道填单位、换算和比大小。</small>
-            <span class="path">/danwei-lianxi/</span>
-          </div>
+            <div class="meta"><span class="path">/danwei-lianxi/</span><span class="live" data-track="danwei">还没开始</span></div></div>
         </a>
-        <a class="lv" href="lianxi/">
-          <div class="ic" aria-hidden="true">📒</div>
-          <div>
-            <b>错题练习册</b>
-            <span class="date">2026-10-16</span>
+        <a class="cover" href="lianxi/">
+          <div class="banner tone-a"><span class="emoji" aria-hidden="true">📒</span></div>
+          <div class="body"><b>错题练习册</b><span class="date">2026-10-16</span>
             <small>审题、运算顺序和长度换算，一共 31 道会判对错的题。</small>
-            <span class="path">/lianxi/</span>
-          </div>
+            <div class="meta"><span class="path">/lianxi/</span><span class="live" data-track="lianxi">还没开始</span></div></div>
         </a>
-        <a class="lv" href="chuangguan/">
-          <div class="ic" aria-hidden="true">🏆</div>
-          <div>
-            <b>读题闯关</b>
-            <span class="date">2026-10-05</span>
+        <a class="cover" href="chuangguan/">
+          <div class="banner tone-b"><span class="emoji" aria-hidden="true">🏆</span></div>
+          <div class="body"><b>读题闯关</b><span class="date">2026-10-05</span>
             <small>每题走阅读理解、分析解答、回顾反思，算式收在右侧。</small>
-            <span class="path">/chuangguan/</span>
-          </div>
+            <div class="meta"><span class="path">/chuangguan/</span><span class="live" data-track="chuangguan">还没开始</span></div></div>
         </a>
       </div>
     </section>
   </div>
-  <p class="foot">练习做完后，页尾可以交作业，生成成绩单。</p>
+  <p class="foot">顶栏随时可以回目录。练习页顶栏可以交作业。</p>
 </div>
+<script src="common/nav.js"></script>
+<script>
+function readJSON(key) {
+  try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch (e) { return null; }
+}
+function countMap(obj, pred) {
+  var done = 0, stars = 0;
+  if (!obj) return { done: 0, stars: 0 };
+  Object.keys(obj).forEach(function (k) {
+    var v = pred(obj[k], k);
+    if (v > 0) { done++; stars += v; }
+  });
+  return { done: done, stars: stars };
+}
+function stats() {
+  var cg = countMap(readJSON('math_shenti_v1'), function (v) { return typeof v === 'number' ? v : 0; });
+  var lx = countMap(readJSON('lianxi_kejian_v1'), function (row) {
+    if (!row || typeof row !== 'object') return 0;
+    return row.stars || (row.correct ? 3 : 0);
+  });
+  var raw = readJSON('danwei-lianxi-v1') || {};
+  var bag = {};
+  Object.keys(raw.stars || {}).forEach(function (k) { if (raw.stars[k]) bag[k] = raw.stars[k]; });
+  Object.keys(raw.correct || {}).forEach(function (k) { if (raw.correct[k] && !bag[k]) bag[k] = 3; });
+  var dw = countMap(bag, function (v) { return v; });
+  var door = 0;
+  var cd = readJSON('changdu-hedeng-v1');
+  if (cd && cd.done) Object.keys(cd.done).forEach(function (k) { if (cd.done[k]) door++; });
+  return { cg: cg, lx: lx, dw: dw, door: door };
+}
+function paintCatalog() {
+  var s = stats();
+  function put(name, text) {
+    var el = document.querySelector('[data-track="' + name + '"]');
+    if (el) el.textContent = text;
+  }
+  put('chuangguan', s.cg.done ? ('★ ' + s.cg.stars + ' · ' + s.cg.done + '/15') : '还没开始');
+  put('lianxi', s.lx.done ? ('★ ' + s.lx.stars + ' · ' + s.lx.done + '/31') : '还没开始');
+  put('danwei', s.dw.done ? ('★ ' + s.dw.stars + ' · ' + s.dw.done + '/26') : '还没开始');
+  put('changdu', s.door ? ('已过 ' + s.door + '/6 扇门') : '阅读故事');
+  var stars = s.cg.stars + s.lx.stars + s.dw.stars;
+  var done = s.cg.done + s.lx.done + s.dw.done;
+  var line = document.getElementById('sumLine');
+  if (line) line.textContent = stars ? ('练习 ★ ' + stars + ' · 完成 ' + done + '/72') : '练习星还没点亮';
+  return stars ? ('练习 ★ ' + stars) : '还没开始';
+}
+paintCatalog();
+SiteNav.mount({
+  title: '数学课件',
+  dir: 'index.html',
+  home: function () { window.scrollTo({ top: 0, behavior: 'smooth' }); },
+  map: function () {
+    var el = document.getElementById('practice');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  },
+  progress: paintCatalog
+});
+</script>
 </body>
 </html>
