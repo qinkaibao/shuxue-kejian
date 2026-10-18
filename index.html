@@ -532,6 +532,12 @@
 */
 const ITEMS = [
   {
+    type: 'practice', id: 'changdu-zhuanti', title: '长度换算专题', date: '2026-10-18',
+    emoji: '📏', tone: 'tone-b',
+    desc: '真正弄懂单位之间的换算',
+    path: 'changdu-zhuanti/', total: 27, reportId: 'changdu-zhuanti'
+  },
+  {
     type: 'story', id: 'changdu', title: '竹尺巷的河灯', date: '2026-10-18',
     emoji: '🏮', tone: 'tone-a',
     desc: '把尺子的 0 对准，再把门高、翅膀和跑道换成对的单位。',
@@ -627,12 +633,18 @@ function stats() {
     if (raw.correct[k] && !bag[k]) bag[k] = 3;
   });
   var dw = countMap(bag, function (v) { return v; });
+  var ztRaw = readJSON('changdu-zhuanti-progress-v1') || {};
+  var ztBag = {};
+  Object.keys(ztRaw.solved || {}).forEach(function (k) {
+    if (ztRaw.solved[k]) ztBag[k] = 3;
+  });
+  var zt = countMap(ztBag, function (v) { return v; });
   var door = 0;
   var cd = readJSON('changdu-hedeng-v1');
   if (cd && cd.done) {
     Object.keys(cd.done).forEach(function (k) { if (cd.done[k]) door++; });
   }
-  return { cg: cg, lx: lx, dw: dw, door: door };
+  return { cg: cg, lx: lx, dw: dw, zt: zt, door: door };
 }
 
 /* ---------- 新成绩单进度 ---------- */
@@ -727,6 +739,13 @@ function legacyProgress(item) {
     done = old.dw.done;
     stars = old.dw.stars;
     total = Number(item.total) || 26;
+    if (!done && !stars) return null;
+    label = '旧进度 ★ ' + stars + ' · 完成 ' + done + '/' + total;
+  } else if (item.id === 'changdu-zhuanti') {
+    old = stats();
+    done = old.zt.done;
+    stars = old.zt.stars;
+    total = Number(item.total) || 27;
     if (!done && !stars) return null;
     label = '旧进度 ★ ' + stars + ' · 完成 ' + done + '/' + total;
   } else {
@@ -890,15 +909,15 @@ function paintSummary() {
   el.innerHTML = line;
 }
 
-/* 汇总句与 PR #14 之前的根首页（402ce9b index.html 的 paintCatalog）相同：
-   只加闯关 math_shenti_v1、错题练习册 lianxi_kejian_v1、长度换算 danwei-lianxi-v1。
-   河灯 changdu-hedeng-v1 的门数不进这句。72 = 15 + 31 + 26。 */
+/* 汇总句沿用 PR #14 之前根首页的规则，分母改为 99 = 15 + 31 + 26 + 27。
+   长度换算专题读 changdu-zhuanti-progress-v1：solved 为真的题算完成，
+   这一页不存星星，按旧规则「做对但没有星星」记 3 颗。河灯门数仍不计入。 */
 function paintSumLine() {
   var s = stats();
-  var stars = s.cg.stars + s.lx.stars + s.dw.stars;
-  var done = s.cg.done + s.lx.done + s.dw.done;
+  var stars = s.cg.stars + s.lx.stars + s.dw.stars + s.zt.stars;
+  var done = s.cg.done + s.lx.done + s.dw.done + s.zt.done;
   var line = document.getElementById('sumLine');
-  if (line) line.textContent = stars ? ('练习 ★ ' + stars + ' · 完成 ' + done + '/72') : '练习星还没点亮';
+  if (line) line.textContent = stars ? ('练习 ★ ' + stars + ' · 完成 ' + done + '/99') : '练习星还没点亮';
 }
 
 function syncHomeBar() {
