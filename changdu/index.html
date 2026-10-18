@@ -1356,5 +1356,21 @@ svg text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft Y
   }
 })();
 </script>
+<script src="../common/nav.js"></script>
+<script>
+SiteNav.mount({
+  title: '竹尺巷的河灯',
+  report: true,
+  progress: function () {
+    var n = 0;
+    try {
+      var o = JSON.parse(localStorage.getItem('changdu-hedeng-v1') || '{}');
+      var done = o.done || {};
+      Object.keys(done).forEach(function (k) { if (done[k]) n++; });
+    } catch (e) {}
+    return '已过 ' + n + '/6 扇门';
+  }
+});
+</script>
 </body>
 </html>

@@ -12,8 +12,8 @@ body{margin:0;font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","No
 button{font-family:inherit;touch-action:manipulation;cursor:pointer}
 #app{max-width:1100px;margin:0 auto;padding:0 12px 40px}
 /* header */
-.hdr{position:sticky;top:0;z-index:20;background:#fff8e7;display:flex;align-items:center;gap:12px;padding:8px 0}
-.hbtn{border:none;background:#ffd166;border-radius:14px;font-size:22px;min-width:56px;height:52px;padding:0 14px;font-weight:bold;color:#5a3d00;box-shadow:0 3px 0 #e0a800}
+.hdr{position:sticky;top:0;z-index:20;background:#fff8e7;display:flex;align-items:center;gap:8px;padding:8px 0;flex-wrap:wrap}
+.hbtn{border:none;background:#ffd166;border-radius:14px;font-size:18px;min-width:52px;height:48px;padding:0 10px;font-weight:bold;color:#5a3d00;box-shadow:0 3px 0 #e0a800;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
 .hbtn:active{transform:translateY(2px);box-shadow:0 1px 0 #e0a800}
 .htitle{font-weight:bold;font-size:22px;color:#e8590c;white-space:nowrap}
 .prog{flex:1;min-width:80px}
@@ -435,11 +435,13 @@ function pick(a){return a[Math.floor(Math.random()*a.length)];}
 
 function header(){
   var d=doneCount();
-  return '<div class="hdr"><button class="hbtn" onclick="goHome()" aria-label="首页">🏠</button>'+
-   (S.screen!=='home'?'<button class="hbtn" onclick="goMap()">关卡</button>':'')+
-   '<div class="htitle">审题与数量关系</div><div class="prog"><div class="pbar"><div class="pfill" style="width:'+(d/TOTAL*100)+'%"></div></div><div class="ptxt">已完成 '+d+' / '+TOTAL+' 题</div></div>'+
-   '<div class="stars">'+starSVG(true)+'<span id="starN">'+totalStars()+'</span></div></div>';
+  return '<div class="hdr"><a class="hbtn" href="../index.html">目录</a>'+
+   '<button class="hbtn" onclick="goHome()">主页</button>'+
+   '<button class="hbtn" onclick="goMap()">关卡</button>'+
+   '<div class="htitle">审题与数量关系</div><div class="prog"><div class="pbar"><div class="pfill" style="width:'+(d/TOTAL*100)+'%"></div></div><div class="ptxt">已完成 '+d+' / '+TOTAL+' 题 · ★ '+totalStars()+'</div></div>'+
+   '<button class="hbtn" onclick="openReport()">交作业</button></div>';
 }
+function openReport(){ if(window.KejianReport&&KejianReport.open) KejianReport.open(); }
 function goHome(){S.screen='home';render();}
 function goMap(){S.screen='map';render();}
 function render(){
@@ -756,7 +758,7 @@ function finishQ(){
    '<div class="row" style="justify-content:center">'+(last?(S.L<LEVELS.length-1?'<button class="btn go" onclick="startLevel('+(S.L+1)+')">下一关 ▶</button>':'<button class="btn go" onclick="allDone()">完成全部 🎊</button>')+'<button class="btn" onclick="goMap()">回关卡地图</button>':'<button class="btn go" onclick="S.Q++;startQ()">下一题 ▶</button>')+'</div></div>';
   var sn=$('#starN');if(sn)sn.textContent=totalStars();
   var pf=$('.pfill');if(pf)pf.style.width=(doneCount()/TOTAL*100)+'%';
-  var pt=$('.ptxt');if(pt)pt.textContent='已完成 '+doneCount()+' / '+TOTAL+' 题';
+  var pt=$('.ptxt');if(pt)pt.textContent='已完成 '+doneCount()+' / '+TOTAL+' 题 · ★ '+totalStars();
   try{el.scrollIntoView({behavior:'smooth',block:'nearest'});}catch(e){}
 }
 function allDone(){
