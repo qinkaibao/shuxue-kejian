@@ -339,8 +339,9 @@ h2.sec{text-align:center;margin:28px 0 8px}
 <div class="q-act" data-q="26"></div>
 </div>
 
-<p class="foot"><button type="button" class="reset" id="resetBtn2">重置进度</button><br>进度记在这台手机里（danwei-lianxi-v1）。回到课件首页：<a href="../index.html">审题与数量关系</a></p>
+<p class="foot"><button type="button" class="reset" id="resetBtn2">重置进度</button><br>进度记在这台手机里（danwei-lianxi-v1）。回到总目录：<a href="../index.html">数学课件</a></p>
 </div>
+<script src="../common/report.js"></script>
 <script>
 (function () {
   var KEY = 'danwei-lianxi-v1';
@@ -475,9 +476,11 @@ h2.sec{text-align:center;margin:28px 0 8px}
     var chk = ctx.el.querySelector('.btn.check');
     if (chk) chk.disabled = true;
     markCorrect(ctx.q);
+    if (window.KejianReport) KejianReport.pass(ctx.q);
   }
   function wrong(ctx, hint, reveal) {
     ctx.att++;
+    if (window.KejianReport) KejianReport.miss(ctx.q, ctx.lastAnswer || '答错');
     if (ctx.att === 1 && hint) {
       fbEl(ctx, 'hint', '💡 提示：' + hint + '<br>再试一次！');
       return false;
@@ -565,6 +568,7 @@ h2.sec{text-align:center;margin:28px 0 8px}
           void btn.offsetWidth;
           btn.classList.add('bad');
           btn.disabled = true;
+          ctx.lastAnswer = '选了「' + st.opts[i] + '」';
           wrong(ctx, st.hint, reveal);
         }
       };
@@ -593,6 +597,7 @@ h2.sec{text-align:center;margin:28px 0 8px}
       if (v === '') { fbEl(ctx, 'hint', '先用下面的数字键填上得数。'); return; }
       if (parseNum(v) === st.a) { bl.classList.add('ok'); complete(ctx); return; }
       bl.classList.add('bad');
+      ctx.lastAnswer = '填了 ' + v;
       wrong(ctx, st.hint, reveal);
     };
     ctx.el.querySelector('.btn.check').onclick = check;
@@ -631,6 +636,7 @@ h2.sec{text-align:center;margin:28px 0 8px}
         else { x.classList.add('bad'); all = false; }
       });
       if (all) { complete(ctx); return; }
+      ctx.lastAnswer = '填了 ' + ctx.blanks.map(function (x) { return x.textContent; }).join('、');
       wrong(ctx, st.hint, reveal);
     };
     ctx.el.querySelector('.btn.check').onclick = check;
@@ -685,6 +691,7 @@ h2.sec{text-align:center;margin:28px 0 8px}
         });
       });
       if (all) { lockOpts(body); complete(ctx); return; }
+      ctx.lastAnswer = '填了 ' + ctx.picks.join('、');
       wrong(ctx, st.hint, reveal);
     };
   }
@@ -750,6 +757,7 @@ h2.sec{text-align:center;margin:28px 0 8px}
       $$('.slot', slotsEl).forEach(function (s, i) {
         s.classList.toggle('bad', ctx.placed[i] !== st.order[i]);
       });
+      ctx.lastAnswer = '排成 ' + ctx.placed.join('、');
       wrong(ctx, st.hint, reveal);
     };
   }
@@ -814,6 +822,7 @@ h2.sec{text-align:center;margin:28px 0 8px}
         b.classList.toggle('bad', !cOk);
       });
       if (nOk && cOk) { lockOpts(body); complete(ctx); return; }
+      ctx.lastAnswer = '填了 ' + ctx.blanks[0].textContent + '，选了「' + st.choice.opts[ctx.choice] + '」';
       wrong(ctx, st.hint, reveal);
     };
   }
@@ -990,15 +999,57 @@ h2.sec{text-align:center;margin:28px 0 8px}
   function resetAll() {
     if (!confirm('确定清空这台手机上的做题进度吗？')) return;
     try { localStorage.removeItem(KEY); } catch (e) {}
+    if (window.KejianReport) KejianReport.clear();
     location.reload();
   }
   document.getElementById('resetBtn').onclick = resetAll;
   document.getElementById('resetBtn2').onclick = resetAll;
 
+  function mountReport() {
+    if (!window.KejianReport) return;
+    var meta = {
+      '1': ['铅笔长 18 什么', '选单位'],
+      '2': ['硬币厚约 2 什么', '选单位'],
+      '3': ['课桌高约 8 什么', '选单位'],
+      '4': ['姐姐身高 1 米 4 什么', '选单位'],
+      '5': ['北京到天津约 120 什么', '选单位'],
+      '6': ['教学楼高约 15 什么', '选单位'],
+      '7': ['3 厘米等于多少毫米', '长度换算/厘米↔毫米'],
+      '8': ['70 毫米等于多少厘米', '长度换算/毫米↔厘米'],
+      '9': ['4 米等于多少厘米', '长度换算/米↔厘米'],
+      '10': ['6000 米等于多少千米', '长度换算/米↔千米'],
+      '11': ['5 厘米 4 毫米等于多少毫米', '长度换算/厘米↔毫米'],
+      '12': ['2 千米等于多少米', '长度换算/千米↔米'],
+      '13': ['1 米 6 分米等于多少厘米', '长度换算/分米↔厘米'],
+      '14': ['3 米减 6 分米等于多少分米', '长度换算/米↔分米'],
+      '15': ['5 分米等于多少厘米', '长度换算/分米↔厘米'],
+      '16': ['80 厘米等于多少分米', '长度换算/厘米↔分米'],
+      '17': ['50 分米等于多少厘米', '长度换算/分米↔厘米'],
+      '18': ['60 分米等于多少厘米', '长度换算/分米↔厘米'],
+      '19': ['300 厘米等于多少分米', '长度换算/厘米↔分米'],
+      '20': ['40 分米换成米再换成厘米', '长度换算/分米↔米↔厘米'],
+      '21': ['三个 ○ 比大小', '比大小'],
+      '22': ['四个长度从大到小', '比大小'],
+      '23': ['250 米跑 4 圈合多少千米', '长度换算/米↔千米'],
+      '24': ['纸条不从 0 量有多长', '测量/终点减起点'],
+      '25': ['2 米用去 7 分米还剩多少', '长度换算/米↔分米'],
+      '26': ['3 小时能否到达 260 千米', '运算、比大小']
+    };
+    var saved = norm(load());
+    var questions = [];
+    var legacy = [];
+    Object.keys(meta).forEach(function (k) {
+      questions.push({ id: k, brief: meta[k][0], tag: meta[k][1] });
+      if (saved.correct[k]) legacy.push(k);
+    });
+    KejianReport.mount({ id: 'danwei-lianxi', name: '长度单位换算', questions: questions, legacySolved: legacy });
+  }
+
   function init() {
     initConcept();
     $$('.q-act').forEach(mount);
     updateProgress();
+    mountReport();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();

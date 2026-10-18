@@ -859,7 +859,9 @@ button{font-family:inherit;touch-action:manipulation;cursor:pointer;-webkit-tap-
 </div>
 
 <p class="foot">题目和情境都是新编的变式，给小美在家练审题、混合运算和长度单位。算法按人教版三年级上册：只有加减或只有乘除时从左往右；先乘除、后加减；有括号先算括号；长度单位有千米、米、分米、厘米、毫米。未照抄作业原题。</p>
+<p class="foot"><a href="../index.html">回到总目录</a></p>
 </div>
+<script src="../common/report.js"></script>
 <script>
 (function () {
   var KEY = 'lianxi_kejian_v1';
@@ -990,6 +992,7 @@ button{font-family:inherit;touch-action:manipulation;cursor:pointer;-webkit-tap-
     if (!explained) {
       fbEl(ctx, 'good', '✓ ' + pick(PRAISE));
       markCorrect(ctx.q);
+      if (window.KejianReport) KejianReport.pass(ctx.q);
     }
     var chk = ctx.el.querySelector('.btn');
     if (chk) chk.disabled = true;
@@ -997,6 +1000,7 @@ button{font-family:inherit;touch-action:manipulation;cursor:pointer;-webkit-tap-
 
   function wrong(ctx, hint, reveal) {
     ctx.att++;
+    if (window.KejianReport) KejianReport.miss(ctx.q, ctx.lastAnswer || '答错');
     if (ctx.att === 1 && hint) {
       fbEl(ctx, 'hint', '💡 提示：' + hint + '<br>再试一次！');
       return false;
@@ -1028,6 +1032,7 @@ button{font-family:inherit;touch-action:manipulation;cursor:pointer;-webkit-tap-
         } else {
           btn.classList.remove('bad'); void btn.offsetWidth; btn.classList.add('bad');
           btn.disabled = true;
+          ctx.lastAnswer = '选了「' + st.opts[i] + '」';
           wrong(ctx, st.hint, function () {
             $$('.opt', body)[st.a].classList.add('ok');
             $$('.opt', body).forEach(function (x) { x.disabled = true; });
@@ -1077,6 +1082,7 @@ button{font-family:inherit;touch-action:manipulation;cursor:pointer;-webkit-tap-
       if (st.units) { var us = body.querySelector('.unit.sel'); if (us) us.classList.add(uOk ? 'ok' : 'bad'); }
       if (nOk && uOk) { complete(ctx, false); return; }
       var hint = !nOk ? st.hint : '单位要和问题对上。';
+      ctx.lastAnswer = '填了 ' + v + (ctx.unit ? ctx.unit : '');
       wrong(ctx, hint, function () {
         bl.textContent = st.a;
         bl.classList.remove('bad'); bl.classList.add('ok');
@@ -1112,6 +1118,7 @@ button{font-family:inherit;touch-action:manipulation;cursor:pointer;-webkit-tap-
         else { x.classList.add('bad'); all = false; }
       });
       if (all) { complete(ctx, false); return; }
+      ctx.lastAnswer = '填了 ' + ctx.blanks.map(function (x) { return x.textContent; }).join('、');
       wrong(ctx, st.hint, function () {
         ctx.blanks.forEach(function (x, i) {
           x.textContent = st.a[i]; x.classList.remove('bad'); x.classList.add('ok');
@@ -1158,9 +1165,55 @@ button{font-family:inherit;touch-action:manipulation;cursor:pointer;-webkit-tap-
     else if (e.key === 'Enter' && activePad.checkFn) { activePad.checkFn(); e.preventDefault(); }
   });
 
+  function mountReport() {
+    if (!window.KejianReport) return;
+    var meta = {
+      '1': ['故事书还剩多少本', '审题/还剩'],
+      '2': ['问的是每盒，还是一共', '审题/每份和一共'],
+      '3': ['3 倍，和多 3 张', '几倍和多几'],
+      '4': ['先圈问句和单位', '审题/多余条件'],
+      '5': ['彩绳缺的那一段', '审题/线段图'],
+      '6': ['小熊是小兔的几倍', '几倍'],
+      '7': ['蓝绳比红绳长的那一截', '多几'],
+      '8': ['85 − 25 + 47', '运算顺序'],
+      '9': ['93 − 48 + 36', '运算顺序'],
+      '10': ['8 × 6 ÷ 3 × 2', '运算顺序'],
+      '11': ['450 − 180 + 27', '运算顺序'],
+      '12': ['80 − 6 × 9', '运算顺序'],
+      '13': ['352 − 7 × 8', '运算顺序'],
+      '14': ['36 − 4 × 5', '运算顺序'],
+      '15': ['45 ÷ 5 + 38', '运算顺序'],
+      '16': ['48 ÷ (3 + 5)', '运算顺序/括号'],
+      '17': ['426 − (851 − 637)', '运算顺序/括号'],
+      '18': ['568 + 274', '进位竖式'],
+      '19': ['500 − 246', '退位竖式'],
+      '20': ['46 + 57', '口算进位'],
+      '21': ['250 + 180', '口算进位'],
+      '22': ['黑板长约 4 什么', '选单位'],
+      '23': ['蜜蜂长约 15 什么', '选单位'],
+      '24': ['橡皮长约 4 什么', '选单位'],
+      '25': ['6 分米等于多少厘米', '长度换算/分米↔厘米'],
+      '26': ['700 厘米等于多少米', '长度换算/厘米↔米'],
+      '27': ['3 千米等于多少米', '长度换算/千米↔米'],
+      '28': ['40 毫米等于多少厘米', '长度换算/毫米↔厘米'],
+      '29': ['50 毫米和 6 厘米比', '比大小'],
+      '30': ['2 米和 18 分米比', '比大小'],
+      '31': ['小美一共走了多少米', '长度换算/厘米↔米']
+    };
+    var p = loadProg();
+    var questions = [];
+    var legacy = [];
+    Object.keys(meta).forEach(function (k) {
+      questions.push({ id: k, brief: meta[k][0], tag: meta[k][1] });
+      if (p[k] && p[k].correct) legacy.push(k);
+    });
+    KejianReport.mount({ id: 'lianxi', name: '错题练习册', questions: questions, legacySolved: legacy });
+  }
+
   function init() {
     $$('.q-act').forEach(mount);
     updateProgress();
+    mountReport();
   }
 
   var prev = [];
