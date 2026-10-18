@@ -285,9 +285,10 @@ svg text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft Y
 </div>
 <p class="foot">参考说明：本故事为原创，人物、情节和数字都是新编的，没有摘抄版权原文。写法上借鉴了这些书的结构：李毓佩《奇妙的数王国》让每种单位守自己的规矩，规矩用错就会走错路；《数学帮帮忙》（Math Matters）用一件必须今晚办成的事，把数学从生活里逼出来；斯图尔特·J·墨菲的 MathStart 让一个故事盯住长度单位，结尾把已经走过的门倒回去再验一遍；杨红樱《马小跳玩数学》里急性子抢着答、旁边的人拦住，这里换成了新的人物和新的河灯夜。内容对照人教版三年级上册「毫米、分米和千米」的认识与换算，不照搬课本例题，也不编造页码。</p>
 </section>
-<p class="foot"><button type="button" class="ghost" id="resetBtn">清除这台手机上的进度</button><br>回到课件首页：<a href="../index.html">审题与数量关系</a></p>
+<p class="foot"><button type="button" class="ghost" id="resetBtn">清除这台手机上的进度</button><br>回到总目录：<a href="../index.html">数学课件</a></p>
 </main>
 <noscript>请允许浏览器运行脚本后再读这个故事。门要靠脚本打开。</noscript>
+<script src="../common/report.js"></script>
 <script>
 (function () {
   var KEY = 'changdu-hedeng-v1';
@@ -375,6 +376,9 @@ svg text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft Y
   }
   var state = load();
   state.sel = '';
+
+  function repMiss(id, text) { if (window.KejianReport) KejianReport.miss(id, text); }
+  function repPass(id) { if (window.KejianReport) KejianReport.pass(id); }
 
   function save() {
     try {
@@ -538,6 +542,7 @@ svg text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft Y
       state.done.ruler = 1;
       state.origin = 0;
       save();
+      repPass('ruler');
       refresh(true);
       return;
     }
@@ -551,6 +556,7 @@ svg text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft Y
     else if (o > 0 && got === String(right)) msg = '你读的是右边的刻度 ' + right + ' 毫米。左边并不在 0，而在 ' + speak(o) + '。长度＝终点−起点＝' + right + '−' + o + '＝' + (right - o) + '。请先把 0 对准虚线，再读一次。';
     else msg = '先看左边对着多少毫米，再看右边对着多少毫米。现在左边是 ' + o + ' 毫米，右边是 ' + right + ' 毫米。纸条的长是两边的差。门还要等 0 对准。';
     setFb(fb, 'no', msg);
+    repMiss('ruler', '尺子 0 在 ' + o + ' 毫米，填了 ' + String(raw).replace(/\s/g, ''));
   }
 
   function renderUnits() {
@@ -609,10 +615,12 @@ svg text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft Y
       if (allPlaced()) {
         state.done.units = 1;
         save();
+        repPass('units');
         setFb(document.getElementById('unitFb'), 'ok', '四样都放对了。第二道门开了。');
         refresh(true);
       }
     } else {
+      repMiss('units', it.name + '放进了「' + unit + '」');
       setFb(document.getElementById('unitFb'), 'no', (it.bad && it.bad[unit]) || '再想一想这样东西有多长。');
       var bin = document.querySelector('.bin[data-u="'+unit+'"]');
       if (bin) { bin.classList.remove('shake'); void bin.offsetWidth; bin.classList.add('shake'); }
@@ -846,9 +854,27 @@ svg text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft Y
         }
       }
       if (missing) { setFb(fb, 'no', '还有空没填，或还有选项没选。'); return; }
-      if (!allOk) { setFb(fb, 'no', hint || '再看一看单位。'); retry.hidden = false; return; }
+      if (!allOk) {
+        var bits = [];
+        for (var n = 0; n < cfg.parts.length; n++) {
+          var part = cfg.parts[n];
+          var node = box.querySelector('.part[data-i="'+n+'"]');
+          if (part.type === 'choice') {
+            var chosen = node.querySelector('.opt.selected');
+            bits.push(chosen ? chosen.textContent : '未选');
+          } else {
+            var field = node.querySelector('input');
+            bits.push((field && field.value) ? field.value : '空');
+          }
+        }
+        repMiss(cfg.id, bits.join('；'));
+        setFb(fb, 'no', hint || '再看一看单位。');
+        retry.hidden = false;
+        return;
+      }
       state.done[cfg.id] = 1;
       save();
+      repPass(cfg.id);
       lock(cfg.ok);
       if (cfg.onPass) cfg.onPass();
     }
@@ -1047,7 +1073,12 @@ svg text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft Y
     var fb = document.getElementById('sortFb');
     if (state.order.indexOf(id) >= 0) { setFb(fb, 'no', '这段已经排过了。'); return; }
     var expect = ORDER[state.order.length];
-    if (id !== expect) { setFb(fb, 'no', NEXT_HINT[expect]); return; }
+    if (id !== expect) {
+      var sortNames = {p50:'50 分米', m4:'4 米', p30:'30 分米', c200:'200 厘米'};
+      repMiss('sortOrder', '点了「' + (sortNames[id] || id) + '」');
+      setFb(fb, 'no', NEXT_HINT[expect]);
+      return;
+    }
     state.order.push(id);
     save();
     renderOrder();
@@ -1056,6 +1087,7 @@ svg text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft Y
       state.done.sortOrder = 1;
       state.done.finale = 1;
       save();
+      repPass('sortOrder');
       refresh(true);
     }
   }
@@ -1127,6 +1159,7 @@ svg text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft Y
       return;
     }
     try { localStorage.removeItem(KEY); } catch (e) {}
+    if (window.KejianReport) KejianReport.clear();
     location.reload();
   };
 
@@ -1301,6 +1334,25 @@ svg text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft Y
     if (last && last.id !== 'ch1') {
       try { last.scrollIntoView({block:'start'}); } catch (e) {}
     }
+  }
+  if (window.KejianReport) {
+    var reportQs = [
+      {id:'ruler', brief:'纸条从 0 量起，长多少毫米', tag:'测量/从0起量'},
+      {id:'units', brief:'门、翅膀、床、鞋各用什么单位', tag:'选单位'},
+      {id:'lens', brief:'1 厘米等于多少毫米，70 毫米和 7 厘米', tag:'长度换算/毫米↔厘米、比大小'},
+      {id:'rope', brief:'2 米、剪去 8 分米、100 分米、300 厘米', tag:'长度换算/米↔分米↔厘米'},
+      {id:'trackQ', brief:'2 圈加半圈是多少米、多少千米', tag:'运算顺序、长度换算/米↔千米'},
+      {id:'lamps', brief:'6 盏灯隔 500 米，合多少千米', tag:'长度换算/米↔千米'},
+      {id:'momUnit', brief:'妈妈高约 1 米 6 什么', tag:'选单位'},
+      {id:'momCm', brief:'1 米 6 分米等于多少厘米', tag:'长度换算/分米↔厘米'},
+      {id:'sortFill', brief:'四段长度都换成厘米', tag:'长度换算'},
+      {id:'sortOrder', brief:'四段从长到短怎么排', tag:'比大小'}
+    ];
+    var reportOld = [];
+    for (var rq = 0; rq < reportQs.length; rq++) {
+      if (state.done[reportQs[rq].id]) reportOld.push(reportQs[rq].id);
+    }
+    KejianReport.mount({id:'changdu', name:'竹尺巷的河灯', questions:reportQs, legacySolved:reportOld});
   }
 })();
 </script>
