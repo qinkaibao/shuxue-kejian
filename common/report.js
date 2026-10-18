@@ -9,7 +9,7 @@
   function sid(id) { return String(id); }
 
   function empty() {
-    return { misses: {}, firstWrong: {}, solved: {}, legacy: {} };
+    return { misses: {}, firstWrong: {}, solved: {}, legacy: {}, history: [] };
   }
 
   function storageKey() { return PREFIX + current; }
@@ -26,6 +26,7 @@
       if (o.firstWrong && typeof o.firstWrong === 'object') data.firstWrong = o.firstWrong;
       if (o.solved && typeof o.solved === 'object') data.solved = o.solved;
       if (o.legacy && typeof o.legacy === 'object') data.legacy = o.legacy;
+      if (Array.isArray(o.history)) data.history = o.history;
     } catch (e) {}
     return data;
   }
@@ -244,8 +245,59 @@
     } else fallback();
   }
 
+  function dayStamp(d) {
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+  }
+
+  /* 一次就对率 = 一次就对的题 / 已做对的题。已做对为 0 时记 0。 */
+  function onceRate(once, correct) {
+    if (!correct) return 0;
+    return Math.round(once / correct * 100);
+  }
+
+  function appendHistory(model) {
+    var data = load();
+    if (!Array.isArray(data.history)) data.history = [];
+    var buckets = {};
+    for (var i = 0; i < model.rows.length; i++) {
+      var row = model.rows[i];
+      var cat = row.q.category || '';
+      if (!cat) continue;
+      if (!buckets[cat]) buckets[cat] = { once: 0, correct: 0, total: 0 };
+      buckets[cat].total++;
+      if (row.st.kind === 'once') {
+        buckets[cat].once++;
+        buckets[cat].correct++;
+      } else if (row.st.kind === 'later' || row.st.kind === 'old') {
+        buckets[cat].correct++;
+      }
+    }
+    var byCategory = {};
+    Object.keys(buckets).forEach(function (cat) {
+      var b = buckets[cat];
+      byCategory[cat] = {
+        once: b.once,
+        correct: b.correct,
+        total: b.total,
+        onceRate: onceRate(b.once, b.correct)
+      };
+    });
+    var now = new Date();
+    data.history.push({
+      date: dayStamp(now),
+      onceRate: onceRate(model.once, model.correct),
+      once: model.once,
+      correct: model.correct,
+      total: model.total,
+      byCategory: byCategory
+    });
+    if (data.history.length > 60) data.history = data.history.slice(-60);
+    save(data);
+  }
+
   function openReport() {
     var model = summarize();
+    appendHistory(model);
     var text = buildText(model);
     render(model, text, '正在复制…');
     copyText(model, text);

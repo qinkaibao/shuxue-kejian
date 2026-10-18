@@ -785,7 +785,7 @@ function allDone(){
     l.qs.forEach(function(q,qi){
       var mark=q.text.match(/\[\[(.+?)\]\]/);
       var brief=mark?mark[1].replace(/<[^>]+>/g,''):q.text.replace(/<[^>]+>/g,'').replace(/\s+/g,' ').slice(0,22);
-      qs.push({id:q.id,brief:'第'+(li+1)+'关第'+(qi+1)+'题 '+brief,tag:tags[String(li+1)]||'数量关系'});
+      qs.push({id:q.id,brief:'第'+(li+1)+'关第'+(qi+1)+'题 '+brief,tag:tags[String(li+1)]||'数量关系',category:'看图列式与数量关系'});
       if(S.prog[q.id])legacy.push(q.id);
     });
   });
@@ -794,5 +794,6 @@ function allDone(){
 render();
 
 </script>
+<p class="catline" style="margin:18px 12px 28px;padding:14px 16px;background:#fffdf8;border-radius:16px;box-shadow:0 3px 0 #f1c26b;font-size:20px;line-height:1.6">本页练习：<a style="color:#1d5fd0;font-weight:bold" href="../cuoti/#cat-%E7%9C%8B%E5%9B%BE%E5%88%97%E5%BC%8F%E4%B8%8E%E6%95%B0%E9%87%8F%E5%85%B3%E7%B3%BB">看图列式与数量关系</a></p>
 </body>
 </html>

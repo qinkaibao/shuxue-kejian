@@ -201,6 +201,9 @@
     ['25', '2 米用去 7 分米还剩多少', '长度换算/米↔分米'],
     ['26', '3 小时能否到达 260 千米', '运算、比大小']
   ].map(function (row) { return { id: row[0], brief: row[1], tag: row[2] }; });
+  report.forEach(function (q) {
+    q.category = q.id === '26' ? '看图列式与数量关系' : '长度单位与换算';
+  });
 
   var expect = {
     1: { type: 'choice', a: 1 }, 2: { type: 'choice', a: 0 }, 3: { type: 'choice', a: 2 },
