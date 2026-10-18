@@ -26,6 +26,8 @@ button{font-family:inherit;touch-action:manipulation;cursor:pointer}
 .card{background:#fff;border-radius:20px;box-shadow:0 4px 14px rgba(200,140,0,.15);padding:16px 20px;margin:10px 0}
 h1{font-size:34px;color:#e8590c;margin:10px 0 4px;text-align:center}
 .sub{text-align:center;color:#8a6d3b;font-size:20px}
+.entry{text-align:center;margin:14px 0 0;font-size:20px}
+.entry a{color:#1d5fd0;font-weight:bold}
 .three{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px}
 .three>div{background:#fff3d6;border-radius:16px;padding:12px;text-align:center}
 .three .no{display:inline-block;width:40px;height:40px;line-height:40px;border-radius:50%;background:#fb8500;color:#fff;font-weight:bold;font-size:24px}
@@ -453,6 +455,7 @@ function renderHome(){
   '<div><span class="no">3</span><b>先算什么，再算什么？</b><small>每个中间结果都写上：<br>它是什么、单位是什么</small></div></div>'+
   '<div class="flow"><span>阅读理解</span><i>→</i><span>分析解答</span><i>→</i><span>回顾反思</span><i>→</i><span>写“答：”</span></div></div>'+
   '<button class="bigbtn" onclick="goMap()">开始闯关 ▶</button>'+
+  '<p class="entry"><a href="danwei-lianxi/index.html">长度单位换算：概念与练习</a></p>'+
   '<details class="tips"><summary>给家长的小提示（点开）</summary>'+
   '· 每关 3 题，建议一次 1–2 关，15–20 分钟。<br>· 每算出一个数，请孩子<b>说出来</b>“它是什么、单位是什么”，再点按钮。<br>· 答错第一次只给提示，第二次才出现讲解；星星：一次都没看讲解 3 颗，看 1 次 2 颗，更多 1 颗。<br>· 线段图可以点“再看一遍”重放；附加题（第5关第3题）是选做的挑战题，超出课本要求，做不出来没关系。<br>· 进度保存在本机浏览器里；想清空可点这里：<button class="btn gray" style="font-size:16px;min-height:36px;padding:2px 12px" onclick="resetAll()">清空进度</button></details>';
 }
