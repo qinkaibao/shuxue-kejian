@@ -528,15 +528,21 @@
   desc：一句话介绍；path：相对网站根目录的链接，别忘了结尾的斜杠。
   total：这个练习一共有多少题（可选，有成绩单时用于算进度）。
   reportId：成绩单 id（可选）；有它就会读取 'kejian-report-v1:'+reportId。
-  omitSummary：为 true 时不计入顶部练习汇总句。错题本用这个，卡片自己显示已掌握/总数。
+  omitSummary：为 true 时不计入顶部练习汇总句，也不计入 ★/99。错题记录和错题再练都用这个。错题再练卡片自己显示已掌握/总数。
   渲染时会自动按 date 从新到旧排序，最近 3 天内的条目自动加「新」徽章。
 */
 const ITEMS = [
   {
     type: 'practice', id: 'cuoti', title: '错题本', date: '2026-10-18',
     emoji: '📕', tone: 'tone-d',
-    desc: '142 道错题按分类收好，对照出处再做一次。',
-    path: 'cuoti/', total: 142, reportId: 'cuoti', omitSummary: true
+    desc: '按分类看原始错题：题目、错答、答案和出处。',
+    path: 'cuoti/', omitSummary: true
+  },
+  {
+    type: 'practice', id: 'cuoti-lianxi', title: '错题再练', date: '2026-10-18',
+    emoji: '✏️', tone: 'tone-e',
+    desc: '把收好的错题再做一次，做对就记已掌握。',
+    path: 'cuoti-lianxi/', total: 142, reportId: 'cuoti', omitSummary: true
   },
   {
     type: 'practice', id: 'changdu-zhuanti', title: '长度换算专题', date: '2026-10-18',
@@ -807,6 +813,15 @@ function cuotiMastered(total) {
 
 function progressHTML(item) {
   if (item.id === 'cuoti') {
+    return ''
+      + '<div class="progress progress-empty">'
+      +   '<span class="progress-label">打开看分类</span>'
+      +   '<div class="track" role="progressbar" aria-label="错题记录" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0">'
+      +     '<span class="fill" style="width:0"></span>'
+      +   '</div>'
+      + '</div>';
+  }
+  if (item.id === 'cuoti-lianxi') {
     var cuotiTotal = Number(item.total) > 0 ? Math.floor(Number(item.total)) : 0;
     var mastered = cuotiMastered(cuotiTotal);
     var cuotiMax = cuotiTotal || Math.max(mastered, 1);
@@ -814,7 +829,7 @@ function progressHTML(item) {
     return ''
       + '<div class="progress">'
       +   '<span class="progress-label">已掌握 ' + mastered + '/' + cuotiTotal + '</span>'
-      +   '<div class="track" role="progressbar" aria-label="错题本的进度" '
+      +   '<div class="track" role="progressbar" aria-label="错题再练的进度" '
       +     'aria-valuemin="0" aria-valuemax="' + cuotiMax + '" aria-valuenow="' + Math.min(mastered, cuotiMax) + '">'
       +     '<span class="fill" style="width:' + cuotiPct + '%"></span>'
       +   '</div>'
@@ -944,7 +959,7 @@ function paintSummary() {
 }
 
 /* 汇总句沿用 PR #14 之前根首页的规则，分母仍是 99 = 15 + 31 + 26 + 27。
-   错题本不计入这句，也不计入「你做完了几组」。卡片自己读 cuoti-book-v1。
+   错题记录和错题再练不计入这句，也不计入「你做完了几组」。再练卡片自己读 cuoti-book-v1。
    长度换算专题读 changdu-zhuanti-progress-v1：solved 为真的题算完成，
    这一页不存星星，按旧规则「做对但没有星星」记 3 颗。河灯门数仍不计入。 */
 function paintSumLine() {

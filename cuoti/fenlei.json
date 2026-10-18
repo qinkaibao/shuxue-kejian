@@ -1,0 +1,234 @@
+[
+  {
+    "分类": "口算数位与进退位",
+    "错题数": 31,
+    "pages": [
+      {
+        "名称": "错题练习册",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/lianxi/",
+        "题数": 4,
+        "reportId": "lianxi",
+        "localStorageKey": "lianxi_kejian_v1"
+      }
+    ],
+    "相关练习题数合计": 4
+  },
+  {
+    "分类": "长度单位与换算",
+    "错题数": 28,
+    "pages": [
+      {
+        "名称": "竹尺巷的河灯",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/changdu/",
+        "题数": 10,
+        "reportId": "changdu",
+        "localStorageKey": "changdu-hedeng-v1"
+      },
+      {
+        "名称": "错题练习册",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/lianxi/",
+        "题数": 10,
+        "reportId": "lianxi",
+        "localStorageKey": "lianxi_kejian_v1"
+      },
+      {
+        "名称": "长度单位换算",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/danwei-lianxi/",
+        "题数": 25,
+        "reportId": "danwei-lianxi",
+        "localStorageKey": "danwei-lianxi-v1"
+      },
+      {
+        "名称": "长度换算专题",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/changdu-zhuanti/",
+        "题数": 27,
+        "reportId": "changdu-zhuanti",
+        "localStorageKey": "changdu-zhuanti-progress-v1"
+      },
+      {
+        "名称": "雾海灯塔",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/gushi/",
+        "题数": 1,
+        "reportId": "",
+        "localStorageKey": ""
+      },
+      {
+        "名称": "失踪的单位牌",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/danwei/",
+        "题数": 4,
+        "reportId": "",
+        "localStorageKey": ""
+      },
+      {
+        "名称": "审题小侦探",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/duwu/",
+        "题数": 1,
+        "reportId": "",
+        "localStorageKey": ""
+      }
+    ],
+    "相关练习题数合计": 78
+  },
+  {
+    "分类": "括号与运算顺序",
+    "错题数": 25,
+    "pages": [
+      {
+        "名称": "错题练习册",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/lianxi/",
+        "题数": 2,
+        "reportId": "lianxi",
+        "localStorageKey": "lianxi_kejian_v1"
+      },
+      {
+        "名称": "操场上的红旗",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/hongqi/",
+        "题数": 1,
+        "reportId": "",
+        "localStorageKey": ""
+      }
+    ],
+    "相关练习题数合计": 3
+  },
+  {
+    "分类": "看图列式与数量关系",
+    "错题数": 20,
+    "pages": [
+      {
+        "名称": "错题练习册",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/lianxi/",
+        "题数": 7,
+        "reportId": "lianxi",
+        "localStorageKey": "lianxi_kejian_v1"
+      },
+      {
+        "名称": "长度单位换算",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/danwei-lianxi/",
+        "题数": 1,
+        "reportId": "danwei-lianxi",
+        "localStorageKey": "danwei-lianxi-v1"
+      },
+      {
+        "名称": "读题闯关",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/chuangguan/",
+        "题数": 15,
+        "reportId": "chuangguan",
+        "localStorageKey": "math_shenti_v1"
+      },
+      {
+        "名称": "雾海灯塔",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/gushi/",
+        "题数": 2,
+        "reportId": "",
+        "localStorageKey": ""
+      },
+      {
+        "名称": "失踪的饼干",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/binggan/",
+        "题数": 3,
+        "reportId": "",
+        "localStorageKey": ""
+      },
+      {
+        "名称": "操场上的红旗",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/hongqi/",
+        "题数": 3,
+        "reportId": "",
+        "localStorageKey": ""
+      },
+      {
+        "名称": "审题小侦探",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/duwu/",
+        "题数": 3,
+        "reportId": "",
+        "localStorageKey": ""
+      }
+    ],
+    "相关练习题数合计": 34
+  },
+  {
+    "分类": "同级混合运算",
+    "错题数": 15,
+    "pages": [
+      {
+        "名称": "错题练习册",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/lianxi/",
+        "题数": 4,
+        "reportId": "lianxi",
+        "localStorageKey": "lianxi_kejian_v1"
+      },
+      {
+        "名称": "雾海灯塔",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/gushi/",
+        "题数": 1,
+        "reportId": "",
+        "localStorageKey": ""
+      },
+      {
+        "名称": "失踪的饼干",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/binggan/",
+        "题数": 1,
+        "reportId": "",
+        "localStorageKey": ""
+      },
+      {
+        "名称": "审题小侦探",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/duwu/",
+        "题数": 1,
+        "reportId": "",
+        "localStorageKey": ""
+      }
+    ],
+    "相关练习题数合计": 7
+  },
+  {
+    "分类": "两级混合运算",
+    "错题数": 8,
+    "pages": [
+      {
+        "名称": "错题练习册",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/lianxi/",
+        "题数": 4,
+        "reportId": "lianxi",
+        "localStorageKey": "lianxi_kejian_v1"
+      }
+    ],
+    "相关练习题数合计": 4
+  },
+  {
+    "分类": "有余数除法",
+    "错题数": 4,
+    "pages": [],
+    "相关练习题数合计": 0
+  },
+  {
+    "分类": "空间图形与展开图",
+    "错题数": 4,
+    "pages": [],
+    "相关练习题数合计": 0
+  },
+  {
+    "分类": "表内除法",
+    "错题数": 3,
+    "pages": [],
+    "相关练习题数合计": 0
+  },
+  {
+    "分类": "连续加减",
+    "错题数": 2,
+    "pages": [],
+    "相关练习题数合计": 0
+  },
+  {
+    "分类": "加法规律与比大小",
+    "错题数": 1,
+    "pages": [],
+    "相关练习题数合计": 0
+  },
+  {
+    "分类": "观察物体",
+    "错题数": 1,
+    "pages": [],
+    "相关练习题数合计": 0
+  }
+]

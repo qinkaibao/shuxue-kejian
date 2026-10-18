@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#fff8e7">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%95%3C/text%3E%3C/svg%3E">
+<title>错题本</title>
+<style>
+  :root {
+    --paper: #fff8e7;
+    --card: #fffdf8;
+    --ink: #382817;
+    --muted: #74572f;
+    --orange: #c2410c;
+    --orange-deep: #9a3412;
+    --gold: #f1c26b;
+    --green: #287a3d;
+    --focus: #1d5fd0;
+    --bar-h: 128px;
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html {
+    font-size: 20px;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at 8% -5%, #fff1b8 0, rgba(255, 241, 184, 0) 38%),
+      radial-gradient(circle at 100% 12%, #ffe3bd 0, rgba(255, 227, 189, 0) 28%),
+      var(--paper);
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", sans-serif;
+    font-size: 22px;
+    line-height: 1.55;
+    padding-top: var(--bar-h);
+  }
+
+  button, a, input, select { font-family: inherit; }
+  button { cursor: pointer; touch-action: manipulation; }
+  a { color: inherit; }
+  :focus-visible { outline: 4px solid var(--focus); outline-offset: 3px; }
+
+  .topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 40;
+    background: rgba(255, 248, 231, .97);
+    box-shadow: 0 2px 0 var(--gold);
+  }
+
+  .topbar-inner {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: calc(8px + env(safe-area-inset-top, 0px)) 12px 8px;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hbtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 6px 12px;
+    border: 2px solid #e0a800;
+    border-radius: 14px;
+    background: #ffd166;
+    color: #5a3d00;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-decoration: none;
+    box-shadow: 0 3px 0 #e0a800;
+  }
+
+  .hbtn:active { transform: translateY(2px); box-shadow: 0 1px 0 #e0a800; }
+
+  .hbtn-work {
+    border-color: #c96a00;
+    background: #fb8500;
+    color: #fff;
+    box-shadow: 0 3px 0 #c96a00;
+  }
+
+  .hbtn-work:active { box-shadow: 0 1px 0 #c96a00; }
+
+  .prog-pill {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 4px 12px;
+    border: 2px solid var(--gold);
+    border-radius: 999px;
+    background: #fff3cf;
+    color: #8a4b00;
+    font-size: 18px;
+    font-weight: 900;
+    white-space: nowrap;
+  }
+
+  .bar-title {
+    margin: 6px 0 6px;
+    color: var(--orange);
+    font-size: 22px;
+    font-weight: 900;
+    text-align: center;
+    letter-spacing: 1px;
+  }
+
+  .track {
+    height: 10px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #f3e4c5;
+  }
+
+  .track > span {
+    display: block;
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #f59f00, #fb8500);
+  }
+
+  #app {
+    width: 100%;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 12px 14px 64px;
+  }
+
+  .hero { text-align: center; padding-top: 6px; }
+
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    margin: 0;
+    padding: 2px 14px;
+    border: 2px solid #f3cf88;
+    border-radius: 999px;
+    background: rgba(255, 253, 248, .76);
+    color: #8a5a09;
+    font-size: 20px;
+    font-weight: 800;
+  }
+
+  h1 {
+    margin: 8px 0 6px;
+    color: var(--orange);
+    font-size: clamp(34px, 9vw, 46px);
+    line-height: 1.15;
+    letter-spacing: 1px;
+  }
+
+  .sub {
+    max-width: 22em;
+    margin: 0 auto;
+    color: var(--muted);
+    font-size: 21px;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 16px 0 0;
+  }
+
+  .stats div {
+    padding: 10px 6px 8px;
+    border: 2px solid #f4dfb3;
+    border-radius: 18px;
+    background: var(--card);
+    box-shadow: 0 4px 0 #efc77a;
+  }
+
+  .stats b {
+    display: block;
+    color: var(--orange);
+    font-size: 32px;
+    line-height: 1.1;
+  }
+
+  .stats span { color: var(--muted); font-size: 18px; font-weight: 700; }
+
+  .sec-title {
+    margin: 22px 2px 10px;
+    color: var(--orange-deep);
+    font-size: 28px;
+    line-height: 1.25;
+  }
+
+  .cats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .cat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    min-height: 92px;
+    padding: 10px 12px;
+    border: 2px solid #f4dfb3;
+    border-radius: 18px;
+    background: var(--card);
+    color: var(--ink);
+    text-align: left;
+    box-shadow: 0 4px 0 #efc77a;
+  }
+
+  .cat.all { grid-column: 1 / -1; min-height: 72px; flex-direction: row; align-items: center; gap: 10px; }
+  .cat.on { border-color: #fb8500; background: #fff4e0; box-shadow: 0 4px 0 #e8590c; }
+  .cat:active { transform: translateY(2px); }
+  .cat-ic { font-size: 28px; line-height: 1; }
+  .cat-name { font-size: 18px; font-weight: 900; line-height: 1.3; color: var(--orange-deep); text-wrap: balance; }
+  .cat-meta { color: #7a5a28; font-size: 16px; font-weight: 800; }
+
+  .filters {
+    display: grid;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .filters label {
+    display: grid;
+    gap: 4px;
+    color: #6b4708;
+    font-size: 18px;
+    font-weight: 800;
+  }
+
+  select {
+    width: 100%;
+    min-height: 52px;
+    padding: 8px 12px;
+    border: 3px solid #f1c26b;
+    border-radius: 14px;
+    background: #fff;
+    color: var(--ink);
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .shown {
+    margin: 0;
+    color: #6b4708;
+    font-size: 20px;
+    font-weight: 800;
+  }
+
+  .day {
+    margin: 18px 2px 8px;
+    color: #8a4b00;
+    font-size: 22px;
+    scroll-margin-top: calc(var(--bar-h) + 10px);
+  }
+
+  #cats, #list { scroll-margin-top: calc(var(--bar-h) + 10px); }
+
+  .qcard {
+    margin: 0 0 14px;
+    padding: 14px 14px 16px;
+    border: 2px solid #f4dfb3;
+    border-radius: 22px;
+    border-top: 8px solid var(--tone, #fb8500);
+    background: var(--card);
+    box-shadow: 0 6px 0 #efc77a, 0 12px 24px rgba(163, 106, 0, .08);
+  }
+
+  .qcard[data-status="mastered"] { box-shadow: 0 6px 0 #8fd19e, 0 12px 24px rgba(40, 122, 61, .08); }
+  .qcard[data-status="again"] { box-shadow: 0 6px 0 #f0a070, 0 12px 24px rgba(194, 65, 12, .08); }
+
+  .qhead {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .qno {
+    flex: 0 0 auto;
+    min-width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #fb8500;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 42px;
+    text-align: center;
+  }
+
+  .qhead h2 {
+    flex: 1;
+    margin: 0;
+    color: var(--muted);
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1.35;
+  }
+
+  .pill {
+    flex: 0 0 auto;
+    min-height: 32px;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 900;
+    line-height: 28px;
+    white-space: nowrap;
+  }
+
+  .pill.none { background: #f3e4c5; color: #7a5a28; }
+  .pill.mastered { background: #dcfce7; color: #14692c; }
+  .pill.again { background: #fff4e0; color: #9a4b00; }
+  .pill.paper {
+    background: #e7f0ff;
+    color: #1d3f8a;
+  }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 0; }
+  .tag {
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: #fff3bf;
+    color: #7a4b00;
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  .qtext {
+    margin: 10px 0 0;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.5;
+  }
+
+  .src {
+    margin: 10px 0 0;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: #fff6df;
+    color: #5c4318;
+    font-size: 18px;
+    line-height: 1.45;
+  }
+
+  .src b { color: var(--orange-deep); }
+
+  details.fold {
+    margin-top: 10px;
+    border: 2px solid #f4dfb3;
+    border-radius: 16px;
+    background: #fff8e7;
+  }
+
+  details.fold summary {
+    min-height: 48px;
+    padding: 10px 14px;
+    color: #8a3a06;
+    font-size: 20px;
+    font-weight: 900;
+    cursor: pointer;
+  }
+
+  details.ans { background: #f3fff6; border-color: #b7e4c7; }
+  details.ans summary { color: #14692c; }
+
+  .inside { padding: 0 14px 12px; font-size: 20px; line-height: 1.55; }
+  .answer-line { margin: 0 0 6px; color: #14692c; font-size: 22px; font-weight: 900; }
+
+  .redo {
+    margin-top: 12px;
+    padding: 12px;
+    border: 2px dashed #f1c26b;
+    border-radius: 18px;
+    background: #fffaf0;
+  }
+
+  .redo.paper { border-style: solid; border-color: #b7d3ff; background: #f5f9ff; }
+  .redo-kicker { margin: 0 0 6px; color: #9a4b00; font-size: 18px; font-weight: 900; }
+  .prompt { margin: 0 0 8px; font-size: 22px; font-weight: 800; line-height: 1.45; }
+  .paper-note { margin: 0 0 10px; color: #1d3f8a; font-size: 20px; font-weight: 700; }
+
+  .opts { display: grid; gap: 8px; }
+  .opt {
+    min-height: 56px;
+    padding: 10px 12px;
+    border: 3px solid #cfe0ff;
+    border-radius: 16px;
+    background: #f5f9ff;
+    color: #1f2d4d;
+    font-size: 22px;
+    font-weight: 800;
+    text-align: left;
+  }
+
+  .opt.check { display: flex; align-items: center; gap: 10px; }
+  .opt.check input { width: 28px; height: 28px; flex: 0 0 auto; }
+  .opt.ok, input.ok { border-color: #2fb344; background: #dcfce7; }
+  .opt.bad, input.bad { border-color: #f03e3e; background: #ffe3e3; animation: shake .35s; }
+
+  .blank-lab {
+    display: grid;
+    gap: 4px;
+    margin: 0 0 8px;
+    font-size: 18px;
+    font-weight: 800;
+    color: #6b4708;
+  }
+
+  input[type="text"], .blank-lab input {
+    width: 100%;
+    min-height: 56px;
+    padding: 8px 12px;
+    border: 3px solid #9bbcf5;
+    border-radius: 14px;
+    background: #fff;
+    color: #1d3f8a;
+    font-size: 26px;
+    font-weight: 800;
+  }
+
+  .go {
+    display: block;
+    width: 100%;
+    min-height: 56px;
+    margin-top: 4px;
+    border: none;
+    border-radius: 16px;
+    background: #3b82f6;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 900;
+    box-shadow: 0 4px 0 #1d5fd0;
+  }
+
+  .go:active { transform: translateY(2px); box-shadow: 0 2px 0 #1d5fd0; }
+  .go.ok { margin-top: 0; background: #2fb344; box-shadow: 0 4px 0 #1f8a30; }
+  .go.again { margin-top: 8px; background: #e8590c; box-shadow: 0 4px 0 #c2410c; }
+  .go:disabled { opacity: .55; }
+
+  .fb { min-height: 28px; margin: 8px 0 0; font-size: 20px; font-weight: 800; }
+  .fb.good { color: #14692c; }
+  .fb.bad { color: #c92a2a; }
+  .fb.warn { color: #9a4b00; }
+
+  .empty {
+    margin: 12px 0;
+    padding: 16px;
+    border-radius: 16px;
+    background: #fff;
+    color: var(--muted);
+    font-weight: 800;
+    text-align: center;
+  }
+
+  .foot { margin: 18px 4px 0; color: #795b2d; font-size: 18px; text-align: center; }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+
+  @media (min-width: 760px) {
+    .cats { grid-template-columns: repeat(3, 1fr); }
+    .cat.all { grid-column: 1 / -1; }
+    .filters { grid-template-columns: 1.4fr .8fr; align-items: end; }
+    .shown { grid-column: 1 / -1; }
+  }
+
+  @media (max-width: 370px) {
+    .hbtn { padding: 6px 8px; font-size: 18px; }
+    .qtext { font-size: 22px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .opt.bad, input.bad { animation: none; }
+  }
+</style>
+</head>
+<body>
+<header class="topbar" id="topbar">
+  <div class="topbar-inner">
+    <div class="row">
+      <a class="hbtn" href="../index.html">🏠 回总目录</a>
+      <button type="button" class="hbtn" id="btnTop">本页开头</button>
+      <button type="button" class="hbtn" id="btnCats">分类</button>
+      <button type="button" class="hbtn hbtn-work" id="btnReport">交作业</button>
+      <span class="prog-pill" id="topStat" aria-live="polite">已掌握 0/0</span>
+    </div>
+    <p class="bar-title">错题本</p>
+    <div class="track" aria-hidden="true"><span id="topFill"></span></div>
+  </div>
+</header>
+
+<main id="app">
+  <header class="hero">
+    <p class="kicker">三年级 · 对照原卷</p>
+    <h1>错题本</h1>
+    <p class="sub">先点一个分类。最近的日期排在前面。错答和答案先折叠着。</p>
+    <div class="stats" aria-label="题量">
+      <div><b id="statTotal">…</b><span>总题数</span></div>
+      <div><b id="statMaster">0</b><span>已掌握</span></div>
+      <div><b id="statAgain">0</b><span>还要练</span></div>
+    </div>
+  </header>
+
+  <h2 class="sec-title" id="catsTitle">按分类找</h2>
+  <nav class="cats" id="cats" aria-labelledby="catsTitle"></nav>
+
+  <h2 class="sec-title" id="listTitle">题目</h2>
+  <div class="filters">
+    <label>出处
+      <select id="source" aria-label="按出处筛选"></select>
+    </label>
+    <label>状态
+      <select id="status" aria-label="按掌握状态筛选">
+        <option value="全部">全部状态</option>
+        <option value="未练">未练</option>
+        <option value="还要练">还要练</option>
+        <option value="已掌握">已掌握</option>
+      </select>
+    </label>
+    <p class="shown" id="shown">正在读题目…</p>
+  </div>
+  <div id="list" aria-live="polite"></div>
+  <p class="foot">画图和展开图标着「看原卷」，对照试卷自己标已掌握或还要练。顶栏可以交作业。</p>
+</main>
+
+<script src="../common/report.js"></script>
+<script>
+(function () {
+  var STORE = 'cuoti-book-v1';
+  var CAT_ICON = {
+    '口算数位与进退位': '🔢',
+    '长度单位与换算': '📏',
+    '括号与运算顺序': '🧩',
+    '看图列式与数量关系': '🧭',
+    '同级混合运算': '➕',
+    '两级混合运算': '✖️',
+    '有余数除法': '➗',
+    '空间图形与展开图': '📦',
+    '表内除法': '7️⃣',
+    '连续加减': '🔁',
+    '加法规律与比大小': '⚖️',
+    '观察物体': '👀'
+  };
+  var CAT_TONE = {
+    '口算数位与进退位': '#fb8500',
+    '长度单位与换算': '#2f9e44',
+    '括号与运算顺序': '#7048e8',
+    '看图列式与数量关系': '#1c7ed6',
+    '同级混合运算': '#e8590c',
+    '两级混合运算': '#0ca678',
+    '有余数除法': '#d6336c',
+    '空间图形与展开图': '#f59f00',
+    '表内除法': '#3b5bdb',
+    '连续加减': '#ae3ec9',
+    '加法规律与比大小': '#e67700',
+    '观察物体': '#099268'
+  };
+  var UNIT_RE = /千米|厘米|分米|毫米|米|个|页|元|盘|张|块|瓶|本|件|杯|朵|条|盒|人|支|碗|箱|面/g;
+
+  var DATA = [];
+  var byId = {};
+  var state = { status: {}, last: {} };
+  var filter = { cat: '全部', source: '全部', status: '全部' };
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function loadState() {
+    try {
+      var raw = JSON.parse(localStorage.getItem(STORE) || '');
+      if (raw && typeof raw === 'object') {
+        if (raw.status && typeof raw.status === 'object') state.status = raw.status;
+        if (raw.last && typeof raw.last === 'object') state.last = raw.last;
+      }
+    } catch (e) {}
+  }
+
+  function saveState() {
+    try { localStorage.setItem(STORE, JSON.stringify({ status: state.status, last: state.last })); } catch (e) {}
+  }
+
+  function canon(s) {
+    return String(s == null ? '' : s)
+      .replace(/[０-９]/g, function (ch) { return String.fromCharCode(ch.charCodeAt(0) - 0xFEE0); })
+      .replace(/\s+/g, '')
+      .replace(/[－—–−]/g, '-')
+      .replace(/＋/g, '+')
+      .replace(/[×xX＊*]/g, '×')
+      .replace(/[÷／/]/g, '÷')
+      .replace(/＝/g, '=')
+      .replace(/（/g, '(')
+      .replace(/）/g, ')')
+      .replace(/[，、]/g, ',')
+      .replace(/[。．]/g, '')
+      .replace(/＞/g, '>')
+      .replace(/＜/g, '<');
+  }
+
+  function loosen(s) { return s.replace(UNIT_RE, ''); }
+
+  function hit(input, accept) {
+    var c = canon(input);
+    var a = canon(accept);
+    if (!c || !a) return false;
+    if (c === a) return true;
+    var lc = loosen(c);
+    var la = loosen(a);
+    return lc !== '' && lc === la;
+  }
+
+  function blankOk(input, blank) {
+    return (blank.accept || []).some(function (a) { return hit(input, a); });
+  }
+
+  function sortItems(list) {
+    return list.slice().sort(function (a, b) {
+      var da = a.date || '';
+      var db = b.date || '';
+      if (da !== db) {
+        if (!da) return 1;
+        if (!db) return -1;
+        return da < db ? 1 : -1;
+      }
+      return a.no - b.no;
+    });
+  }
+
+  function matchSource(q) {
+    return filter.source === '全部' || q.lesson === filter.source;
+  }
+
+  function visible() {
+    return sortItems(DATA.filter(function (q) {
+      if (!matchSource(q)) return false;
+      if (filter.cat !== '全部' && q.category !== filter.cat) return false;
+      var st = state.status[q.id] || '';
+      if (filter.status === '已掌握') return st === 'mastered';
+      if (filter.status === '还要练') return st === 'again';
+      if (filter.status === '未练') return !st;
+      return true;
+    }));
+  }
+
+  function statusName(id) {
+    var st = state.status[id] || '';
+    if (st === 'mastered') return '已掌握';
+    if (st === 'again') return '还要练';
+    return '未练';
+  }
+
+  function pillClass(id) {
+    return state.status[id] || 'none';
+  }
+
+  function setFb(root, text, kind) {
+    var fb = root.querySelector('[data-fb]');
+    if (!fb) return;
+    fb.textContent = text;
+    fb.className = 'fb ' + (kind || '');
+  }
+
+  function mark(id, status, answerText, countMiss) {
+    state.status[id] = status;
+    if (answerText) state.last[id] = String(answerText).replace(/\s+/g, ' ').slice(0, 200);
+    saveState();
+    if (window.KejianReport) {
+      if (status === 'mastered') KejianReport.pass(id);
+      else if (countMiss) KejianReport.miss(id, state.last[id] || '还要练');
+    }
+    paintCardStatus(id);
+    paintCats();
+    paintHero();
+  }
+
+  function paintCardStatus(id) {
+    var card = document.getElementById('q-' + id);
+    if (!card) return;
+    var st = state.status[id] || '';
+    card.setAttribute('data-status', st);
+    var pill = card.querySelector('.pill-status');
+    if (pill) {
+      pill.textContent = statusName(id);
+      pill.className = 'pill pill-status ' + pillClass(id);
+    }
+  }
+
+  function paintHero() {
+    var mastered = 0;
+    var again = 0;
+    DATA.forEach(function (q) {
+      if (state.status[q.id] === 'mastered') mastered++;
+      else if (state.status[q.id] === 'again') again++;
+    });
+    document.getElementById('statTotal').textContent = String(DATA.length);
+    document.getElementById('statMaster').textContent = String(mastered);
+    document.getElementById('statAgain').textContent = String(again);
+    document.getElementById('topStat').textContent = '已掌握 ' + mastered + '/' + DATA.length;
+    document.getElementById('topFill').style.width = (DATA.length ? Math.round(mastered / DATA.length * 100) : 0) + '%';
+  }
+
+  function catList() {
+    var seen = {};
+    var list = [];
+    DATA.forEach(function (q) {
+      if (!seen[q.category]) { seen[q.category] = 1; list.push(q.category); }
+    });
+    list.sort(function (a, b) {
+      var ca = DATA.filter(function (q) { return q.category === a; }).length;
+      var cb = DATA.filter(function (q) { return q.category === b; }).length;
+      return cb - ca;
+    });
+    return list;
+  }
+
+  function paintCats() {
+    var pool = DATA.filter(matchSource);
+    function count(cat, status) {
+      return pool.filter(function (q) {
+        if (cat && q.category !== cat) return false;
+        if (status) return state.status[q.id] === status;
+        return true;
+      }).length;
+    }
+    var html = '';
+    html += catButton('全部', '📚', count(null), count(null, 'mastered'), filter.cat === '全部');
+    catList().forEach(function (cat) {
+      html += catButton(cat, CAT_ICON[cat] || '📌', count(cat), count(cat, 'mastered'), filter.cat === cat);
+    });
+    document.getElementById('cats').innerHTML = html;
+  }
+
+  function catButton(cat, icon, total, got, on) {
+    return '<button type="button" class="cat' + (cat === '全部' ? ' all' : '') + (on ? ' on' : '') + '" data-act="cat" data-cat="' + esc(cat) + '" aria-pressed="' + (on ? 'true' : 'false') + '">'
+      + '<span class="cat-ic" aria-hidden="true">' + icon + '</span>'
+      + '<span class="cat-name">' + esc(cat === '全部' ? '全部分类' : cat) + '</span>'
+      + '<span class="cat-meta"><b>' + total + '</b> 题 · 已掌握 <b>' + got + '</b></span>'
+      + '</button>';
+  }
+
+  function paintSources() {
+    var counts = {};
+    DATA.forEach(function (q) { counts[q.lesson] = (counts[q.lesson] || 0) + 1; });
+    var names = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; });
+    var html = '<option value="全部">全部出处（' + DATA.length + '）</option>';
+    names.forEach(function (name) {
+      html += '<option value="' + esc(name) + '">' + esc(name) + '（' + counts[name] + '）</option>';
+    });
+    var sel = document.getElementById('source');
+    sel.innerHTML = html;
+    sel.value = filter.source;
+  }
+
+  function redoHTML(q) {
+    var r = q.redo || { kind: 'paper', note: '这题先看原卷。' };
+    if (r.kind === 'paper') {
+      return '<div class="redo paper">'
+        + '<p class="redo-kicker">再做一次 · 看原卷</p>'
+        + '<p class="paper-note">' + esc(r.note || '这题要对照原卷，这里不自动判分。') + '</p>'
+        + '<button type="button" class="go ok" data-act="master" data-id="' + esc(q.id) + '">对照原卷后，已掌握</button>'
+        + '<button type="button" class="go again" data-act="again" data-id="' + esc(q.id) + '">还要练</button>'
+        + '<p class="fb" data-fb="' + esc(q.id) + '" role="status"></p>'
+        + '</div>';
+    }
+    if (r.kind === 'choice') {
+      var opts = (r.options || []).map(function (op, i) {
+        return '<button type="button" class="opt" data-act="choice" data-id="' + esc(q.id) + '" data-i="' + i + '">' + esc(op) + '</button>';
+      }).join('');
+      return '<div class="redo"><p class="redo-kicker">再做一次</p><p class="prompt">' + esc(r.prompt) + '</p><div class="opts">' + opts + '</div><p class="fb" data-fb="' + esc(q.id) + '" role="status"></p></div>';
+    }
+    if (r.kind === 'multi') {
+      var checks = (r.options || []).map(function (op, i) {
+        return '<label class="opt check"><input type="checkbox" value="' + i + '"><span>' + esc(op) + '</span></label>';
+      }).join('');
+      return '<form class="redo" data-kind="multi" data-form="' + esc(q.id) + '"><p class="redo-kicker">再做一次</p><p class="prompt">' + esc(r.prompt) + '</p><div class="opts">' + checks + '</div><button type="submit" class="go">提交</button><p class="fb" data-fb="' + esc(q.id) + '" role="status"></p></form>';
+    }
+    var blanks = (r.blanks || []).map(function (b, i) {
+      return '<label class="blank-lab">' + esc(b.label)
+        + '<input type="text" name="b' + i + '" inputmode="' + (b.numeric ? 'decimal' : 'text') + '" autocomplete="off" enterkeyhint="done">'
+        + '</label>';
+    }).join('');
+    return '<form class="redo" data-kind="fill" data-form="' + esc(q.id) + '"><p class="redo-kicker">再做一次</p><p class="prompt">' + esc(r.prompt) + '</p>' + blanks + '<button type="submit" class="go">提交</button><p class="fb" data-fb="' + esc(q.id) + '" role="status"></p></form>';
+  }
+
+  function cardHTML(q) {
+    var tone = CAT_TONE[q.category] || '#fb8500';
+    var paper = q.redo && q.redo.kind === 'paper';
+    return '<article class="qcard" id="q-' + esc(q.id) + '" data-status="' + esc(state.status[q.id] || '') + '" style="--tone:' + tone + '">'
+      + '<div class="qhead"><span class="qno">' + q.no + '</span>'
+      + '<h2>' + esc(q.date || '日期未记录') + ' · ' + esc(q.qtype || '') + '</h2>'
+      + '<span class="pill pill-status ' + pillClass(q.id) + '">' + statusName(q.id) + '</span></div>'
+      + '<div class="tags"><span class="tag">' + esc(q.category) + '</span>'
+      + (q.knowledge ? '<span class="tag">' + esc(q.knowledge) + '</span>' : '')
+      + (paper ? '<span class="pill paper">看原卷</span>' : '')
+      + '</div>'
+      + '<p class="qtext">' + esc(q.question) + '</p>'
+      + '<p class="src"><b>出处</b> ' + esc(q.lesson) + '<br><b>页码题号</b> ' + esc(q.pos) + '</p>'
+      + '<details class="fold"><summary>当时错答</summary><div class="inside">' + esc(q.wrong) + '</div></details>'
+      + '<details class="fold ans"><summary>正确答案和讲解</summary><div class="inside"><p class="answer-line">' + esc(q.answer) + '</p><p>' + esc(q.explain) + '</p></div></details>'
+      + redoHTML(q)
+      + '</article>';
+  }
+
+  function renderList() {
+    var rows = visible();
+    var shown = document.getElementById('shown');
+    var catText = filter.cat === '全部' ? '全部分类' : filter.cat;
+    shown.textContent = '最近的日期在前 · ' + catText + ' · 现在显示 ' + rows.length + ' 题';
+    if (!rows.length) {
+      document.getElementById('list').innerHTML = '<p class="empty">这一筛里没有题。换个分类或出处看看。</p>';
+      return;
+    }
+    var html = '';
+    var day = null;
+    rows.forEach(function (q) {
+      var key = q.date || '日期未记录';
+      if (key !== day) {
+        day = key;
+        var n = rows.filter(function (item) { return (item.date || '日期未记录') === key; }).length;
+        html += '<h3 class="day">' + esc(key) + ' · ' + n + ' 题</h3>';
+      }
+      html += cardHTML(q);
+    });
+    document.getElementById('list').innerHTML = html;
+  }
+
+  function sameSet(a, b) {
+    if (a.length !== b.length) return false;
+    for (var i = 0; i < a.length; i++) if (a[i] !== b[i]) return false;
+    return true;
+  }
+
+  function onChoice(btn) {
+    var id = btn.getAttribute('data-id');
+    var q = byId[id];
+    if (!q || btn.disabled) return;
+    var picked = Number(btn.getAttribute('data-i'));
+    var ok = picked === q.redo.answer;
+    var box = btn.closest('.redo');
+    Array.prototype.forEach.call(box.querySelectorAll('.opt'), function (el) {
+      el.classList.remove('ok', 'bad');
+    });
+    btn.classList.add(ok ? 'ok' : 'bad');
+    if (ok) {
+      setFb(box, '对了，这题记为已掌握。', 'good');
+      mark(id, 'mastered', q.redo.options[picked], false);
+      Array.prototype.forEach.call(box.querySelectorAll('.opt'), function (el) { el.disabled = true; });
+    } else {
+      setFb(box, '这次不对，记为还要练。可以打开上面的正确答案再试。', 'bad');
+      mark(id, 'again', q.redo.options[picked], true);
+    }
+  }
+
+  function onSubmit(form) {
+    var id = form.getAttribute('data-form');
+    var q = byId[id];
+    if (!q) return;
+    if (form.getAttribute('data-kind') === 'multi') {
+      var picked = Array.prototype.map.call(form.querySelectorAll('input:checked'), function (el) { return Number(el.value); });
+      picked.sort(function (a, b) { return a - b; });
+      var want = (q.redo.answer || []).slice().sort(function (a, b) { return a - b; });
+      if (!picked.length) {
+        setFb(form, '先选一项，再提交。', 'warn');
+        return;
+      }
+      var labels = picked.map(function (i) { return q.redo.options[i]; }).join('、');
+      if (sameSet(picked, want)) {
+        setFb(form, '对了，这题记为已掌握。', 'good');
+        mark(id, 'mastered', labels, false);
+        Array.prototype.forEach.call(form.querySelectorAll('input,button'), function (el) { el.disabled = true; });
+      } else {
+        setFb(form, '这次不对，记为还要练。可以打开上面的正确答案再试。', 'bad');
+        mark(id, 'again', labels, true);
+      }
+      return;
+    }
+    var inputs = Array.prototype.slice.call(form.querySelectorAll('input'));
+    var values = inputs.map(function (el) { return el.value.trim(); });
+    if (values.every(function (v) { return !v; })) {
+      setFb(form, '先写一个答案，再提交。', 'warn');
+      return;
+    }
+    var oks = q.redo.blanks.map(function (b, i) { return blankOk(values[i] || '', b); });
+    inputs.forEach(function (el, i) {
+      el.classList.toggle('ok', !!oks[i]);
+      el.classList.toggle('bad', !oks[i]);
+    });
+    var text = values.join('；');
+    if (oks.every(Boolean)) {
+      setFb(form, '对了，这题记为已掌握。', 'good');
+      mark(id, 'mastered', text, false);
+      inputs.forEach(function (el) { el.disabled = true; });
+      form.querySelector('.go').disabled = true;
+    } else {
+      setFb(form, '这次不对，记为还要练。打开「正确答案和讲解」看一看，再试一次。', 'bad');
+      mark(id, 'again', text, true);
+    }
+  }
+
+  function bind() {
+    document.getElementById('btnTop').onclick = function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    document.getElementById('btnCats').onclick = function () {
+      document.getElementById('cats').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    document.getElementById('btnReport').onclick = function () {
+      if (window.KejianReport && KejianReport.open) KejianReport.open();
+    };
+    document.getElementById('cats').onclick = function (e) {
+      var btn = e.target.closest('[data-act="cat"]');
+      if (!btn) return;
+      filter.cat = btn.getAttribute('data-cat') || '全部';
+      paintCats();
+      renderList();
+      document.getElementById('listTitle').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    document.getElementById('source').onchange = function (e) {
+      filter.source = e.target.value;
+      paintCats();
+      renderList();
+    };
+    document.getElementById('status').onchange = function (e) {
+      filter.status = e.target.value;
+      renderList();
+    };
+    var list = document.getElementById('list');
+    list.addEventListener('click', function (e) {
+      var choiceBtn = e.target.closest('[data-act="choice"]');
+      if (choiceBtn) { onChoice(choiceBtn); return; }
+      var master = e.target.closest('[data-act="master"]');
+      if (master) {
+        var id = master.getAttribute('data-id');
+        mark(id, 'mastered', '对照原卷后已掌握', false);
+        setFb(master.closest('.redo'), '已标为已掌握。', 'good');
+        return;
+      }
+      var again = e.target.closest('[data-act="again"]');
+      if (again) {
+        var aid = again.getAttribute('data-id');
+        if (state.status[aid] === 'again') {
+          setFb(again.closest('.redo'), '这题还是记着要再练。', 'bad');
+          return;
+        }
+        mark(aid, 'again', '对照原卷后还要练', true);
+        setFb(again.closest('.redo'), '已标为还要练。', 'bad');
+      }
+    });
+    list.addEventListener('submit', function (e) {
+      if (!e.target || !e.target.getAttribute || !e.target.getAttribute('data-form')) return;
+      e.preventDefault();
+      onSubmit(e.target);
+    });
+  }
+
+  function syncBar() {
+    var bar = document.getElementById('topbar');
+    if (!bar) return;
+    document.documentElement.style.setProperty('--bar-h', bar.offsetHeight + 'px');
+  }
+
+  function mountReport() {
+    if (!window.KejianReport) return;
+    var qs = DATA.slice().sort(function (a, b) { return a.no - b.no; });
+    KejianReport.mount({
+      id: 'cuoti',
+      name: '错题本',
+      noButton: true,
+      questions: qs.map(function (q) {
+        var brief = '第' + q.no + '题 ' + String(q.question || '').replace(/\s+/g, ' ');
+        if (brief.length > 42) brief = brief.slice(0, 41) + '…';
+        return { id: q.id, brief: brief, tag: q.category, category: q.category };
+      })
+    });
+  }
+
+  function boot(data) {
+    DATA = (data && data.items) || [];
+    DATA.forEach(function (q) { byId[q.id] = q; });
+    loadState();
+    paintSources();
+    paintCats();
+    paintHero();
+    renderList();
+    mountReport();
+    syncBar();
+  }
+
+  bind();
+  syncBar();
+  window.addEventListener('resize', syncBar);
+  fetch('../cuoti/data.json').then(function (res) {
+    if (!res.ok) throw new Error('bad status');
+    return res.json();
+  }).then(boot).catch(function () {
+    document.getElementById('shown').textContent = '题目没有读出来。请从网站目录重新打开这一页。';
+  });
+})();
+</script>
+</body>
+</html>
