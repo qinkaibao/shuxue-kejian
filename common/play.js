@@ -98,12 +98,21 @@
     var sn = $('#starN'); if (sn) sn.textContent = String(totalStars());
   }
 
+  function fitHeader() {
+    var hdr = app && app.querySelector('.hdr');
+    if (!hdr) return;
+    var h = hdr.offsetHeight;
+    app.style.paddingTop = h + 'px';
+    document.documentElement.style.setProperty('--hdr-h', h + 'px');
+  }
   function render() {
     if (S.screen === 'home') renderHome();
     else if (S.screen === 'map') renderMap();
     else renderQ();
+    fitHeader();
     window.scrollTo(0, 0);
   }
+  window.addEventListener('resize', fitHeader);
   function renderHome() {
     var pts = (cfg.home.points || []).map(function (p) {
       return '<div><span class="no">' + esc(p.n) + '</span><b>' + esc(p.t) + '</b><small>' + esc(p.d) + '</small></div>';

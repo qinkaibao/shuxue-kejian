@@ -10,16 +10,16 @@
 html{font-size:20px}
 body{margin:0;font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Source Han Sans SC",sans-serif;background:#fff8e7;color:#333;font-size:22px;line-height:1.5;-webkit-text-size-adjust:100%;touch-action:manipulation}
 button{font-family:inherit;touch-action:manipulation;cursor:pointer}
-#app{max-width:1100px;margin:0 auto;padding:0 12px 40px}
+#app{max-width:1100px;margin:0 auto;padding:calc(48px + env(safe-area-inset-top,0px)) 12px 40px}
 /* header */
-.hdr{position:sticky;top:0;z-index:20;background:#fff8e7;display:flex;align-items:center;gap:8px;padding:8px 0;flex-wrap:wrap}
-.hbtn{border:none;background:#ffd166;border-radius:14px;font-size:18px;min-width:52px;height:48px;padding:0 10px;font-weight:bold;color:#5a3d00;box-shadow:0 3px 0 #e0a800;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.hdr{position:fixed;top:0;left:0;right:0;z-index:20;background:#fff8e7;display:flex;align-items:center;gap:6px;flex-wrap:nowrap;overflow-x:auto;padding:calc(4px + env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) 6px max(12px,env(safe-area-inset-left,0px));box-shadow:0 2px 0 #f1c26b}
+.hbtn{border:none;background:#ffd166;border-radius:12px;font-size:16px;min-width:0;height:36px;padding:0 8px;font-weight:bold;color:#5a3d00;box-shadow:0 2px 0 #e0a800;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;white-space:nowrap}
 .hbtn:active{transform:translateY(2px);box-shadow:0 1px 0 #e0a800}
 .htitle{font-weight:bold;font-size:22px;color:#e8590c;white-space:nowrap}
-.prog{flex:1;min-width:80px}
-.pbar{height:18px;background:#ffe8b0;border-radius:9px;overflow:hidden}
+.prog{flex:1 1 auto;min-width:72px}
+.pbar{height:10px;background:#ffe8b0;border-radius:9px;overflow:hidden}
 .pfill{height:100%;background:linear-gradient(90deg,#ffb703,#fb8500);border-radius:9px;transition:width .6s}
-.ptxt{font-size:16px;color:#8a6d3b;text-align:center}
+.ptxt{font-size:13px;color:#8a6d3b;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .stars{font-size:24px;font-weight:bold;color:#e09f00;white-space:nowrap;display:flex;align-items:center;gap:4px}
 .star{display:inline-block;width:28px;height:28px;vertical-align:middle}
 /* cards */
@@ -53,7 +53,8 @@ h1{font-size:34px;color:#e8590c;margin:10px 0 4px;text-align:center}
 .tips summary{cursor:pointer;font-weight:bold;min-height:36px;line-height:36px}
 /* question layout */
 .qwrap{display:grid;grid-template-columns:1fr;gap:0 14px}
-@media (min-width:960px){.qwrap{grid-template-columns:1fr 270px}.board{position:sticky;top:76px;align-self:start}}
+@media (min-width:960px){.qwrap{grid-template-columns:1fr 270px}.board{position:sticky;top:calc(var(--hdr-h,56px) + 8px);align-self:start}}
+@media (max-width:800px){.htitle{display:none}.hbtn{height:32px;font-size:14px;padding:0 7px;border-radius:10px}.pbar{height:8px}.ptxt{font-size:12px}}
 .stages{display:flex;gap:6px;align-items:center;justify-content:center;margin:4px 0 0;font-size:18px}
 .stages span{padding:3px 12px;border-radius:12px;background:#eee;color:#999}
 .stages span.on{background:#2fb344;color:#fff;font-weight:bold}
@@ -444,12 +445,21 @@ function header(){
 function openReport(){ if(window.KejianReport&&KejianReport.open) KejianReport.open(); }
 function goHome(){S.screen='home';render();}
 function goMap(){S.screen='map';render();}
+function fitHeader(){
+  var hdr=app&&app.querySelector('.hdr');
+  if(!hdr)return;
+  var h=hdr.offsetHeight;
+  app.style.paddingTop=h+'px';
+  document.documentElement.style.setProperty('--hdr-h',h+'px');
+}
 function render(){
   if(S.screen==='home')renderHome();
   else if(S.screen==='map')renderMap();
   else if(S.screen==='q')renderQ();
+  fitHeader();
   window.scrollTo(0,0);
 }
+window.addEventListener('resize',fitHeader);
 function renderHome(){
   app.innerHTML=header()+
   '<h1>🍬 小朋友的读题闯关</h1><div class="sub">第二单元 · 用两步计算解决问题（例4–例6）</div>'+
