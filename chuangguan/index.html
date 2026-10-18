@@ -435,8 +435,8 @@ function pick(a){return a[Math.floor(Math.random()*a.length)];}
 
 function header(){
   var d=doneCount();
-  return '<div class="hdr"><a class="hbtn" href="../index.html">目录</a>'+
-   '<button class="hbtn" onclick="goHome()">主页</button>'+
+  return '<div class="hdr"><a class="hbtn" href="../index.html">🏠 回总目录</a>'+
+   '<button class="hbtn" onclick="goHome()">本页开头</button>'+
    '<button class="hbtn" onclick="goMap()">关卡</button>'+
    '<div class="htitle">审题与数量关系</div><div class="prog"><div class="pbar"><div class="pfill" style="width:'+(d/TOTAL*100)+'%"></div></div><div class="ptxt">已完成 '+d+' / '+TOTAL+' 题 · ★ '+totalStars()+'</div></div>'+
    '<button class="hbtn" onclick="openReport()">交作业</button></div>';

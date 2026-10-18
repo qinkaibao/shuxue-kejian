@@ -99,53 +99,43 @@
     text-wrap: balance;
   }
 
-  .summary-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    width: fit-content;
-    max-width: 100%;
-    margin: 16px auto 0;
-    padding: 10px 12px;
-    border: 2px solid #f2c66d;
-    border-radius: 18px;
-    background: #fffdf8;
-    box-shadow: 0 4px 0 #f1c26b;
-    color: #6b4708;
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1.4;
+  .guide {
+    width: min(100%, 760px);
+    margin: 18px auto 0;
+    padding: 18px 16px 16px;
+    border: 3px solid #f1c26b;
+    border-radius: 26px;
+    background: linear-gradient(180deg, #fffdf8 0%, #fff4d8 100%);
+    box-shadow: 0 8px 0 #efc77a, 0 16px 34px rgba(163, 106, 0, .12);
+    text-align: center;
   }
 
-  .summary-box .star {
-    flex: 0 0 auto;
+  .guide-lead {
+    margin: 0 0 14px;
+    color: #8a3a06;
     font-size: 24px;
-    line-height: 1;
+    font-weight: 800;
+    line-height: 1.4;
+    text-wrap: balance;
   }
 
-  #sumLine {
-    margin: 0;
-  }
-
-  .quick-jumps {
+  .guide-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
-    margin: 18px 0 6px;
   }
 
-  .jump {
+  .guide-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 9px;
+    gap: 8px;
     min-height: 72px;
     padding: 12px 10px;
-    border: 2px solid rgba(255, 255, 255, .55);
-    border-radius: 22px;
+    border: 2px solid rgba(255, 255, 255, .6);
+    border-radius: 20px;
     color: #4a2c00;
-    font-size: 25px;
+    font-size: 26px;
     font-weight: 800;
     line-height: 1.2;
     text-align: center;
@@ -154,29 +144,43 @@
     touch-action: manipulation;
   }
 
-  .jump-story {
+  .guide-story {
     background: linear-gradient(135deg, #ffe08a, #ffc247);
   }
 
-  .jump-practice {
+  .guide-practice {
     background: linear-gradient(135deg, #ffd8a8, #ffb35c);
     box-shadow: 0 6px 0 #d97b00;
   }
 
-  .jump .jump-icon {
-    font-size: 30px;
-    line-height: 1;
-  }
-
-  .jump:active {
+  .guide-btn:active {
     transform: translateY(4px);
     box-shadow: 0 2px 0 #e0a800;
   }
 
-  .jump:focus-visible,
+  .guide-practice:active {
+    box-shadow: 0 2px 0 #d97b00;
+  }
+
+  .guide-btn:focus-visible,
   .card:focus-visible {
     outline: 4px solid var(--focus);
     outline-offset: 4px;
+  }
+
+  .guide-progress {
+    margin: 16px 0 0;
+    padding-top: 13px;
+    border-top: 2px dashed #eac98a;
+    color: #6b4708;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1.5;
+    text-wrap: balance;
+  }
+
+  .guide-progress .nowrap {
+    white-space: nowrap;
   }
 
   .catalog {
@@ -188,7 +192,7 @@
 
   .section {
     min-width: 0;
-    scroll-margin-top: 92px;
+    scroll-margin-top: 16px;
   }
 
   .section-head {
@@ -396,22 +400,11 @@
     text-align: center;
   }
 
-  .site-nav .sn-btn,
-  .site-nav .sn-title,
-  .site-nav .sn-prog,
-  .sn-panel b,
-  .sn-panel button {
-    font-size: 20px;
-  }
-
-  .site-nav .sn-btn {
-    min-height: 52px;
-  }
-
   @media (max-width: 370px) {
     #app { padding-inline: 10px; }
-    .jump { font-size: 22px; gap: 6px; }
-    .jump .jump-icon { font-size: 26px; }
+    .guide { padding-inline: 12px; }
+    .guide-actions { gap: 8px; }
+    .guide-btn { min-height: 68px; font-size: 22px; gap: 5px; }
     .card h3 { font-size: 24px; }
   }
 
@@ -422,10 +415,6 @@
 
     .hero {
       padding-top: 8px;
-    }
-
-    .quick-jumps {
-      display: none;
     }
 
     .catalog {
@@ -465,20 +454,16 @@
     <p class="kicker"><span aria-hidden="true">🌞</span> 三年级 · 数学小书房</p>
     <h1>数学课件总目录</h1>
     <p class="sub">新的排在前面。点一张封面就进去。</p>
-    <div class="summary-box" aria-live="polite">
-      <span class="star" aria-hidden="true">⭐</span>
-      <p id="sumLine">正在读练习进度…</p>
-    </div>
   </header>
 
-  <nav class="quick-jumps" aria-label="快速跳转">
-    <a class="jump jump-story" href="#stories" aria-label="跳到数学小故事">
-      <span class="jump-icon" aria-hidden="true">📖</span> <span>小故事</span>
-    </a>
-    <a class="jump jump-practice" href="#practice" aria-label="跳到练习">
-      <span class="jump-icon" aria-hidden="true">✏️</span> <span>练习</span>
-    </a>
-  </nav>
+  <section class="guide" aria-labelledby="guideLead">
+    <p class="guide-lead" id="guideLead">先读一个小故事，再去做练习吧！</p>
+    <nav class="guide-actions" aria-label="快速开始">
+      <a class="guide-btn guide-story" href="#stories">📖 读故事</a>
+      <a class="guide-btn guide-practice" href="#practice">✏️ 做练习</a>
+    </nav>
+    <p class="guide-progress" id="guideProgress" aria-live="polite">正在读练习进度…</p>
+  </section>
 
   <main class="catalog">
     <section class="section" id="stories" aria-labelledby="storiesTitle">
@@ -498,10 +483,9 @@
     </section>
   </main>
 
-  <p class="foot">顶栏随时可以回目录。练习页顶栏可以交作业。</p>
+  <p class="foot">练习页顶栏可以交作业。</p>
 </div>
 
-<script src="../common/nav.js"></script>
 <script>
 /*
   新增条目很简单：在下面的 ITEMS 数组里再加一个对象即可。
@@ -825,66 +809,56 @@ function paintCards() {
   document.getElementById('practiceCount').textContent = practices.length + ' 组';
 }
 
-/* ---------- 顶部汇总 ---------- */
+/* ---------- 顶部练习进度 ---------- */
+
+function practiceState(item) {
+  var p = reportProgress(item) || legacyProgress(item);
+  if (!p) return null;
+  var total = Number(p.total) > 0 ? Number(p.total) : 0;
+  var correct = Number(p.correct) || 0;
+  return {
+    total: total,
+    correct: correct,
+    done: total > 0 && correct >= total
+  };
+}
 
 function paintSummary() {
   var practices = ITEMS.filter(function (item) { return item.type === 'practice'; });
-  var total = practices.reduce(function (sum, item) {
-    return sum + (Number(item.total) > 0 ? Number(item.total) : 0);
-  }, 0);
-  var correct = 0;
-  var once = 0;
-  var hasNewReport = false;
+  var started = 0;
+  var done = 0;
+  var partial = 0;
 
   practices.forEach(function (item) {
-    var p = reportProgress(item);
-    if (p) {
-      hasNewReport = true;
-      correct += p.correct;
-      once += p.once;
-    }
+    var state = practiceState(item);
+    if (!state) return;
+    started++;
+    if (state.done) done++;
+    else partial++;
   });
 
-  var line;
-  var shortLine;
+  var el = document.getElementById('guideProgress');
+  if (!el) return;
 
-  if (hasNewReport) {
-    var rate = correct ? Math.round(once / correct * 100) : 0;
-    line = '练习 ' + correct + '/' + total + ' · 一次对率 ' + rate + '%';
-    shortLine = '练习 ' + correct + '/' + total;
-  } else {
-    var old = stats();
-    var oldDone = old.cg.done + old.lx.done + old.dw.done;
-    var oldStars = old.cg.stars + old.lx.stars + old.dw.stars;
-    if (oldDone || oldStars) {
-      line = '旧进度 ★ ' + oldStars + ' · 完成 ' + oldDone + '/' + total;
-      shortLine = '完成 ' + oldDone + '/' + total;
-    } else {
-      line = '练习还没开始 · 共 ' + total + ' 道题';
-      shortLine = '还没开始';
-    }
+  if (!started) {
+    el.innerHTML = '还没做过练习，<span class="nowrap">点上面“做练习”开始吧</span>';
+    return;
   }
 
-  var el = document.getElementById('sumLine');
-  if (el) el.textContent = line;
-  return shortLine;
+  var n = '<span class="nowrap">' + practices.length + ' 组</span>练习，';
+  var line;
+  if (done === 0) {
+    line = n + '你做了 <span class="nowrap">' + partial + ' 组</span>的一部分，接着加油！';
+  } else {
+    line = n + '你做完了 <span class="nowrap">' + done + ' 组</span>';
+    if (partial > 0) line += '，还有 <span class="nowrap">' + partial + ' 组</span>做了一部分';
+    if (done === practices.length) line += '，全部完成啦！';
+  }
+  el.innerHTML = line;
 }
 
 paintCards();
 paintSummary();
-
-if (window.SiteNav && typeof window.SiteNav.mount === 'function') {
-  SiteNav.mount({
-    title: '数学课件',
-    dir: '../index.html',
-    home: function () { window.scrollTo({ top: 0, behavior: 'smooth' }); },
-    map: function () {
-      var el = document.getElementById('practice');
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    },
-    progress: paintSummary
-  });
-}
 </script>
 </body>
 </html>
