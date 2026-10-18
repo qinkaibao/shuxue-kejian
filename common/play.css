@@ -3,15 +3,15 @@ html{font-size:20px}
 body{margin:0;font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Source Han Sans SC",sans-serif;background:#fff8e7;color:#333;font-size:22px;line-height:1.5;-webkit-text-size-adjust:100%;touch-action:manipulation}
 button,a{font-family:inherit;touch-action:manipulation}
 button{cursor:pointer}
-#app{max-width:1100px;margin:0 auto;padding:0 12px 28px}
-.hdr{position:sticky;top:0;z-index:30;background:#fff8e7;display:flex;align-items:center;gap:8px;padding:8px 0;flex-wrap:wrap}
-.hbtn{border:none;background:#ffd166;border-radius:14px;font-size:18px;min-width:52px;height:48px;padding:0 10px;font-weight:bold;color:#5a3d00;box-shadow:0 3px 0 #e0a800;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+#app{max-width:1100px;margin:0 auto;padding:calc(48px + env(safe-area-inset-top,0px)) 12px 28px}
+.hdr{position:fixed;top:0;left:0;right:0;z-index:30;background:#fff8e7;display:flex;align-items:center;gap:6px;flex-wrap:nowrap;overflow-x:auto;padding:calc(4px + env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) 6px max(12px,env(safe-area-inset-left,0px));box-shadow:0 2px 0 #f1c26b}
+.hbtn{border:none;background:#ffd166;border-radius:12px;font-size:16px;min-width:0;height:36px;padding:0 8px;font-weight:bold;color:#5a3d00;box-shadow:0 2px 0 #e0a800;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;white-space:nowrap}
 .hbtn:active{transform:translateY(2px);box-shadow:0 1px 0 #e0a800}
 .htitle{font-weight:bold;font-size:20px;color:#e8590c;white-space:nowrap}
-.prog{flex:1;min-width:120px}
-.pbar{height:16px;background:#ffe8b0;border-radius:9px;overflow:hidden}
+.prog{flex:1 1 auto;min-width:72px}
+.pbar{height:10px;background:#ffe8b0;border-radius:9px;overflow:hidden}
 .pfill{height:100%;background:linear-gradient(90deg,#ffb703,#fb8500);border-radius:9px}
-.ptxt{font-size:16px;color:#8a6d3b;text-align:center}
+.ptxt{font-size:13px;color:#8a6d3b;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .stars{font-size:22px;font-weight:bold;color:#e09f00;white-space:nowrap}
 .star{display:inline-block;width:28px;height:28px;vertical-align:middle}
 .card{background:#fff;border-radius:20px;box-shadow:0 4px 14px rgba(200,140,0,.15);padding:16px 18px;margin:10px 0}
@@ -129,5 +129,9 @@ h1{font-size:34px;color:#e8590c;margin:10px 0 4px;text-align:center}
   .three{grid-template-columns:1fr}
   h1{font-size:30px}
   .htitle{display:none}
+  .hbtn{height:32px;font-size:14px;padding:0 7px;border-radius:10px}
+  .stars{font-size:16px}
+  .pbar{height:8px}
+  .ptxt{font-size:12px}
 }
 @media(prefers-reduced-motion:reduce){.opt.bad{animation:none}}

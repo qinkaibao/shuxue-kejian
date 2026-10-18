@@ -15,7 +15,7 @@ button,input{font-family:inherit;font-size:22px}
 button{cursor:pointer;touch-action:manipulation}
 img{max-width:100%;height:auto;display:block;border-radius:18px;margin:12px 0}
 .wrap{max-width:720px;margin:0 auto;padding:0 16px 24px}
-.top{position:sticky;top:0;z-index:20;background:rgba(255,246,234,.96);backdrop-filter:blur(6px);padding:8px 16px 10px;border-bottom:1px solid var(--line)}
+.top{position:sticky;top:var(--sn-h,0px);z-index:20;background:rgba(255,246,234,.96);backdrop-filter:blur(6px);padding:8px 16px 10px;border-bottom:1px solid var(--line)}
 .toprow{display:flex;justify-content:space-between;align-items:center;gap:8px 12px;flex-wrap:wrap}
 .top b{font-size:20px;color:var(--pri)}
 #progText{font-size:18px;color:var(--muted)}
@@ -27,8 +27,8 @@ h2{font-size:28px;line-height:1.35;color:var(--pri);margin:8px 0 10px}
 .how,.play,.memo{background:var(--card);border-radius:18px;padding:14px 14px;margin:14px 0;box-shadow:0 2px 10px rgba(90,50,20,.06)}
 .how{font-size:19px;color:#5c4a40}
 p{margin:10px 0}
-.chap{scroll-margin-top:76px}
-.gate{display:none;scroll-margin-top:76px}
+.chap{scroll-margin-top:calc(var(--sn-h,46px) + 72px)}
+.gate{display:none;scroll-margin-top:calc(var(--sn-h,46px) + 72px)}
 .gate.on{display:block}
 .play h3{margin:0 0 8px;font-size:24px}
 .bigread{background:#fff7e0;border-radius:14px;padding:10px 12px;font-size:22px;line-height:1.55}
