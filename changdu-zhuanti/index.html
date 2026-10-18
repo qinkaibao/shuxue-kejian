@@ -1,0 +1,3086 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#fff8e7">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%8F%3C/text%3E%3C/svg%3E">
+<title>长度换算专题｜怎样真正理解长度单位之间的换算关系</title>
+<style>
+  :root {
+    --paper: #fff8e7;
+    --card: #fffdf8;
+    --ink: #382817;
+    --muted: #74572f;
+    --orange: #c2410c;
+    --orange-deep: #9a3412;
+    --gold: #f1c26b;
+    --gold-deep: #d99a18;
+    --green: #287a3d;
+    --green-bg: #e8f8ec;
+    --red: #c92a2a;
+    --red-bg: #ffe3e3;
+    --blue: #1d5fd0;
+    --blue-bg: #e7f0ff;
+    --focus: #1d5fd0;
+    --navh: 112px;
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    font-size: 20px;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    padding-top: calc(var(--navh) + 10px + env(safe-area-inset-top));
+    color: var(--ink);
+    background:
+      radial-gradient(circle at 8% -4%, #fff1b8 0, rgba(255, 241, 184, 0) 34%),
+      radial-gradient(circle at 102% 14%, #ffe3bd 0, rgba(255, 227, 189, 0) 28%),
+      var(--paper);
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", sans-serif;
+    font-size: 22px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  button,
+  a,
+  select,
+  input {
+    font-family: inherit;
+  }
+
+  button,
+  select,
+  input {
+    font-size: inherit;
+  }
+
+  button {
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  svg {
+    max-width: 100%;
+  }
+
+  :focus-visible {
+    outline: 4px solid var(--focus);
+    outline-offset: 3px;
+  }
+
+  .nowrap {
+    white-space: nowrap;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* ---------- 固定导航 ---------- */
+  .topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 80;
+    background: rgba(255, 248, 231, .97);
+    border-bottom: 2px solid var(--gold);
+    box-shadow: 0 4px 16px rgba(163, 106, 0, .13);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+
+  .topbar-inner {
+    width: 100%;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: calc(6px + env(safe-area-inset-top)) 14px 8px;
+  }
+
+  .tier1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 48px;
+  }
+
+  .home-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-height: 48px;
+    padding: 6px 12px;
+    border: 2px solid #e0a800;
+    border-radius: 14px;
+    background: #ffd166;
+    color: #5a3d00;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 3px 0 #e0a800;
+  }
+
+  .home-link:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 #e0a800;
+  }
+
+  .top-progress {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 4px 13px;
+    border: 2px solid var(--gold);
+    border-radius: 999px;
+    background: #fff3cf;
+    color: #8a4b00;
+    font-size: 20px;
+    font-weight: 900;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .tier2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding-top: 3px;
+  }
+
+  .nav-title {
+    margin: 0;
+    color: var(--orange);
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 1.2;
+    letter-spacing: 1px;
+    text-align: center;
+  }
+
+  .progress-track {
+    width: 100%;
+    height: 8px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #f3e4c5;
+    box-shadow: inset 0 1px 2px rgba(107, 71, 8, .10);
+  }
+
+  .progress-fill {
+    display: block;
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #f59f00, #fb8500);
+    transition: width .3s ease;
+  }
+
+  /* ---------- 页面容器 ---------- */
+  #app {
+    width: 100%;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 14px 14px 56px;
+    min-width: 0;
+  }
+
+  .hero {
+    padding: 10px 2px 2px;
+    text-align: center;
+  }
+
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    max-width: 100%;
+    min-height: 38px;
+    margin: 0 0 4px;
+    padding: 3px 14px;
+    border: 2px solid #f3cf88;
+    border-radius: 999px;
+    background: rgba(255, 253, 248, .76);
+    color: #8a5a09;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.3;
+  }
+
+  h1 {
+    margin: 9px 0 8px;
+    color: var(--orange);
+    font-size: clamp(31px, 8.4vw, 46px);
+    line-height: 1.2;
+    letter-spacing: .5px;
+    text-wrap: balance;
+  }
+
+  .sub {
+    max-width: 33em;
+    margin: 0 auto;
+    color: var(--muted);
+    font-size: 21px;
+    line-height: 1.55;
+    text-wrap: balance;
+  }
+
+  .hero-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    max-width: 720px;
+    margin: 16px auto 0;
+    padding: 12px 14px;
+    border: 3px solid var(--gold);
+    border-radius: 20px;
+    background: linear-gradient(180deg, #fffdf8 0%, #fff4d8 100%);
+    box-shadow: 0 5px 0 #efc77a;
+    text-align: left;
+  }
+
+  .hero-note .face {
+    flex: 0 0 auto;
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #ffd166;
+    font-size: 28px;
+    line-height: 1;
+  }
+
+  .hero-note p {
+    margin: 0;
+    font-size: 21px;
+    line-height: 1.5;
+    color: #5c4528;
+  }
+
+  .hero-note b {
+    color: #9a3412;
+  }
+
+  .unit-chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin: 14px 0 0;
+  }
+
+  .unit-chips span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 3px 7px;
+    border: 2px solid #f1c26b;
+    border-radius: 999px;
+    background: #fffdf8;
+    color: #8a4b00;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  /* ---------- 目录 ---------- */
+  .map-card {
+    margin: 18px 0 0;
+    border: 2px solid #f4dfb3;
+    border-radius: 20px;
+    background: var(--card);
+    box-shadow: 0 4px 0 #efc77a;
+    overflow: hidden;
+  }
+
+  .map-card summary {
+    display: flex;
+    align-items: center;
+    min-height: 56px;
+    padding: 10px 14px;
+    color: #8a3a06;
+    font-size: 21px;
+    font-weight: 900;
+    line-height: 1.35;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .map-card summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .map-card summary::after {
+    content: "▾";
+    margin-left: auto;
+    padding-left: 10px;
+    color: #b97700;
+    font-size: 22px;
+  }
+
+  .map-card[open] summary::after {
+    content: "▴";
+  }
+
+  .map-links {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 0 12px 14px;
+  }
+
+  .map-links a {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 6px 12px;
+    border: 2px solid #f1c26b;
+    border-radius: 13px;
+    background: #fff8e7;
+    color: #6b4708;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.35;
+    text-decoration: none;
+  }
+
+  .map-links a:active {
+    background: #fff1c7;
+  }
+
+  /* ---------- 卡片 ---------- */
+  .card {
+    min-width: 0;
+    margin: 18px 0 0;
+    padding: 18px 16px;
+    border: 2px solid #f4dfb3;
+    border-radius: 24px;
+    background: var(--card);
+    box-shadow: 0 6px 0 #efc77a, 0 12px 28px rgba(163, 106, 0, .10);
+    scroll-margin-top: calc(var(--navh) + 18px + env(safe-area-inset-top));
+  }
+
+  .card-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0 0 10px;
+  }
+
+  .card-num {
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #ffd166, #fb8500);
+    color: #fff;
+    font-size: 22px;
+    font-weight: 900;
+    line-height: 1;
+    box-shadow: 0 3px 0 #d97b00;
+  }
+
+  .h2-sub {
+    display: block;
+    margin-top: 3px;
+    color: #8a5a09;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: 0;
+  }
+
+  h2 {
+    min-width: 0;
+    margin: 2px 0 0;
+    color: var(--orange);
+    font-size: clamp(24px, 6.2vw, 30px);
+    line-height: 1.3;
+    letter-spacing: .3px;
+    text-wrap: balance;
+  }
+
+  h3 {
+    margin: 16px 0 8px;
+    color: var(--orange-deep);
+    font-size: 22px;
+    line-height: 1.35;
+  }
+
+  .lead {
+    margin: 0 0 12px;
+    color: #56452f;
+    font-size: 21px;
+    line-height: 1.55;
+  }
+
+  .quote {
+    margin: 10px 0;
+    padding: 10px 14px;
+    border-left: 6px solid var(--gold);
+    border-radius: 0 16px 16px 0;
+    background: #fff4d8;
+    color: #6b4708;
+    font-size: 21px;
+    line-height: 1.55;
+  }
+
+  .quote b {
+    color: #8a3a06;
+  }
+
+  .formula {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0;
+    padding: 12px 10px;
+    border: 3px solid var(--gold);
+    border-radius: 18px;
+    background: linear-gradient(180deg, #fffdf8, #fff1c7);
+    color: var(--orange-deep);
+    font-size: clamp(27px, 7.6vw, 35px);
+    font-weight: 900;
+    line-height: 1.3;
+    text-align: center;
+    letter-spacing: .5px;
+  }
+
+  .formula .eq {
+    color: #b45309;
+  }
+
+  .note {
+    margin: 10px 0;
+    padding: 10px 12px;
+    border: 2px solid #bcd7ff;
+    border-radius: 14px;
+    background: var(--blue-bg);
+    color: #1d3f8a;
+    font-size: 20px;
+    line-height: 1.5;
+  }
+
+  .note.green {
+    border-color: #9ad6aa;
+    background: var(--green-bg);
+    color: #14692c;
+  }
+
+  .xiaomei {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 12px 0;
+    padding: 10px 12px;
+    border: 2px dashed var(--gold);
+    border-radius: 16px;
+    background: #fff8e7;
+    color: #6b4708;
+    font-size: 20px;
+    line-height: 1.5;
+  }
+
+  .xiaomei .face {
+    flex: 0 0 auto;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #ffd166;
+    font-size: 21px;
+    line-height: 1;
+  }
+
+  .xiaomei p {
+    margin: 0;
+  }
+
+  .figure {
+    min-width: 0;
+    margin: 10px 0;
+    padding: 8px 6px;
+    border-radius: 18px;
+    background: #fff8ee;
+  }
+
+  .figure svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", sans-serif;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 52px;
+    padding: 10px 18px;
+    border: 0;
+    border-radius: 16px;
+    font-size: 21px;
+    font-weight: 900;
+    line-height: 1.25;
+    text-align: center;
+    text-decoration: none;
+    touch-action: manipulation;
+    transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+  }
+
+  .btn.primary {
+    background: #fb8500;
+    color: #fff;
+    box-shadow: 0 4px 0 #c96a00;
+  }
+
+  .btn.primary:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #c96a00;
+  }
+
+  .btn.secondary {
+    background: #ffd166;
+    color: #5a3d00;
+    box-shadow: 0 4px 0 #d99a18;
+  }
+
+  .btn.secondary:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #d99a18;
+  }
+
+  .btn.ghost {
+    border: 2px solid var(--gold);
+    background: #fff3d6;
+    color: #7a4b00;
+    box-shadow: 0 4px 0 #eac98a;
+  }
+
+  .btn.ghost:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #eac98a;
+  }
+
+  .btn.blue {
+    background: #3b82f6;
+    color: #fff;
+    box-shadow: 0 4px 0 #1d5fd0;
+  }
+
+  .btn.blue:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #1d5fd0;
+  }
+
+  .btn.danger {
+    border: 2px solid #ffc9c9;
+    background: #fff0f0;
+    color: #c92a2a;
+    box-shadow: 0 4px 0 #f5a3a3;
+  }
+
+  .btn.danger:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #f5a3a3;
+  }
+
+  .btn:disabled {
+    opacity: .62;
+    cursor: default;
+    transform: none;
+  }
+
+  .btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .feedback {
+    margin-top: 10px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    font-size: 20px;
+    line-height: 1.5;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+
+  .feedback:empty {
+    display: none;
+  }
+
+  .feedback p {
+    margin: 0;
+  }
+
+  .feedback p + p {
+    margin-top: 4px;
+  }
+
+  .feedback.good {
+    background: var(--green-bg);
+    color: #14692c;
+  }
+
+  .feedback.bad {
+    background: var(--red-bg);
+    color: #b01f1f;
+  }
+
+  .feedback.warn {
+    background: #fff4e0;
+    color: #9a4b00;
+  }
+
+  /* ---------- 1. 直尺 ---------- */
+  .readout {
+    margin: 8px 0;
+    padding: 8px 10px;
+    border-radius: 14px;
+    background: #fff3d6;
+    color: #8a3a06;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  .readout b {
+    color: var(--orange);
+    font-size: 30px;
+    line-height: 1;
+  }
+
+  /* ---------- 2. 分米 ---------- */
+  .dm-strip {
+    display: grid;
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+    gap: 0;
+    min-height: 58px;
+    margin: 12px 0 8px;
+    overflow: hidden;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #ffe08a, #ffc247);
+    box-shadow: inset 0 0 0 3px #d99a18;
+    transition: gap .3s ease;
+  }
+
+  .dm-strip.cut {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 6px;
+    overflow: visible;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .dm-block {
+    min-width: 0;
+    min-height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 0;
+    background: linear-gradient(180deg, #ffe08a, #ffc247);
+    color: #5a3d00;
+    font-weight: 900;
+    line-height: 1;
+    box-shadow: inset -1px 0 0 rgba(154, 52, 18, .18);
+    transition: background .22s ease, color .22s ease, transform .22s ease, border-radius .22s ease;
+  }
+
+  .dm-block .n {
+    font-size: 20px;
+  }
+
+  .dm-block .u {
+    display: none;
+    margin-left: 2px;
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .dm-strip.cut .dm-block {
+    border-radius: 12px;
+    box-shadow: 0 3px 0 #d99a18;
+    animation: block-pop .36s ease backwards;
+    animation-delay: calc(var(--i) * .035s);
+  }
+
+  .dm-strip.cut .dm-block .u {
+    display: inline;
+  }
+
+  .dm-block.lit {
+    background: linear-gradient(180deg, #6fdc8c, #2fa36b);
+    color: #fff;
+    box-shadow: 0 3px 0 #1f7a4a;
+  }
+
+  .dm-block:disabled {
+    cursor: default;
+  }
+
+  @keyframes block-pop {
+    0% { opacity: .5; transform: translateY(-8px) scale(.9); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .dm-count {
+    margin: 8px 0;
+    color: #8a3a06;
+    font-size: 21px;
+    font-weight: 800;
+    line-height: 1.45;
+    text-align: center;
+  }
+
+  .meter-wrap {
+    margin: 12px 0 4px;
+    padding: 10px;
+    border: 2px dashed var(--gold);
+    border-radius: 16px;
+    background: #fff8e7;
+  }
+
+  .meter-caption {
+    margin: 0 0 8px;
+    color: #6b4708;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.45;
+  }
+
+  .meter-stick {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .meter-cell {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #9bbcf5;
+    border-radius: 10px;
+    background: #e7f0ff;
+    color: #1d3f8a;
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1.1;
+  }
+
+  .meter-cell:nth-child(even) {
+    background: #dbeafe;
+  }
+
+  /* ---------- 3. 阶梯 ---------- */
+  .stairs {
+    margin: 12px 0 6px;
+    padding: 4px 0 2px;
+    overflow: hidden;
+  }
+
+  .stair {
+    display: flex;
+    align-items: center;
+    margin-left: calc(var(--i) * 21px);
+    min-width: 0;
+  }
+
+  .upill {
+    min-width: 104px;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 16px;
+    border: 2px solid #9bbcf5;
+    border-radius: 14px;
+    background: #e7f0ff;
+    color: #1d3f8a;
+    font-size: 23px;
+    font-weight: 900;
+    line-height: 1.1;
+    box-shadow: 0 3px 0 #bcd7ff;
+  }
+
+  .stair:nth-child(1) .upill {
+    border-color: #f5a3a3;
+    background: #ffe3e3;
+    color: #9a1c1c;
+    box-shadow: 0 3px 0 #f5a3a3;
+  }
+
+  .stair-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 30px;
+    margin-left: calc(var(--i) * 21px + 34px);
+    color: #8a4b00;
+    font-size: 20px;
+    font-weight: 900;
+    line-height: 1.2;
+  }
+
+  .stair-link .vline {
+    width: 4px;
+    height: 30px;
+    border-radius: 2px;
+    background: var(--gold);
+  }
+
+  .ladder-panel {
+    margin: 14px 0 0;
+    padding: 12px;
+    border: 2px dashed var(--gold);
+    border-radius: 18px;
+    background: #fff8e7;
+  }
+
+  .select-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .field {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .field label {
+    color: #6b4708;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.3;
+  }
+
+  .field select {
+    width: 100%;
+    min-height: 52px;
+    padding: 8px 10px;
+    border: 3px solid var(--gold);
+    border-radius: 14px;
+    background: #fffdf8;
+    color: var(--ink);
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .result-card {
+    margin-top: 12px;
+    padding: 12px;
+    border: 2px solid var(--gold);
+    border-radius: 16px;
+    background: #fff;
+    text-align: center;
+  }
+
+  .factor-line {
+    margin: 0;
+    color: var(--orange);
+    font-size: clamp(31px, 9vw, 45px);
+    font-weight: 900;
+    line-height: 1.2;
+    letter-spacing: .5px;
+  }
+
+  .factor-line .op {
+    color: var(--green);
+  }
+
+  .factor-line .op.divide {
+    color: var(--blue);
+  }
+
+  .result-eq {
+    margin: 6px 0 0;
+    color: #1d3f8a;
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  .result-explain {
+    margin: 7px 0 0;
+    color: #56452f;
+    font-size: 20px;
+    line-height: 1.55;
+  }
+
+  .rule {
+    margin: 12px 0;
+    padding: 12px 14px;
+    border: 3px solid var(--gold);
+    border-radius: 18px;
+    background: #fff3cf;
+    color: #8a3a06;
+    font-size: 21px;
+    font-weight: 800;
+    line-height: 1.55;
+  }
+
+  .rule strong {
+    color: #9a3412;
+  }
+
+  .analogy {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 12px 0 0;
+    padding: 12px 14px;
+    border: 2px solid #9ad6aa;
+    border-radius: 18px;
+    background: #f0fff4;
+    color: #14692c;
+    font-size: 20px;
+    line-height: 1.55;
+  }
+
+  .analogy .ic {
+    flex: 0 0 auto;
+    font-size: 26px;
+    line-height: 1.2;
+  }
+
+  .analogy p {
+    margin: 0;
+  }
+
+  /* ---------- 4. 想 ---------- */
+  .think-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .think {
+    display: block;
+    width: 100%;
+    min-height: 60px;
+    padding: 12px 14px;
+    border: 3px solid var(--gold);
+    border-radius: 18px;
+    background: #fffaf0;
+    color: var(--ink);
+    text-align: left;
+    box-shadow: 0 4px 0 #efc77a;
+    transition: background .15s ease, box-shadow .15s ease;
+  }
+
+  .think:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #efc77a;
+  }
+
+  .think .qline {
+    display: block;
+    color: var(--orange-deep);
+    font-size: clamp(23px, 6.2vw, 27px);
+    font-weight: 900;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  .think .tap {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 5px;
+    color: var(--blue);
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.3;
+  }
+
+  .think .answer {
+    display: none;
+    margin-top: 9px;
+    padding-top: 9px;
+    border-top: 2px dashed #eac98a;
+  }
+
+  .think.open {
+    background: #fffdf8;
+    border-color: #9ad6aa;
+    box-shadow: 0 4px 0 #b7e3c3;
+  }
+
+  .think.open .tap {
+    display: none;
+  }
+
+  .think.open .answer {
+    display: block;
+  }
+
+  .think .ansline {
+    display: block;
+    color: var(--green);
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 1.4;
+  }
+
+  .think .why {
+    display: block;
+    margin-top: 5px;
+    color: #56452f;
+    font-size: 20px;
+    line-height: 1.55;
+  }
+
+  /* ---------- 5. 滑块 ---------- */
+  .slider-wrap {
+    margin: 12px 0;
+    padding: 12px;
+    border: 2px solid var(--gold);
+    border-radius: 18px;
+    background: #fff8e7;
+  }
+
+  .slider-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px;
+    color: #6b4708;
+    font-size: 21px;
+    font-weight: 800;
+    line-height: 1.4;
+  }
+
+  .slider-value {
+    color: var(--orange);
+    font-size: 34px;
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  input[type="range"] {
+    width: 100%;
+    height: 48px;
+    margin: 6px 0 2px;
+    padding: 0;
+    background: transparent;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+  }
+
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 14px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #ffd166, #fb8500);
+    box-shadow: inset 0 1px 2px rgba(107, 71, 8, .15);
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    width: 34px;
+    height: 34px;
+    margin-top: -10px;
+    border: 5px solid #fb8500;
+    border-radius: 50%;
+    background: #fffdf8;
+    box-shadow: 0 3px 0 #c96a00;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  input[type="range"]::-moz-range-track {
+    height: 14px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #ffd166, #fb8500);
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 26px;
+    height: 26px;
+    border: 5px solid #fb8500;
+    border-radius: 50%;
+    background: #fffdf8;
+    box-shadow: 0 3px 0 #c96a00;
+  }
+
+  .strip-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    gap: 6px;
+    margin: 12px 0;
+  }
+
+  .ten-strip {
+    min-width: 0;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #e0a800;
+    border-radius: 8px;
+    background: repeating-linear-gradient(90deg, #ffe08a 0 8%, #ffd166 8% 10%);
+    color: #6b4708;
+    font-size: 16px;
+    font-weight: 900;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .live-eq {
+    padding: 12px 10px;
+    border: 2px solid var(--gold);
+    border-radius: 16px;
+    background: #fff3cf;
+    color: var(--orange-deep);
+    font-size: clamp(22px, 6.2vw, 29px);
+    font-weight: 900;
+    line-height: 1.5;
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+
+  .strip-count {
+    margin: 0 0 6px;
+    color: #6b4708;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  /* ---------- 6. 对比 ---------- */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin: 12px 0;
+  }
+
+  .mini-card {
+    min-width: 0;
+    padding: 12px 14px;
+    border: 3px solid;
+    border-radius: 18px;
+  }
+
+  .mini-card.bad {
+    border-color: #ffc9c9;
+    background: #fff5f5;
+  }
+
+  .mini-card.good {
+    border-color: #8fd19e;
+    background: #f0fff4;
+  }
+
+  .mini-card .tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 2px 11px;
+    border-radius: 999px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 900;
+    line-height: 1.2;
+  }
+
+  .mini-card.bad .tag {
+    background: #d9480f;
+  }
+
+  .mini-card.good .tag {
+    background: #2fa36b;
+  }
+
+  .eqline {
+    margin: 6px 0 0;
+    font-size: clamp(23px, 6.5vw, 29px);
+    font-weight: 900;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+
+  .mini-card.bad .eqline {
+    color: #b01f1f;
+  }
+
+  .mini-card.good .eqline {
+    color: #14692c;
+  }
+
+  .mini-card p {
+    margin: 7px 0 0;
+    color: #56452f;
+    font-size: 20px;
+    line-height: 1.5;
+  }
+
+  .checklist {
+    margin: 12px 0 0;
+    padding: 12px 14px;
+    border: 2px dashed var(--gold);
+    border-radius: 18px;
+    background: #fff8e7;
+  }
+
+  .checklist h3 {
+    margin: 0 0 6px;
+  }
+
+  .checklist ul {
+    margin: 0;
+    padding-left: 24px;
+  }
+
+  .checklist li {
+    margin: 6px 0;
+    font-size: 21px;
+    line-height: 1.55;
+  }
+
+  /* ---------- 7. 比大小 ---------- */
+  .sign-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .sign-btn {
+    min-height: 62px;
+    padding: 8px 4px;
+    border: 3px solid #cfe0ff;
+    border-radius: 16px;
+    background: #f5f9ff;
+    color: #1f2d4d;
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1;
+    box-shadow: 0 4px 0 #bcd7ff;
+  }
+
+  .sign-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #bcd7ff;
+  }
+
+  .sign-btn.ok {
+    border-color: #2fb344;
+    background: #dcfce7;
+    color: #14692c;
+    box-shadow: 0 4px 0 #8fd19e;
+  }
+
+  .sign-btn.bad {
+    border-color: #f03e3e;
+    background: #ffe3e3;
+    color: #c92a2a;
+    animation: shake .38s ease;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+
+  .bars-caption {
+    margin: 6px 0 0;
+    color: #6b4708;
+    font-size: 20px;
+    line-height: 1.45;
+  }
+
+  /* ---------- 8. 圈单位 ---------- */
+  .read-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .read-card {
+    min-width: 0;
+    padding: 12px 14px;
+    border: 2px solid var(--gold);
+    border-radius: 18px;
+    background: #fff8ee;
+  }
+
+  .read-q {
+    margin: 0 0 9px;
+    color: var(--ink);
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.55;
+  }
+
+  .unit-word {
+    display: inline-block;
+    padding: 0 3px;
+    border-radius: 999px;
+    color: var(--orange);
+    font-weight: 900;
+    transition: background .2s ease, box-shadow .2s ease, transform .2s ease;
+  }
+
+  .unit-word.circled {
+    background: #fff3cf;
+    color: var(--orange-deep);
+    box-shadow: 0 0 0 4px #fb8500;
+    transform: rotate(-1deg);
+  }
+
+  .read-note {
+    margin: 8px 0 0;
+    color: var(--green);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  /* ---------- 9. 练习 ---------- */
+  .exercise-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 4px 0 10px;
+  }
+
+  .exercise-progress {
+    margin: 0;
+    color: var(--orange-deep);
+    font-size: 22px;
+    font-weight: 900;
+    line-height: 1.4;
+  }
+
+  .exercise-progress b {
+    color: var(--orange);
+    font-size: 30px;
+    line-height: 1;
+  }
+
+  .all-done {
+    margin: 0 0 10px;
+    padding: 10px 12px;
+    border: 2px solid #8fd19e;
+    border-radius: 14px;
+    background: var(--green-bg);
+    color: #14692c;
+    font-size: 21px;
+    font-weight: 800;
+    line-height: 1.5;
+  }
+
+  .q-list {
+    display: grid;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .q-card {
+    min-width: 0;
+    padding: 12px 13px;
+    border: 2px solid #f4dfb3;
+    border-radius: 18px;
+    background: #fffdf8;
+    box-shadow: 0 3px 0 #f3e4c5;
+  }
+
+  .q-card.solved {
+    border-color: #8fd19e;
+    background: #f6fff8;
+    box-shadow: 0 3px 0 #c7ead0;
+  }
+
+  .q-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 7px;
+  }
+
+  .q-no {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    height: 34px;
+    padding: 0 5px;
+    border-radius: 50%;
+    background: #fb8500;
+    color: #fff;
+    font-size: 19px;
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  .q-tag {
+    padding: 2px 10px;
+    border: 1px dashed #f59f00;
+    border-radius: 999px;
+    background: #fff3bf;
+    color: #6b4708;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .q-text {
+    margin: 0 0 10px;
+    color: var(--ink);
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+  }
+
+  .answer-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .answer-input {
+    width: 124px;
+    min-width: 0;
+    height: 56px;
+    padding: 4px 8px;
+    border: 3px solid #9bbcf5;
+    border-radius: 14px;
+    background: #fff;
+    color: #1d3f8a;
+    font-size: 27px;
+    font-weight: 900;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  .answer-input::placeholder {
+    color: #9aa8bf;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .answer-input.bad {
+    border-color: #f03e3e;
+    background: #fff5f5;
+  }
+
+  .answer-input.ok {
+    border-color: #2fb344;
+    background: #dcfce7;
+    color: #14692c;
+  }
+
+  .answer-input:disabled {
+    opacity: 1;
+  }
+
+  .answer-unit {
+    color: #6b4708;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.3;
+  }
+
+  .choice-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .choice-btn {
+    min-width: 0;
+    min-height: 56px;
+    padding: 8px 4px;
+    border: 3px solid #cfe0ff;
+    border-radius: 14px;
+    background: #f5f9ff;
+    color: #1f2d4d;
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  .choice-btn:active {
+    transform: translateY(2px);
+  }
+
+  .choice-btn.bad {
+    border-color: #f03e3e;
+    background: #ffe3e3;
+    color: #c92a2a;
+  }
+
+  .choice-btn.ok {
+    border-color: #2fb344;
+    background: #dcfce7;
+    color: #14692c;
+  }
+
+  .choice-btn:disabled {
+    opacity: 1;
+    cursor: default;
+  }
+
+  #kejian-report {
+    margin: 26px 0 0;
+  }
+
+  .footer {
+    margin: 26px 4px 0;
+    color: #795b2d;
+    font-size: 20px;
+    line-height: 1.55;
+    text-align: center;
+  }
+
+  @media (min-width: 620px) {
+    .map-links {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .compare-grid,
+    .read-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .think-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .meter-stick {
+      grid-template-columns: repeat(10, minmax(0, 1fr));
+    }
+
+    .meter-cell {
+      font-size: 17px;
+    }
+  }
+
+  @media (min-width: 760px) {
+    :root {
+      --navh: 118px;
+    }
+
+    #app {
+      padding: 20px 22px 64px;
+    }
+
+    .card {
+      padding: 22px 24px;
+    }
+
+    .topbar-inner {
+      padding-left: 22px;
+      padding-right: 22px;
+    }
+
+    .nav-title {
+      font-size: 26px;
+    }
+  }
+
+  @media (max-width: 380px) {
+    #app {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    .topbar-inner {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    .home-link {
+      padding-left: 9px;
+      padding-right: 9px;
+      font-size: 19px;
+    }
+
+    .top-progress {
+      padding-left: 10px;
+      padding-right: 10px;
+      font-size: 19px;
+    }
+
+    h1 {
+      font-size: 28px;
+    }
+
+    .kicker {
+      padding-left: 10px;
+      padding-right: 10px;
+      font-size: 18px;
+    }
+
+    .unit-chips span {
+      padding-left: 7px;
+      padding-right: 7px;
+      font-size: 18px;
+    }
+
+    .card {
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: .001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .001ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="tier1">
+      <a class="home-link" href="../index.html">🏠 回总目录</a>
+      <span class="top-progress" id="topProgress" aria-live="polite">已对 0/27</span>
+    </div>
+    <div class="tier2">
+      <p class="nav-title">长度换算专题</p>
+      <div class="progress-track" aria-hidden="true"><span class="progress-fill" id="topFill"></span></div>
+    </div>
+  </div>
+</header>
+
+<main id="app">
+
+  <header class="hero">
+    <p class="kicker"><span aria-hidden="true">👧</span> 小美陪你学 · 三年级长度单位</p>
+    <h1>怎样真正理解长度单位<br>之间的换算关系</h1>
+    <p class="sub">不是死记一串零，而是看清：1个大单位里，藏着几个小单位。</p>
+
+    <div class="hero-note">
+      <span class="face" aria-hidden="true">👧</span>
+      <p><b>小美说：</b>先把单位从大到小排成队，再想“几个10”，最后才动笔算。</p>
+    </div>
+
+    <div class="unit-chips" aria-label="本专题的单位">
+      <span>千米</span>
+      <span>米</span>
+      <span>分米</span>
+      <span>厘米</span>
+      <span>毫米</span>
+    </div>
+  </header>
+
+  <details class="map-card">
+    <summary>🧭 本页 9 站 · 点开目录</summary>
+    <nav class="map-links" aria-label="本页目录">
+      <a href="#s1">1. 尺子上的毫米和厘米</a>
+      <a href="#s2">2. 分米：10厘米就是1分米</a>
+      <a href="#s3">3. 单位阶梯与进率</a>
+      <a href="#s4">4. 课本里的「想」</a>
+      <a href="#s5">5. 几十分米换厘米</a>
+      <a href="#s6">6. 别漏掉一个×10</a>
+      <a href="#s7">7. 比大小先统一单位</a>
+      <a href="#s8">8. 看清问的是哪个单位</a>
+      <a href="#s9">9. 27道练习</a>
+    </nav>
+  </details>
+
+  <!-- ================= 1 ================= -->
+  <section class="card" id="s1" aria-labelledby="s1-title">
+    <div class="card-head">
+      <span class="card-num" aria-hidden="true">1</span>
+      <h2 id="s1-title">尺子上的毫米和厘米</h2>
+    </div>
+
+    <p class="lead">小美把直尺放大给你看：从0到1厘米，中间被分成了10个小格。</p>
+
+    <blockquote class="quote">
+      <b>课本原话：</b>「在直尺上，1厘米中的1小格表示1毫米。」
+    </blockquote>
+
+    <div class="formula"><span>1厘米</span><span class="eq">=</span><span>10毫米</span></div>
+
+    <div class="note">💳 <b>身份证大约厚1毫米。</b>毫米是量很短、很薄的东西时用的单位。</div>
+
+    <div class="figure">
+      <svg id="rulerSvg" viewBox="0 0 360 132" role="img" aria-label="放大的直尺，从0到3厘米，每厘米分成10小格">
+        <text x="73" y="15" text-anchor="middle" font-size="20" font-weight="800" fill="#9a3412">1厘米</text>
+        <path d="M20 20 v4 H126.7 v-4" fill="none" stroke="#d99a18" stroke-width="2.5" stroke-linecap="round"/>
+        <rect x="14" y="24" width="332" height="62" rx="9" fill="#ffd166" stroke="#d99a18" stroke-width="3"/>
+        <rect id="mmFill" x="20" y="26" width="0" height="58" rx="4" fill="#fb8500" opacity=".38"/>
+        <g id="rulerTicks"></g>
+        <line id="mmMarker" x1="20" y1="22" x2="20" y2="88" stroke="#c2410c" stroke-width="4" stroke-linecap="round" opacity="0"/>
+        <g id="rulerLabels"></g>
+        <text x="340" y="124" text-anchor="end" font-size="21" font-weight="800" fill="#7a4b00">厘米</text>
+      </svg>
+    </div>
+
+    <div class="readout" id="mmReadout">已数 <b>0</b> 毫米</div>
+
+    <div class="btn-row">
+      <button class="btn primary" type="button" id="countMm">数1毫米</button>
+      <button class="btn ghost" type="button" id="resetMm">重数</button>
+    </div>
+
+    <div class="feedback" id="mmFeedback" aria-live="polite"></div>
+
+    <div class="xiaomei">
+      <span class="face" aria-hidden="true">👧</span>
+      <p>小美提醒：1小格就是1毫米。数满10小格，正好走到1厘米。</p>
+    </div>
+  </section>
+
+  <!-- ================= 2 ================= -->
+  <section class="card" id="s2" aria-labelledby="s2-title">
+    <div class="card-head">
+      <span class="card-num" aria-hidden="true">2</span>
+      <h2 id="s2-title">分米<span class="h2-sub">10厘米就是1分米</span></h2>
+    </div>
+
+    <blockquote class="quote">
+      <b>课本原话：</b>「10厘米是1分米。」
+    </blockquote>
+
+    <div class="formula"><span>1分米</span><span class="eq">=</span><span>10厘米</span></div>
+
+    <p class="lead">小美手里有一根1分米长的长条。点「切开」，它就分成10个1厘米的小块。</p>
+
+    <div class="dm-strip" id="dmStrip" aria-label="1分米长条，切开后分成10个1厘米小块"></div>
+
+    <p class="dm-count" id="dmCount">已点亮 0 块，也就是 0 厘米</p>
+
+    <div class="btn-row">
+      <button class="btn primary" type="button" id="cutDm">切开</button>
+      <button class="btn ghost" type="button" id="resetDm">合起来</button>
+    </div>
+
+    <div class="feedback" id="dmFeedback" aria-live="polite"></div>
+
+    <div class="meter-wrap">
+      <p class="meter-caption">米尺上每10厘米画一格，一格就是1分米；10格正好是1米。</p>
+      <div class="meter-stick" aria-label="1米长的米尺，分成10格，每格1分米">
+        <span class="meter-cell">1分米</span>
+        <span class="meter-cell">1分米</span>
+        <span class="meter-cell">1分米</span>
+        <span class="meter-cell">1分米</span>
+        <span class="meter-cell">1分米</span>
+        <span class="meter-cell">1分米</span>
+        <span class="meter-cell">1分米</span>
+        <span class="meter-cell">1分米</span>
+        <span class="meter-cell">1分米</span>
+        <span class="meter-cell">1分米</span>
+      </div>
+    </div>
+
+    <div class="formula"><span>1米</span><span class="eq">=</span><span>10分米</span></div>
+
+    <div class="note green">1米 = 10分米 = 100厘米。米尺上的每一大格是10厘米，也就是1分米。</div>
+  </section>
+
+  <!-- ================= 3 ================= -->
+  <section class="card" id="s3" aria-labelledby="s3-title">
+    <div class="card-head">
+      <span class="card-num" aria-hidden="true">3</span>
+      <h2 id="s3-title">单位阶梯与进率</h2>
+    </div>
+
+    <p class="lead">小美把五个长度单位排成一级一级的台阶。往上走，单位变大；往下走，单位变小。</p>
+
+    <div class="stairs" aria-label="长度单位阶梯：千米、米、分米、厘米、毫米">
+      <div class="stair" style="--i:0"><span class="upill">千米</span></div>
+      <div class="stair-link" style="--i:0"><span class="vline" aria-hidden="true"></span><span>×1000</span></div>
+      <div class="stair" style="--i:1"><span class="upill">米</span></div>
+      <div class="stair-link" style="--i:1"><span class="vline" aria-hidden="true"></span><span>×10</span></div>
+      <div class="stair" style="--i:2"><span class="upill">分米</span></div>
+      <div class="stair-link" style="--i:2"><span class="vline" aria-hidden="true"></span><span>×10</span></div>
+      <div class="stair" style="--i:3"><span class="upill">厘米</span></div>
+      <div class="stair-link" style="--i:3"><span class="vline" aria-hidden="true"></span><span>×10</span></div>
+      <div class="stair" style="--i:4"><span class="upill">毫米</span></div>
+    </div>
+
+    <div class="note">课本「整理和复习」里的进率：千米和米之间是1000，其余相邻单位之间都是10。</div>
+
+    <div class="rule">
+      <strong>大单位换小单位，数变大，要乘；小单位换大单位，数变小，要除。</strong>
+    </div>
+
+    <div class="ladder-panel">
+      <div class="select-grid">
+        <div class="field">
+          <label for="fromUnit">起点单位</label>
+          <select id="fromUnit">
+            <option value="4">千米</option>
+            <option value="3" selected>米</option>
+            <option value="2">分米</option>
+            <option value="1">厘米</option>
+            <option value="0">毫米</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="toUnit">终点单位</label>
+          <select id="toUnit">
+            <option value="4">千米</option>
+            <option value="3">米</option>
+            <option value="2" selected>分米</option>
+            <option value="1">厘米</option>
+            <option value="0">毫米</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="result-card" aria-live="polite">
+        <p class="factor-line" id="ladderFactor"><span class="op">×</span> 10</p>
+        <p class="result-eq" id="ladderEq">1 米 = 10 分米</p>
+        <p class="result-explain" id="ladderExplain">米比分米大，大单位换小单位，数变大，要乘10。</p>
+      </div>
+    </div>
+
+    <div class="analogy">
+      <span class="ic" aria-hidden="true">🧵</span>
+      <p><b>小美的比喻：</b>同一根绳子用小尺子量，量的次数更多，所以数更大；用大尺子量，量的次数少，所以数更小。</p>
+    </div>
+
+    <p class="lead" style="margin-top:12px">小检查：在米、分米、厘米、毫米之间，相邻两格是×10；跨两格是×100；跨三格是×1000。米和千米这一级比较特别，进率是1000。</p>
+  </section>
+
+  <!-- ================= 4 ================= -->
+  <section class="card" id="s4" aria-labelledby="s4-title">
+    <div class="card-head">
+      <span class="card-num" aria-hidden="true">4</span>
+      <h2 id="s4-title">课本里的「想」</h2>
+    </div>
+
+    <p class="lead">课本例1、例2不是让你背答案，而是让你说清楚：里面有几个10，或者几个1000。</p>
+
+    <div class="think-grid">
+      <button class="think" type="button" aria-expanded="false">
+        <span class="qline">3厘米 =（  ）毫米</span>
+        <span class="tap">点一下，看答案和「想」</span>
+        <span class="answer">
+          <span class="ansline">3厘米=30毫米</span>
+          <span class="why">想：1厘米是10毫米，3厘米是3个10毫米。</span>
+        </span>
+      </button>
+
+      <button class="think" type="button" aria-expanded="false">
+        <span class="qline">70厘米 =（  ）分米</span>
+        <span class="tap">点一下，看答案和「想」</span>
+        <span class="answer">
+          <span class="ansline">70厘米=7分米</span>
+          <span class="why">想：10厘米是1分米，70厘米里面有7个10厘米。</span>
+        </span>
+      </button>
+
+      <button class="think" type="button" aria-expanded="false">
+        <span class="qline">3千米 =（  ）米</span>
+        <span class="tap">点一下，看答案和「想」</span>
+        <span class="answer">
+          <span class="ansline">3千米=3000米</span>
+          <span class="why">想：1千米是1000米，3千米是3个1000米。</span>
+        </span>
+      </button>
+
+      <button class="think" type="button" aria-expanded="false">
+        <span class="qline">5000米 =（  ）千米</span>
+        <span class="tap">点一下，看答案和「想」</span>
+        <span class="answer">
+          <span class="ansline">5000米=5千米</span>
+          <span class="why">想：1000米是1千米，5000米里面有5个1000米。</span>
+        </span>
+      </button>
+    </div>
+
+    <div class="xiaomei">
+      <span class="face" aria-hidden="true">👧</span>
+      <p>小美说：把「想」说出来，比只写一个答案更厉害。你说得清楚，就真的懂了。</p>
+    </div>
+  </section>
+
+  <!-- ================= 5 ================= -->
+  <section class="card" id="s5" aria-labelledby="s5-title">
+    <div class="card-head">
+      <span class="card-num" aria-hidden="true">5</span>
+      <h2 id="s5-title">几十分米换厘米</h2>
+    </div>
+
+    <p class="lead">1分米是10厘米，那么几十分米，就是几十个10厘米。</p>
+
+    <div class="formula">
+      <span>50分米</span><span class="eq">=</span><span>50个10厘米</span><span class="eq">=</span><span>500厘米</span>
+    </div>
+
+    <div class="slider-wrap">
+      <div class="slider-head">
+        <label for="dmSlider">拖动滑块，选几十分米</label>
+        <span class="slider-value"><span id="dmValue">50</span> 分米</span>
+      </div>
+      <input id="dmSlider" type="range" min="10" max="90" step="10" value="50" aria-label="选择几十分米，范围10到90，每次10分米">
+      <p class="strip-count" id="stripCount">下面是 50 个「10厘米」小条</p>
+      <div class="strip-list" id="stripList" aria-hidden="true"></div>
+      <div class="live-eq" id="liveEq">50分米 = 50个10厘米 = 500厘米</div>
+    </div>
+
+    <div class="note">每一条都是10厘米。条数越多，厘米数就越大。几十分米换厘米，就是「几十个10」。</div>
+  </section>
+
+  <!-- ================= 6 ================= -->
+  <section class="card" id="s6" aria-labelledby="s6-title">
+    <div class="card-head">
+      <span class="card-num" aria-hidden="true">6</span>
+      <h2 id="s6-title">别漏掉一个×10</h2>
+    </div>
+
+    <p class="lead">小美最容易看到的错误，就是米换分米时只换了一半，漏掉一个×10。</p>
+
+    <div class="compare-grid">
+      <div class="mini-card bad">
+        <span class="tag">错</span>
+        <p class="eqline">800米=80分米 ✗</p>
+        <p>米换分米要乘10：800×10=8000。写成80，就是漏掉了一个×10。</p>
+      </div>
+
+      <div class="mini-card good">
+        <span class="tag">对</span>
+        <p class="eqline">800米=8000分米 ✓</p>
+        <p>1米=10分米，800米就是800个10分米，所以是8000分米。</p>
+      </div>
+    </div>
+
+    <div class="checklist">
+      <h3>小检查</h3>
+      <ul>
+        <li>分米比米小，分米的数一定比米的数大。</li>
+        <li>7分米=70厘米=700毫米</li>
+        <li>3000毫米=3米（不是30米，1米=1000毫米）</li>
+      </ul>
+    </div>
+
+    <div class="xiaomei">
+      <span class="face" aria-hidden="true">👧</span>
+      <p>小美说：先判断单位是变大还是变小，再决定乘还是除，最后才数零的个数。</p>
+    </div>
+  </section>
+
+  <!-- ================= 7 ================= -->
+  <section class="card" id="s7" aria-labelledby="s7-title">
+    <div class="card-head">
+      <span class="card-num" aria-hidden="true">7</span>
+      <h2 id="s7-title">比大小先统一单位</h2>
+    </div>
+
+    <p class="lead">70毫米 ○ 6厘米，单位不一样，不能直接看数字。先把70毫米换成7厘米，再比。</p>
+
+    <div class="figure">
+      <svg viewBox="0 0 360 145" role="img" aria-label="按真实比例画出的两条长条：上面一条70毫米，也就是7厘米；下面一条6厘米。两条从同一起点开始，上面更长。">
+        <text x="20" y="24" font-size="20" font-weight="800" fill="#9a3412">70毫米 = 7厘米</text>
+        <rect x="20" y="34" width="280" height="32" rx="8" fill="#fb8500"/>
+        <text x="160" y="56" text-anchor="middle" font-size="19" font-weight="800" fill="#fff">7厘米</text>
+
+        <text x="20" y="94" font-size="20" font-weight="800" fill="#1d3f8a">6厘米</text>
+        <rect x="20" y="104" width="240" height="32" rx="8" fill="#3b82f6"/>
+        <text x="140" y="126" text-anchor="middle" font-size="19" font-weight="800" fill="#fff">6厘米</text>
+
+      </svg>
+    </div>
+    <p class="bars-caption">两条都从同一条竖线开始，按厘米的真实比例画。</p>
+
+    <div class="btn-row">
+      <button class="btn secondary" type="button" id="unifyBtn">先统一单位：70毫米 =（  ）厘米</button>
+    </div>
+
+    <div class="feedback good" id="unifyOut" hidden>70毫米 = 7厘米</div>
+
+    <p class="lead" style="margin-top:12px">现在两条都变成厘米了：7厘米 ○ 6厘米。选一个符号吧。</p>
+
+    <div class="sign-row" role="group" aria-label="选择70毫米和6厘米之间的比较符号">
+      <button class="sign-btn" type="button" data-sign=">">＞</button>
+      <button class="sign-btn" type="button" data-sign="<">＜</button>
+      <button class="sign-btn" type="button" data-sign="=">＝</button>
+    </div>
+
+    <div class="feedback" id="compareFeedback" aria-live="polite"></div>
+  </section>
+
+  <!-- ================= 8 ================= -->
+  <section class="card" id="s8" aria-labelledby="s8-title">
+    <div class="card-head">
+      <span class="card-num" aria-hidden="true">8</span>
+      <h2 id="s8-title">看清问的是哪个单位</h2>
+    </div>
+
+    <p class="lead">做题前先读题，再圈出单位。单位圈对了，才知道该用哪一把「尺子」。</p>
+
+    <div class="read-grid">
+      <div class="read-card">
+        <p class="read-q">铅笔粗约7<span class="unit-word">毫米</span>。</p>
+        <button class="btn ghost circle-btn" type="button">圈出单位</button>
+        <p class="read-note" hidden>单位是毫米。铅笔很细，比1厘米还细。</p>
+      </div>
+
+      <div class="read-card">
+        <p class="read-q">马拉松长跑全程约<span class="nowrap">42<span class="unit-word">千米</span>。</span></p>
+        <button class="btn ghost circle-btn" type="button">圈出单位</button>
+        <p class="read-note" hidden>单位是千米。很长的路程，用千米作单位。</p>
+      </div>
+    </div>
+
+    <div class="xiaomei">
+      <span class="face" aria-hidden="true">👧</span>
+      <p>小美说：先问自己「这个东西有多长」，再问「题目问的是哪个单位」，最后才换算。</p>
+    </div>
+  </section>
+
+  <!-- ================= 9 ================= -->
+  <section class="card" id="s9" aria-labelledby="s9-title">
+    <div class="card-head">
+      <span class="card-num" aria-hidden="true">9</span>
+      <h2 id="s9-title">27道练习：自己试一试</h2>
+    </div>
+
+    <div class="exercise-top">
+      <p class="exercise-progress">已对 <b id="exDone">0</b>/<span id="exTotal">27</span></p>
+      <button class="btn danger" type="button" id="clearAll">清空重来</button>
+    </div>
+
+    <p class="lead">填数字或选符号。答对就锁定，答错会给你一句提示，可以再试。</p>
+
+    <p class="all-done" id="allDone" hidden>🎉 27道全部答对了！小美给你点赞。</p>
+
+    <div class="q-list" id="questionList"></div>
+  </section>
+
+  <section id="kejian-report" aria-label="成绩单"></section>
+
+  <p class="footer">长度换算专题 · 小美陪你一级一级想清楚</p>
+</main>
+
+<script src="../common/report.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  const QUESTIONS = [
+ {
+  "id": "q1",
+  "type": "fill",
+  "text": "50分米 = （  ）厘米",
+  "answer": "500",
+  "unit": "厘米",
+  "tag": "几十分米→厘米",
+  "hint": "1分米=10厘米，50分米就是50个10厘米。",
+  "brief": "50分米=?厘米"
+ },
+ {
+  "id": "q2",
+  "type": "fill",
+  "text": "60分米 = （  ）厘米",
+  "answer": "600",
+  "unit": "厘米",
+  "tag": "几十分米→厘米",
+  "hint": "60个10厘米是多少？",
+  "brief": "60分米=?厘米"
+ },
+ {
+  "id": "q3",
+  "type": "fill",
+  "text": "30分米 = （  ）厘米",
+  "answer": "300",
+  "unit": "厘米",
+  "tag": "几十分米→厘米",
+  "hint": "30分米是30个10厘米。",
+  "brief": "30分米=?厘米"
+ },
+ {
+  "id": "q4",
+  "type": "fill",
+  "text": "800厘米 = （  ）分米",
+  "answer": "80",
+  "unit": "分米",
+  "tag": "厘米→分米",
+  "hint": "800厘米里面有几个10厘米？",
+  "brief": "800厘米=?分米"
+ },
+ {
+  "id": "q5",
+  "type": "fill",
+  "text": "800米 = （  ）分米",
+  "answer": "8000",
+  "unit": "分米",
+  "tag": "米→分米",
+  "hint": "1米=10分米，大单位换小单位，数要变大，800要×10。",
+  "brief": "800米=?分米"
+ },
+ {
+  "id": "q6",
+  "type": "fill",
+  "text": "400米 = （  ）分米",
+  "answer": "4000",
+  "unit": "分米",
+  "tag": "米→分米",
+  "hint": "1米=10分米，400个10分米是多少？",
+  "brief": "400米=?分米"
+ },
+ {
+  "id": "q7",
+  "type": "fill",
+  "text": "7分米 = （  ）毫米",
+  "answer": "700",
+  "unit": "毫米",
+  "tag": "分米→毫米(跨两格)",
+  "hint": "7分米=70厘米，再换成毫米还要×10。",
+  "brief": "7分米=?毫米"
+ },
+ {
+  "id": "q8",
+  "type": "fill",
+  "text": "3000毫米 = （  ）米",
+  "answer": "3",
+  "unit": "米",
+  "tag": "毫米→米(跨三格)",
+  "hint": "1米=1000毫米，3000毫米里面有几个1000毫米？",
+  "brief": "3000毫米=?米"
+ },
+ {
+  "id": "q9",
+  "type": "fill",
+  "text": "3厘米 = （  ）毫米",
+  "answer": "30",
+  "unit": "毫米",
+  "tag": "厘米→毫米",
+  "hint": "想：1厘米是10毫米，3厘米是3个10毫米。",
+  "brief": "3厘米=?毫米"
+ },
+ {
+  "id": "q10",
+  "type": "fill",
+  "text": "70厘米 = （  ）分米",
+  "answer": "7",
+  "unit": "分米",
+  "tag": "厘米→分米",
+  "hint": "想：10厘米是1分米，70厘米里面有几个10厘米？",
+  "brief": "70厘米=?分米"
+ },
+ {
+  "id": "q11",
+  "type": "fill",
+  "text": "3千米 = （  ）米",
+  "answer": "3000",
+  "unit": "米",
+  "tag": "千米→米",
+  "hint": "想：1千米是1000米，3千米是3个1000米。",
+  "brief": "3千米=?米"
+ },
+ {
+  "id": "q12",
+  "type": "fill",
+  "text": "5000米 = （  ）千米",
+  "answer": "5",
+  "unit": "千米",
+  "tag": "米→千米",
+  "hint": "想：1000米是1千米，5000米里面有几个1000米？",
+  "brief": "5000米=?千米"
+ },
+ {
+  "id": "q13",
+  "type": "fill",
+  "text": "5米 = （  ）分米",
+  "answer": "50",
+  "unit": "分米",
+  "tag": "米→分米",
+  "hint": "1米=10分米。",
+  "brief": "5米=?分米"
+ },
+ {
+  "id": "q14",
+  "type": "fill",
+  "text": "60毫米 = （  ）厘米",
+  "answer": "6",
+  "unit": "厘米",
+  "tag": "毫米→厘米",
+  "hint": "10毫米是1厘米，60毫米里面有几个10毫米？",
+  "brief": "60毫米=?厘米"
+ },
+ {
+  "id": "q15",
+  "type": "choice",
+  "text": "70毫米 ○ 6厘米",
+  "options": [
+   ">",
+   "<",
+   "="
+  ],
+  "answer": ">",
+  "tag": "比大小/先统一单位",
+  "hint": "先把70毫米换成厘米，再比。",
+  "brief": "70毫米○6厘米"
+ },
+ {
+  "id": "q16",
+  "type": "choice",
+  "text": "80厘米 ○ 7分米",
+  "options": [
+   ">",
+   "<",
+   "="
+  ],
+  "answer": ">",
+  "tag": "比大小/先统一单位",
+  "hint": "7分米=70厘米，再和80厘米比。",
+  "brief": "80厘米○7分米"
+ },
+ {
+  "id": "q17",
+  "type": "choice",
+  "text": "1分米 ○ 10厘米",
+  "options": [
+   ">",
+   "<",
+   "="
+  ],
+  "answer": "=",
+  "tag": "比大小/先统一单位",
+  "hint": "1分米是多少厘米？",
+  "brief": "1分米○10厘米"
+ },
+ {
+  "id": "q18",
+  "type": "choice",
+  "text": "90毫米 ○ 9厘米",
+  "options": [
+   ">",
+   "<",
+   "="
+  ],
+  "answer": "=",
+  "tag": "比大小/先统一单位",
+  "hint": "90毫米换成厘米是多少？",
+  "brief": "90毫米○9厘米"
+ },
+ {
+  "id": "q19",
+  "type": "choice",
+  "text": "4米 ○ 30分米",
+  "options": [
+   ">",
+   "<",
+   "="
+  ],
+  "answer": ">",
+  "tag": "比大小/先统一单位",
+  "hint": "4米=40分米，再和30分米比。",
+  "brief": "4米○30分米"
+ },
+ {
+  "id": "q20",
+  "type": "choice",
+  "text": "6分米 ○ 500毫米",
+  "options": [
+   ">",
+   "<",
+   "="
+  ],
+  "answer": ">",
+  "tag": "比大小/先统一单位",
+  "hint": "6分米=600毫米，再和500毫米比。",
+  "brief": "6分米○500毫米"
+ },
+ {
+  "id": "q21",
+  "type": "choice",
+  "text": "2千米 ○ 3000米",
+  "options": [
+   ">",
+   "<",
+   "="
+  ],
+  "answer": "<",
+  "tag": "比大小/先统一单位",
+  "hint": "2千米=2000米，再和3000米比。",
+  "brief": "2千米○3000米"
+ },
+ {
+  "id": "q22",
+  "type": "choice",
+  "text": "30厘米 ○ 2分米",
+  "options": [
+   ">",
+   "<",
+   "="
+  ],
+  "answer": ">",
+  "tag": "比大小/先统一单位",
+  "hint": "2分米=20厘米，再和30厘米比。",
+  "brief": "30厘米○2分米"
+ },
+ {
+  "id": "q23",
+  "type": "choice",
+  "text": "铅笔粗约7（  ）",
+  "options": [
+   "毫米",
+   "厘米",
+   "分米"
+  ],
+  "answer": "毫米",
+  "tag": "看清单位",
+  "hint": "铅笔很细，比1厘米还细。",
+  "brief": "铅笔粗约7（  ）"
+ },
+ {
+  "id": "q24",
+  "type": "choice",
+  "text": "马拉松长跑全程约42（  ）",
+  "options": [
+   "米",
+   "千米",
+   "分米"
+  ],
+  "answer": "千米",
+  "tag": "看清单位",
+  "hint": "很长的路程用千米作单位。",
+  "brief": "马拉松长跑全程约42（  ）"
+ },
+ {
+  "id": "q25",
+  "type": "choice",
+  "text": "语文书厚约6（  ）",
+  "options": [
+   "毫米",
+   "厘米",
+   "米"
+  ],
+  "answer": "毫米",
+  "tag": "看清单位",
+  "hint": "比身份证（约1毫米）厚几倍，不到1厘米。",
+  "brief": "语文书厚约6（  ）"
+ },
+ {
+  "id": "q26",
+  "type": "choice",
+  "text": "50分米 = 500（  ）",
+  "options": [
+   "毫米",
+   "厘米",
+   "米"
+  ],
+  "answer": "厘米",
+  "tag": "看清单位",
+  "hint": "1分米=10厘米，50个10就是500，单位是什么？",
+  "brief": "50分米 = 500（  ）"
+ },
+ {
+  "id": "q27",
+  "type": "choice",
+  "text": "800米 = 8000（  ）",
+  "options": [
+   "分米",
+   "厘米",
+   "千米"
+  ],
+  "answer": "分米",
+  "tag": "看清单位",
+  "hint": "1米=10分米，800×10=8000。",
+  "brief": "800米 = 8000（  ）"
+ }
+];
+  const KEY = 'changdu-zhuanti-progress-v1';
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+
+  function $(selector, root) {
+    return (root || document).querySelector(selector);
+  }
+
+  function $$(selector, root) {
+    return Array.prototype.slice.call((root || document).querySelectorAll(selector));
+  }
+
+  function esc(value) {
+    return String(value == null ? '' : value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function normalizeDigits(value) {
+    return String(value == null ? '' : value)
+      .replace(/[０-９]/g, function (ch) {
+        return String.fromCharCode(ch.charCodeAt(0) - 0xFEE0);
+      })
+      .replace(/[^0-9]/g, '')
+      .slice(0, 7);
+  }
+
+  /* ---------------- 进度 ---------------- */
+
+  function emptyProgress() {
+    return { solved: {}, answers: {}, wrong: {} };
+  }
+
+  function loadProgress() {
+    var data = emptyProgress();
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (!raw) return data;
+      var saved = JSON.parse(raw);
+      if (!saved || typeof saved !== 'object') return data;
+      if (saved.solved && typeof saved.solved === 'object') data.solved = saved.solved;
+      if (saved.answers && typeof saved.answers === 'object') data.answers = saved.answers;
+      if (saved.wrong && typeof saved.wrong === 'object') data.wrong = saved.wrong;
+    } catch (e) {}
+    return data;
+  }
+
+  var progress = loadProgress();
+
+  function saveProgress() {
+    try {
+      localStorage.setItem(KEY, JSON.stringify(progress));
+    } catch (e) {}
+  }
+
+  function solvedCount() {
+    var n = 0;
+    for (var i = 0; i < QUESTIONS.length; i++) {
+      if (progress.solved[QUESTIONS[i].id]) n++;
+    }
+    return n;
+  }
+
+  function updateProgressUI() {
+    var done = solvedCount();
+    var total = QUESTIONS.length;
+    var top = $('#topProgress');
+    if (top) top.textContent = '已对 ' + done + '/' + total;
+    var exDone = $('#exDone');
+    if (exDone) exDone.textContent = String(done);
+    var exTotal = $('#exTotal');
+    if (exTotal) exTotal.textContent = String(total);
+    var fill = $('#topFill');
+    if (fill) fill.style.width = (total ? (done / total * 100) : 0) + '%';
+    var allDone = $('#allDone');
+    if (allDone) allDone.hidden = done !== total;
+  }
+
+  /* ---------------- 练习 ---------------- */
+
+  function questionCardHTML(q, index) {
+    var tag = q.tag ? '<span class="q-tag">' + esc(q.tag) + '</span>' : '';
+    var head = '<div class="q-head"><span class="q-no">' + (index + 1) + '</span>' + tag + '</div>';
+    var text = '<p class="q-text">' + esc(q.text) + '</p>';
+
+    if (q.type === 'fill') {
+      var unit = q.unit || '';
+      var stemHasUnit = unit && String(q.text).indexOf(unit) !== -1;
+      var unitHtml = stemHasUnit ? '' : '<span class="answer-unit">' + esc(unit) + '</span>';
+      return '<article class="q-card" data-id="' + esc(q.id) + '" id="qcard-' + esc(q.id) + '">'
+        + head
+        + text
+        + '<div class="answer-row">'
+        + '<label class="sr-only" for="answer-' + esc(q.id) + '">第' + (index + 1) + '题答案</label>'
+        + '<input class="answer-input" id="answer-' + esc(q.id) + '" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" enterkeyhint="done" placeholder="数字">'
+        + unitHtml
+        + '<button class="btn primary q-submit" type="button">提交</button>'
+        + '</div>'
+        + '<div class="q-feedback" aria-live="polite"></div>'
+        + '</article>';
+    }
+
+    var options = '';
+    for (var i = 0; i < q.options.length; i++) {
+      options += '<button class="choice-btn" type="button" data-opt="' + esc(q.options[i]) + '">' + esc(q.options[i]) + '</button>';
+    }
+    return '<article class="q-card" data-id="' + esc(q.id) + '" id="qcard-' + esc(q.id) + '">'
+      + head
+      + text
+      + '<div class="choice-row" role="group" aria-label="第' + (index + 1) + '题选项">' + options + '</div>'
+      + '<div class="q-feedback" aria-live="polite"></div>'
+      + '</article>';
+  }
+
+  function setFeedback(card, kind, title, hint) {
+    var box = $('.q-feedback', card);
+    if (!box) return;
+    box.className = 'q-feedback feedback ' + kind;
+    var html = '<p class="fb-title">' + esc(title) + '</p>';
+    if (hint) html += '<p class="fb-hint">' + esc(hint) + '</p>';
+    box.innerHTML = html;
+  }
+
+  function lockFill(q, card, answer) {
+    var input = $('.answer-input', card);
+    var button = $('.q-submit', card);
+    card.classList.add('solved');
+    if (input) {
+      input.value = answer;
+      input.disabled = true;
+      input.classList.remove('bad');
+      input.classList.add('ok');
+    }
+    if (button) {
+      button.disabled = true;
+      button.textContent = '已答对';
+    }
+    setFeedback(card, 'good', '对了！');
+  }
+
+  function lockChoice(q, card, answer) {
+    card.classList.add('solved');
+    $$('.choice-btn', card).forEach(function (button) {
+      button.disabled = true;
+      if (button.getAttribute('data-opt') === String(answer)) {
+        button.classList.add('ok');
+        button.classList.remove('bad');
+      } else {
+        button.classList.remove('bad');
+      }
+    });
+    setFeedback(card, 'good', '对了！');
+  }
+
+  function setupFill(q, card) {
+    var input = $('.answer-input', card);
+    var button = $('.q-submit', card);
+    if (!input || !button) return;
+
+    input.addEventListener('input', function () {
+      var cleaned = normalizeDigits(input.value);
+      if (input.value !== cleaned) input.value = cleaned;
+      input.classList.remove('bad');
+    });
+
+    button.addEventListener('click', function () {
+      if (progress.solved[q.id]) return;
+      var raw = normalizeDigits(input.value);
+      if (!raw) {
+        setFeedback(card, 'warn', '先在方框里填一个数字。');
+        input.focus();
+        return;
+      }
+
+      if (Number(raw) === Number(q.answer)) {
+        progress.solved[q.id] = true;
+        progress.answers[q.id] = raw;
+        delete progress.wrong[q.id];
+        saveProgress();
+        lockFill(q, card, raw);
+        if (window.KejianReport && typeof KejianReport.pass === 'function') {
+          KejianReport.pass(q.id);
+        }
+        updateProgressUI();
+      } else {
+        progress.answers[q.id] = raw;
+        progress.wrong[q.id] = true;
+        saveProgress();
+        input.classList.add('bad');
+        setFeedback(card, 'bad', '再想想。', q.hint);
+        if (window.KejianReport && typeof KejianReport.miss === 'function') {
+          KejianReport.miss(q.id, raw);
+        }
+      }
+    });
+  }
+
+  function setupChoice(q, card) {
+    $$('.choice-btn', card).forEach(function (button) {
+      button.addEventListener('click', function () {
+        if (progress.solved[q.id]) return;
+        var value = button.getAttribute('data-opt');
+        if (value === String(q.answer)) {
+          progress.solved[q.id] = true;
+          progress.answers[q.id] = value;
+          delete progress.wrong[q.id];
+          saveProgress();
+          lockChoice(q, card, value);
+          if (window.KejianReport && typeof KejianReport.pass === 'function') {
+            KejianReport.pass(q.id);
+          }
+          updateProgressUI();
+        } else {
+          progress.answers[q.id] = value;
+          progress.wrong[q.id] = true;
+          saveProgress();
+          button.classList.add('bad');
+          button.disabled = true;
+          setFeedback(card, 'bad', '再想想。', q.hint);
+          if (window.KejianReport && typeof KejianReport.miss === 'function') {
+            KejianReport.miss(q.id, value);
+          }
+        }
+      });
+    });
+  }
+
+  function restoreQuestion(q, card) {
+    var savedAnswer = progress.answers[q.id];
+    if (progress.solved[q.id]) {
+      var correctAnswer = savedAnswer == null ? q.answer : savedAnswer;
+      if (q.type === 'fill') {
+        lockFill(q, card, correctAnswer);
+      } else {
+        lockChoice(q, card, correctAnswer);
+      }
+      return;
+    }
+
+    if (savedAnswer == null) return;
+
+    if (q.type === 'fill') {
+      var input = $('.answer-input', card);
+      if (input) input.value = savedAnswer;
+      if (progress.wrong[q.id]) {
+        setFeedback(card, 'warn', '上次没做对，再试一次。', q.hint);
+      }
+    } else {
+      var chosen = $$('.choice-btn', card).filter(function (button) {
+        return button.getAttribute('data-opt') === String(savedAnswer);
+      })[0];
+      if (chosen) {
+        chosen.classList.add('bad');
+        chosen.disabled = true;
+      }
+      if (progress.wrong[q.id]) {
+        setFeedback(card, 'warn', '上次没做对，换一个试试。', q.hint);
+      }
+    }
+  }
+
+  function renderQuestions() {
+    var list = $('#questionList');
+    if (!list) return;
+    var html = '';
+    for (var i = 0; i < QUESTIONS.length; i++) {
+      html += questionCardHTML(QUESTIONS[i], i);
+    }
+    list.innerHTML = html;
+
+    for (var j = 0; j < QUESTIONS.length; j++) {
+      var q = QUESTIONS[j];
+      var card = $('#qcard-' + q.id);
+      if (!card) continue;
+      if (q.type === 'fill') setupFill(q, card);
+      else setupChoice(q, card);
+      restoreQuestion(q, card);
+    }
+    updateProgressUI();
+  }
+
+  var clearButton = $('#clearAll');
+  if (clearButton) {
+    clearButton.addEventListener('click', function () {
+      var ok = window.confirm('确定要清空全部27道题的进度，重新开始吗？');
+      if (!ok) return;
+      progress = emptyProgress();
+      try {
+        localStorage.removeItem(KEY);
+      } catch (e) {}
+      if (window.KejianReport && typeof KejianReport.clear === 'function') {
+        KejianReport.clear();
+      }
+      renderQuestions();
+    });
+  }
+
+  /* ---------------- 1. 直尺 ---------------- */
+
+  var mmCount = 0;
+  var rulerX = 20;
+  var rulerMmStep = 320 / 30;
+
+  function buildRuler() {
+    var ticks = $('#rulerTicks');
+    var labels = $('#rulerLabels');
+    if (!ticks || !labels) return;
+    for (var i = 0; i <= 30; i++) {
+      var isMajor = i % 10 === 0;
+      var isHalf = i % 5 === 0;
+      var line = document.createElementNS(SVG_NS, 'line');
+      var x = rulerX + i * rulerMmStep;
+      line.setAttribute('x1', x);
+      line.setAttribute('x2', x);
+      line.setAttribute('y1', 24);
+      line.setAttribute('y2', isMajor ? 58 : (isHalf ? 51 : 45));
+      line.setAttribute('stroke', '#3b2a12');
+      line.setAttribute('stroke-width', isMajor ? 3 : (isHalf ? 2 : 1.2));
+      ticks.appendChild(line);
+
+      if (isMajor) {
+        var text = document.createElementNS(SVG_NS, 'text');
+        text.setAttribute('x', x);
+        text.setAttribute('y', 80);
+        text.setAttribute('text-anchor', i === 0 ? 'start' : (i === 30 ? 'end' : 'middle'));
+        text.setAttribute('font-size', '24');
+        text.setAttribute('font-weight', '800');
+        text.setAttribute('fill', '#5a3d00');
+        text.textContent = String(i / 10);
+        labels.appendChild(text);
+      }
+    }
+  }
+
+  function paintMm() {
+    var readout = $('#mmReadout');
+    var fill = $('#mmFill');
+    var marker = $('#mmMarker');
+    var feedback = $('#mmFeedback');
+    var countButton = $('#countMm');
+    if (readout) readout.innerHTML = '已数 <b>' + mmCount + '</b> 毫米';
+    if (fill) {
+      fill.setAttribute('width', mmCount * rulerMmStep);
+      fill.setAttribute('fill', mmCount >= 10 ? '#2fa36b' : '#fb8500');
+    }
+    if (marker) {
+      marker.setAttribute('x1', rulerX + mmCount * rulerMmStep);
+      marker.setAttribute('x2', rulerX + mmCount * rulerMmStep);
+      marker.setAttribute('opacity', mmCount > 0 ? '1' : '0');
+    }
+    if (countButton) countButton.disabled = mmCount >= 10;
+    if (feedback) {
+      if (mmCount >= 10) {
+        feedback.className = 'feedback good';
+        feedback.innerHTML = '<p><b>1厘米=10毫米</b></p><p>10个1毫米，正好是1厘米。</p>';
+      } else if (mmCount > 0) {
+        feedback.className = 'feedback warn';
+        feedback.textContent = '再数 ' + (10 - mmCount) + ' 小格，就到1厘米。';
+      } else {
+        feedback.className = 'feedback';
+        feedback.textContent = '';
+      }
+    }
+  }
+
+  buildRuler();
+  paintMm();
+
+  var countMmButton = $('#countMm');
+  if (countMmButton) {
+    countMmButton.addEventListener('click', function () {
+      if (mmCount < 10) {
+        mmCount++;
+        paintMm();
+      }
+    });
+  }
+
+  var resetMmButton = $('#resetMm');
+  if (resetMmButton) {
+    resetMmButton.addEventListener('click', function () {
+      mmCount = 0;
+      paintMm();
+    });
+  }
+
+  /* ---------------- 2. 分米 ---------------- */
+
+  var dmCut = false;
+  var dmBlocks = [];
+  var dmStrip = $('#dmStrip');
+
+  function buildDmStrip() {
+    if (!dmStrip) return;
+    for (var i = 1; i <= 10; i++) {
+      var button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'dm-block';
+      button.style.setProperty('--i', i);
+      button.setAttribute('aria-pressed', 'false');
+      button.setAttribute('aria-label', '第' + i + '个1厘米小块');
+      button.disabled = true;
+      button.innerHTML = '<span class="n">1</span><span class="u">厘米</span>';
+      button.addEventListener('click', function () {
+        if (!dmCut) return;
+        var lit = this.classList.toggle('lit');
+        this.setAttribute('aria-pressed', lit ? 'true' : 'false');
+        paintDm();
+      });
+      dmBlocks.push(button);
+      dmStrip.appendChild(button);
+    }
+  }
+
+  function paintDm() {
+    var litCount = 0;
+    for (var i = 0; i < dmBlocks.length; i++) {
+      if (dmBlocks[i].classList.contains('lit')) litCount++;
+    }
+    var count = $('#dmCount');
+    if (count) count.textContent = '已点亮 ' + litCount + ' 块，也就是 ' + litCount + ' 厘米';
+    var feedback = $('#dmFeedback');
+    if (!feedback) return;
+    if (litCount >= 10) {
+      feedback.className = 'feedback good';
+      feedback.innerHTML = '<p><b>10厘米 = 1分米</b></p><p>10个1厘米小块合起来，就是1分米。</p>';
+    } else if (dmCut) {
+      feedback.className = 'feedback warn';
+      feedback.textContent = '点一点小方块，把它们点亮。已经点亮 ' + litCount + ' 厘米。';
+    } else {
+      feedback.className = 'feedback';
+      feedback.textContent = '';
+    }
+  }
+
+  buildDmStrip();
+
+  var cutDmButton = $('#cutDm');
+  if (cutDmButton) {
+    cutDmButton.addEventListener('click', function () {
+      if (dmCut) return;
+      dmCut = true;
+      if (dmStrip) dmStrip.classList.add('cut');
+      dmBlocks.forEach(function (block) { block.disabled = false; });
+      cutDmButton.disabled = true;
+      cutDmButton.textContent = '已经切开';
+      paintDm();
+    });
+  }
+
+  var resetDmButton = $('#resetDm');
+  if (resetDmButton) {
+    resetDmButton.addEventListener('click', function () {
+      dmCut = false;
+      if (dmStrip) dmStrip.classList.remove('cut');
+      dmBlocks.forEach(function (block) {
+        block.classList.remove('lit');
+        block.disabled = true;
+        block.setAttribute('aria-pressed', 'false');
+      });
+      if (cutDmButton) {
+        cutDmButton.disabled = false;
+        cutDmButton.textContent = '切开';
+      }
+      var feedback = $('#dmFeedback');
+      if (feedback) {
+        feedback.className = 'feedback';
+        feedback.textContent = '';
+      }
+      paintDm();
+    });
+  }
+
+  /* ---------------- 3. 阶梯 ---------------- */
+
+  var UNIT_NAMES = { 4: '千米', 3: '米', 2: '分米', 1: '厘米', 0: '毫米' };
+
+  function factorDown(fromIndex, toIndex) {
+    var factor = 1;
+    for (var i = fromIndex; i > toIndex; i--) {
+      factor *= (i === 4 ? 1000 : 10);
+    }
+    return factor;
+  }
+
+  function updateLadder() {
+    var fromSelect = $('#fromUnit');
+    var toSelect = $('#toUnit');
+    if (!fromSelect || !toSelect) return;
+    var from = Number(fromSelect.value);
+    var to = Number(toSelect.value);
+    var factorLine = $('#ladderFactor');
+    var eqLine = $('#ladderEq');
+    var explain = $('#ladderExplain');
+    if (!factorLine || !eqLine || !explain) return;
+
+    var fromName = UNIT_NAMES[from];
+    var toName = UNIT_NAMES[to];
+
+    if (from === to) {
+      factorLine.innerHTML = '不用乘除';
+      eqLine.textContent = '起点和终点都是' + fromName;
+      explain.textContent = '同一个单位，数不变，不用乘也不用除。';
+      return;
+    }
+
+    if (from > to) {
+      var factor = factorDown(from, to);
+      factorLine.innerHTML = '<span class="op">×</span> ' + factor;
+      eqLine.textContent = '1 ' + fromName + ' = ' + factor + ' ' + toName;
+      explain.textContent = fromName + '是比' + toName + '大的单位，大单位换小单位，数变大，要乘' + factor + '。';
+    } else {
+      var divideFactor = factorDown(to, from);
+      factorLine.innerHTML = '<span class="op divide">÷</span> ' + divideFactor;
+      eqLine.textContent = divideFactor + ' ' + fromName + ' = 1 ' + toName;
+      explain.textContent = fromName + '是比' + toName + '小的单位，小单位换大单位，数变小，要除' + divideFactor + '。';
+    }
+  }
+
+  var fromUnitSelect = $('#fromUnit');
+  var toUnitSelect = $('#toUnit');
+  if (fromUnitSelect) fromUnitSelect.addEventListener('input', updateLadder);
+  if (toUnitSelect) toUnitSelect.addEventListener('input', updateLadder);
+  updateLadder();
+
+  /* ---------------- 4. 点一下揭晓 ---------------- */
+
+  $$('.think').forEach(function (button) {
+    button.addEventListener('click', function () {
+      var open = button.classList.toggle('open');
+      button.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
+
+  /* ---------------- 5. 滑块 ---------------- */
+
+  var dmSlider = $('#dmSlider');
+  var stripList = $('#stripList');
+  var liveEq = $('#liveEq');
+  var dmValue = $('#dmValue');
+  var stripCount = $('#stripCount');
+
+  function updateSlider() {
+    if (!dmSlider) return;
+    var value = Number(dmSlider.value);
+    if (dmValue) dmValue.textContent = String(value);
+    if (stripCount) stripCount.textContent = '下面是 ' + value + ' 个「10厘米」小条';
+    if (stripList) {
+      var html = '';
+      for (var i = 0; i < value; i++) {
+        html += '<span class="ten-strip">10厘米</span>';
+      }
+      stripList.innerHTML = html;
+    }
+    if (liveEq) {
+      liveEq.textContent = value + '分米 = ' + value + '个10厘米 = ' + (value * 10) + '厘米';
+    }
+  }
+
+  if (dmSlider) dmSlider.addEventListener('input', updateSlider);
+  updateSlider();
+
+  /* ---------------- 7. 比大小 ---------------- */
+
+  var unifyButton = $('#unifyBtn');
+  var unifyOut = $('#unifyOut');
+  if (unifyButton && unifyOut) {
+    unifyButton.addEventListener('click', function () {
+      unifyOut.hidden = false;
+      unifyOut.textContent = '70毫米 = 7厘米';
+      unifyButton.disabled = true;
+      unifyButton.textContent = '已经统一成厘米了';
+    });
+  }
+
+  var compareFeedback = $('#compareFeedback');
+  $$('.sign-btn').forEach(function (button) {
+    button.addEventListener('click', function () {
+      var sign = button.getAttribute('data-sign');
+      if (!compareFeedback) return;
+
+      if (sign === '>') {
+        button.classList.add('ok');
+        compareFeedback.className = 'feedback good';
+        compareFeedback.innerHTML = '<p>对了！70毫米 = 7厘米，7厘米 &gt; 6厘米，所以 70毫米 &gt; 6厘米。</p>';
+      } else {
+        button.classList.add('bad');
+        window.setTimeout(function () {
+          button.classList.remove('bad');
+        }, 600);
+        compareFeedback.className = 'feedback bad';
+        compareFeedback.innerHTML = '<p>先把70毫米换成7厘米，再和6厘米比。7厘米比6厘米长。</p>';
+      }
+    });
+  });
+
+  /* ---------------- 8. 圈单位 ---------------- */
+
+  $$('.read-card').forEach(function (card) {
+    var word = $('.unit-word', card);
+    var button = $('.circle-btn', card);
+    var note = $('.read-note', card);
+    if (!word || !button || !note) return;
+    button.addEventListener('click', function () {
+      word.classList.add('circled');
+      note.hidden = false;
+      button.disabled = true;
+      button.textContent = '已圈出 ✓';
+    });
+  });
+
+  /* ---------------- 初始化 ---------------- */
+
+  renderQuestions();
+
+  if (window.KejianReport && typeof KejianReport.mount === 'function') {
+    KejianReport.mount({
+      id: 'changdu-zhuanti',
+      name: '长度换算专题',
+      questions: QUESTIONS.map(q => ({ id: q.id, brief: q.brief, tag: q.tag }))
+    });
+  }
+})();
+</script>
+</body>
+</html>
