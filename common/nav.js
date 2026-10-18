@@ -76,8 +76,8 @@
     bar.id = 'siteNav';
     bar.className = 'site-nav';
     var work = opts.report ? '<button type="button" class="sn-btn" id="snWork">交作业</button>' : '';
-    bar.innerHTML = '<a class="sn-btn" href="' + (opts.dir || '../index.html') + '">目录</a>' +
-      '<button type="button" class="sn-btn" id="snHome">主页</button>' +
+    bar.innerHTML = '<a class="sn-btn" href="' + (opts.dir || '../index.html') + '">🏠 回总目录</a>' +
+      '<button type="button" class="sn-btn" id="snHome">本页开头</button>' +
       '<button type="button" class="sn-btn" id="snMap">关卡</button>' +
       '<div class="sn-title">' + (opts.title || '') + '</div>' +
       '<div class="sn-prog" id="snProg"></div>' + work;

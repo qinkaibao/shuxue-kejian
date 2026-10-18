@@ -82,8 +82,8 @@
   function header() {
     var d = doneCount();
     return '<div class="hdr">' +
-      '<a class="hbtn" href="../index.html">目录</a>' +
-      '<button type="button" class="hbtn" data-act="home">主页</button>' +
+      '<a class="hbtn" href="../index.html">🏠 回总目录</a>' +
+      '<button type="button" class="hbtn" data-act="home">本页开头</button>' +
       '<button type="button" class="hbtn" data-act="map">关卡</button>' +
       '<div class="htitle">' + esc(cfg.title) + '</div>' +
       '<div class="prog"><div class="pbar"><div class="pfill" style="width:' + (TOTAL ? d / TOTAL * 100 : 0) + '%"></div></div>' +
