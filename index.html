@@ -28,6 +28,7 @@
   html {
     font-size: 20px;
     scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--home-bar-h, 48px) + 8px);
     -webkit-text-size-adjust: 100%;
   }
 
@@ -57,7 +58,7 @@
     width: 100%;
     max-width: 1120px;
     margin: 0 auto;
-    padding: 12px 14px 44px;
+    padding: calc(var(--home-bar-h, 48px) + 8px) 14px 44px;
   }
 
   .hero {
@@ -119,29 +120,52 @@
     text-wrap: balance;
   }
 
-  .guide-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+  .home-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 40;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 6px;
+    overflow-x: auto;
+    margin: 0;
+    padding: calc(6px + env(safe-area-inset-top, 0px)) max(10px, env(safe-area-inset-right, 0px)) 6px max(10px, env(safe-area-inset-left, 0px));
+    background: #fff8e7;
+    box-shadow: 0 2px 0 #f1c26b;
   }
 
   .guide-btn {
-    display: flex;
+    display: inline-flex;
+    flex: 0 0 auto;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    min-height: 72px;
-    padding: 12px 10px;
+    gap: 4px;
+    min-height: 34px;
+    padding: 0 10px;
     border: 2px solid rgba(255, 255, 255, .6);
-    border-radius: 20px;
+    border-radius: 12px;
     color: #4a2c00;
-    font-size: 26px;
+    font-size: 16px;
     font-weight: 800;
     line-height: 1.2;
     text-align: center;
     text-decoration: none;
-    box-shadow: 0 6px 0 #e0a800;
+    white-space: nowrap;
+    box-shadow: 0 2px 0 #e0a800;
     touch-action: manipulation;
+  }
+
+  .sum-line {
+    flex: 0 0 auto;
+    margin: 0 0 0 auto;
+    color: #6b4708;
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.2;
+    white-space: nowrap;
   }
 
   .guide-story {
@@ -150,16 +174,16 @@
 
   .guide-practice {
     background: linear-gradient(135deg, #ffd8a8, #ffb35c);
-    box-shadow: 0 6px 0 #d97b00;
+    box-shadow: 0 2px 0 #d97b00;
   }
 
   .guide-btn:active {
-    transform: translateY(4px);
-    box-shadow: 0 2px 0 #e0a800;
+    transform: translateY(2px);
+    box-shadow: 0 0 0 #e0a800;
   }
 
   .guide-practice:active {
-    box-shadow: 0 2px 0 #d97b00;
+    box-shadow: 0 0 0 #d97b00;
   }
 
   .guide-btn:focus-visible,
@@ -192,7 +216,12 @@
 
   .section {
     min-width: 0;
-    scroll-margin-top: 16px;
+    scroll-margin-top: calc(var(--home-bar-h, 48px) + 12px);
+  }
+
+  #stories,
+  #practice {
+    scroll-margin-top: calc(var(--home-bar-h, 48px) + 12px);
   }
 
   .section-head {
@@ -400,17 +429,20 @@
     text-align: center;
   }
 
+  @media (max-width: 700px) {
+    .guide-btn { min-height: 32px; padding: 0 8px; font-size: 15px; }
+    .sum-line { font-size: 13px; }
+  }
+
   @media (max-width: 370px) {
     #app { padding-inline: 10px; }
     .guide { padding-inline: 12px; }
-    .guide-actions { gap: 8px; }
-    .guide-btn { min-height: 68px; font-size: 22px; gap: 5px; }
     .card h3 { font-size: 24px; }
   }
 
   @media (min-width: 760px) {
     #app {
-      padding: 20px 22px 56px;
+      padding: calc(var(--home-bar-h, 48px) + 8px) 22px 56px;
     }
 
     .hero {
@@ -449,6 +481,11 @@
 </style>
 </head>
 <body>
+<nav class="home-bar" aria-label="快速开始">
+  <a class="guide-btn guide-story" href="#stories">📖 读故事</a>
+  <a class="guide-btn guide-practice" href="#practice">✏️ 做练习</a>
+  <p class="sum-line" id="sumLine">练习星还没点亮</p>
+</nav>
 <div id="app">
   <header class="hero">
     <p class="kicker"><span aria-hidden="true">🌞</span> 三年级 · 数学小书房</p>
@@ -458,10 +495,6 @@
 
   <section class="guide" aria-labelledby="guideLead">
     <p class="guide-lead" id="guideLead">先读一个小故事，再去做练习吧！</p>
-    <nav class="guide-actions" aria-label="快速开始">
-      <a class="guide-btn guide-story" href="#stories">📖 读故事</a>
-      <a class="guide-btn guide-practice" href="#practice">✏️ 做练习</a>
-    </nav>
     <p class="guide-progress" id="guideProgress" aria-live="polite">正在读练习进度…</p>
   </section>
 
@@ -857,8 +890,28 @@ function paintSummary() {
   el.innerHTML = line;
 }
 
+/* 汇总句与 PR #14 之前的根首页（402ce9b index.html 的 paintCatalog）相同：
+   只加闯关 math_shenti_v1、错题练习册 lianxi_kejian_v1、长度换算 danwei-lianxi-v1。
+   河灯 changdu-hedeng-v1 的门数不进这句。72 = 15 + 31 + 26。 */
+function paintSumLine() {
+  var s = stats();
+  var stars = s.cg.stars + s.lx.stars + s.dw.stars;
+  var done = s.cg.done + s.lx.done + s.dw.done;
+  var line = document.getElementById('sumLine');
+  if (line) line.textContent = stars ? ('练习 ★ ' + stars + ' · 完成 ' + done + '/72') : '练习星还没点亮';
+}
+
+function syncHomeBar() {
+  var bar = document.querySelector('.home-bar');
+  if (!bar) return;
+  document.documentElement.style.setProperty('--home-bar-h', bar.offsetHeight + 'px');
+}
+
 paintCards();
 paintSummary();
+paintSumLine();
+syncHomeBar();
+window.addEventListener('resize', syncHomeBar);
 </script>
 </body>
 </html>
