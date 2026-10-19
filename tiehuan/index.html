@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#fff8e7">
+<title>铁环扣在一起有多长</title>
+<link rel="stylesheet" href="../common/play.css">
+<style>
+  body, button, input, svg {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", "WenQuanYi Micro Hei", sans-serif;
+  }
+  .hdr { display: none !important; }
+  #app { padding-top: 8px !important; }
+  body.has-site-nav :where(#step, .qtext, .card, .bigbtn, .sec) {
+    scroll-margin-top: calc(var(--sn-h, 46px) + 12px);
+  }
+  .lab-lead { margin: 0 0 10px; font-size: 22px; }
+  .ctrls { display: flex; flex-direction: column; gap: 8px; margin: 8px 0 12px; }
+  .ctrl {
+    display: flex; align-items: center; gap: 8px;
+    background: #fff8e7; border-radius: 16px; padding: 6px 8px 6px 12px;
+  }
+  .ctrl span { flex: 1; font-weight: bold; font-size: 22px; color: #5a3d00; }
+  .ctrl b { min-width: 92px; text-align: center; font-size: 28px; color: #c2410c; }
+  .ctrl button {
+    width: 56px; height: 56px; border: none; border-radius: 14px;
+    background: #ffd166; color: #5a3d00; font-size: 32px; font-weight: bold;
+    box-shadow: 0 3px 0 #e0a800; line-height: 1;
+  }
+  .ctrl button:active { transform: translateY(2px); box-shadow: 0 1px 0 #e0a800; }
+  .ctrl button:disabled { opacity: .38; transform: none; }
+  .stage {
+    overflow-x: auto; text-align: center; margin: 4px 0 0;
+    -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
+  }
+  .stage.is-drag { touch-action: none; }
+  #labSvg { display: inline-block; vertical-align: top; max-width: none; touch-action: pan-y; user-select: none; }
+  #labSvg [data-ring] { cursor: grab; touch-action: none; }
+  .stage.is-drag #labSvg [data-ring] { cursor: grabbing; }
+  .drag-tip { margin: 6px 0 0; text-align: center; color: #7a4b00; font-size: 20px; font-weight: bold; }
+  .stats { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 12px; }
+  .stats div {
+    display: flex; justify-content: space-between; align-items: center;
+    background: #fff3d6; border-radius: 16px; padding: 10px 14px;
+  }
+  .stats small { font-size: 22px; color: #7a4b00; font-weight: bold; }
+  .stats b { font-size: 32px; color: #c2410c; line-height: 1.1; }
+  .formula {
+    margin: 12px 0 0; text-align: center; font-size: 26px; font-weight: bold;
+    color: #1f3b73; line-height: 1.45;
+  }
+  .ruleline {
+    margin: 8px 0 0; text-align: center; font-size: 22px; font-weight: bold;
+    color: #9a4b00; background: #fff4e0; border-radius: 14px; padding: 10px 12px;
+  }
+  .lab-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+  .lab-actions .wide { grid-column: 1 / -1; }
+  .lab-actions .stepbtn { margin: 0; }
+  .lab-actions .stepbtn:disabled { opacity: .4; }
+  .ans { color: #c62828; font-weight: bold; font-size: 26px; margin: 8px 0; }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+  @media (max-width: 520px) {
+    .ctrl { flex-wrap: wrap; }
+    .ctrl span { flex: 1 0 100%; }
+    .ctrl b { flex: 1; min-width: 0; }
+  }
+  @media (max-width: 380px) {
+    .lab-actions { grid-template-columns: 1fr; }
+    .stats b { font-size: 28px; }
+    .formula { font-size: 22px; }
+  }
+  @media (min-width: 760px) {
+    .ctrls { flex-direction: row; }
+    .ctrl { flex: 1; }
+    .stats { grid-template-columns: repeat(3, 1fr); }
+    .stats div { display: block; text-align: center; }
+    .stats small { display: block; margin-bottom: 4px; }
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<template id="homeExtra">
+  <h2 class="sec">动手扣一扣</h2>
+  <div class="card" id="labCard">
+    <p class="lab-lead">小美有一串同样的铁环。按住环左右拖，或点按钮一个个扣上、拉开。黄颜色的地方就是扣口叠住的边。</p>
+    <div class="ctrls">
+      <div class="ctrl">
+        <span>环的个数</span>
+        <button type="button" id="nMinus" aria-label="减少环的个数">−</button>
+        <b id="nVal">3</b>
+        <button type="button" id="nPlus" aria-label="增加环的个数">+</button>
+      </div>
+      <div class="ctrl">
+        <span>每个环长</span>
+        <button type="button" id="lenMinus" aria-label="把环缩短">−</button>
+        <b id="lenVal">10 厘米</b>
+        <button type="button" id="lenPlus" aria-label="把环加长">+</button>
+      </div>
+      <div class="ctrl">
+        <span>铁环厚度</span>
+        <button type="button" id="thickMinus" aria-label="把环变薄">−</button>
+        <b id="thickVal">1 厘米</b>
+        <button type="button" id="thickPlus" aria-label="把环变厚">+</button>
+      </div>
+    </div>
+    <div class="stage" id="labStage">
+      <svg id="labSvg" role="img" aria-labelledby="labDesc"></svg>
+    </div>
+    <p id="labDesc" class="sr-only"></p>
+    <p class="drag-tip">按住环，左右拖。扣紧时会吸住。</p>
+    <div class="stats" aria-live="polite">
+      <div><small>扣口数</small><b id="statJoints">0</b></div>
+      <div><small>重叠总长</small><b id="statOverlap">0 厘米</b></div>
+      <div><small>总长</small><b id="statTotal">0 厘米</b></div>
+    </div>
+    <p class="formula" id="formula"></p>
+    <p class="ruleline">规律：总长 = 环长 × 个数 − 2 × 厚度 ×（个数 − 1）</p>
+    <div class="lab-actions">
+      <button type="button" class="stepbtn" id="btnLink">扣上下一个</button>
+      <button type="button" class="stepbtn" id="btnPull">拉开一个</button>
+      <button type="button" class="stepbtn wide" id="btnStory">回到原题：3 个环，每个 10 厘米</button>
+    </div>
+    <p class="say" id="xiaomei"></p>
+  </div>
+  <h2 class="sec">小美讲原题</h2>
+  <div class="card">
+    <p>三个同样的铁环扣在一起，总长 26 厘米，铁环厚 1 厘米。每个铁环长多少厘米？</p>
+    <p>每扣一处，两个环的边叠在一起：1 + 1 = 2 厘米。</p>
+    <p>3 个环扣在一起有 2 处，一共少了 2 × 2 = 4 厘米。</p>
+    <p>3 个环没扣时的总长：26 + 4 = 30 厘米。</p>
+    <p class="ans">每个环长：30 ÷ 3 = 10 厘米。</p>
+    <p>验算：10 × 3 − 4 = 26 厘米。</p>
+    <p>上面先把环拉开，再一个个扣上，就能看见 30 厘米变成 26 厘米。看懂了，再做下面的变式题。</p>
+  </div>
+</template>
+<p class="catline" style="margin:18px 12px 28px;padding:14px 16px;background:#fffdf8;border-radius:16px;box-shadow:0 3px 0 #f1c26b;font-size:20px;line-height:1.6">本页练习：<a style="color:#1d5fd0;font-weight:bold" href="../cuoti/#cat-%E9%95%BF%E5%BA%A6%E5%8D%95%E4%BD%8D%E4%B8%8E%E6%8D%A2%E7%AE%97">长度单位与换算</a></p>
+<script src="../common/report.js"></script>
+<script src="../common/nav.js"></script>
+<script src="../common/play.js"></script>
+<script src="questions.js"></script>
+<script>
+(function () {
+  var COLORS = ['#e57373', '#64b5f6', '#81c784', '#ffb74d', '#9575cd'];
+  var MAX_GAP = 4;
+  var state = null;
+  var goalGaps = null;
+  var animToken = 0;
+  var labApi = { api: null, scale: 1, drag: null };
+
+  function clamp(n, a, b) { return Math.max(a, Math.min(b, n)); }
+  function clampInt(n, a, b, fallback) {
+    n = Math.round(Number(n));
+    if (!isFinite(n)) return fallback;
+    return clamp(n, a, b);
+  }
+  function fmt(n) {
+    var r = Math.round(n * 10) / 10;
+    if (Math.abs(r - Math.round(r)) < 0.05) return String(Math.round(r));
+    return r.toFixed(1);
+  }
+  function chainTotal(len, count, thick) {
+    return len * count - 2 * thick * (count - 1);
+  }
+  function $(id) { return document.getElementById(id); }
+
+  function sanitize(s) {
+    var n = clampInt(s && s.n, 2, 5, 3);
+    var thick = clampInt(s && s.thick, 1, 3, 1);
+    var len = clampInt(s && s.len, 6, 20, 10);
+    if (len < thick * 2 + 2) len = thick * 2 + 2;
+    if (len > 20) len = 20;
+    var gaps = [];
+    var src = (s && s.gaps) || [];
+    for (var i = 0; i < n - 1; i++) {
+      var g = Number(src[i]);
+      if (!isFinite(g)) g = 0;
+      gaps.push(clamp(g, -2 * thick, MAX_GAP));
+    }
+    return { n: n, len: len, thick: thick, gaps: gaps };
+  }
+
+  function saveLab() {
+    if (!labApi.api) return;
+    labApi.api.raw().lab = {
+      n: state.n, len: state.len, thick: state.thick, gaps: state.gaps.slice()
+    };
+    labApi.api.save();
+  }
+
+  function spanCm() {
+    var s = state.n * state.len;
+    for (var i = 0; i < state.gaps.length; i++) s += state.gaps[i];
+    return s;
+  }
+  function overlaps() {
+    var list = [];
+    for (var i = 0; i < state.gaps.length; i++) {
+      var ov = state.gaps[i] < -0.05 ? -state.gaps[i] : 0;
+      list.push(ov);
+    }
+    return list;
+  }
+  function overlapSum(list) {
+    var s = 0;
+    for (var i = 0; i < list.length; i++) s += list[i];
+    return s;
+  }
+  function jointCount(list) {
+    var n = 0;
+    for (var i = 0; i < list.length; i++) if (list[i] > 0.05) n++;
+    return n;
+  }
+  function positiveGap() {
+    var s = 0;
+    for (var i = 0; i < state.gaps.length; i++) if (state.gaps[i] > 0.05) s += state.gaps[i];
+    return s;
+  }
+
+  function limits() {
+    return {
+      nMin: state.n <= 2,
+      nMax: state.n >= 5,
+      lenMin: state.len <= Math.max(6, state.thick * 2 + 2),
+      lenMax: state.len >= 20,
+      thickMin: state.thick <= 1,
+      thickMax: state.thick >= 3 || state.len < (state.thick + 1) * 2 + 2
+    };
+  }
+
+  function paintControls() {
+    var lim = limits();
+    $('nVal').textContent = String(state.n);
+    $('lenVal').textContent = state.len + ' 厘米';
+    $('thickVal').textContent = state.thick + ' 厘米';
+    $('nMinus').disabled = lim.nMin;
+    $('nPlus').disabled = lim.nMax;
+    $('lenMinus').disabled = lim.lenMin;
+    $('lenPlus').disabled = lim.lenMax;
+    $('thickMinus').disabled = lim.thickMin;
+    $('thickPlus').disabled = lim.thickMax;
+    var shown = goalGaps || state.gaps;
+    var canLink = shown.some(function (g) { return g > -2 * state.thick + 0.05; });
+    var canPull = shown.some(function (g) { return g < -0.05; });
+    $('btnLink').disabled = !canLink;
+    $('btnPull').disabled = !canPull;
+  }
+
+  function speak(list) {
+    var joints = jointCount(list);
+    var ov = overlapSum(list);
+    var span = spanCm();
+    var full = joints === state.n - 1 && positiveGap() < 0.05;
+    if (state.n === 3 && state.len === 10 && state.thick === 1 && full && Math.abs(span - 26) < 0.05) {
+      return '小美：全部扣好了。每处叠 1 + 1 = 2 厘米，两处一共 4 厘米。10 × 3 − 4 = 26。每个环就是 10 厘米。';
+    }
+    if (full) {
+      return '小美：' + state.n + ' 个环有 ' + (state.n - 1) + ' 个扣口，每处叠 ' + (state.thick + state.thick) + ' 厘米。总长 = ' + state.len + ' × ' + state.n + ' − ' + fmt(ov) + ' = ' + fmt(span) + ' 厘米。';
+    }
+    if (joints === 0 && positiveGap() < 0.05) {
+      return '小美：现在还没有扣口，总长就是 ' + state.len + ' × ' + state.n + ' = ' + fmt(span) + ' 厘米。点「扣上下一个」，看总长少掉多少。';
+    }
+    if (positiveGap() >= 0.05) {
+      return '小美：环和环之间还有空隙。扣紧、又不留空时，总长才等于环长 × 个数 − 2 × 厚度 ×（个数 − 1）。';
+    }
+    return '小美：已经扣上 ' + joints + ' 处，叠住 ' + fmt(ov) + ' 厘米。还可以再扣，或拉开看看。';
+  }
+
+  function paintNumbers(list) {
+    var joints = jointCount(list);
+    var ov = overlapSum(list);
+    var span = spanCm();
+    var predict = chainTotal(state.len, state.n, state.thick);
+    $('statJoints').textContent = String(joints);
+    $('statOverlap').textContent = fmt(ov) + ' 厘米';
+    $('statTotal').textContent = fmt(span) + ' 厘米';
+    if (positiveGap() < 0.05) {
+      $('formula').textContent = '现在：' + state.len + ' × ' + state.n + ' − ' + fmt(ov) + ' = ' + fmt(span) + ' 厘米';
+    } else {
+      $('formula').textContent = '现在量到 ' + fmt(span) + ' 厘米。扣紧且不留空：' + state.len + ' × ' + state.n + ' − ' + (2 * state.thick * (state.n - 1)) + ' = ' + predict + ' 厘米';
+    }
+    $('xiaomei').textContent = speak(list);
+    $('labDesc').textContent = '扣口 ' + joints + ' 处，重叠 ' + fmt(ov) + ' 厘米，总长 ' + fmt(span) + ' 厘米。';
+  }
+
+  function drawLab() {
+    var stage = $('labStage');
+    var svg = $('labSvg');
+    if (!stage || !svg || !state) return;
+    var usable = stage.clientWidth;
+    if (usable < 40) {
+      requestAnimationFrame(drawLab);
+      return;
+    }
+    var n = state.n;
+    var len = state.len;
+    var thick = state.thick;
+    var scale = usable / (n * len);
+    labApi.scale = scale;
+    var pad = 6;
+    var span = spanCm();
+    var chainW = span * scale;
+    var width = Math.max(usable, Math.ceil(chainW + pad * 2));
+    var stroke = Math.max(8, thick * scale);
+    var outerH = Math.max(96, stroke * 2 + 28);
+    var labelH = 32;
+    var ringY = labelH;
+    var dimY = ringY + outerH + 28;
+    var rulerY = dimY + 36;
+    var height = rulerY + 62;
+    var x0 = Math.max(pad, (width - chainW) / 2);
+    var xs = [x0];
+    for (var i = 0; i < n - 1; i++) xs.push(xs[i] + (len + state.gaps[i]) * scale);
+    var ringW = len * scale;
+    var list = overlaps();
+    var parts = [];
+    parts.push('<rect width="' + width + '" height="' + height + '" fill="#fffdf8" rx="16"/>');
+
+    for (var r = 0; r < n; r++) {
+      var sw = stroke;
+      var rw = Math.max(sw + 4, ringW - sw);
+      var rh = Math.max(sw + 4, outerH - sw);
+      var rx = rh / 2;
+      parts.push('<rect x="' + (xs[r] + sw / 2) + '" y="' + (ringY + sw / 2) + '" width="' + rw + '" height="' + rh + '" rx="' + rx + '" fill="none" stroke="' + COLORS[r] + '" stroke-width="' + sw + '" opacity="0.92"/>');
+      var innerW = ringW - sw * 2;
+      if (innerW > 64) {
+        parts.push('<text x="' + (xs[r] + ringW / 2) + '" y="' + (ringY + outerH / 2 + 7) + '" text-anchor="middle" font-size="20" font-weight="700" fill="#333">' + len + ' 厘米</text>');
+      }
+    }
+
+    for (var j = 0; j < list.length; j++) {
+      if (list[j] <= 0.05) continue;
+      var x1 = xs[j + 1];
+      var x2 = xs[j] + ringW;
+      if (x2 - x1 < 2) continue;
+      parts.push('<rect x="' + x1 + '" y="' + (ringY - 8) + '" width="' + (x2 - x1) + '" height="' + (outerH + 16) + '" fill="rgba(255,193,7,0.5)"/>');
+      if (x2 - x1 >= 56) {
+        parts.push('<text x="' + ((x1 + x2) / 2) + '" y="' + (ringY - 12) + '" text-anchor="middle" font-size="18" font-weight="700" fill="#e65100">叠 ' + fmt(list[j]) + ' 厘米</text>');
+      }
+    }
+
+    for (var h = 0; h < n; h++) {
+      parts.push('<rect data-ring="' + h + '" x="' + xs[h] + '" y="' + ringY + '" width="' + ringW + '" height="' + outerH + '" fill="transparent"/>');
+    }
+
+    var xL = x0;
+    var xR = x0 + chainW;
+    parts.push('<line x1="' + xL + '" y1="' + dimY + '" x2="' + xR + '" y2="' + dimY + '" stroke="#1565c0" stroke-width="4"/>');
+    parts.push('<line x1="' + xL + '" y1="' + (dimY - 10) + '" x2="' + xL + '" y2="' + (dimY + 10) + '" stroke="#1565c0" stroke-width="4"/>');
+    parts.push('<line x1="' + xR + '" y1="' + (dimY - 10) + '" x2="' + xR + '" y2="' + (dimY + 10) + '" stroke="#1565c0" stroke-width="4"/>');
+    parts.push('<text x="' + ((xL + xR) / 2) + '" y="' + (dimY + 26) + '" text-anchor="middle" font-size="20" font-weight="700" fill="#1565c0">总长 ' + fmt(span) + ' 厘米</text>');
+
+    var rulerH = 48;
+    parts.push('<rect x="' + xL + '" y="' + rulerY + '" width="' + Math.max(chainW, 8) + '" height="' + rulerH + '" rx="10" fill="#ffd166"/>');
+    var maxTick = Math.max(0, Math.floor(span + 0.001));
+    var labelStep = scale >= 14 ? 1 : (scale >= 7 ? 5 : 10);
+    for (var cm = 0; cm <= maxTick; cm++) {
+      var tx = xL + cm * scale;
+      var major = cm % 5 === 0;
+      var th = major ? 18 : 10;
+      parts.push('<line x1="' + tx + '" y1="' + rulerY + '" x2="' + tx + '" y2="' + (rulerY + th) + '" stroke="#222" stroke-width="' + (major ? 2 : 1) + '"/>');
+      var endClose = maxTick % labelStep !== 0 && (maxTick % labelStep) * scale < 24;
+      var show = cm === 0 || cm === maxTick || (labelStep === 1) || (cm % labelStep === 0);
+      if (endClose && cm !== 0 && cm !== maxTick && (maxTick - cm) * scale < 24) show = false;
+      if (show && (cm === 0 || cm === maxTick || tx - xL < chainW - 8)) {
+        parts.push('<text x="' + tx + '" y="' + (rulerY + 40) + '" text-anchor="' + (cm === 0 ? 'start' : (cm === maxTick ? 'end' : 'middle')) + '" font-size="16" font-weight="700" fill="#333">' + cm + '</text>');
+      }
+    }
+    if (Math.abs(span - maxTick) > 0.2) {
+      var ex = xL + span * scale;
+      parts.push('<line x1="' + ex + '" y1="' + rulerY + '" x2="' + ex + '" y2="' + (rulerY + 22) + '" stroke="#1565c0" stroke-width="3"/>');
+    }
+
+    svg.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
+    svg.setAttribute('width', String(width));
+    svg.setAttribute('height', String(height));
+    svg.setAttribute('font-family', 'PingFang SC, Microsoft YaHei, Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif');
+    svg.innerHTML = parts.join('');
+    paintNumbers(list);
+    paintControls();
+  }
+
+  function animateTo(next) {
+    var token = ++animToken;
+    var start = state.gaps.slice();
+    var t0 = performance.now();
+    function frame(now) {
+      if (token !== animToken) return;
+      var t = Math.min(1, (now - t0) / 220);
+      var e = 1 - Math.pow(1 - t, 3);
+      state.gaps = start.map(function (g, i) { return g + (next[i] - g) * e; });
+      drawLab();
+      if (t < 1) requestAnimationFrame(frame);
+      else {
+        state.gaps = next.slice();
+        drawLab();
+        saveLab();
+      }
+    }
+    var reduce = false;
+    try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (err) {}
+    if (reduce) {
+      state.gaps = next.slice();
+      drawLab();
+      saveLab();
+      return;
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function linkNext() {
+    var next = (goalGaps || state.gaps).slice();
+    var target = -2 * state.thick;
+    for (var i = 0; i < next.length; i++) {
+      if (next[i] > target + 0.05) { next[i] = target; goalGaps = next; animateTo(next); return; }
+    }
+  }
+  function pullLast() {
+    var next = (goalGaps || state.gaps).slice();
+    for (var i = next.length - 1; i >= 0; i--) {
+      if (next[i] < -0.05) { next[i] = 0; goalGaps = next; animateTo(next); return; }
+    }
+  }
+
+  function retune(patch) {
+    animToken++;
+    var next = {
+      n: patch.n != null ? patch.n : state.n,
+      len: patch.len != null ? patch.len : state.len,
+      thick: patch.thick != null ? patch.thick : state.thick,
+      gaps: state.gaps.slice()
+    };
+    if (patch.gaps) next.gaps = patch.gaps.slice();
+    state = sanitize(next);
+    goalGaps = state.gaps.slice();
+    drawLab();
+    saveLab();
+  }
+
+  function bindLab(api) {
+    labApi.api = api;
+    if (!state) state = sanitize(api.raw().lab || { n: 3, len: 10, thick: 1, gaps: [0, 0] });
+    $('nMinus').onclick = function () { retune({ n: state.n - 1 }); };
+    $('nPlus').onclick = function () { retune({ n: state.n + 1 }); };
+    $('lenMinus').onclick = function () { retune({ len: state.len - 1 }); };
+    $('lenPlus').onclick = function () { retune({ len: state.len + 1 }); };
+    $('thickMinus').onclick = function () { retune({ thick: state.thick - 1 }); };
+    $('thickPlus').onclick = function () { retune({ thick: state.thick + 1 }); };
+    $('btnLink').onclick = linkNext;
+    $('btnPull').onclick = pullLast;
+    $('btnStory').onclick = function () {
+      retune({ n: 3, len: 10, thick: 1, gaps: [-2, -2] });
+    };
+    var svg = $('labSvg');
+    svg.onpointerdown = function (e) {
+      var t = e.target;
+      if (!t || !t.getAttribute) return;
+      var idx = t.getAttribute('data-ring');
+      if (idx == null) return;
+      e.preventDefault();
+      animToken++;
+      goalGaps = null;
+      labApi.drag = { i: +idx, last: e.clientX, pid: e.pointerId, scale: labApi.scale };
+      $('labStage').classList.add('is-drag');
+      try { svg.setPointerCapture(e.pointerId); } catch (err) {}
+    };
+    drawLab();
+  }
+
+  if (!window.__tiehuanPointer) {
+    window.__tiehuanPointer = true;
+    window.addEventListener('pointermove', function (e) {
+      var drag = labApi.drag;
+      if (!drag || e.pointerId !== drag.pid || !state) return;
+      e.preventDefault();
+      var dx = (e.clientX - drag.last) / drag.scale;
+      drag.last = e.clientX;
+      var i = drag.i;
+      var limit = -2 * state.thick;
+      if (i > 0) state.gaps[i - 1] = clamp(state.gaps[i - 1] + dx, limit, MAX_GAP);
+      if (i < state.n - 1) state.gaps[i] = clamp(state.gaps[i] - dx, limit, MAX_GAP);
+      drawLab();
+    }, { passive: false });
+    window.addEventListener('pointerup', endDrag);
+    window.addEventListener('pointercancel', endDrag);
+    window.addEventListener('resize', function () {
+      if ($('labSvg')) drawLab();
+    });
+  }
+
+  function endDrag(e) {
+    var drag = labApi.drag;
+    if (!drag || (e && e.pointerId !== drag.pid) || !state) return;
+    labApi.drag = null;
+    var stage = $('labStage');
+    if (stage) stage.classList.remove('is-drag');
+    var target = -2 * state.thick;
+    state.gaps = state.gaps.map(function (g) {
+      if (Math.abs(g - target) < 0.45) return target;
+      if (Math.abs(g) < 0.45) return 0;
+      return Math.round(g * 10) / 10;
+    });
+    goalGaps = state.gaps.slice();
+    drawLab();
+    saveLab();
+  }
+
+  function clickAct(act) {
+    var nodes = document.querySelectorAll('[data-act="' + act + '"]');
+    if (nodes.length) nodes[0].click();
+  }
+  function progressText() {
+    var sn = document.getElementById('starN');
+    var pt = document.querySelector('.ptxt');
+    if (sn && pt) {
+      var m = /(\d+)\s*\/\s*(\d+)/.exec(pt.textContent || '');
+      if (m) return '★ ' + sn.textContent + ' · ' + m[1] + '/' + m[2];
+    }
+    return '★ 0 · 0/6';
+  }
+  function refreshNav() {
+    var el = document.getElementById('snProg');
+    if (el) el.textContent = progressText();
+  }
+
+  KejianPlay.start({
+    key: 'tiehuan-v1',
+    shape: 'bucket',
+    title: '铁环扣在一起',
+    report: { id: 'tiehuan', name: '铁环扣在一起有多长', questions: window.TIEHUAN_REPORT },
+    home: {
+      h1: '🔗 铁环扣在一起有多长',
+      sub: '小美带你看：扣口叠住的厘米，总长里要减掉',
+      points: [
+        { n: '1', t: '几处扣口？', d: '环的个数减 1' },
+        { n: '2', t: '一处多长？', d: '厚度加厚度' },
+        { n: '3', t: '总长多少？', d: '排开的长，减去重叠' }
+      ]
+    },
+    levels: window.TIEHUAN_LEVELS,
+    homeHTML: document.getElementById('homeExtra').innerHTML,
+    bindHome: bindLab
+  });
+
+  SiteNav.mount({
+    title: '铁环扣在一起',
+    dir: '../index.html',
+    report: true,
+    progress: progressText,
+    home: function () { clickAct('home'); },
+    map: function () { clickAct('map'); }
+  });
+  refreshNav();
+  var app = document.getElementById('app');
+  if (window.MutationObserver && app) {
+    new MutationObserver(refreshNav).observe(app, { childList: true, subtree: true, characterData: true });
+  }
+})();
+</script>
+</body>
+</html>
