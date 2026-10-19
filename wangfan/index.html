@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#e8f4fc">
+<title>来来回回走了多远——往返问题</title>
+<link rel="stylesheet" href="../common/play.css">
+<style>
+  body, button, input, svg {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", "WenQuanYi Micro Hei", sans-serif;
+  }
+  .hdr { display: none !important; }
+  #app { padding-top: 8px !important; }
+  body.has-site-nav :where(#step, .qtext, .card, .bigbtn, .sec) {
+    scroll-margin-top: calc(var(--sn-h, 46px) + 12px);
+  }
+  .lab-lead { margin: 0 0 10px; font-size: 22px; }
+  .ctrls { display: flex; flex-direction: column; gap: 8px; margin: 8px 0 12px; }
+  .ctrl {
+    display: flex; align-items: center; gap: 8px;
+    background: #e8f4fc; border-radius: 16px; padding: 6px 8px 6px 12px;
+  }
+  .ctrl span { flex: 1; font-weight: bold; font-size: 22px; color: #0d3d56; }
+  .ctrl b { min-width: 92px; text-align: center; font-size: 28px; color: #0277bd; }
+  .ctrl button {
+    width: 56px; height: 56px; border: none; border-radius: 14px;
+    background: #81d4fa; color: #0d3d56; font-size: 32px; font-weight: bold;
+    box-shadow: 0 3px 0 #4fc3f7; line-height: 1;
+  }
+  .ctrl button:active { transform: translateY(2px); box-shadow: 0 1px 0 #4fc3f7; }
+  .ctrl button:disabled { opacity: .38; transform: none; }
+  .stage {
+    overflow-x: auto; text-align: center; margin: 4px 0 0;
+    -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain;
+  }
+  #labSvg { display: inline-block; vertical-align: top; max-width: 100%; }
+  .stats { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 12px; }
+  .stats div {
+    display: flex; justify-content: space-between; align-items: center;
+    background: #e1f5fe; border-radius: 16px; padding: 10px 14px;
+  }
+  .stats small { font-size: 22px; color: #01579b; font-weight: bold; }
+  .stats b { font-size: 32px; color: #0277bd; line-height: 1.1; }
+  .formula {
+    margin: 12px 0 0; text-align: center; font-size: 24px; font-weight: bold;
+    color: #1f3b73; line-height: 1.45;
+  }
+  .ruleline {
+    margin: 8px 0 0; text-align: center; font-size: 20px; font-weight: bold;
+    color: #01579b; background: #e1f5fe; border-radius: 14px; padding: 10px 12px; line-height: 1.5;
+  }
+  .lab-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+  .lab-actions .wide { grid-column: 1 / -1; }
+  .lab-actions .stepbtn { margin: 0; }
+  .ans { color: #c62828; font-weight: bold; font-size: 26px; margin: 8px 0; }
+  .tipbox {
+    margin: 10px 0 0; padding: 10px 12px; background: #fff8e7; border-radius: 14px;
+    font-size: 20px; font-weight: bold; color: #5a3d00; line-height: 1.5;
+  }
+  .track-wrap { margin-top: 16px; padding-top: 12px; border-top: 2px dashed #81d4fa; }
+  .track-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 10px 0;
+  }
+  .track-cell {
+    min-height: 44px; border-radius: 10px; background: #e3f2fd; border: 2px solid #90caf9;
+    font-size: 16px; font-weight: bold; color: #01579b; display: flex; align-items: center;
+    justify-content: center; text-align: center; line-height: 1.2; padding: 4px;
+  }
+  .track-cell.on { background: #4fc3f7; border-color: #0288d1; color: #fff; }
+  .track-note { font-size: 18px; font-weight: bold; color: #01579b; text-align: center; margin: 6px 0; }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+  @media (max-width: 520px) {
+    .ctrl { flex-wrap: wrap; }
+    .ctrl span { flex: 1 0 100%; }
+    .ctrl b { flex: 1; min-width: 0; }
+  }
+  @media (max-width: 380px) {
+    .lab-actions { grid-template-columns: 1fr; }
+    .stats b { font-size: 28px; }
+  }
+  @media (min-width: 760px) {
+    .ctrls { flex-direction: row; flex-wrap: wrap; }
+    .ctrl { flex: 1; min-width: 200px; }
+    .stats { grid-template-columns: repeat(3, 1fr); }
+    .stats div { display: block; text-align: center; }
+    .stats small { display: block; margin-bottom: 4px; }
+  }
+  .review-panels { display: grid; gap: 12px; margin-top: 8px; }
+  .review-panel {
+    background: #f3fafd; border-radius: 16px; padding: 12px 12px 10px;
+    border: 2px solid #b3e5fc;
+  }
+  .review-panel h3 { margin: 0 0 8px; font-size: 22px; color: #01579b; }
+  .review-panel p { margin: 0 0 8px; font-size: 20px; line-height: 1.45; }
+  .review-count {
+    text-align: center; font-size: 24px; font-weight: bold; color: #0277bd;
+    margin: 6px 0 8px;
+  }
+  .review-hr-row {
+    display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: flex-end;
+    min-height: 72px; margin: 8px 0;
+  }
+  .hr-plate {
+    width: 52px; height: 52px; border-radius: 8px; background: #ffe082; border: 3px solid #f9a825;
+    display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: bold; color: #5d4037;
+  }
+  .hr-plate.b { background: #ffcc80; border-color: #ef6c00; }
+  .review-km-bar {
+    display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; margin: 8px 0;
+  }
+  .review-km-cell {
+    min-height: 36px; border-radius: 8px; background: #e1f5fe; border: 2px solid #81d4fa;
+    font-size: 14px; font-weight: bold; color: #01579b; display: flex; align-items: center; justify-content: center;
+  }
+  .review-km-cell.on { background: #4fc3f7; color: #fff; border-color: #0288d1; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<template id="homeExtra">
+  <h2 class="sec">先复习</h2>
+  <div class="card" id="reviewCard">
+    <p class="lab-lead">二下第三单元「万以内数的认识」：用小方块（一）、一条（十）、一板（百）、一大块（千）来想数。先点按钮凑满 10，再合成下一档（照课本 41、43 页）。</p>
+    <div class="review-panels">
+      <div class="review-panel">
+        <h3>① 10 个一是一个十</h3>
+        <p>一根一根地数，点「添 1 个一」。满 10 个小方块，点「合成一条（十）」。</p>
+        <div class="stage"><svg id="reviewSvg1" role="img" aria-label="小方块与计数条"></svg></div>
+        <p class="review-count" id="reviewCount1">现在有 0 个一 · 0 个十</p>
+        <div class="lab-actions">
+          <button type="button" class="stepbtn" id="btnRevOne">添 1 个一</button>
+          <button type="button" class="stepbtn" id="btnRevTen" disabled>10 个一 → 一条（十）</button>
+          <button type="button" class="stepbtn" id="btnRevReset1">清空</button>
+        </div>
+      </div>
+      <div class="review-panel">
+        <h3>② 10 个十是一个百</h3>
+        <p>十根十根地数。点「添 1 个十」，满 10 条合成「一板（百）」。</p>
+        <div class="stage"><svg id="reviewSvg2" role="img" aria-label="计数条与百位板"></svg></div>
+        <p class="review-count" id="reviewCount2">现在有 0 个十 · 0 个百</p>
+        <div class="lab-actions">
+          <button type="button" class="stepbtn" id="btnRevRod">添 1 个十</button>
+          <button type="button" class="stepbtn" id="btnRevHun" disabled>10 个十 → 一板（百）</button>
+          <button type="button" class="stepbtn" id="btnRevReset2">清空</button>
+        </div>
+      </div>
+      <div class="review-panel">
+        <h3>③ 10 个一百是一千</h3>
+        <p>课本：10 个百是一千。点「添 1 个百」，凑满 10 板就是一大块（千）。<strong>1000 米 = 1 千米</strong>（和下面跑道图一样）。</p>
+        <div class="stage"><svg id="reviewSvg3" role="img" aria-label="百位板与千位块"></svg></div>
+        <p class="review-count" id="reviewCount3">现在有 0 个百 · 0 个千</p>
+        <div class="review-km-bar" id="reviewKmBar" aria-hidden="true"></div>
+        <p class="track-note" id="reviewKmNote">10 个 100 米小格拼成 1000 米 = 1 千米</p>
+        <div class="lab-actions">
+          <button type="button" class="stepbtn" id="btnRevPlate">添 1 个百</button>
+          <button type="button" class="stepbtn" id="btnRevThou" disabled>10 个百 → 一大块（千）</button>
+          <button type="button" class="stepbtn" id="btnRevReset3">清空</button>
+        </div>
+      </div>
+      <div class="review-panel">
+        <h3>④ 几个百相加（如家到学校 500 米）</h3>
+        <p>整百数想成「几个百」：<strong>3 个百加 5 个百是 8 个百</strong>，也就是 300+500=800。</p>
+        <div class="review-hr-row" id="reviewHrA" aria-label="3 个百"></div>
+        <div class="review-hr-row" id="reviewHrB" aria-label="5 个百"></div>
+        <p class="review-count" id="reviewHrSum">左边 0 个百 · 右边 0 个百</p>
+        <div class="lab-actions">
+          <button type="button" class="stepbtn" id="btnHrA">左边添 1 个百（最多 3）</button>
+          <button type="button" class="stepbtn" id="btnHrB">右边添 1 个百（最多 5）</button>
+          <button type="button" class="stepbtn wide" id="btnHrReset">清空百板</button>
+        </div>
+        <p class="formula" id="reviewHrFormula"></p>
+      </div>
+    </div>
+    <p class="say">小美：先复习数位，再数来回和千米就不怕大数啦！</p>
+  </div>
+  <h2 class="sec">来回走一走</h2>
+  <div class="card" id="labCard">
+    <p class="lab-lead">小美在泳池两端之间来回游。调好<strong>单程长度</strong>，点「游一趟」画出一个箭头，看单程数、来回数和累计路程怎么变（用连加，不用大数乘除）。</p>
+    <div class="ctrls">
+      <div class="ctrl">
+        <span>单程长度</span>
+        <button type="button" id="lenMinus" aria-label="缩短单程">−</button>
+        <b id="lenVal">50 米</b>
+        <button type="button" id="lenPlus" aria-label="加长单程">+</button>
+      </div>
+      <div class="ctrl">
+        <span>目标来回数（参考）</span>
+        <button type="button" id="rtMinus" aria-label="减少来回数">−</button>
+        <b id="rtVal">2</b>
+        <button type="button" id="rtPlus" aria-label="增加来回数">+</button>
+      </div>
+    </div>
+    <div class="stage" id="labStage">
+      <svg id="labSvg" role="img" aria-labelledby="labDesc"></svg>
+    </div>
+    <p id="labDesc" class="sr-only"></p>
+    <div class="stats" aria-live="polite">
+      <div><small>单程数</small><b id="statLegs">0</b></div>
+      <div><small>来回数</small><b id="statRt">0</b></div>
+      <div><small>累计路程</small><b id="statTotal">0 米</b></div>
+    </div>
+    <p class="formula" id="formula"></p>
+    <p class="ruleline">1 个来回 = 2 个箭头 · 往返 2 次 = 4 个箭头（数箭头 = 数单程）</p>
+    <div class="lab-actions">
+      <button type="button" class="stepbtn" id="btnTrip">游一趟（+1 箭头）</button>
+      <button type="button" class="stepbtn" id="btnBack">回到起点</button>
+      <button type="button" class="stepbtn wide" id="btnStory">原题：50 米泳道，游 2 个来回</button>
+    </div>
+    <div class="track-wrap">
+      <p class="lab-lead" style="margin-top:0">游满 <strong>1 千米</strong>：下面是 10 个 100 米小格（10 个 100 米 = 1000 米）。点「加一个来回」，每点一次 +100 米（50 米泳道去+回），点到 1000 米时数一共几个来回。</p>
+      <div class="track-grid" id="trackGrid" aria-live="polite"></div>
+      <p class="track-note" id="trackNote">已游 0 米 · 0 个来回</p>
+      <div class="lab-actions">
+        <button type="button" class="stepbtn" id="btnRt100">加一个来回（+100 米）</button>
+        <button type="button" class="stepbtn" id="btnTrackReset">清空跑道</button>
+      </div>
+    </div>
+    <p class="say" id="xiaomei"></p>
+    <div class="tipbox">算完要检查：把答案代回去，合不合理？数一数 0 有没有多写或少写。</div>
+  </div>
+  <h2 class="sec">课本里的三件事</h2>
+  <div class="card">
+    <p><strong>① 来回和单程</strong>：图上画箭头，1 个来回 = 2 个箭头；往返 2 次 = 4 个箭头。数箭头就是在数单程。</p>
+    <p><strong>② 千米怎么数</strong>：10 个 100 米小格拼成 1000 米 = 1 千米，在跑道图上一格一格累加。</p>
+    <p><strong>③ 反着求</strong>：想一共几个一样长的单程，用连加试；求几个来回就在跑道图上每次加一个来回，数到目标路程。</p>
+    <p><strong>④ 回头检查</strong>：代回去看对不对，尤其别把 50+50 写成 1000。</p>
+  </div>
+  <h2 class="sec">小美讲原题</h2>
+  <div class="card">
+    <p>游泳池泳道长 50 米。小明游了 2 个来回，一共游了多少米？</p>
+    <p><strong>阅读理解</strong>：「2 个来回」不是游 2 趟直线，而是去、回、再去、再回。</p>
+    <p><strong>分析解答</strong>：2 个来回画 4 个箭头，就是 4 个单程。每个单程 50 米，50+50+50+50=200 米。</p>
+    <p class="ans">答：一共游了 200 米。</p>
+    <p><strong>回顾反思</strong>：50+50 只是 1 个来回的 100 米，不是 1000 米；2 个来回不能只做一次 50+50。</p>
+    <p>点上面「原题」按钮游 4 趟，累计路程应是 200 米。看懂了再做练习。</p>
+  </div>
+</template>
+<p class="catline" style="margin:18px 12px 28px;padding:14px 16px;background:#fffdf8;border-radius:16px;box-shadow:0 3px 0 #f1c26b;font-size:20px;line-height:1.6">本页练习：<a style="color:#1d5fd0;font-weight:bold" href="../cuoti/#cat-%E9%97%B4%E9%99%94%E4%B8%8E%E5%BE%80%E8%BF%94">间隔与往返</a></p>
+<script src="../common/report.js"></script>
+<script src="../common/nav.js"></script>
+<script src="../common/play.js"></script>
+<script src="questions.js"></script>
+<script>
+(function () {
+  var state = { one: 50, goalRt: 2, legs: 0, pos: 0, trackM: 0 };
+  var review = { ones: 0, tens: 0, rods: 0, hundreds: 0, plates: 0, thousands: 0, hrA: 0, hrB: 0 };
+  var labApi = { api: null };
+
+  function clamp(n, a, b) { return Math.max(a, Math.min(b, n)); }
+  function $(id) { return document.getElementById(id); }
+
+  function roundTrips(legs) { return Math.floor(legs / 2); }
+  function totalM() { return state.legs * state.one; }
+
+  function addChain(term, count) {
+    if (count <= 0) return '0 米';
+    if (count > 5) return term + ' 米连加 ' + count + ' 次 = ' + (term * count) + ' 米';
+    var parts = [];
+    for (var i = 0; i < count; i++) parts.push(String(term));
+    return parts.join('+') + '=' + (term * count) + ' 米';
+  }
+
+  function saveLab() {
+    if (!labApi.api) return;
+    labApi.api.raw().lab = {
+      one: state.one, goalRt: state.goalRt, legs: state.legs, pos: state.pos, trackM: state.trackM,
+      review: review
+    };
+    labApi.api.save();
+  }
+
+  function drawUnitCubes(svg, n, ox, oy, size) {
+    var parts = [];
+    var cols = 5;
+    for (var i = 0; i < n; i++) {
+      var c = i % cols;
+      var r = Math.floor(i / cols);
+      var x = ox + c * (size + 4);
+      var y = oy + r * (size + 4);
+      parts.push('<rect x="' + x + '" y="' + y + '" width="' + size + '" height="' + size + '" rx="3" fill="#81d4fa" stroke="#0277bd" stroke-width="2"/>');
+    }
+    return parts.join('');
+  }
+
+  function drawRods(svg, n, ox, oy, size) {
+    var parts = [];
+    for (var i = 0; i < n; i++) {
+      var x = ox + i * (size + 14);
+      var y = oy;
+      for (var j = 0; j < 10; j++) {
+        parts.push('<rect x="' + x + '" y="' + (y + j * (size * 0.9 + 1)) + '" width="' + size + '" height="' + (size * 0.9) + '" rx="2" fill="#aed581" stroke="#558b2f" stroke-width="1.5"/>');
+      }
+    }
+    return parts.join('');
+  }
+
+  function drawPlates(n, ox, oy, cell) {
+    var parts = [];
+    for (var i = 0; i < n; i++) {
+      var x = ox + i * (cell * 10 + 16);
+      for (var r = 0; r < 10; r++) {
+        for (var c = 0; c < 10; c++) {
+          parts.push('<rect x="' + (x + c * cell) + '" y="' + (oy + r * cell) + '" width="' + cell + '" height="' + cell + '" fill="#ffe082" stroke="#f9a825" stroke-width="1"/>');
+        }
+      }
+      parts.push('<text x="' + (x + cell * 5) + '" y="' + (oy + cell * 10 + 18) + '" text-anchor="middle" font-size="16" font-weight="700" fill="#5d4037">百</text>');
+    }
+    return parts.join('');
+  }
+
+  function paintReview1() {
+    var svg = $('reviewSvg1');
+    if (!svg) return;
+    var w = 340;
+    var h = 120;
+    var inner = drawUnitCubes(svg, review.ones, 16, 16, 14) + drawRods(svg, review.tens, 16, 70, 8);
+    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    svg.setAttribute('width', '100%');
+    svg.innerHTML = '<rect width="' + w + '" height="' + h + '" fill="#fff" rx="12"/>' + inner;
+    $('reviewCount1').textContent = '现在有 ' + review.ones + ' 个一 · ' + review.tens + ' 个十';
+    $('btnRevTen').disabled = review.ones < 10;
+  }
+
+  function paintReview2() {
+    var svg = $('reviewSvg2');
+    if (!svg) return;
+    var w = 360;
+    var h = 130;
+    var inner = drawRods(svg, review.rods, 12, 12, 9) + drawPlates(review.hundreds, 12, 78, 4);
+    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    svg.setAttribute('width', '100%');
+    svg.innerHTML = '<rect width="' + w + '" height="' + h + '" fill="#fff" rx="12"/>' + inner;
+    $('reviewCount2').textContent = '现在有 ' + review.rods + ' 个十 · ' + review.hundreds + ' 个百';
+    $('btnRevHun').disabled = review.rods < 10;
+  }
+
+  function paintReview3() {
+    var svg = $('reviewSvg3');
+    if (!svg) return;
+    var w = 360;
+    var h = 100;
+    var inner = drawPlates(review.plates, 10, 10, 3);
+    if (review.thousands > 0) {
+      inner += '<rect x="250" y="8" width="88" height="88" rx="8" fill="#ffab91" stroke="#d84315" stroke-width="3"/>';
+      inner += '<text x="294" y="58" text-anchor="middle" font-size="28" font-weight="700" fill="#bf360c">千</text>';
+    }
+    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    svg.setAttribute('width', '100%');
+    svg.innerHTML = '<rect width="' + w + '" height="' + h + '" fill="#fff" rx="12"/>' + inner;
+    $('reviewCount3').textContent = '现在有 ' + review.plates + ' 个百 · ' + review.thousands + ' 个千';
+    $('btnRevThou').disabled = review.plates < 10;
+    var bar = $('reviewKmBar');
+    if (bar) {
+      var cells = [];
+      for (var i = 0; i < 10; i++) {
+        var on = i < review.plates;
+        cells.push('<div class="review-km-cell' + (on ? ' on' : '') + '">' + (on ? '100' : (i + 1)) + '</div>');
+      }
+      bar.innerHTML = cells.join('');
+    }
+    var note = $('reviewKmNote');
+    if (note) {
+      note.textContent = review.thousands
+        ? '10 个 100 米 = 1000 米 = 1 千米（满啦！）'
+        : '已点亮 ' + (review.plates * 100) + ' 米 · 再添百板凑满 10 个就是 1 千米';
+    }
+    $('btnRevPlate').disabled = review.plates >= 10;
+  }
+
+  function paintReviewHr() {
+    var a = $('reviewHrA');
+    var b = $('reviewHrB');
+    if (!a || !b) return;
+    var mk = function (n, cls) {
+      var h = [];
+      for (var i = 0; i < n; i++) h.push('<div class="hr-plate' + (cls ? ' ' + cls : '') + '">百</div>');
+      return h.join('');
+    };
+    a.innerHTML = mk(review.hrA, '');
+    b.innerHTML = mk(review.hrB, 'b');
+    var sum = review.hrA + review.hrB;
+    $('reviewHrSum').textContent = '左边 ' + review.hrA + ' 个百 · 右边 ' + review.hrB + ' 个百';
+    var f = $('reviewHrFormula');
+    if (f) {
+      if (review.hrA === 3 && review.hrB === 5) {
+        f.textContent = '3 个百加 5 个百是 8 个百 → 300+500=800';
+      } else if (sum > 0) {
+        f.textContent = review.hrA + ' 个百加 ' + review.hrB + ' 个百是 ' + sum + ' 个百 → ' + (review.hrA * 100) + '+' + (review.hrB * 100) + '=' + (sum * 100);
+      } else {
+        f.textContent = '';
+      }
+    }
+    $('btnHrA').disabled = review.hrA >= 3;
+    $('btnHrB').disabled = review.hrB >= 5;
+  }
+
+  function bindReview(api) {
+    var raw = (api.raw().lab || {}).review || {};
+    review.ones = clamp(Math.round(raw.ones || 0), 0, 10);
+    review.tens = clamp(Math.round(raw.tens || 0), 0, 9);
+    review.rods = clamp(Math.round(raw.rods || 0), 0, 10);
+    review.hundreds = clamp(Math.round(raw.hundreds || 0), 0, 9);
+    review.plates = clamp(Math.round(raw.plates || 0), 0, 10);
+    review.thousands = clamp(Math.round(raw.thousands || 0), 0, 1);
+    review.hrA = clamp(Math.round(raw.hrA || 0), 0, 3);
+    review.hrB = clamp(Math.round(raw.hrB || 0), 0, 5);
+    $('btnRevOne').onclick = function () {
+      if (review.ones < 10) { review.ones++; paintReview1(); saveLab(); }
+    };
+    $('btnRevTen').onclick = function () {
+      if (review.ones >= 10) { review.ones = 0; review.tens++; paintReview1(); saveLab(); }
+    };
+    $('btnRevReset1').onclick = function () {
+      review.ones = 0; review.tens = 0; paintReview1(); saveLab();
+    };
+    $('btnRevRod').onclick = function () {
+      if (review.rods < 10) { review.rods++; paintReview2(); saveLab(); }
+    };
+    $('btnRevHun').onclick = function () {
+      if (review.rods >= 10) { review.rods = 0; review.hundreds++; paintReview2(); saveLab(); }
+    };
+    $('btnRevReset2').onclick = function () {
+      review.rods = 0; review.hundreds = 0; paintReview2(); saveLab();
+    };
+    $('btnRevPlate').onclick = function () {
+      if (review.plates < 10) { review.plates++; paintReview3(); saveLab(); }
+    };
+    $('btnRevThou').onclick = function () {
+      if (review.plates >= 10) { review.plates = 0; review.thousands = 1; paintReview3(); saveLab(); }
+    };
+    $('btnRevReset3').onclick = function () {
+      review.plates = 0; review.thousands = 0; paintReview3(); saveLab();
+    };
+    $('btnHrA').onclick = function () {
+      if (review.hrA < 3) { review.hrA++; paintReviewHr(); saveLab(); }
+    };
+    $('btnHrB').onclick = function () {
+      if (review.hrB < 5) { review.hrB++; paintReviewHr(); saveLab(); }
+    };
+    $('btnHrReset').onclick = function () {
+      review.hrA = 0; review.hrB = 0; paintReviewHr(); saveLab();
+    };
+    paintReview1();
+    paintReview2();
+    paintReview3();
+    paintReviewHr();
+  }
+
+  function speak() {
+    var rt = roundTrips(state.legs);
+    var t = totalM();
+    if (state.one === 50 && state.goalRt === 2 && state.legs === 4) {
+      return '小美：2 个来回游完啦！4 个箭头，50+50+50+50=200 米。别写成 50+50=1000 哦。';
+    }
+    if (state.legs === 0) {
+      return '小美：点「游一趟」，从这一端游到那一端，图上会多一个箭头。每 2 个箭头是 1 个来回。';
+    }
+    if (state.legs % 2 === 1) {
+      return '小美：这是第 ' + state.legs + ' 个单程，刚游到对面。再来一趟才是一个来回。';
+    }
+    return '小美：已经 ' + rt + ' 个来回，共 ' + state.legs + ' 个箭头，累计 ' + addChain(state.one, state.legs) + '。目标参考：' + state.goalRt + ' 个来回要游 ' + (state.goalRt * 2) + ' 趟。';
+  }
+
+  function paintTrack() {
+    var grid = $('trackGrid');
+    var note = $('trackNote');
+    if (!grid || !note) return;
+    var cells = [];
+    var filled = Math.min(10, Math.floor(state.trackM / 100));
+    for (var i = 0; i < 10; i++) {
+      var on = i < filled;
+      cells.push('<div class="track-cell' + (on ? ' on' : '') + '" role="presentation">' + (on ? '100米' : (i + 1)) + '</div>');
+    }
+    grid.innerHTML = cells.join('');
+    var rt = state.trackM / 100;
+    note.textContent = '已游 ' + state.trackM + ' 米 · ' + rt + ' 个来回' + (state.trackM >= 1000 ? '（满 1 千米啦！）' : '');
+    var btn = $('btnRt100');
+    if (btn) btn.disabled = state.trackM >= 1000;
+  }
+
+  function paintStats() {
+    var rt = roundTrips(state.legs);
+    var t = totalM();
+    $('statLegs').textContent = String(state.legs);
+    $('statRt').textContent = String(rt);
+    $('statTotal').textContent = t + ' 米';
+    $('lenVal').textContent = state.one + ' 米';
+    $('rtVal').textContent = String(state.goalRt);
+    $('formula').textContent = state.legs
+      ? ('累计 = ' + addChain(state.one, state.legs))
+      : ('若游 ' + state.goalRt + ' 个来回：要游 ' + (state.goalRt * 2) + ' 趟，' + addChain(state.one, state.goalRt * 2));
+    $('xiaomei').textContent = speak();
+    $('labDesc').textContent = '单程 ' + state.one + ' 米，已游 ' + state.legs + ' 个单程，' + rt + ' 个来回，累计 ' + t + ' 米。';
+    $('lenMinus').disabled = state.one <= 20;
+    $('lenPlus').disabled = state.one >= 200;
+    $('rtMinus').disabled = state.goalRt <= 1;
+    $('rtPlus').disabled = state.goalRt >= 5;
+  }
+
+  function drawLab() {
+    var stage = $('labStage');
+    var svg = $('labSvg');
+    if (!stage || !svg) return;
+    var usable = stage.clientWidth || 360;
+    var one = state.one;
+    var scale = Math.min(usable / (one + 40), 8);
+    var poolW = one * scale;
+    var pad = 24;
+    var width = Math.max(usable, poolW + pad * 2);
+    var height = 200;
+    var yPool = 70;
+    var x0 = (width - poolW) / 2;
+    var x1 = x0 + poolW;
+    var swimmerX = state.pos === 0 ? x0 + 16 : x1 - 16;
+    var facing = state.pos === 0 ? 1 : -1;
+    var parts = [];
+    parts.push('<defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><polygon points="0,0 8,4 0,8" fill="#e65100"/></marker></defs>');
+    parts.push('<rect width="' + width + '" height="' + height + '" fill="#f0f9ff" rx="16"/>');
+    parts.push('<rect x="' + x0 + '" y="' + yPool + '" width="' + poolW + '" height="56" rx="12" fill="#4fc3f7" opacity="0.35"/>');
+    parts.push('<line x1="' + x0 + '" y1="' + (yPool + 28) + '" x2="' + x1 + '" y2="' + (yPool + 28) + '" stroke="#0288d1" stroke-width="3" stroke-dasharray="8 6"/>');
+    parts.push('<text x="' + x0 + '" y="' + (yPool + 92) + '" font-size="18" font-weight="700" fill="#01579b">' + one + ' 米</text>');
+    parts.push('<text x="' + x1 + '" y="' + (yPool + 92) + '" text-anchor="end" font-size="18" font-weight="700" fill="#01579b">' + one + ' 米</text>');
+    parts.push('<circle cx="' + swimmerX + '" cy="' + (yPool + 28) + '" r="18" fill="#ffcc80" stroke="#e65100" stroke-width="3"/>');
+    parts.push('<text x="' + swimmerX + '" y="' + (yPool + 34) + '" text-anchor="middle" font-size="22" font-weight="700" fill="#5d4037">美</text>');
+    if (facing < 0) {
+      parts.push('<polygon points="' + (swimmerX - 22) + ',' + (yPool + 28) + ' ' + (swimmerX - 8) + ',' + (yPool + 22) + ' ' + (swimmerX - 8) + ',' + (yPool + 34) + '" fill="#0277bd"/>');
+    } else {
+      parts.push('<polygon points="' + (swimmerX + 22) + ',' + (yPool + 28) + ' ' + (swimmerX + 8) + ',' + (yPool + 22) + ' ' + (swimmerX + 8) + ',' + (yPool + 34) + '" fill="#0277bd"/>');
+    }
+    var ticks = Math.min(one, 10);
+    for (var i = 0; i <= ticks; i++) {
+      var tx = x0 + (poolW * i / ticks);
+      parts.push('<line x1="' + tx + '" y1="' + (yPool + 56) + '" x2="' + tx + '" y2="' + (yPool + 64) + '" stroke="#0277bd" stroke-width="2"/>');
+    }
+    var yArrow = yPool - 18;
+    for (var a = 0; a < state.legs; a++) {
+      var even = a % 2 === 0;
+      var ax0 = even ? x0 + 20 : x1 - 20;
+      var ax1 = even ? x1 - 20 : x0 + 20;
+      var row = Math.floor(a / 2);
+      var ay = yArrow - row * 14;
+      var col = a % 2 === 0 ? '#e65100' : '#2e7d32';
+      parts.push('<line x1="' + ax0 + '" y1="' + ay + '" x2="' + ax1 + '" y2="' + ay + '" stroke="' + col + '" stroke-width="3" marker-end="url(#ar)"/>');
+    }
+    svg.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
+    svg.setAttribute('width', '100%');
+    svg.removeAttribute('height');
+    svg.innerHTML = parts.join('');
+    paintStats();
+  }
+
+  function trip() {
+    state.legs++;
+    state.pos = state.legs % 2;
+    drawLab();
+    saveLab();
+  }
+
+  function resetSwim() {
+    state.legs = 0;
+    state.pos = 0;
+    drawLab();
+    saveLab();
+  }
+
+  function setStory() {
+    state.one = 50;
+    state.goalRt = 2;
+    state.legs = 0;
+    state.pos = 0;
+    drawLab();
+    saveLab();
+  }
+
+  function bindLab(api) {
+    labApi.api = api;
+    bindReview(api);
+    var raw = api.raw().lab || {};
+    state.one = clamp(Math.round(raw.one || 50), 20, 200);
+    state.goalRt = clamp(Math.round(raw.goalRt || 2), 1, 5);
+    state.legs = clamp(Math.round(raw.legs || 0), 0, 20);
+    state.pos = state.legs % 2;
+    state.trackM = clamp(Math.round(raw.trackM || 0), 0, 1000);
+    $('lenMinus').onclick = function () { state.one -= 10; drawLab(); saveLab(); };
+    $('lenPlus').onclick = function () { state.one += 10; drawLab(); saveLab(); };
+    $('rtMinus').onclick = function () { state.goalRt--; drawLab(); saveLab(); };
+    $('rtPlus').onclick = function () { state.goalRt++; drawLab(); saveLab(); };
+    $('btnTrip').onclick = trip;
+    $('btnBack').onclick = resetSwim;
+    $('btnStory').onclick = function () {
+      setStory();
+      for (var i = 0; i < 4; i++) trip();
+    };
+    $('btnRt100').onclick = function () {
+      if (state.trackM >= 1000) return;
+      state.trackM = Math.min(1000, state.trackM + 100);
+      paintTrack();
+      saveLab();
+    };
+    $('btnTrackReset').onclick = function () {
+      state.trackM = 0;
+      paintTrack();
+      saveLab();
+    };
+    paintTrack();
+    drawLab();
+    window.addEventListener('resize', drawLab);
+  }
+
+  function clickAct(act) {
+    var nodes = document.querySelectorAll('[data-act="' + act + '"]');
+    if (nodes.length) nodes[0].click();
+  }
+  function progressText() {
+    var sn = document.getElementById('starN');
+    var pt = document.querySelector('.ptxt');
+    if (sn && pt) {
+      var m = /(\d+)\s*\/\s*(\d+)/.exec(pt.textContent || '');
+      if (m) return '★ ' + sn.textContent + ' · ' + m[1] + '/' + m[2];
+    }
+    return '★ 0 · 0/10';
+  }
+  function refreshNav() {
+    var el = document.getElementById('snProg');
+    if (el) el.textContent = progressText();
+  }
+
+  KejianPlay.start({
+    key: 'wangfan-v1',
+    shape: 'bucket',
+    title: '往返问题',
+    report: { id: 'wangfan', name: '来来回回走了多远——往返问题', questions: window.WANGFAN_REPORT },
+    home: {
+      h1: '🔁 来来回回走了多远',
+      sub: '先复习万以内数位，再数箭头、连加、跑道图累加',
+      points: [
+        { n: '1', t: '先复习', d: '一十百千；10 个百是一千' },
+        { n: '2', t: '几个单程？', d: '数箭头：1 来回 = 2 箭头' },
+        { n: '3', t: '总路程与千米', d: '连加；10 个 100 米 = 1 千米' }
+      ]
+    },
+    levels: window.WANGFAN_LEVELS,
+    homeHTML: document.getElementById('homeExtra').innerHTML,
+    bindHome: bindLab
+  });
+
+  SiteNav.mount({
+    title: '往返问题',
+    dir: '../index.html',
+    report: true,
+    progress: progressText,
+    home: function () { clickAct('home'); },
+    map: function () { clickAct('map'); }
+  });
+  refreshNav();
+  var app = document.getElementById('app');
+  if (window.MutationObserver && app) {
+    new MutationObserver(refreshNav).observe(app, { childList: true, subtree: true, characterData: true });
+  }
+})();
+</script>
+</body>
+</html>

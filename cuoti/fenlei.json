@@ -203,6 +203,20 @@
     "相关练习题数合计": 4
   },
   {
+    "分类": "间隔与往返",
+    "错题数": 4,
+    "pages": [
+      {
+        "名称": "来来回回走了多远——往返问题",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/wangfan/",
+        "题数": 10,
+        "reportId": "wangfan",
+        "localStorageKey": "wangfan-v1"
+      }
+    ],
+    "相关练习题数合计": 10
+  },
+  {
     "分类": "有余数除法",
     "错题数": 4,
     "pages": [],
