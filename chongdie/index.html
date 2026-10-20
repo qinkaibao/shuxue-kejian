@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#f3e8ff">
+<title>重叠问题——木条钉在一起有多长</title>
+<link rel="stylesheet" href="../common/play.css">
+<style>
+  body, button, input, svg {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", "WenQuanYi Micro Hei", sans-serif;
+  }
+  .hdr { display: none !important; }
+  #app { padding-top: 8px !important; }
+  body.has-site-nav :where(#step, .qtext, .card, .bigbtn, .sec) {
+    scroll-margin-top: calc(var(--sn-h, 46px) + 12px);
+  }
+  .lab-lead { margin: 0 0 10px; font-size: 22px; }
+  .ctrls { display: flex; flex-direction: column; gap: 8px; margin: 8px 0 12px; }
+  .ctrl {
+    display: flex; align-items: center; gap: 8px;
+    background: #f3e8ff; border-radius: 16px; padding: 6px 8px 6px 12px;
+  }
+  .ctrl span { flex: 1; font-weight: bold; font-size: 22px; color: #4a1d6a; }
+  .ctrl b { min-width: 92px; text-align: center; font-size: 28px; color: #7b1fa2; }
+  .ctrl button {
+    width: 56px; height: 56px; border: none; border-radius: 14px;
+    background: #ce93d8; color: #4a1d6a; font-size: 32px; font-weight: bold;
+    box-shadow: 0 3px 0 #ab47bc; line-height: 1;
+  }
+  .ctrl button:active { transform: translateY(2px); box-shadow: 0 1px 0 #ab47bc; }
+  .ctrl button:disabled { opacity: .38; transform: none; }
+  .stage {
+    overflow-x: auto; text-align: center; margin: 4px 0 0;
+    -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain;
+  }
+  #labSvg { display: inline-block; vertical-align: top; max-width: none; }
+  .stats { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 12px; }
+  .stats div {
+    display: flex; justify-content: space-between; align-items: center;
+    background: #ede7f6; border-radius: 16px; padding: 10px 14px;
+  }
+  .stats small { font-size: 22px; color: #4a148c; font-weight: bold; }
+  .stats b { font-size: 32px; color: #7b1fa2; line-height: 1.1; }
+  .formula {
+    margin: 12px 0 0; text-align: center; font-size: 24px; font-weight: bold;
+    color: #1f3b73; line-height: 1.45;
+  }
+  .wrongline {
+    margin: 8px 0 0; text-align: center; font-size: 20px; font-weight: bold;
+    color: #c62828; background: #ffebee; border-radius: 14px; padding: 10px 12px; line-height: 1.45;
+  }
+  .ruleline {
+    margin: 8px 0 0; text-align: center; font-size: 22px; font-weight: bold;
+    color: #6a1b9a; background: #f3e5f5; border-radius: 14px; padding: 10px 12px;
+  }
+  .lab-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+  .lab-actions .wide { grid-column: 1 / -1; }
+  .lab-actions .stepbtn { margin: 0; }
+  .ans { color: #c62828; font-weight: bold; font-size: 26px; margin: 8px 0; }
+  .tiehuan-card {
+    margin-top: 12px; padding: 14px 16px; background: #fff8e7; border-radius: 16px;
+    border: 2px solid #ffd166; font-size: 20px; line-height: 1.5;
+  }
+  .tiehuan-card a { color: #1d5fd0; font-weight: bold; }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+  @media (max-width: 520px) {
+    .ctrl { flex-wrap: wrap; }
+    .ctrl span { flex: 1 0 100%; }
+    .ctrl b { flex: 1; min-width: 0; }
+  }
+  @media (min-width: 760px) {
+    .ctrls { flex-direction: row; flex-wrap: wrap; }
+    .ctrl { flex: 1; min-width: 180px; }
+    .stats { grid-template-columns: repeat(3, 1fr); }
+    .stats div { display: block; text-align: center; }
+    .stats small { display: block; margin-bottom: 4px; }
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<template id="homeExtra">
+  <h2 class="sec">动手叠一叠</h2>
+  <div class="card" id="labCard">
+    <p class="lab-lead">两根一样长的木条（或纸条）。点按钮或拖滑块改变重叠，黄色是叠在一起的那一段。看「两根加起来 − 重叠」怎么变。</p>
+    <div class="ctrls">
+      <div class="ctrl">
+        <span>每根长度</span>
+        <button type="button" id="lenMinus" aria-label="缩短">−</button>
+        <b id="lenVal">30 厘米</b>
+        <button type="button" id="lenPlus" aria-label="加长">+</button>
+      </div>
+      <div class="ctrl">
+        <span>重叠部分</span>
+        <button type="button" id="ovMinus" aria-label="减少重叠">−</button>
+        <b id="ovVal">5 厘米</b>
+        <button type="button" id="ovPlus" aria-label="增加重叠">+</button>
+      </div>
+    </div>
+    <div class="stage" id="labStage">
+      <svg id="labSvg" role="img" aria-labelledby="labDesc"></svg>
+    </div>
+    <p id="labDesc" class="sr-only"></p>
+    <div class="stats" aria-live="polite">
+      <div><small>两根排开</small><b id="statOpen">60 厘米</b></div>
+      <div><small>重叠</small><b id="statOv">5 厘米</b></div>
+      <div><small>钉好后总长</small><b id="statTotal">55 厘米</b></div>
+    </div>
+    <p class="formula" id="formula"></p>
+    <p class="wrongline" id="wrongLine"></p>
+    <p class="ruleline">规律：总长 = 第一根 + 第二根 − 重叠（重叠只减一次）</p>
+    <div class="lab-actions">
+      <button type="button" class="stepbtn" id="btnApart">拉开（不重叠）</button>
+      <button type="button" class="stepbtn" id="btnStory">回到原题：3 分米，重叠 5 厘米</button>
+    </div>
+    <p class="say" id="xiaomei"></p>
+  </div>
+  <h2 class="sec">小美讲原题</h2>
+  <div class="card">
+    <p>把两根长都是 3 分米的木条钉在一起，重叠部分长 5 厘米。钉好后的木条总长多少厘米？</p>
+    <p>先统一单位：3 分米 = 10 + 10 + 10 = 30 厘米，每根 30 厘米。</p>
+    <p>两根排开：30 + 30 = 60 厘米。钉在一起，中间 5 厘米只量一次，要减掉。</p>
+    <p class="ans">总长：30 + 30 − 5 = 55 厘米。</p>
+    <p>错法提醒：不能只做 30 − 5 = 25，那是只从一根上挖掉重叠，忘了另一根。</p>
+    <p>上面动动手，把木条叠成和原题一样，看 60 怎么变成 55。</p>
+  </div>
+  <div class="tiehuan-card card">
+    <p><strong>铁环扣在一起</strong>也是「排开的长度 − 重叠」，但每处要减两个厚度。那种题去专门页练：</p>
+    <p><a href="../tiehuan/">🔗 铁环扣在一起有多长 →</a></p>
+  </div>
+</template>
+<p class="catline" style="margin:18px 12px 28px;padding:14px 16px;background:#fffdf8;border-radius:16px;box-shadow:0 3px 0 #f1c26b;font-size:20px;line-height:1.6">本页练习：<a style="color:#1d5fd0;font-weight:bold" href="../cuoti/#cat-%E9%95%BF%E5%BA%A6%E5%8D%95%E4%BD%8D%E4%B8%8E%E6%8D%A2%E7%AE%97">长度单位与换算</a>类</p>
+<script src="../common/report.js"></script>
+<script src="../common/nav.js"></script>
+<script src="../common/play.js"></script>
+<script src="questions.js"></script>
+<script>
+(function () {
+  var state = { len: 30, ov: 5 };
+  var labApi = { api: null, scale: 1 };
+
+  function clamp(n, a, b) { return Math.max(a, Math.min(b, n)); }
+  function $(id) { return document.getElementById(id); }
+
+  function openLen() { return state.len + state.len; }
+  function totalLen() { return state.len + state.len - state.ov; }
+  function wrongWay() { return state.len - state.ov + state.len; }
+
+  function saveLab() {
+    if (!labApi.api) return;
+    labApi.api.raw().lab = { len: state.len, ov: state.ov };
+    labApi.api.save();
+  }
+
+  function speak() {
+    var open = openLen();
+    var tot = totalLen();
+    var w = wrongWay();
+    if (state.len === 30 && state.ov === 5) {
+      return '小美：就是卷子上的题。30+30=60，再减重叠 5，得 55 厘米。别算成 30−5=25 哦。';
+    }
+    if (state.ov === 0) {
+      return '小美：还没重叠，总长就是 ' + state.len + '+' + state.len + '=' + open + ' 厘米。点按钮增加重叠，看总长怎么变短。';
+    }
+    return '小美：排开 ' + open + ' 厘米，减掉重叠 ' + state.ov + ' 厘米，总长 ' + tot + ' 厘米。若只从一根减重叠，会错成 ' + w + ' 厘米。';
+  }
+
+  function paintControls() {
+    $('lenVal').textContent = state.len + ' 厘米';
+    $('ovVal').textContent = state.ov + ' 厘米';
+    $('lenMinus').disabled = state.len <= 10;
+    $('lenPlus').disabled = state.len >= 40;
+    $('ovMinus').disabled = state.ov <= 0;
+    $('ovPlus').disabled = state.ov >= state.len - 1;
+    $('statOpen').textContent = openLen() + ' 厘米';
+    $('statOv').textContent = state.ov + ' 厘米';
+    $('statTotal').textContent = totalLen() + ' 厘米';
+    $('formula').textContent = state.len + ' + ' + state.len + ' − ' + state.ov + ' = ' + totalLen() + ' 厘米';
+    $('wrongLine').textContent = state.ov > 0
+      ? '错法（只减一根）：' + state.len + ' − ' + state.ov + ' + ' + state.len + ' = ' + wrongWay() + ' 厘米'
+      : '';
+    $('xiaomei').textContent = speak();
+    $('labDesc').textContent = '每根 ' + state.len + ' 厘米，重叠 ' + state.ov + ' 厘米，总长 ' + totalLen() + ' 厘米';
+  }
+
+  function drawLab() {
+    var stage = $('labStage');
+    var svg = $('labSvg');
+    if (!stage || !svg) return;
+    var usable = stage.clientWidth;
+    if (usable < 40) { requestAnimationFrame(drawLab); return; }
+    var len = state.len;
+    var ov = state.ov;
+    var span = totalLen();
+    var scale = usable / Math.max(span + 20, 50);
+    labApi.scale = scale;
+    var pad = 12;
+    var barH = 44;
+    var y1 = 36;
+    var y2 = y1 + barH + 16;
+    var width = Math.max(usable, Math.ceil(span * scale + pad * 2 + 40));
+    var x0 = pad;
+    var x1end = x0 + len * scale;
+    var x2start = x1end - ov * scale;
+    var x2end = x2start + len * scale;
+    var parts = [];
+    parts.push('<rect width="' + width + '" height="200" fill="#faf8ff" rx="16"/>');
+    parts.push('<rect x="' + x0 + '" y="' + y1 + '" width="' + (len * scale) + '" height="' + barH + '" rx="10" fill="#b39ddb" stroke="#6a1b9a" stroke-width="3"/>');
+    parts.push('<text x="' + (x0 + len * scale / 2) + '" y="' + (y1 + barH / 2 + 7) + '" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">' + len + ' 厘米</text>');
+    parts.push('<rect x="' + x2start + '" y="' + y2 + '" width="' + (len * scale) + '" height="' + barH + '" rx="10" fill="#9575cd" stroke="#4a148c" stroke-width="3"/>');
+    parts.push('<text x="' + (x2start + len * scale / 2) + '" y="' + (y2 + barH / 2 + 7) + '" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">' + len + ' 厘米</text>');
+    if (ov > 0) {
+      var ox = x2start;
+      var ow = ov * scale;
+      parts.push('<rect x="' + ox + '" y="' + (y1 - 6) + '" width="' + ow + '" height="' + (barH * 2 + 28) + '" fill="rgba(255,193,7,0.55)"/>');
+      if (ow >= 40) {
+        parts.push('<text x="' + (ox + ow / 2) + '" y="' + (y1 - 10) + '" text-anchor="middle" font-size="16" font-weight="700" fill="#e65100">重叠 ' + ov + ' 厘米</text>');
+      }
+    }
+    var dimY = y2 + barH + 32;
+    parts.push('<line x1="' + x0 + '" y1="' + dimY + '" x2="' + (x0 + span * scale) + '" y2="' + dimY + '" stroke="#1565c0" stroke-width="4"/>');
+    parts.push('<text x="' + (x0 + span * scale / 2) + '" y="' + (dimY + 24) + '" text-anchor="middle" font-size="20" font-weight="700" fill="#1565c0">总长 ' + span + ' 厘米</text>');
+    svg.setAttribute('viewBox', '0 0 ' + width + ' 200');
+    svg.setAttribute('width', String(width));
+    svg.setAttribute('height', '200');
+    svg.innerHTML = parts.join('');
+    paintControls();
+  }
+
+  function retune(patch) {
+    if (patch.len != null) state.len = clamp(Math.round(patch.len), 10, 40);
+    if (patch.ov != null) state.ov = clamp(Math.round(patch.ov), 0, state.len - 1);
+    drawLab();
+    saveLab();
+  }
+
+  function bindLab(api) {
+    labApi.api = api;
+    var raw = api.raw().lab;
+    if (raw && raw.len) state.len = clamp(+raw.len, 10, 40);
+    if (raw && raw.ov != null) state.ov = clamp(+raw.ov, 0, state.len - 1);
+    $('lenMinus').onclick = function () { retune({ len: state.len - 2 }); };
+    $('lenPlus').onclick = function () { retune({ len: state.len + 2 }); };
+    $('ovMinus').onclick = function () { retune({ ov: state.ov - 1 }); };
+    $('ovPlus').onclick = function () { retune({ ov: state.ov + 1 }); };
+    $('btnApart').onclick = function () { retune({ ov: 0 }); };
+    $('btnStory').onclick = function () { state.len = 30; state.ov = 5; drawLab(); saveLab(); };
+    drawLab();
+    window.addEventListener('resize', function () { if ($('labSvg')) drawLab(); });
+  }
+
+  function clickAct(act) {
+    var nodes = document.querySelectorAll('[data-act="' + act + '"]');
+    if (nodes.length) nodes[0].click();
+  }
+  function progressText() {
+    var sn = document.getElementById('starN');
+    var pt = document.querySelector('.ptxt');
+    if (sn && pt) {
+      var m = /(\d+)\s*\/\s*(\d+)/.exec(pt.textContent || '');
+      if (m) return '★ ' + sn.textContent + ' · ' + m[1] + '/' + m[2];
+    }
+    return '★ 0 · 0/9';
+  }
+  function refreshNav() {
+    var el = document.getElementById('snProg');
+    if (el) el.textContent = progressText();
+  }
+
+  KejianPlay.start({
+    key: 'chongdie-v1',
+    shape: 'bucket',
+    title: '重叠问题',
+    report: { id: 'chongdie', name: '重叠问题——木条钉在一起', questions: window.CHONGDIE_REPORT },
+    home: {
+      h1: '📎 重叠问题',
+      sub: '两根（或三根）排开的长度，减掉叠在一起的那一段',
+      points: [
+        { n: '1', t: '先换单位', d: '分米换成厘米再算' },
+        { n: '2', t: '数重叠', d: '叠住的部分只减一次' },
+        { n: '3', t: '连加再减', d: '两根相加 − 重叠' }
+      ]
+    },
+    levels: window.CHONGDIE_LEVELS,
+    homeHTML: document.getElementById('homeExtra').innerHTML,
+    bindHome: bindLab
+  });
+
+  SiteNav.mount({
+    title: '重叠问题',
+    dir: '../index.html',
+    report: true,
+    progress: progressText,
+    home: function () { clickAct('home'); },
+    map: function () { clickAct('map'); }
+  });
+  refreshNav();
+  var app = document.getElementById('app');
+  if (window.MutationObserver && app) {
+    new MutationObserver(refreshNav).observe(app, { childList: true, subtree: true, characterData: true });
+  }
+})();
+</script>
+</body>
+</html>
