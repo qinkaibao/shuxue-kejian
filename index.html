@@ -533,6 +533,12 @@
 */
 const ITEMS = [
   {
+    type: 'practice', id: 'heji', title: '第三单元合集', date: '2026-10-20',
+    emoji: '📚', tone: 'tone-a',
+    desc: '对折、估测、间隔、锯木头、单位换算、剩余和路程，每节先动手再做两三题。',
+    path: 'heji/', total: 19, reportId: 'heji'
+  },
+  {
     type: 'practice', id: 'chongdie', title: '重叠问题', date: '2026-10-20',
     emoji: '📎', tone: 'tone-e',
     desc: '钉木条、粘纸条：两根相加再减重叠，还会对照小美的错算。',
@@ -696,13 +702,22 @@ function stats() {
   Object.keys(cdRaw.correct || {}).forEach(function (k) {
     if (cdRaw.correct[k] && !cdBag[k]) cdBag[k] = 3;
   });
-  var cd = countMap(cdBag, function (v) { return v; });
+  var cdOverlap = countMap(cdBag, function (v) { return v; });
+  var hjRaw = readJSON('heji-v1') || {};
+  var hjBag = {};
+  Object.keys(hjRaw.stars || {}).forEach(function (k) {
+    if (hjRaw.stars[k]) hjBag[k] = hjRaw.stars[k];
+  });
+  Object.keys(hjRaw.correct || {}).forEach(function (k) {
+    if (hjRaw.correct[k] && !hjBag[k]) hjBag[k] = 3;
+  });
+  var hj = countMap(hjBag, function (v) { return v; });
   var door = 0;
   var cd = readJSON('changdu-hedeng-v1');
   if (cd && cd.done) {
     Object.keys(cd.done).forEach(function (k) { if (cd.done[k]) door++; });
   }
-  return { cg: cg, lx: lx, dw: dw, zt: zt, th: th, wf: wf, cd: cd, door: door };
+  return { cg: cg, lx: lx, dw: dw, zt: zt, th: th, wf: wf, cd: cdOverlap, hj: hj, door: door };
 }
 
 /* ---------- 新成绩单进度 ---------- */
@@ -1003,18 +1018,18 @@ function paintSummary() {
   el.innerHTML = line;
 }
 
-/* 汇总句沿用根首页原来的规则。分母是 124 = 15 + 31 + 26 + 27 + 6 + 10 + 9。
+/* 汇总句沿用根首页原来的规则。分母是 143 = 15 + 31 + 26 + 27 + 6 + 10 + 9 + 19。
    错题记录和错题再练不计入这句，也不计入「你做完了几组」。再练卡片自己读 cuoti-book-v1。
    长度换算专题读 changdu-zhuanti-progress-v1：solved 为真的题算完成，
    这一页不存星星，按旧规则「做对但没有星星」记 3 颗。
-   铁环页读 tiehuan-v1，往返页读 wangfan-v1，重叠页读 chongdie-v1，和长度单位换算一样：stars 有值就计入，做对但没有星星记 3 颗。
+   铁环页读 tiehuan-v1，往返页读 wangfan-v1，重叠页读 chongdie-v1，合集页读 heji-v1，和长度单位换算一样：stars 有值就计入，做对但没有星星记 3 颗。
    河灯门数仍不计入。 */
 function paintSumLine() {
   var s = stats();
-  var stars = s.cg.stars + s.lx.stars + s.dw.stars + s.zt.stars + s.th.stars + s.wf.stars + s.cd.stars;
-  var done = s.cg.done + s.lx.done + s.dw.done + s.zt.done + s.th.done + s.wf.done + s.cd.done;
+  var stars = s.cg.stars + s.lx.stars + s.dw.stars + s.zt.stars + s.th.stars + s.wf.stars + s.cd.stars + s.hj.stars;
+  var done = s.cg.done + s.lx.done + s.dw.done + s.zt.done + s.th.done + s.wf.done + s.cd.done + s.hj.done;
   var line = document.getElementById('sumLine');
-  if (line) line.textContent = stars ? ('练习 ★ ' + stars + ' · 完成 ' + done + '/124') : '练习星还没点亮';
+  if (line) line.textContent = stars ? ('练习 ★ ' + stars + ' · 完成 ' + done + '/143') : '练习星还没点亮';
 }
 
 function syncHomeBar() {
