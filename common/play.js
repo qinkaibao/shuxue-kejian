@@ -69,12 +69,47 @@
     }
     save();
   }
+  function qResult(id) {
+    if (cfg.shape === 'map') {
+      var row = S.raw[id];
+      if (!row || typeof row !== 'object') return null;
+      return row.result || null;
+    }
+    return (S.raw.result && S.raw.result[id]) || null;
+  }
+  function setQResult(id, result) {
+    if (cfg.shape === 'map') {
+      if (!S.raw[id] || typeof S.raw[id] !== 'object' || Array.isArray(S.raw[id])) S.raw[id] = {};
+      S.raw[id].result = result;
+    } else {
+      if (!S.raw.result || typeof S.raw.result !== 'object') S.raw.result = {};
+      S.raw.result[id] = result;
+    }
+    save();
+  }
+  function qPassed(id) {
+    var r = qResult(id);
+    if (r === 'pass') return true;
+    if (r === 'cleared') return false;
+    // 旧进度：只有 correct、还没有 result 时，仍算做过对
+    if (cfg.shape === 'map') return !!(S.raw[id] && S.raw[id].correct);
+    return !!(S.raw.correct && S.raw.correct[String(id)]);
+  }
   function legacyIds() {
     var ids = [];
     if (cfg.shape === 'map') {
-      Object.keys(S.raw).forEach(function (k) { if (S.raw[k] && S.raw[k].correct) ids.push(k); });
+      Object.keys(S.raw).forEach(function (k) {
+        var row = S.raw[k];
+        if (!row || typeof row !== 'object' || Array.isArray(row)) return;
+        if (row.result === 'pass' || (!row.result && row.correct)) ids.push(k);
+      });
     } else {
-      Object.keys(S.raw.correct || {}).forEach(function (k) { if (S.raw.correct[k]) ids.push(k); });
+      Object.keys(S.raw.result || {}).forEach(function (k) {
+        if (S.raw.result[k] === 'pass') ids.push(k);
+      });
+      Object.keys(S.raw.correct || {}).forEach(function (k) {
+        if (S.raw.correct[k] && !(S.raw.result && S.raw.result[k])) ids.push(k);
+      });
     }
     return ids;
   }
@@ -586,8 +621,11 @@
     var q = curQ();
     var l = cfg.levels[S.L];
     var stars = S.exp === 0 ? 3 : (S.exp === 1 ? 2 : 1);
+    var ok = S.exp === 0;
     award(q.id, stars);
-    if (global.KejianReport) global.KejianReport.pass(q.id);
+    setQResult(q.id, ok ? 'pass' : 'cleared');
+    // 看过讲解也能进下一题/下一关，但成绩单不记作做对；之后重做对了再 pass
+    if (ok && global.KejianReport) global.KejianReport.pass(q.id);
     setStages(3);
     paintProg();
     var last = S.Q >= l.qs.length - 1;
@@ -596,10 +634,25 @@
     else if (S.L < cfg.levels.length - 1) actions = '<button type="button" class="btn go" data-act="level" data-i="' + (S.L + 1) + '">下一关 ▶</button>';
     else actions = '<button type="button" class="btn go" data-act="alldone">完成全部</button>';
     actions += '<button type="button" class="btn" data-act="map">回关卡地图</button>';
+    var tip = '';
+    if (last) {
+      var pending = [];
+      l.qs.forEach(function (qq, i) {
+        if (!qPassed(qq.id)) pending.push({ n: i + 1, i: i });
+      });
+      if (pending.length) {
+        tip = '<div class="sum" style="text-align:left">' + pending.map(function (p) {
+          return '<button type="button" class="linkbtn" data-act="jumpq" data-i="' + p.i + '" style="display:block;width:100%;margin:6px 0;text-align:left">上面第 ' + p.n + ' 题还没做对，点这里跳过去</button>';
+        }).join('') + '</div>';
+      }
+    }
+    var note = ok
+      ? '一次讲解都没看，太棒了！'
+      : '看了讲解也能继续。这题成绩单先记作没做对，之后还可以再来做对。';
     $('#step').innerHTML = '<div class="endbox"><div class="prompt">第 ' + (S.Q + 1) + ' 题完成</div><div class="endstars">' +
       [0, 1, 2].map(function (i) { return starSVG(i < stars); }).join('') + '</div>' +
-      '<div>' + (stars === 3 ? '一次讲解都没看，太棒了！' : '看了讲解也没关系，下次试着自己想出来。') + '</div>' +
-      (last ? '<div class="sum">' + esc(l.sum) + '</div>' : '') +
+      '<div>' + note + '</div>' +
+      (last ? '<div class="sum">' + esc(l.sum) + '</div>' : '') + tip +
       '<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px">' + actions + '</div></div>';
   }
   function resetAll() {
@@ -622,6 +675,7 @@
     else if (act === 'map') { S.screen = 'map'; render(); }
     else if (act === 'level') { S.L = +t.getAttribute('data-i'); S.Q = 0; startQ(); }
     else if (act === 'nextq') { S.Q++; startQ(); }
+    else if (act === 'jumpq') { S.Q = +t.getAttribute('data-i'); startQ(); }
     else if (act === 'dock') { S.dockShut = !S.dockShut; paintDock(); }
     else if (act === 'report') { if (global.KejianReport && global.KejianReport.open) global.KejianReport.open(); }
     else if (act === 'reset') resetAll();
