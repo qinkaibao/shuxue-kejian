@@ -541,8 +541,14 @@ const ITEMS = [
   {
     type: 'story', id: 'tianping', title: '天平镇的八只木箱', date: '2026-10-20',
     emoji: '⚖️', tone: 'tone-c',
-    desc: '估一估、倒回去验算、括号小盒子，再把八只木箱配成一样重的四船。',
-    path: 'tianping/', total: 13, reportId: 'tianping'
+    desc: '读故事：估一估、倒回去验算、括号小盒子，再把八只木箱配成一样重的四船。',
+    path: 'tianping/'
+  },
+  {
+    type: 'practice', id: 'tianping-lianxi', title: '天平镇配套练习', date: '2026-10-20',
+    emoji: '⚖️', tone: 'tone-c',
+    desc: '竖式誊抄、退位验算、括号顺序和等和配对，一共 13 题。',
+    path: 'tianping-lianxi/', total: 13, reportId: 'tianping-lianxi'
   },
   {
     type: 'practice', id: 'chongdie', title: '重叠问题', date: '2026-10-20',
@@ -1024,7 +1030,7 @@ function paintSummary() {
   el.innerHTML = line;
 }
 
-/* 汇总句沿用根首页原来的规则。分母是 143 = 15 + 31 + 26 + 27 + 6 + 10 + 9 + 19。
+/* 汇总句沿用根首页原来的规则。分母是 156 = 15 + 31 + 26 + 27 + 6 + 10 + 9 + 19 + 13。
    错题记录和错题再练不计入这句，也不计入「你做完了几组」。再练卡片自己读 cuoti-book-v1。
    长度换算专题读 changdu-zhuanti-progress-v1：solved 为真的题算完成，
    这一页不存星星，按旧规则「做对但没有星星」记 3 颗。
@@ -1035,7 +1041,7 @@ function paintSumLine() {
   var stars = s.cg.stars + s.lx.stars + s.dw.stars + s.zt.stars + s.th.stars + s.wf.stars + s.cd.stars + s.hj.stars;
   var done = s.cg.done + s.lx.done + s.dw.done + s.zt.done + s.th.done + s.wf.done + s.cd.done + s.hj.done;
   var line = document.getElementById('sumLine');
-  if (line) line.textContent = stars ? ('练习 ★ ' + stars + ' · 完成 ' + done + '/143') : '练习星还没点亮';
+  if (line) line.textContent = stars ? ('练习 ★ ' + stars + ' · 完成 ' + done + '/156') : '练习星还没点亮';
 }
 
 function syncHomeBar() {
