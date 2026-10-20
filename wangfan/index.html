@@ -36,6 +36,12 @@
     -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain;
   }
   #labSvg { display: inline-block; vertical-align: top; max-width: 100%; }
+  .review-panel .stage {
+    margin: 4px 0 0; padding: 6px 4px; background: #fafdff; border-radius: 12px;
+  }
+  .review-panel .stage svg {
+    width: 100%; height: auto; display: block; max-width: 100%; vertical-align: top;
+  }
   .stats { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 12px; }
   .stats div {
     display: flex; justify-content: space-between; align-items: center;
@@ -102,11 +108,15 @@
     margin: 6px 0 8px;
   }
   .review-hr-row {
-    display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: flex-end;
-    min-height: 72px; margin: 8px 0;
+    display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center;
+    margin: 8px 0;
+  }
+  .hr-slot {
+    width: 48px; height: 48px; border-radius: 8px; border: 2px dashed #90caf9; background: #f8fcff;
+    display: flex; align-items: center; justify-content: center;
   }
   .hr-plate {
-    width: 52px; height: 52px; border-radius: 8px; background: #ffe082; border: 3px solid #f9a825;
+    width: 48px; height: 48px; border-radius: 8px; background: #ffe082; border: 3px solid #f9a825;
     display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: bold; color: #5d4037;
   }
   .hr-plate.b { background: #ffcc80; border-color: #ef6c00; }
@@ -131,7 +141,7 @@
         <h3>① 10 个一是一个十</h3>
         <p>一根一根地数，点「添 1 个一」。满 10 个小方块，点「合成一条（十）」。</p>
         <div class="stage"><svg id="reviewSvg1" role="img" aria-label="小方块与计数条"></svg></div>
-        <p class="review-count" id="reviewCount1">现在有 0 个一 · 0 个十</p>
+        <p class="review-count" id="reviewCount1">现在有 3 个一 · 0 个十</p>
         <div class="lab-actions">
           <button type="button" class="stepbtn" id="btnRevOne">添 1 个一</button>
           <button type="button" class="stepbtn" id="btnRevTen" disabled>10 个一 → 一条（十）</button>
@@ -142,7 +152,7 @@
         <h3>② 10 个十是一个百</h3>
         <p>十根十根地数。点「添 1 个十」，满 10 条合成「一板（百）」。</p>
         <div class="stage"><svg id="reviewSvg2" role="img" aria-label="计数条与百位板"></svg></div>
-        <p class="review-count" id="reviewCount2">现在有 0 个十 · 0 个百</p>
+        <p class="review-count" id="reviewCount2">现在有 3 个十 · 0 个百</p>
         <div class="lab-actions">
           <button type="button" class="stepbtn" id="btnRevRod">添 1 个十</button>
           <button type="button" class="stepbtn" id="btnRevHun" disabled>10 个十 → 一板（百）</button>
@@ -153,7 +163,7 @@
         <h3>③ 10 个一百是一千</h3>
         <p>课本：10 个百是一千。点「添 1 个百」，凑满 10 板就是一大块（千）。<strong>1000 米 = 1 千米</strong>（和下面跑道图一样）。</p>
         <div class="stage"><svg id="reviewSvg3" role="img" aria-label="百位板与千位块"></svg></div>
-        <p class="review-count" id="reviewCount3">现在有 0 个百 · 0 个千</p>
+        <p class="review-count" id="reviewCount3">现在有 3 个百 · 0 个千</p>
         <div class="review-km-bar" id="reviewKmBar" aria-hidden="true"></div>
         <p class="track-note" id="reviewKmNote">10 个 100 米小格拼成 1000 米 = 1 千米</p>
         <div class="lab-actions">
@@ -167,13 +177,13 @@
         <p>整百数想成「几个百」：<strong>3 个百加 5 个百是 8 个百</strong>，也就是 300+500=800。</p>
         <div class="review-hr-row" id="reviewHrA" aria-label="3 个百"></div>
         <div class="review-hr-row" id="reviewHrB" aria-label="5 个百"></div>
-        <p class="review-count" id="reviewHrSum">左边 0 个百 · 右边 0 个百</p>
+        <p class="review-count" id="reviewHrSum">左边 3 个百 · 右边 5 个百</p>
         <div class="lab-actions">
           <button type="button" class="stepbtn" id="btnHrA">左边添 1 个百（最多 3）</button>
           <button type="button" class="stepbtn" id="btnHrB">右边添 1 个百（最多 5）</button>
           <button type="button" class="stepbtn wide" id="btnHrReset">清空百板</button>
         </div>
-        <p class="formula" id="reviewHrFormula"></p>
+        <p class="formula" id="reviewHrFormula">3 个百加 5 个百是 8 个百，300+500=800</p>
       </div>
     </div>
     <p class="say">小美：先复习数位，再数来回和千米就不怕大数啦！</p>
@@ -274,54 +284,71 @@
     labApi.api.save();
   }
 
-  function drawUnitCubes(svg, n, ox, oy, size) {
+  function setReviewSvg(svg, w, h, inner) {
+    if (!svg) return;
+    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    svg.setAttribute('width', '100%');
+    svg.removeAttribute('height');
+    svg.innerHTML = inner;
+  }
+
+  function dashRect(x, y, w, h, rx) {
+    return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="' + rx + '" fill="#f8fcff" stroke="#90caf9" stroke-width="2" stroke-dasharray="5 4"/>';
+  }
+
+  function drawFilledRod(x, y, w, h) {
     var parts = [];
-    var cols = 5;
-    for (var i = 0; i < n; i++) {
-      var c = i % cols;
-      var r = Math.floor(i / cols);
-      var x = ox + c * (size + 4);
-      var y = oy + r * (size + 4);
-      parts.push('<rect x="' + x + '" y="' + y + '" width="' + size + '" height="' + size + '" rx="3" fill="#81d4fa" stroke="#0277bd" stroke-width="2"/>');
+    var segH = (h - 9) / 10;
+    for (var j = 0; j < 10; j++) {
+      parts.push('<rect x="' + x + '" y="' + (y + j * (segH + 1)) + '" width="' + w + '" height="' + segH + '" rx="2" fill="#aed581" stroke="#558b2f" stroke-width="1.2"/>');
     }
     return parts.join('');
   }
 
-  function drawRods(svg, n, ox, oy, size) {
+  function drawFilledPlate(x, y, side, cell) {
     var parts = [];
-    for (var i = 0; i < n; i++) {
-      var x = ox + i * (size + 14);
-      var y = oy;
-      for (var j = 0; j < 10; j++) {
-        parts.push('<rect x="' + x + '" y="' + (y + j * (size * 0.9 + 1)) + '" width="' + size + '" height="' + (size * 0.9) + '" rx="2" fill="#aed581" stroke="#558b2f" stroke-width="1.5"/>');
+    for (var r = 0; r < 10; r++) {
+      for (var c = 0; c < 10; c++) {
+        parts.push('<rect x="' + (x + c * cell) + '" y="' + (y + r * cell) + '" width="' + cell + '" height="' + cell + '" fill="#ffe082" stroke="#f9a825" stroke-width="0.8"/>');
       }
     }
-    return parts.join('');
-  }
-
-  function drawPlates(n, ox, oy, cell) {
-    var parts = [];
-    for (var i = 0; i < n; i++) {
-      var x = ox + i * (cell * 10 + 16);
-      for (var r = 0; r < 10; r++) {
-        for (var c = 0; c < 10; c++) {
-          parts.push('<rect x="' + (x + c * cell) + '" y="' + (oy + r * cell) + '" width="' + cell + '" height="' + cell + '" fill="#ffe082" stroke="#f9a825" stroke-width="1"/>');
-        }
-      }
-      parts.push('<text x="' + (x + cell * 5) + '" y="' + (oy + cell * 10 + 18) + '" text-anchor="middle" font-size="16" font-weight="700" fill="#5d4037">百</text>');
-    }
+    parts.push('<text x="' + (x + side / 2) + '" y="' + (y + side + 14) + '" text-anchor="middle" font-size="13" font-weight="700" fill="#5d4037">百</text>');
     return parts.join('');
   }
 
   function paintReview1() {
     var svg = $('reviewSvg1');
     if (!svg) return;
-    var w = 340;
-    var h = 120;
-    var inner = drawUnitCubes(svg, review.ones, 16, 16, 14) + drawRods(svg, review.tens, 16, 70, 8);
-    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
-    svg.setAttribute('width', '100%');
-    svg.innerHTML = '<rect width="' + w + '" height="' + h + '" fill="#fff" rx="12"/>' + inner;
+    var size = 16;
+    var gap = 6;
+    var cols = 5;
+    var ox = 10;
+    var oy = 8;
+    var parts = [];
+    for (var i = 0; i < 10; i++) {
+      var c = i % cols;
+      var r = Math.floor(i / cols);
+      var x = ox + c * (size + gap);
+      var y = oy + r * (size + gap);
+      parts.push(dashRect(x, y, size, size, 4));
+      if (i < review.ones) {
+        parts.push('<rect x="' + x + '" y="' + y + '" width="' + size + '" height="' + size + '" rx="4" fill="#81d4fa" stroke="#0277bd" stroke-width="2"/>');
+      }
+    }
+    var gridH = 2 * size + gap;
+    var ty = oy + gridH + 10;
+    var rodW = 10;
+    var rodH = 56;
+    if (review.tens > 0) {
+      parts.push('<text x="' + ox + '" y="' + (ty - 4) + '" font-size="12" font-weight="700" fill="#558b2f">已合成的十：</text>');
+      for (var t = 0; t < review.tens; t++) {
+        parts.push(drawFilledRod(ox + t * (rodW + 8), ty, rodW, rodH));
+      }
+    }
+    var w = ox + cols * (size + gap) - gap + 10;
+    var h = ty + (review.tens > 0 ? rodH + 8 : 0);
+    if (h < gridH + oy + 8) h = gridH + oy + 8;
+    setReviewSvg(svg, w, h, parts.join(''));
     $('reviewCount1').textContent = '现在有 ' + review.ones + ' 个一 · ' + review.tens + ' 个十';
     $('btnRevTen').disabled = review.ones < 10;
   }
@@ -329,12 +356,32 @@
   function paintReview2() {
     var svg = $('reviewSvg2');
     if (!svg) return;
-    var w = 360;
-    var h = 130;
-    var inner = drawRods(svg, review.rods, 12, 12, 9) + drawPlates(review.hundreds, 12, 78, 4);
-    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
-    svg.setAttribute('width', '100%');
-    svg.innerHTML = '<rect width="' + w + '" height="' + h + '" fill="#fff" rx="12"/>' + inner;
+    var ox = 8;
+    var oy = 8;
+    var slotW = 11;
+    var slotH = 62;
+    var slotGap = 5;
+    var parts = [];
+    for (var i = 0; i < 10; i++) {
+      var x = ox + i * (slotW + slotGap);
+      parts.push(dashRect(x, oy, slotW, slotH, 3));
+      if (i < review.rods) parts.push(drawFilledRod(x, oy + 1, slotW - 2, slotH - 2));
+    }
+    var rowW = 10 * slotW + 9 * slotGap;
+    var py = oy + slotH + 12;
+    var plateSide = 38;
+    var plateCell = 3.4;
+    if (review.hundreds > 0) {
+      parts.push('<text x="' + ox + '" y="' + (py - 2) + '" font-size="12" font-weight="700" fill="#f9a825">已合成的百：</text>');
+      py += 4;
+      for (var h = 0; h < review.hundreds; h++) {
+        parts.push(drawFilledPlate(ox + h * (plateSide + 10), py, plateSide, plateCell));
+      }
+    }
+    var w = Math.max(rowW + ox + 8, ox + review.hundreds * (plateSide + 10) + 8);
+    var h = py + (review.hundreds > 0 ? plateSide + 22 : 0);
+    if (h < oy + slotH + 8) h = oy + slotH + 8;
+    setReviewSvg(svg, w, h, parts.join(''));
     $('reviewCount2').textContent = '现在有 ' + review.rods + ' 个十 · ' + review.hundreds + ' 个百';
     $('btnRevHun').disabled = review.rods < 10;
   }
@@ -342,24 +389,40 @@
   function paintReview3() {
     var svg = $('reviewSvg3');
     if (!svg) return;
-    var w = 360;
-    var h = 100;
-    var inner = drawPlates(review.plates, 10, 10, 3);
-    if (review.thousands > 0) {
-      inner += '<rect x="250" y="8" width="88" height="88" rx="8" fill="#ffab91" stroke="#d84315" stroke-width="3"/>';
-      inner += '<text x="294" y="58" text-anchor="middle" font-size="28" font-weight="700" fill="#bf360c">千</text>';
+    var ox = 8;
+    var oy = 8;
+    var cols = 5;
+    var slot = 34;
+    var gap = 6;
+    var parts = [];
+    for (var i = 0; i < 10; i++) {
+      var c = i % cols;
+      var r = Math.floor(i / cols);
+      var x = ox + c * (slot + gap);
+      var y = oy + r * (slot + gap);
+      parts.push(dashRect(x, y, slot, slot, 6));
+      if (i < review.plates) {
+        parts.push(drawFilledPlate(x + 2, y + 2, slot - 4, (slot - 4) / 10));
+      }
     }
-    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
-    svg.setAttribute('width', '100%');
-    svg.innerHTML = '<rect width="' + w + '" height="' + h + '" fill="#fff" rx="12"/>' + inner;
+    var gridW = cols * (slot + gap) - gap;
+    var gridH = 2 * (slot + gap) - gap;
+    var tx = ox + gridW + 14;
+    if (review.thousands > 0) {
+      parts.push('<rect x="' + tx + '" y="' + oy + '" width="' + slot + '" height="' + slot + '" rx="8" fill="#ffab91" stroke="#d84315" stroke-width="3"/>');
+      parts.push('<text x="' + (tx + slot / 2) + '" y="' + (oy + slot / 2 + 6) + '" text-anchor="middle" font-size="20" font-weight="700" fill="#bf360c">千</text>');
+    }
+    var w = review.thousands > 0 ? tx + slot + 8 : ox + gridW + 8;
+    var h = oy + gridH + 8;
+    setReviewSvg(svg, w, h, parts.join(''));
     $('reviewCount3').textContent = '现在有 ' + review.plates + ' 个百 · ' + review.thousands + ' 个千';
     $('btnRevThou').disabled = review.plates < 10;
     var bar = $('reviewKmBar');
     if (bar) {
       var cells = [];
-      for (var i = 0; i < 10; i++) {
-        var on = i < review.plates;
-        cells.push('<div class="review-km-cell' + (on ? ' on' : '') + '">' + (on ? '100' : (i + 1)) + '</div>');
+      for (var j = 0; j < 10; j++) {
+        var on = j < review.plates;
+        cells.push('<div class="review-km-cell' + (on ? ' on' : '') + '">' + (on ? '100' : (j + 1)) + '</div>');
       }
       bar.innerHTML = cells.join('');
     }
@@ -376,21 +439,24 @@
     var a = $('reviewHrA');
     var b = $('reviewHrB');
     if (!a || !b) return;
-    var mk = function (n, cls) {
+    var mkRow = function (filled, maxN, cls) {
       var h = [];
-      for (var i = 0; i < n; i++) h.push('<div class="hr-plate' + (cls ? ' ' + cls : '') + '">百</div>');
+      for (var i = 0; i < maxN; i++) {
+        if (i < filled) h.push('<div class="hr-plate' + (cls ? ' ' + cls : '') + '">百</div>');
+        else h.push('<div class="hr-slot" aria-hidden="true"></div>');
+      }
       return h.join('');
     };
-    a.innerHTML = mk(review.hrA, '');
-    b.innerHTML = mk(review.hrB, 'b');
+    a.innerHTML = mkRow(review.hrA, 3, '');
+    b.innerHTML = mkRow(review.hrB, 5, 'b');
     var sum = review.hrA + review.hrB;
     $('reviewHrSum').textContent = '左边 ' + review.hrA + ' 个百 · 右边 ' + review.hrB + ' 个百';
     var f = $('reviewHrFormula');
     if (f) {
       if (review.hrA === 3 && review.hrB === 5) {
-        f.textContent = '3 个百加 5 个百是 8 个百 → 300+500=800';
+        f.textContent = '3 个百加 5 个百是 8 个百，300+500=800';
       } else if (sum > 0) {
-        f.textContent = review.hrA + ' 个百加 ' + review.hrB + ' 个百是 ' + sum + ' 个百 → ' + (review.hrA * 100) + '+' + (review.hrB * 100) + '=' + (sum * 100);
+        f.textContent = review.hrA + ' 个百加 ' + review.hrB + ' 个百是 ' + sum + ' 个百，' + (review.hrA * 100) + '+' + (review.hrB * 100) + '=' + (sum * 100);
       } else {
         f.textContent = '';
       }
@@ -400,15 +466,28 @@
   }
 
   function bindReview(api) {
-    var raw = (api.raw().lab || {}).review || {};
-    review.ones = clamp(Math.round(raw.ones || 0), 0, 10);
-    review.tens = clamp(Math.round(raw.tens || 0), 0, 9);
-    review.rods = clamp(Math.round(raw.rods || 0), 0, 10);
-    review.hundreds = clamp(Math.round(raw.hundreds || 0), 0, 9);
-    review.plates = clamp(Math.round(raw.plates || 0), 0, 10);
-    review.thousands = clamp(Math.round(raw.thousands || 0), 0, 1);
-    review.hrA = clamp(Math.round(raw.hrA || 0), 0, 3);
-    review.hrB = clamp(Math.round(raw.hrB || 0), 0, 5);
+    var lab = api.raw().lab;
+    var raw = lab && lab.review;
+    var useDefaults = !lab || !Object.prototype.hasOwnProperty.call(lab, 'review');
+    if (useDefaults) {
+      review.ones = 3;
+      review.tens = 0;
+      review.rods = 3;
+      review.hundreds = 0;
+      review.plates = 3;
+      review.thousands = 0;
+      review.hrA = 3;
+      review.hrB = 5;
+    } else {
+      review.ones = clamp(Math.round(raw.ones || 0), 0, 10);
+      review.tens = clamp(Math.round(raw.tens || 0), 0, 9);
+      review.rods = clamp(Math.round(raw.rods || 0), 0, 10);
+      review.hundreds = clamp(Math.round(raw.hundreds || 0), 0, 9);
+      review.plates = clamp(Math.round(raw.plates || 0), 0, 10);
+      review.thousands = clamp(Math.round(raw.thousands || 0), 0, 1);
+      review.hrA = clamp(Math.round(raw.hrA || 0), 0, 3);
+      review.hrB = clamp(Math.round(raw.hrB || 0), 0, 5);
+    }
     $('btnRevOne').onclick = function () {
       if (review.ones < 10) { review.ones++; paintReview1(); saveLab(); }
     };

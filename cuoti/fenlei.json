@@ -25,6 +25,13 @@
         "localStorageKey": "tiehuan-v1"
       },
       {
+        "名称": "重叠问题——木条钉在一起",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/chongdie/",
+        "题数": 9,
+        "reportId": "chongdie",
+        "localStorageKey": "chongdie-v1"
+      },
+      {
         "名称": "竹尺巷的河灯",
         "url": "https://qinkaibao.github.io/shuxue-kejian/changdu/",
         "题数": 10,
@@ -74,7 +81,7 @@
         "localStorageKey": ""
       }
     ],
-    "相关练习题数合计": 84
+    "相关练习题数合计": 93
   },
   {
     "分类": "括号与运算顺序",

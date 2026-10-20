@@ -145,17 +145,26 @@
     if (wB === one) wB = one + 200;
     var onePlaced = place(one + ' 米', [wA + ' 米', wB + ' 米'], slot + 1);
     var text = spec.text;
+    var askLegs = spec.askLegs || '一共走了几个单程（几个箭头）？';
+    var hintLegs = spec.hintLegs || legHint(rt);
+    var expLegs = spec.expLegs || ('往返 ' + rt + ' 次 → ' + lg + ' 个单程。');
+    var askOne = spec.askOne || '每个单程一样长。单程多少米？';
+    var hintOne = spec.hintOne || ('总路程 ' + total + ' 米，是 ' + lg + ' 个一样长的单程。想一想：' + lg + ' 个几连加是 ' + total + '？');
+    var expOne = typeof spec.expOne === 'function'
+      ? spec.expOne(one, lg, total)
+      : (spec.expOne || ('试一试：' + addExplain(one, lg) + ' 合起来正好是 ' + total + ' 米，所以单程 ' + one + ' 米。'));
+    var hint2 = spec.hint2 || '不能拿总路程直接当单程；先数清几个箭头，再想连加。';
     var steps = [
-      C(0, '这一天一共走了几个单程（几个箭头）？', legPlaced.opts, legPlaced.a,
-        legHint(rt),
-        '往返 ' + rt + ' 次 → ' + lg + ' 个单程。',
+      C(0, askLegs, legPlaced.opts, legPlaced.a,
+        hintLegs,
+        expLegs,
         lg + ' 个单程'),
-      C(1, '每个单程一样长。家到学校单程多少米？', onePlaced.opts, onePlaced.a,
-        '总路程 ' + total + ' 米，是 ' + lg + ' 个一样长的单程。',
-        '试一试：' + addExplain(one, lg) + ' 合起来正好是 ' + total + ' 米，所以单程 ' + one + ' 米。',
+      C(1, askOne, onePlaced.opts, onePlaced.a,
+        hintOne,
+        expOne,
         '单程 ' + one + ' 米'),
       C(2, '哪一句对？', onePlaced.opts, onePlaced.a,
-        '不能拿总路程直接当单程；要想到一共几个单程。',
+        hint2,
         '答：单程 ' + one + ' 米。验算：' + addExplain(one, lg) + '。',
         '答：' + one + ' 米')
     ];
@@ -268,9 +277,18 @@
     }, 2),
     inverseOne(6, {
       title: '已知总米数',
-      text: '小美在 50 米的泳道里游了 2 个来回，一共游了 200 米。泳道单程长多少米？',
+      text: '小美在泳道里游了 2 个来回，一共游了 200 米。泳道单程长多少米？',
       roundTrips: 2,
-      totalM: 200
+      totalM: 200,
+      askLegs: '游了 2 个来回，图上会有几个箭头（几个单程）？',
+      hintLegs: '1 个来回画 2 个箭头；2 个来回就数一数一共几个箭头。',
+      expLegs: '2 个来回 → 一共 4 个箭头，也就是 4 个单程。',
+      askOne: '4 个几米连加，正好是 200 米？',
+      hintOne: '先数清图上有几个箭头（4 个单程）。每个单程一样长，想一想：4 个几相加是 200？可以试 50＋50＋50＋50。',
+      expOne: function (one, lg, total) {
+        return addExplain(one, lg) + ' 合起来正好是 ' + total + ' 米，所以泳道单程 ' + one + ' 米。';
+      },
+      hint2: '先数清 4 个箭头，再连加；不要把 200 米当成单程。'
     }, 0),
     inverseRt(7, {
       title: '游 1 千米',
