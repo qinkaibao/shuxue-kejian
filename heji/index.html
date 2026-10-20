@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#fff8e7">
+<title>第三单元合集</title>
+<link rel="stylesheet" href="../common/play.css">
+<style>
+  body, button, input, svg {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", "WenQuanYi Micro Hei", sans-serif;
+  }
+  .hdr { display: none !important; }
+  #app { padding-top: 8px !important; max-width: 1100px; }
+  body.has-site-nav :where(#step, .qtext, .card, .bigbtn, .sec) {
+    scroll-margin-top: calc(var(--sn-h, 46px) + 12px);
+  }
+  .lab-lead { margin: 0 0 10px; font-size: 22px; overflow-wrap: anywhere; }
+  .ctrls { display: flex; flex-direction: column; gap: 8px; margin: 8px 0 12px; }
+  .ctrl {
+    display: flex; align-items: center; gap: 8px;
+    background: #fff3d6; border-radius: 16px; padding: 6px 8px 6px 12px;
+  }
+  .ctrl span { flex: 1; font-weight: bold; font-size: 22px; color: #8a3a06; }
+  .ctrl b { min-width: 0; flex: 0 1 auto; text-align: center; font-size: 26px; color: #c2410c; }
+  .ctrl button {
+    width: 56px; height: 56px; border: none; border-radius: 14px;
+    background: #ffd166; color: #5a3d00; font-size: 32px; font-weight: bold;
+    box-shadow: 0 3px 0 #e0a800; line-height: 1; flex: 0 0 auto;
+  }
+  .ctrl button:active { transform: translateY(2px); box-shadow: 0 1px 0 #e0a800; }
+  .ctrl button:disabled { opacity: .38; transform: none; }
+  .stage { max-width: 100%; margin: 4px 0 0; }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .stats { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 12px; }
+  .stats div {
+    display: flex; justify-content: space-between; align-items: center; gap: 8px;
+    background: #fff8e7; border-radius: 16px; padding: 10px 14px;
+  }
+  .stats small { font-size: 20px; color: #8a5a09; font-weight: bold; }
+  .stats b { font-size: 28px; color: #c2410c; line-height: 1.2; overflow-wrap: anywhere; text-align: right; }
+  .formula, .countline, .wrongline, .ruleline, .say {
+    overflow-wrap: anywhere;
+  }
+  .formula {
+    margin: 12px 0 0; text-align: center; font-size: 24px; font-weight: bold;
+    color: #1f3b73; line-height: 1.45;
+  }
+  .countline, .ruleline {
+    margin: 8px 0 0; text-align: center; font-size: 20px; font-weight: bold;
+    border-radius: 14px; padding: 10px 12px; line-height: 1.5;
+  }
+  .countline { color: #1b5e20; background: #f1f8e9; }
+  .ruleline { color: #8a3a06; background: #fff3d6; }
+  .wrongline {
+    margin: 8px 0 0; text-align: center; font-size: 20px; font-weight: bold;
+    color: #c62828; background: #ffebee; border-radius: 14px; padding: 10px 12px; line-height: 1.45;
+  }
+  .picks { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0; }
+  .picks button, .pickon {
+    border: 3px solid #f1c26b; background: #fffdf8; border-radius: 14px;
+    min-height: 52px; font-size: 20px; font-weight: bold; color: #5a3d00; padding: 8px;
+  }
+  .picks button.on, .pickon.on { background: #ffd166; border-color: #e0a800; }
+  .lab-actions { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 12px; }
+  .lab-actions .stepbtn { margin: 0; white-space: normal; }
+  .ans { color: #c62828; font-weight: bold; font-size: 26px; margin: 8px 0; }
+  .opt { overflow-wrap: anywhere; white-space: normal; }
+  @media (max-width: 520px) {
+    .ctrl { flex-wrap: wrap; }
+    .ctrl span { flex: 1 0 100%; }
+    .stats b { font-size: 24px; }
+  }
+  @media (min-width: 760px) {
+    .ctrls { flex-direction: row; flex-wrap: wrap; }
+    .ctrl { flex: 1; min-width: 220px; }
+    .stats { grid-template-columns: repeat(3, 1fr); }
+    .stats div { display: block; text-align: center; }
+    .stats small { display: block; margin-bottom: 4px; }
+    .stats b { text-align: center; }
+    .picks.four { grid-template-columns: repeat(4, 1fr); }
+    .lab-actions.two { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<template id="homeExtra">
+  <h2 class="sec">先复习 · 10 个一百是一千</h2>
+  <div class="card">
+    <p class="lab-lead">一个小方块是「一」，一条是「十」，一板是「百」，一大块是「千」。点满 10 个，就进到下一个单位。10 个一百米拼在一起，是 1000 米，也就是 1 千米。</p>
+    <div class="picks four" id="revStages">
+      <button type="button" data-stage="one">点「一」</button>
+      <button type="button" data-stage="ten">点「十」</button>
+      <button type="button" data-stage="hundred">点「百」</button>
+      <button type="button" data-stage="hm">点「一百米」</button>
+    </div>
+    <div class="ctrls">
+      <div class="ctrl">
+        <span>已经点了</span>
+        <button type="button" id="revMinus" aria-label="拿掉一个">−</button>
+        <b id="revCount">0 个</b>
+        <button type="button" id="revPlus" aria-label="再点一个">+</button>
+      </div>
+    </div>
+    <div class="stage"><svg id="labReview" role="img" aria-labelledby="revText"></svg></div>
+    <p class="countline" id="revText">点满 10 个一看。</p>
+    <div class="lab-actions">
+      <button type="button" class="stepbtn" id="btnHundred">看 3 个百加 5 个百</button>
+    </div>
+    <p class="ruleline" id="hundredText">3 个百加 5 个百是 8 个百。300 + 500 = 800。</p>
+    <p class="say" id="revSay">小美：先点「一」，点满 10 个，就变成十。</p>
+  </div>
+
+  <h2 class="sec">第1节 · 对折</h2>
+  <div class="card">
+    <p class="lab-lead">点「对折一次」，段数加一倍：1 → 2 → 4 → 8。先数段数，再算每段多长。</p>
+    <p>原题：铁丝长 24 厘米，对折 3 次。段数是 8，不是 4。每段 24 ÷ 8 = 3 厘米。错法 24 ÷ 4 = 6，是把段数数错了。</p>
+    <div class="ctrls">
+      <div class="ctrl">
+        <span>铁丝总长</span>
+        <button type="button" id="lenMinus" aria-label="缩短">−</button>
+        <b id="foldLenVal">24 厘米</b>
+        <button type="button" id="lenPlus" aria-label="加长">+</button>
+      </div>
+      <div class="ctrl">
+        <span>已对折</span>
+        <button type="button" id="foldMinus" aria-label="展开一次">−</button>
+        <b id="foldNVal">0 次</b>
+        <button type="button" id="foldPlus" aria-label="对折一次">+</button>
+      </div>
+    </div>
+    <div class="stage"><svg id="labFold" role="img" aria-labelledby="foldSay"></svg></div>
+    <div class="stats">
+      <div><small>段数</small><b id="foldSegs">1</b></div>
+      <div><small>每段</small><b id="foldEach">24 厘米</b></div>
+      <div><small>怎么算</small><b id="foldHow">数段数</b></div>
+    </div>
+    <p class="formula" id="foldFormula">还没对折。</p>
+    <p class="wrongline" id="foldWrong"></p>
+    <p class="ruleline">每对折一次，每一段又分成 2 段。对折 3 次是 8 段。</p>
+    <div class="lab-actions two">
+      <button type="button" class="stepbtn" id="btnFold">对折一次</button>
+      <button type="button" class="stepbtn" id="btnUnfold">展开一次</button>
+      <button type="button" class="stepbtn" id="btnFoldStory">回到原题：24 厘米，对折 3 次</button>
+      <button type="button" class="stepbtn" data-act="level" data-i="0">做对折这 3 题</button>
+    </div>
+    <p class="say" id="foldSay"></p>
+  </div>
+
+  <h2 class="sec">第2节 · 估测</h2>
+  <div class="card">
+    <p class="lab-lead">先想一件熟悉的东西有多长，再选单位。点下面三个，看图怎么变。</p>
+    <div class="picks">
+      <button type="button" data-guess="door">门</button>
+      <button type="button" data-guess="butterfly">蝴蝶</button>
+      <button type="button" data-guess="mom">妈妈的身高</button>
+    </div>
+    <div class="stage"><svg id="labGuess" role="img" aria-labelledby="guessSay"></svg></div>
+    <p class="countline" id="guessLine"></p>
+    <p class="ruleline">门大约 2 米。蝴蝶大约 35 毫米。妈妈大约 1 米 6 分米。</p>
+    <div class="lab-actions">
+      <button type="button" class="stepbtn" data-act="level" data-i="1">做估测这 3 题</button>
+    </div>
+    <p class="say" id="guessSay"></p>
+  </div>
+
+  <h2 class="sec">第3节 · 间隔</h2>
+  <div class="card">
+    <p class="lab-lead">车站、种树都先画线段图。点和点之间才是一段，段数比点的个数少 1。</p>
+    <p>原题：第 1 站到第 4 站是 3 段。600 + 600 + 600 = 1800 米。不要把 4 个站当成 4 段，也不要算成 5 段。</p>
+    <div class="picks">
+      <button type="button" id="btnGapStop">数车站</button>
+      <button type="button" id="btnGapTree">数种树</button>
+    </div>
+    <div class="ctrls">
+      <div class="ctrl">
+        <span id="gapName">站数</span>
+        <button type="button" id="gapMinus" aria-label="减少">−</button>
+        <b id="gapNVal">4</b>
+        <button type="button" id="gapPlus" aria-label="增加">+</button>
+      </div>
+    </div>
+    <div class="stage"><svg id="labGap" role="img" aria-labelledby="gapSay"></svg></div>
+    <p class="formula" id="gapFormula"></p>
+    <p class="ruleline">两端都算上时：段数 = 站数 − 1，也 = 棵数 − 1。</p>
+    <div class="lab-actions two">
+      <button type="button" class="stepbtn" id="btnGapStory">回到车站原题：4 个站</button>
+      <button type="button" class="stepbtn" data-act="level" data-i="2">做间隔这 3 题</button>
+    </div>
+    <p class="say" id="gapSay"></p>
+  </div>
+
+  <h2 class="sec">第4节 · 锯木头</h2>
+  <div class="card">
+    <p class="lab-lead">点「锯一刀」，木头多出一段。锯成几段，刀数比段数少 1。</p>
+    <div class="ctrls">
+      <div class="ctrl">
+        <span>已经锯了</span>
+        <button type="button" id="sawMinus" aria-label="撤销一刀">−</button>
+        <b id="sawVal">0 刀</b>
+        <button type="button" id="sawPlus" aria-label="锯一刀">+</button>
+      </div>
+    </div>
+    <div class="stage"><svg id="labSaw" role="img" aria-labelledby="sawSay"></svg></div>
+    <p class="formula" id="sawFormula"></p>
+    <p class="ruleline">锯成 4 段，只要锯 3 次。用时把每刀的分钟连加，不要多加一刀。</p>
+    <div class="lab-actions two">
+      <button type="button" class="stepbtn" id="btnSawStory">锯成 4 段看一看</button>
+      <button type="button" class="stepbtn" data-act="level" data-i="3">做锯木头这 2 题</button>
+    </div>
+    <p class="say" id="sawSay"></p>
+  </div>
+
+  <h2 class="sec">第5节 · 单位换算</h2>
+  <div class="card">
+    <p class="lab-lead">1 分米里有 10 厘米。点一下添 1 分米，用连加换成厘米。千米用开头的「10 个一百米」。</p>
+    <div class="ctrls">
+      <div class="ctrl">
+        <span>分米条</span>
+        <button type="button" id="dmMinus" aria-label="拿掉一条">−</button>
+        <b id="dmVal">0 条</b>
+        <button type="button" id="dmPlus" aria-label="添一条">+</button>
+      </div>
+    </div>
+    <div class="stage"><svg id="labDm" role="img" aria-labelledby="dmSay"></svg></div>
+    <p class="formula" id="dmFormula"></p>
+    <p class="ruleline">3 分米 = 10 + 10 + 10 = 30 厘米。1 千米 = 10 个一百米 = 1000 米。</p>
+    <div class="lab-actions two">
+      <button type="button" class="stepbtn" id="btnDmStory">摆成 3 分米</button>
+      <button type="button" class="stepbtn" data-act="level" data-i="4">做换算这 3 题</button>
+    </div>
+    <p class="say" id="dmSay"></p>
+  </div>
+
+  <h2 class="sec">第6节 · 剩余</h2>
+  <div class="card">
+    <p class="lab-lead">一根 23 厘米的绳子，每 5 厘米剪一段。点一下剪一段，看到不够再剪时停下来。</p>
+    <div class="ctrls">
+      <div class="ctrl">
+        <span>已经剪了</span>
+        <button type="button" id="ropeMinus" aria-label="退回一段">−</button>
+        <b id="ropeVal">0 段</b>
+        <button type="button" id="ropePlus" aria-label="再剪一段">+</button>
+      </div>
+    </div>
+    <div class="stage"><svg id="labRope" role="img" aria-labelledby="ropeSay"></svg></div>
+    <p class="formula" id="ropeFormula"></p>
+    <p class="ruleline">先一段一段连加，加到再加就超过总长为止。剩下的单独写出来。</p>
+    <div class="lab-actions two">
+      <button type="button" class="stepbtn" id="btnRopeStory">剪到不能再剪</button>
+      <button type="button" class="stepbtn" data-act="level" data-i="5">做剩余这 2 题</button>
+    </div>
+    <p class="say" id="ropeSay"></p>
+  </div>
+
+  <h2 class="sec">第7节 · 路程</h2>
+  <div class="card">
+    <p class="lab-lead">一个单程画一个箭头。一个来回是两个箭头。泳道 50 米：去 50 米，回 50 米，50 + 50 = 100 米。别写成 1000 米。</p>
+    <div class="ctrls">
+      <div class="ctrl">
+        <span>单程箭头</span>
+        <button type="button" id="tripMinus" aria-label="去掉一个单程">−</button>
+        <b id="tripVal">0 个</b>
+        <button type="button" id="tripPlus" aria-label="加一个单程">+</button>
+      </div>
+    </div>
+    <div class="stage"><svg id="labTrip" role="img" aria-labelledby="tripSay"></svg></div>
+    <p class="formula" id="tripFormula"></p>
+    <p class="say" id="tripSay"></p>
+    <p class="lab-lead" style="margin-top:14px">要游 1 千米：一个来回是 100 米，点一格就是一个来回。数到 10 格，10 个一百米 = 1000 米 = 1 千米。</p>
+    <div class="ctrls">
+      <div class="ctrl">
+        <span>来回格子</span>
+        <button type="button" id="kmMinus" aria-label="去掉一个来回">−</button>
+        <b id="kmVal">0 个</b>
+        <button type="button" id="kmPlus" aria-label="加上一个来回">+</button>
+      </div>
+    </div>
+    <div class="stage"><svg id="labKm" role="img" aria-labelledby="kmSay"></svg></div>
+    <p class="formula" id="kmFormula"></p>
+    <p class="wrongline">错法提醒：50 + 50 = 100，不是 1000。1 个来回到不了 1 千米。</p>
+    <div class="lab-actions two">
+      <button type="button" class="stepbtn" id="btnTripTwo">摆成 2 个来回</button>
+      <button type="button" class="stepbtn" id="btnKmStory">数满 1 千米</button>
+      <button type="button" class="stepbtn" data-act="level" data-i="6">做路程这 3 题</button>
+    </div>
+    <p class="say" id="kmSay"></p>
+  </div>
+</template>
+<p class="catline" style="margin:18px 12px 28px;padding:14px 16px;background:#fffdf8;border-radius:16px;box-shadow:0 3px 0 #f1c26b;font-size:20px;line-height:1.6;overflow-wrap:anywhere">本页练习：<a style="color:#1d5fd0;font-weight:bold" href="../cuoti/#cat-%E9%95%BF%E5%BA%A6%E5%8D%95%E4%BD%8D%E4%B8%8E%E6%8D%A2%E7%AE%97">长度单位与换算</a>类、<a style="color:#1d5fd0;font-weight:bold" href="../cuoti/#cat-%E9%97%B4%E9%99%94%E4%B8%8E%E5%BE%80%E8%BF%94">间隔与往返</a>类、<a style="color:#1d5fd0;font-weight:bold" href="../cuoti/#cat-%E6%9C%89%E4%BD%99%E6%95%B0%E9%99%A4%E6%B3%95">有余数除法</a>类</p>
+<script src="../common/report.js"></script>
+<script src="../common/nav.js"></script>
+<script src="../common/play.js"></script>
+<script src="questions.js"></script>
+<script>
+(function () {
+  var SAFE = window.HEJI_SAFE;
+  var lab = {
+    stage: 'one', n: 0, showHundred: false,
+    foldLen: 24, foldN: 0,
+    guess: 'door',
+    gapMode: 'stop', gapN: 4,
+    saw: 0, dm: 0, rope: 0, legs: 0, laps: 0
+  };
+  var labApi = null;
+  var resizeBound = false;
+  var reviewCopy = {
+    one: ['一', '10 个一是十。', '小美：10 个小方块拼成一条，是十。'],
+    ten: ['十', '10 个十是一百。', '小美：10 条十拼成一板，是一百。'],
+    hundred: ['百', '10 个百是一千。', '小美：10 板百拼成一大块，是一千。'],
+    hm: ['100米', '10 个一百米是 1000 米，也就是 1 千米。', '小美：点满 10 格一百米，就是 1 千米。不用乘法。']
+  };
+
+  function $(id) { return document.getElementById(id); }
+  function clamp(n, a, b) { return Math.max(a, Math.min(b, n)); }
+
+  function saveLab() {
+    if (!labApi) return;
+    labApi.raw().lab = {
+      stage: lab.stage, n: lab.n,
+      foldLen: lab.foldLen, foldN: lab.foldN,
+      guess: lab.guess, gapMode: lab.gapMode, gapN: lab.gapN,
+      saw: lab.saw, dm: lab.dm, rope: lab.rope, legs: lab.legs, laps: lab.laps
+    };
+    labApi.save();
+  }
+
+  function addUp(unit, count) {
+    var total = 0;
+    var i;
+    for (i = 0; i < count; i++) total = total + unit;
+    return total;
+  }
+
+  function paintSvg(svg, body, label) {
+    if (!svg) return;
+    svg.setAttribute('viewBox', '0 0 360 168');
+    svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    svg.setAttribute('aria-label', label || '');
+    svg.innerHTML = '<rect width="360" height="168" rx="16" fill="#fff8e7"/>' + body;
+  }
+
+  function cells(n, onText) {
+    var html = '';
+    var i;
+    for (i = 0; i < 10; i++) {
+      var x = 12 + (i % 5) * 68;
+      var y = i < 5 ? 18 : 90;
+      var on = i < n;
+      html += '<rect x="' + x + '" y="' + y + '" width="60" height="52" rx="10" fill="' + (on ? '#ffd166' : '#fff') + '" stroke="#e0a800" stroke-width="2"/>';
+      html += '<text x="' + (x + 30) + '" y="' + (y + 33) + '" text-anchor="middle" font-size="16" font-weight="700" fill="#7a4b00">' + (on ? onText : '') + '</text>';
+    }
+    return html;
+  }
+
+  function drawReview() {
+    var info = reviewCopy[lab.stage];
+    var meters = addUp(100, lab.n);
+    paintSvg($('labReview'), cells(lab.n, info[0]), info[1]);
+    $('revCount').textContent = lab.n + ' 个';
+    $('revMinus').disabled = lab.n <= 0;
+    $('revPlus').disabled = lab.n >= 10;
+    var line = lab.n === 10 ? info[1] : ('已经点了 ' + lab.n + ' 个。再点到 10 个。');
+    if (lab.stage === 'hm' && lab.n > 0 && lab.n < 10 && lab.n <= 5) {
+      line = '已经 ' + lab.n + ' 个一百米：' + SAFE.sumFormula(100, lab.n) + ' 米。点满 10 个是 1 千米。';
+    } else if (lab.stage === 'hm' && lab.n > 5 && lab.n < 10) {
+      line = '已经 ' + lab.n + ' 个一百米，一共 ' + meters + ' 米。再点到 10 个就是 1 千米。';
+    }
+    $('revText').textContent = line;
+    $('revSay').textContent = lab.n === 10 ? info[2] : '小美：一个一个点，点满 10 个再看它变成什么。';
+    Array.prototype.forEach.call(document.querySelectorAll('#revStages button'), function (btn) {
+      btn.classList.toggle('on', btn.getAttribute('data-stage') === lab.stage);
+    });
+    $('hundredText').textContent = lab.showHundred
+      ? '3 个百加 5 个百是 8 个百。300 + 500 = 800。'
+      : '整百可以想成几个百。点上面的按钮看 300 + 500。';
+  }
+
+  function alignLen() {
+    var segs = SAFE.segAfter(lab.foldN);
+    var max = Math.floor(40 / segs) * segs;
+    var next = Math.round(lab.foldLen / segs) * segs;
+    if (next < segs) next = segs;
+    if (next > max) next = max;
+    lab.foldLen = next;
+  }
+  function stepLen(dir) {
+    var segs = SAFE.segAfter(lab.foldN);
+    var step = segs === 1 ? 4 : segs;
+    var max = Math.floor(40 / segs) * segs;
+    var min = segs === 1 ? 8 : segs;
+    lab.foldLen = clamp(lab.foldLen + dir * step, min, max);
+    alignLen();
+  }
+
+  function drawFold() {
+    alignLen();
+    var segs = SAFE.segAfter(lab.foldN);
+    var each = lab.foldLen / segs;
+    var body = '';
+    var i;
+    var gap = segs > 1 ? 4 : 0;
+    var inner = 328 - gap * (segs - 1);
+    var w = inner / segs;
+    for (i = 0; i < segs; i++) {
+      var x = 16 + i * (w + gap);
+      body += '<rect x="' + x + '" y="48" width="' + w + '" height="42" rx="8" fill="#81c784" stroke="#1b5e20" stroke-width="2"/>';
+      if (w >= 26) {
+        body += '<text x="' + (x + w / 2) + '" y="75" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">' + each + '</text>';
+      }
+    }
+    body += '<text x="180" y="28" text-anchor="middle" font-size="20" font-weight="700" fill="#1b5e20">总长 ' + lab.foldLen + ' 厘米 · ' + segs + ' 段</text>';
+    body += '<text x="180" y="130" text-anchor="middle" font-size="18" font-weight="700" fill="#1565c0">' + SAFE.foldFormula(lab.foldLen, segs, each) + '</text>';
+    paintSvg($('labFold'), body, '对折 ' + lab.foldN + ' 次，' + segs + ' 段');
+    $('foldLenVal').textContent = lab.foldLen + ' 厘米';
+    $('foldNVal').textContent = lab.foldN + ' 次';
+    $('lenMinus').disabled = lab.foldLen <= (segs === 1 ? 8 : segs);
+    $('lenPlus').disabled = lab.foldLen >= Math.floor(40 / segs) * segs;
+    $('foldMinus').disabled = lab.foldN <= 0;
+    $('foldPlus').disabled = lab.foldN >= 3;
+    $('foldSegs').textContent = String(segs);
+    $('foldEach').textContent = each + ' 厘米';
+    $('foldHow').textContent = segs <= 5 ? '连加' : '表内除法';
+    $('foldFormula').textContent = SAFE.foldFormula(lab.foldLen, segs, each);
+    $('foldWrong').textContent = (lab.foldLen === 24 && lab.foldN === 3) ? '错法：当成 4 段，24 ÷ 4 = 6 厘米' : (lab.foldN === 3 ? '别把对折 3 次当成 4 段' : '');
+    $('foldSay').textContent = lab.foldLen === 24 && lab.foldN === 3
+      ? '小美：就是原题。对折 3 次是 8 段，24 ÷ 8 = 3 厘米。'
+      : ('小美：现在 ' + segs + ' 段。' + (lab.foldN === 0 ? '先点「对折一次」。' : SAFE.foldFormula(lab.foldLen, segs, each)));
+  }
+
+  function drawGuess() {
+    var body = '';
+    var line = '';
+    var say = '';
+    if (lab.guess === 'door') {
+      body = '<rect x="40" y="28" width="70" height="112" rx="6" fill="#ffe0b2" stroke="#e65100" stroke-width="3"/>' +
+        '<text x="75" y="90" text-anchor="middle" font-size="18" font-weight="700" fill="#e65100">2 米</text>' +
+        '<rect x="150" y="110" width="70" height="30" rx="4" fill="#ffcc80" stroke="#ef6c00"/>' +
+        '<text x="185" y="130" text-anchor="middle" font-size="14" font-weight="700">2 分米</text>' +
+        '<text x="250" y="70" font-size="18" font-weight="700" fill="#5a3d00">门比 2 分米高得多</text>';
+      line = '2 分米 = 10 + 10 = 20 厘米，这么矮不是门。门高约 2 米。';
+      say = '小美：我曾经把门高约 2 填成分米。2 分米只有 20 厘米。';
+    } else if (lab.guess === 'butterfly') {
+      body = '<text x="40" y="70" font-size="42">🦋</text>' +
+        '<text x="100" y="60" font-size="18" font-weight="700" fill="#6a1b9a">大约 35 毫米</text>' +
+        '<rect x="40" y="100" width="280" height="28" rx="6" fill="#e1bee7" stroke="#8e24aa"/>' +
+        '<text x="180" y="120" text-anchor="middle" font-size="16" font-weight="700" fill="#4a148c">35 厘米有这么长，不像蝴蝶</text>';
+      line = '蝴蝶身子比一节手指还短，大约 35 毫米，比 3 厘米再多一点点。';
+      say = '小美：填成 35 厘米就太大了。';
+    } else {
+      body = '<circle cx="78" cy="42" r="16" fill="#ffcc80" stroke="#e65100"/>' +
+        '<line x1="78" y1="58" x2="78" y2="110" stroke="#e65100" stroke-width="4"/>' +
+        '<text x="110" y="80" font-size="18" font-weight="700" fill="#e65100">1 米 6 分米</text>' +
+        '<rect x="40" y="126" width="120" height="22" rx="6" fill="#ffe0b2" stroke="#ef6c00"/>' +
+        '<text x="100" y="143" text-anchor="middle" font-size="14" font-weight="700">1 米 6 厘米太矮</text>';
+      line = '6 分米是 6 个十厘米，也就是 60 厘米。1 米 6 分米 = 100 + 60 = 160 厘米。';
+      say = '小美：1 米 6 厘米只比 1 米多一点点，妈妈没有那么矮。';
+    }
+    paintSvg($('labGuess'), body, line);
+    $('guessLine').textContent = line;
+    $('guessSay').textContent = say;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-guess]'), function (btn) {
+      btn.classList.toggle('on', btn.getAttribute('data-guess') === lab.guess);
+    });
+  }
+
+  function drawGap() {
+    var n = lab.gapN;
+    var segs = n - 1;
+    var unit = lab.gapMode === 'tree' ? 8 : 600;
+    var noun = lab.gapMode === 'tree' ? '棵' : '站';
+    var body = '';
+    var i;
+    body += '<line x1="28" y1="78" x2="332" y2="78" stroke="#1565c0" stroke-width="6"/>';
+    for (i = 0; i < n; i++) {
+      var x = 28 + (n === 1 ? 0 : i * (304 / (n - 1)));
+      body += '<circle cx="' + x + '" cy="78" r="12" fill="#fb8500" stroke="#c2410c" stroke-width="2"/>';
+      body += '<text x="' + x + '" y="48" text-anchor="middle" font-size="14" font-weight="700" fill="#8a3a06">' + (i + 1) + noun + '</text>';
+      if (i < segs) {
+        var x2 = 28 + (i + 1) * (304 / (n - 1));
+        body += '<text x="' + ((x + x2) / 2) + '" y="112" text-anchor="middle" font-size="13" font-weight="700" fill="#1565c0">' + (i + 1) + '</text>';
+      }
+    }
+    paintSvg($('labGap'), body, n + noun + '，' + segs + ' 段');
+    $('gapName').textContent = lab.gapMode === 'tree' ? '棵数' : '站数';
+    $('gapNVal').textContent = n + ' ' + noun;
+    $('gapMinus').disabled = n <= 2;
+    $('gapPlus').disabled = n >= 6;
+    $('btnGapStop').classList.toggle('on', lab.gapMode === 'stop');
+    $('btnGapTree').classList.toggle('on', lab.gapMode === 'tree');
+    var formula = segs <= 1 ? ('只有 1 段：' + unit + ' 米') : (SAFE.sumFormula(unit, segs) + ' 米');
+    $('gapFormula').textContent = n + ' ' + noun + ' → ' + segs + ' 段。' + formula;
+    $('gapSay').textContent = lab.gapMode === 'stop' && n === 4
+      ? '小美：第 1 站到第 4 站是 3 段，600 + 600 + 600 = 1800 米。'
+      : ('小美：先数段数。现在 ' + segs + ' 段，段数比' + noun + '数少 1。');
+  }
+
+  function drawSaw() {
+    var cuts = lab.saw;
+    var pieces = cuts + 1;
+    var body = '';
+    var i;
+    var gap = 8;
+    var w = (320 - gap * cuts) / pieces;
+    for (i = 0; i < pieces; i++) {
+      var x = 20 + i * (w + gap);
+      body += '<rect x="' + x + '" y="58" width="' + w + '" height="46" rx="8" fill="#d7ccc8" stroke="#6d4c41" stroke-width="2"/>';
+    }
+    body += '<text x="180" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#5d4037">' + cuts + ' 刀 · ' + pieces + ' 段</text>';
+    paintSvg($('labSaw'), body, cuts + ' 刀，' + pieces + ' 段');
+    $('sawVal').textContent = cuts + ' 刀';
+    $('sawMinus').disabled = cuts <= 0;
+    $('sawPlus').disabled = cuts >= 4;
+    var formula = cuts === 0 ? '还没锯，是 1 整段。' : ('锯了 ' + cuts + ' 刀，变成 ' + pieces + ' 段。');
+    if (cuts >= 1) formula += '每刀 3 分钟：' + SAFE.sumFormula(3, cuts) + ' 分钟。';
+    $('sawFormula').textContent = formula;
+    $('sawSay').textContent = pieces === 4
+      ? '小美：锯成 4 段只要 3 刀，不是 4 刀。3 + 3 + 3 = 9 分钟。'
+      : '小美：每锯一刀，段数加 1。刀数 = 段数 − 1。';
+  }
+
+  function drawDm() {
+    var n = lab.dm;
+    var body = '';
+    var i;
+    for (i = 0; i < 4; i++) {
+      var x = 16 + i * 84;
+      var on = i < n;
+      body += '<rect x="' + x + '" y="48" width="76" height="64" rx="10" fill="' + (on ? '#90caf9' : '#fff') + '" stroke="#1565c0" stroke-width="2"/>';
+      body += '<text x="' + (x + 38) + '" y="86" text-anchor="middle" font-size="16" font-weight="700" fill="#0d47a1">' + (on ? '10厘米' : '') + '</text>';
+    }
+    paintSvg($('labDm'), body, n + ' 分米');
+    $('dmVal').textContent = n + ' 条';
+    $('dmMinus').disabled = n <= 0;
+    $('dmPlus').disabled = n >= 4;
+    $('dmFormula').textContent = n === 0 ? '点一下添 1 分米。' : (n === 1 ? '1 分米 = 10 厘米。' : (n + ' 分米 = ' + SAFE.sumFormula(10, n) + ' 厘米。'));
+    $('dmSay').textContent = n === 3 ? '小美：3 分米 = 10 + 10 + 10 = 30 厘米。木条换单位就这样加。' : '小美：1 分米里面是 10 厘米，几分米就把 10 连加几次。';
+  }
+
+  function drawRope() {
+    var cuts = lab.rope;
+    var used = addUp(5, cuts);
+    var left = 23 - used;
+    var body = '';
+    var i;
+    for (i = 0; i < cuts; i++) {
+      var x = 16 + i * 62;
+      body += '<rect x="' + x + '" y="46" width="54" height="40" rx="8" fill="#ffab91" stroke="#d84315"/>';
+      body += '<text x="' + (x + 27) + '" y="72" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">5</text>';
+    }
+    if (left > 0) {
+      var lx = 16 + cuts * 62;
+      body += '<rect x="' + lx + '" y="46" width="' + Math.max(36, left * 4) + '" height="40" rx="8" fill="#fff" stroke="#d84315" stroke-dasharray="6 4"/>';
+      body += '<text x="' + (lx + 24) + '" y="72" font-size="16" font-weight="700" fill="#d84315">剩' + left + '</text>';
+    }
+    body += '<text x="180" y="28" text-anchor="middle" font-size="18" font-weight="700" fill="#bf360c">总长 23 厘米</text>';
+    paintSvg($('labRope'), body, '剪了 ' + cuts + ' 段，剩 ' + left + ' 厘米');
+    $('ropeVal').textContent = cuts + ' 段';
+    $('ropeMinus').disabled = cuts <= 0;
+    $('ropePlus').disabled = left < 5;
+    $('ropeFormula').textContent = cuts === 0
+      ? '整根 23 厘米。每段 5 厘米。'
+      : ('剪下 ' + SAFE.sumFormula(5, cuts) + ' 厘米，还剩 ' + left + ' 厘米。');
+    $('ropeSay').textContent = left < 5
+      ? '小美：剪了 4 段，还剩 3 厘米。剩下的不够再剪一段。'
+      : '小美：每剪一段就去掉 5 厘米，看看还剩多少。';
+  }
+
+  function drawTrip() {
+    var legs = lab.legs;
+    var meters = addUp(50, legs);
+    var body = '';
+    var i;
+    for (i = 0; i < legs; i++) {
+      var x = 18 + (i % 4) * 84;
+      var y = i < 4 ? 36 : 96;
+      body += '<polygon points="' + x + ',' + (y + 16) + ' ' + (x + 54) + ',' + (y + 16) + ' ' + (x + 70) + ',' + (y + 28) + ' ' + (x + 54) + ',' + (y + 40) + ' ' + x + ',' + (y + 40) + '" fill="#80deea" stroke="#00695c"/>';
+      body += '<text x="' + (x + 28) + '" y="' + (y + 34) + '" text-anchor="middle" font-size="14" font-weight="700" fill="#004d40">50</text>';
+    }
+    paintSvg($('labTrip'), body, legs + ' 个单程，' + meters + ' 米');
+    $('tripVal').textContent = legs + ' 个';
+    $('tripMinus').disabled = legs <= 0;
+    $('tripPlus').disabled = legs >= 5;
+    var formula = legs === 0 ? '点一下加一个单程，50 米。' : (SAFE.sumFormula(50, legs) + ' 米');
+    if (legs > 0 && legs % 2 === 0) formula += '，这是 ' + (legs / 2) + ' 个来回。';
+    else if (legs > 0) formula += '。再点一次，才凑成整来回。';
+    $('tripFormula').textContent = formula;
+    $('tripSay').textContent = legs === 4
+      ? '小美：2 个来回是 4 个单程。50 + 50 = 100，100 + 100 = 200 米。不是 1000 米。'
+      : '小美：一个来回要两个箭头。50 + 50 = 100 米。';
+  }
+
+  function drawKm() {
+    var laps = lab.laps;
+    var meters = addUp(100, laps);
+    paintSvg($('labKm'), cells(laps, '100'), laps + ' 个来回');
+    $('kmVal').textContent = laps + ' 个';
+    $('kmMinus').disabled = laps <= 0;
+    $('kmPlus').disabled = laps >= 10;
+    var formula;
+    if (laps === 0) formula = '一个来回占一格，一格是 100 米。';
+    else if (laps === 10) formula = '10 个一百米 = 1000 米 = 1 千米。要 10 个来回。';
+    else if (laps <= 5) formula = '已经 ' + laps + ' 个来回：' + SAFE.sumFormula(100, laps) + ' 米。数到 10 格就是 1 千米。';
+    else formula = '已经 ' + laps + ' 个一百米，一共 ' + meters + ' 米。再点到 10 个就是 1 千米。';
+    $('kmFormula').textContent = formula;
+    $('kmSay').textContent = laps === 10
+      ? '小美：数满 10 格才是 1 千米。1 个来回只有 100 米。'
+      : '小美：别把 100 米写成 1000 米。一个来回点一格，自己数。';
+  }
+
+  function redraw() {
+    if (!$('labReview')) return;
+    drawReview();
+    drawFold();
+    drawGuess();
+    drawGap();
+    drawSaw();
+    drawDm();
+    drawRope();
+    drawTrip();
+    drawKm();
+  }
+
+  function on(id, fn) {
+    var el = $(id);
+    if (el) el.onclick = fn;
+  }
+
+  function bindHome(api) {
+    labApi = api;
+    var raw = api.raw().lab;
+    if (raw && typeof raw === 'object') {
+      if (reviewCopy[raw.stage]) lab.stage = raw.stage;
+      if (raw.n != null) lab.n = clamp(+raw.n || 0, 0, 10);
+      if (raw.foldLen) lab.foldLen = clamp(+raw.foldLen, 8, 40);
+      if (raw.foldN != null) lab.foldN = clamp(+raw.foldN || 0, 0, 3);
+      if (raw.guess === 'door' || raw.guess === 'butterfly' || raw.guess === 'mom') lab.guess = raw.guess;
+      if (raw.gapMode === 'tree' || raw.gapMode === 'stop') lab.gapMode = raw.gapMode;
+      if (raw.gapN) lab.gapN = clamp(+raw.gapN, 2, 6);
+      if (raw.saw != null) lab.saw = clamp(+raw.saw || 0, 0, 4);
+      if (raw.dm != null) lab.dm = clamp(+raw.dm || 0, 0, 4);
+      if (raw.rope != null) lab.rope = clamp(+raw.rope || 0, 0, 4);
+      if (raw.legs != null) lab.legs = clamp(+raw.legs || 0, 0, 5);
+      if (raw.laps != null) lab.laps = clamp(+raw.laps || 0, 0, 10);
+    }
+    on('revMinus', function () { lab.n = clamp(lab.n - 1, 0, 10); lab.showHundred = false; redraw(); saveLab(); });
+    on('revPlus', function () { lab.n = clamp(lab.n + 1, 0, 10); lab.showHundred = false; redraw(); saveLab(); });
+    on('btnHundred', function () { lab.showHundred = true; redraw(); });
+    Array.prototype.forEach.call(document.querySelectorAll('#revStages button'), function (btn) {
+      btn.onclick = function () {
+        lab.stage = btn.getAttribute('data-stage');
+        lab.n = 0;
+        lab.showHundred = false;
+        redraw();
+        saveLab();
+      };
+    });
+    on('lenMinus', function () { stepLen(-1); redraw(); saveLab(); });
+    on('lenPlus', function () { stepLen(1); redraw(); saveLab(); });
+    on('foldMinus', function () { lab.foldN = clamp(lab.foldN - 1, 0, 3); redraw(); saveLab(); });
+    on('foldPlus', function () { lab.foldN = clamp(lab.foldN + 1, 0, 3); redraw(); saveLab(); });
+    on('btnFold', function () { lab.foldN = clamp(lab.foldN + 1, 0, 3); redraw(); saveLab(); });
+    on('btnUnfold', function () { lab.foldN = clamp(lab.foldN - 1, 0, 3); redraw(); saveLab(); });
+    on('btnFoldStory', function () { lab.foldLen = 24; lab.foldN = 3; redraw(); saveLab(); });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-guess]'), function (btn) {
+      btn.onclick = function () { lab.guess = btn.getAttribute('data-guess'); redraw(); saveLab(); };
+    });
+    on('gapMinus', function () { lab.gapN = clamp(lab.gapN - 1, 2, 6); redraw(); saveLab(); });
+    on('gapPlus', function () { lab.gapN = clamp(lab.gapN + 1, 2, 6); redraw(); saveLab(); });
+    on('btnGapStop', function () { lab.gapMode = 'stop'; redraw(); saveLab(); });
+    on('btnGapTree', function () { lab.gapMode = 'tree'; redraw(); saveLab(); });
+    on('btnGapStory', function () { lab.gapMode = 'stop'; lab.gapN = 4; redraw(); saveLab(); });
+    on('sawMinus', function () { lab.saw = clamp(lab.saw - 1, 0, 4); redraw(); saveLab(); });
+    on('sawPlus', function () { lab.saw = clamp(lab.saw + 1, 0, 4); redraw(); saveLab(); });
+    on('btnSawStory', function () { lab.saw = 3; redraw(); saveLab(); });
+    on('dmMinus', function () { lab.dm = clamp(lab.dm - 1, 0, 4); redraw(); saveLab(); });
+    on('dmPlus', function () { lab.dm = clamp(lab.dm + 1, 0, 4); redraw(); saveLab(); });
+    on('btnDmStory', function () { lab.dm = 3; redraw(); saveLab(); });
+    on('ropeMinus', function () { lab.rope = clamp(lab.rope - 1, 0, 4); redraw(); saveLab(); });
+    on('ropePlus', function () { if (23 - addUp(5, lab.rope) >= 5) lab.rope = lab.rope + 1; redraw(); saveLab(); });
+    on('btnRopeStory', function () { lab.rope = 4; redraw(); saveLab(); });
+    on('tripMinus', function () { lab.legs = clamp(lab.legs - 1, 0, 5); redraw(); saveLab(); });
+    on('tripPlus', function () { lab.legs = clamp(lab.legs + 1, 0, 5); redraw(); saveLab(); });
+    on('btnTripTwo', function () { lab.legs = 4; redraw(); saveLab(); });
+    on('kmMinus', function () { lab.laps = clamp(lab.laps - 1, 0, 10); redraw(); saveLab(); });
+    on('kmPlus', function () { lab.laps = clamp(lab.laps + 1, 0, 10); redraw(); saveLab(); });
+    on('btnKmStory', function () { lab.laps = 10; redraw(); saveLab(); });
+    redraw();
+    if (!resizeBound) {
+      resizeBound = true;
+      window.addEventListener('resize', function () { if ($('labReview')) redraw(); });
+    }
+  }
+
+  function clickAct(act) {
+    var nodes = document.querySelectorAll('[data-act="' + act + '"]');
+    if (nodes.length) nodes[0].click();
+  }
+  function progressText() {
+    var sn = document.getElementById('starN');
+    var pt = document.querySelector('.ptxt');
+    if (sn && pt) {
+      var m = /(\d+)\s*\/\s*(\d+)/.exec(pt.textContent || '');
+      if (m) return '★ ' + sn.textContent + ' · ' + m[1] + '/' + m[2];
+    }
+    return '★ 0 · 0/19';
+  }
+  function refreshNav() {
+    var el = document.getElementById('snProg');
+    if (el) el.textContent = progressText();
+  }
+
+  KejianPlay.start({
+    key: 'heji-v1',
+    shape: 'bucket',
+    title: '第三单元合集',
+    report: { id: 'heji', name: '第三单元合集', questions: window.HEJI_REPORT },
+    home: {
+      h1: '📚 第三单元合集',
+      sub: '对折、估测、间隔、锯木头、换算、剩余和路程。每节先动手，再做两三题。',
+      points: [
+        { n: '1', t: '先动手', d: '点一下，图上的数跟着变' },
+        { n: '2', t: '再做题', d: '每节只有 2～3 题' },
+        { n: '3', t: '交作业', d: '成绩单写清每一节' }
+      ]
+    },
+    levels: window.HEJI_LEVELS,
+    homeHTML: document.getElementById('homeExtra').innerHTML,
+    bindHome: bindHome
+  });
+
+  SiteNav.mount({
+    title: '第三单元合集',
+    dir: '../index.html',
+    report: true,
+    progress: progressText,
+    home: function () { clickAct('home'); },
+    map: function () { clickAct('map'); }
+  });
+  refreshNav();
+  var app = document.getElementById('app');
+  if (window.MutationObserver && app) {
+    new MutationObserver(refreshNav).observe(app, { childList: true, subtree: true, characterData: true });
+  }
+})();
+</script>
+</body>
+</html>
