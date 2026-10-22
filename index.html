@@ -64,63 +64,78 @@
   .hero {
     position: relative;
     overflow: hidden;
+    min-height: 188px;
     margin: 4px 0 0;
-    padding: 22px 18px 20px;
     border: 3px solid #f1c26b;
     border-radius: 28px;
+    background: #3d5a2c center / cover no-repeat;
+    box-shadow: 0 8px 0 #efc77a, 0 16px 34px rgba(163, 106, 0, .12);
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 72% center;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .hero::after {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    content: "";
     background:
-      radial-gradient(ellipse 55% 80% at 100% 70%, rgba(255, 214, 120, .35) 0, transparent 70%),
-      linear-gradient(165deg, #fffdf8 0%, #fff6df 55%, #ffefc4 100%);
-    box-shadow: 0 8px 0 #efc77a, 0 16px 34px rgba(163, 106, 0, .10);
-    text-align: center;
+      linear-gradient(105deg, rgba(255, 248, 231, .88) 0%, rgba(255, 248, 231, .72) 38%, rgba(255, 248, 231, .28) 58%, rgba(255, 248, 231, 0) 72%),
+      linear-gradient(180deg, rgba(255, 248, 231, .18) 0%, rgba(40, 28, 10, .12) 100%);
+    pointer-events: none;
   }
 
   .hero-copy {
     position: relative;
     z-index: 1;
-    max-width: 22em;
-    margin: 0 auto;
+    max-width: 17.5em;
+    margin: 0;
+    padding: 22px 16px 20px 18px;
+    text-align: left;
   }
 
   .hero .kicker {
-    justify-content: center;
-    background: rgba(255, 253, 248, .82);
-    backdrop-filter: blur(4px);
+    justify-content: flex-start;
+    background: rgba(255, 253, 248, .86);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
   }
 
-  .hero-soft {
-    position: absolute;
-    right: -4%;
-    bottom: -12%;
-    width: min(52%, 200px);
-    height: auto;
-    opacity: .72;
-    pointer-events: none;
-    user-select: none;
-    mask-image: linear-gradient(105deg, transparent 0%, transparent 12%, #000 48%, #000 100%);
-    -webkit-mask-image: linear-gradient(105deg, transparent 0%, transparent 12%, #000 48%, #000 100%);
+  .hero h1 {
+    text-align: left;
+    text-shadow: 0 1px 0 rgba(255, 248, 231, .65);
+  }
+
+  .hero .sub {
+    margin-left: 0;
+    text-align: left;
+    color: #5c4320;
+    text-shadow: 0 1px 0 rgba(255, 248, 231, .5);
   }
 
   @media (max-width: 420px) {
     .hero {
-      padding: 20px 14px 18px;
+      min-height: 176px;
       border-radius: 24px;
-      text-align: left;
     }
+    .hero-bg { object-position: 78% center; }
     .hero-copy {
-      margin: 0;
-      max-width: 68%;
-      text-align: left;
+      max-width: 62%;
+      padding: 18px 12px 16px 14px;
     }
-    .hero .kicker { justify-content: flex-start; }
-    .hero h1,
-    .hero .sub { text-align: left; }
-    .hero .sub { margin-left: 0; }
-    .hero-soft {
-      width: 58%;
-      right: -10%;
-      bottom: -16%;
-      opacity: .62;
+    .hero::after {
+      background:
+        linear-gradient(105deg, rgba(255, 248, 231, .90) 0%, rgba(255, 248, 231, .76) 42%, rgba(255, 248, 231, .22) 62%, rgba(255, 248, 231, 0) 78%),
+        linear-gradient(180deg, rgba(255, 248, 231, .12) 0%, rgba(40, 28, 10, .14) 100%);
     }
   }
 
@@ -504,28 +519,20 @@
     }
 
     .hero {
-      padding: 26px 32px 24px;
-      text-align: left;
+      min-height: 240px;
     }
+
+    .hero-bg { object-position: 68% center; }
 
     .hero-copy {
-      margin: 0;
-      max-width: 28em;
-      text-align: left;
+      max-width: 22em;
+      padding: 28px 24px 26px 28px;
     }
 
-    .hero .kicker { justify-content: flex-start; }
-
-    .hero h1,
-    .hero .sub { text-align: left; }
-
-    .hero .sub { margin-left: 0; }
-
-    .hero-soft {
-      right: 1%;
-      bottom: -18%;
-      width: 260px;
-      opacity: .70;
+    .hero::after {
+      background:
+        linear-gradient(105deg, rgba(255, 248, 231, .86) 0%, rgba(255, 248, 231, .68) 34%, rgba(255, 248, 231, .2) 54%, rgba(255, 248, 231, 0) 70%),
+        linear-gradient(180deg, rgba(255, 248, 231, .1) 0%, rgba(40, 28, 10, .1) 100%);
     }
 
     .catalog {
@@ -568,7 +575,10 @@
 </nav>
 <div id="app">
   <header class="hero">
-    <img class="hero-soft" src="assets/tangguo/fairy-soft.webp" alt="" width="560" height="750" decoding="async" aria-hidden="true">
+    <picture>
+      <source media="(max-width: 520px)" srcset="assets/tangguo/hero-forest-mobile.webp">
+      <img class="hero-bg" src="assets/tangguo/hero-forest.webp" alt="" width="1600" height="900" decoding="async" aria-hidden="true">
+    </picture>
     <div class="hero-copy">
       <p class="kicker"><span aria-hidden="true">🌞</span> 三年级 · 数学小书房</p>
       <h1>数学课件总目录</h1>
