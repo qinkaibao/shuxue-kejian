@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>箭头峡的雾笛</title>
+<style>
+:root{--ink:#243447;--muted:#6a7a8c;--bg:#eef5fb;--pri:#1d6fa5;--warm:#e76f51;--green:#2fa36b;--gold:#f4a261}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:21px;line-height:1.8;padding-bottom:48px}
+.top{position:sticky;top:var(--sn-h,0px);z-index:20;background:rgba(238,245,251,.96);backdrop-filter:blur(8px);padding:8px 16px;border-bottom:1px solid #cfe0f0;display:flex;justify-content:space-between;align-items:center}
+.top b{color:var(--pri)}.wrap{max-width:720px;margin:0 auto;padding:0 16px}
+h1{font-size:1.75em;text-align:center;margin:16px 0 4px;letter-spacing:1px}
+.sub{text-align:center;color:var(--muted);font-size:.88em;margin:0 0 14px}
+.how{background:#fff;border-radius:16px;padding:12px 16px;font-size:.88em;color:var(--muted);box-shadow:0 2px 10px rgba(30,80,120,.06);margin-bottom:8px}
+h2.chap{font-size:1.25em;color:var(--pri);margin:32px 0 10px;padding-bottom:6px;border-bottom:3px dotted #b9d3e6}
+.scene svg,.play svg{width:100%;height:auto;display:block;margin:12px 0;border-radius:18px}
+.who{color:var(--pri);font-weight:700}
+.play{background:#fff;border-radius:18px;padding:14px;margin:16px 0;box-shadow:0 2px 12px rgba(30,80,120,.08)}
+.play .qp{font-weight:800;margin-bottom:8px}
+.btn{min-height:52px;border:none;border-radius:14px;background:var(--warm);color:#fff;font-size:20px;font-weight:700;padding:8px 16px;margin:6px 6px 0 0}
+.btn.ghost{background:#5c7a99}
+.note{min-height:1.4em;color:var(--green);font-weight:700;margin-top:8px}
+.expr{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;margin:10px 0;font-size:28px;font-weight:800}
+.tok{padding:8px 12px;border-radius:12px;background:#f1f5f9;border:3px solid transparent;transition:.2s}
+.tok.on{background:#ffe8d6;border-color:var(--warm);transform:scale(1.06)}
+.tok.done{background:#e5f6ec;border-color:var(--green);color:var(--green)}
+.tok.fish{background:#e8f4ff;border-color:#7eb6e8}
+.stop{background:#fff7e0;border:3px solid #ffd166;border-radius:20px;padding:12px 14px;margin:18px 0}
+.stop-h{font-weight:800;color:#b5470f}
+details{border-radius:14px;margin:10px 0;overflow:hidden;border:2px solid #e4ecf5;background:#fff}
+summary{cursor:pointer;list-style:none;padding:11px 14px;font-weight:700;color:#3d7bfd}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▶ ";font-size:.8em}details[open] summary::before{content:"▼ "}
+details>div{padding:2px 14px 12px}
+.lanes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.lane{border-radius:14px;padding:10px;background:#f8fafc;border:2px solid #dbe7f3;font-size:.92em}
+.lane.bad{border-color:#f5b7b1;background:#fff5f5}
+.lane.good{border-color:#a9dfbf;background:#eafaf1}
+.memo{background:linear-gradient(135deg,#fff1e6,#e7f5ff);border:3px dashed var(--pri);border-radius:20px;padding:16px;margin:28px 0}
+.memo h3{margin:0 0 8px;color:var(--pri)}.memo li{margin:10px 0}
+.go{display:block;text-align:center;background:var(--green);color:#fff;font-size:24px;font-weight:800;border-radius:16px;padding:14px;margin:18px 0;text-decoration:none}
+@media(max-width:420px){.lanes{grid-template-columns:1fr}.expr{font-size:22px}}
+</style>
+</head>
+<body>
+<header class="top"><b>箭头峡的雾笛</b><span>数学小故事</span></header>
+<main class="wrap">
+<h1>🧭 箭头峡的雾笛</h1>
+<p class="sub">一次把运算顺序听清楚的峡湾冒险<br>人教版三年级上册 · 约 15～20 分钟</p>
+<div class="how">读法：从头往下读。遇到黄色「想一想」可以先停；白色小卡片是动手看过程，点几下就懂，不用答题、也不卡关。</div>
+
+<h2 class="chap">第一章　雾笛不响</h2>
+<div class="scene"><svg viewBox="0 0 360 220" role="img" aria-label="箭头峡码头，雾中的渡船和雾笛塔">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c5d9ef"/><stop offset="1" stop-color="#f3f7fb"/></linearGradient></defs>
+<rect width="360" height="220" rx="18" fill="url(#sky)"/>
+<rect y="140" width="360" height="80" fill="#5b8db8"/>
+<path d="M0 150 q30 -12 60 0 t60 0 t60 0 t60 0 t60 0 t60 0" stroke="#fff" stroke-width="2" fill="none" opacity=".55"/>
+<!-- cliffs -->
+<path d="M0 90 L40 50 L70 90 L70 220 L0 220Z" fill="#6d8b74"/>
+<path d="M290 100 L330 55 L360 100 L360 220 L290 220Z" fill="#6d8b74"/>
+<!-- foghorn tower -->
+<rect x="155" y="48" width="50" height="100" rx="6" fill="#fff" stroke="#3a5a78" stroke-width="3"/>
+<rect x="165" y="58" width="30" height="22" fill="#ffe08a" stroke="#3a5a78" stroke-width="2"/>
+<path d="M150 48 L180 22 L210 48Z" fill="#e76f51"/>
+<text x="180" y="130" text-anchor="middle" font-size="13" font-weight="700" fill="#3a5a78">雾笛塔</text>
+<!-- boat -->
+<path d="M70 168 h110 l-16 26 h-78z" fill="#b5651d"/>
+<rect x="108" y="140" width="6" height="28" fill="#555"/>
+<path d="M114 140 l28 20 h-28z" fill="#fff"/>
+<circle cx="40" cy="70" r="10" fill="#243447"/><rect x="34" y="80" width="12" height="26" rx="4" fill="#e76f51"/>
+<ellipse cx="60" cy="60" rx="50" ry="14" fill="#fff" opacity=".55"/>
+<ellipse cx="140" cy="78" rx="60" ry="16" fill="#fff" opacity=".5"/>
+<ellipse cx="240" cy="66" rx="55" ry="14" fill="#fff" opacity=".5"/>
+<text x="180" y="210" text-anchor="middle" font-size="14" fill="#fff">雾笛一声不响……</text>
+</svg></div>
+<p>星期六早上，小美坐渡船来到箭头峡。这里的山像两把大剪刀，中间夹着一条窄窄的水道。峡口立着一座白塔，人们叫它「雾笛塔」——雾大的时候，只要暗号读对了，塔就会「呜——」地响一声，给船指方向。</p>
+<p>可今天雾已经贴到船帮上了，雾笛却一声不响。</p>
+<p>甲板上有个急性子船长，大家都叫他<b class="who">阿冲</b>。他正冲着一块木牌大喊：「我算得最快！怎么还不响！」</p>
+<p>木牌上画着一串数字，像一排站好的小兵：</p>
+<p style="text-align:center;font-size:28px;font-weight:800">56 － 20 ＋ 9</p>
+<p><b class="who">阿冲：</b>20 加 9 是 29，56 减 29……得 27！够快吧？</p>
+<p>雾笛还是不响。小美摸摸木牌，发现牌边上刻着一行小字：<b>「只有加减时，请从左往右走。」</b></p>
+
+<div class="play">
+  <div class="qp">点「下一步」，跟小美从左往右走一遍</div>
+  <div class="expr" id="ex1"></div>
+  <button class="btn" id="n1">下一步</button>
+  <button class="btn ghost" id="r1">再走一遍</button>
+  <p class="note" id="t1"></p>
+</div>
+
+<p><b class="who">小美：</b>你看，先算左边的 56－20，得 36；再算 36＋9，得 45。你先把右边的加在一起，等于从路中间抄近路——方向就歪了。</p>
+<p>阿冲愣住了。小美把 45 写在木牌下，雾笛忽然「呜——」地响了一声，雾薄了一点点。</p>
+
+<div class="stop">
+  <div class="stop-h">💭 想一想</div>
+  <p>阿冲算成 27，小美算成 45。哪一个听懂了雾笛的规矩？</p>
+  <details><summary>点开看小美怎么想</summary>
+  <div>木牌上只有加和减，没有乘除，也没有括号。规矩是「从左往右」：先 56－20＝36，再 36＋9＝45。阿冲抄近路，所以雾笛不认。</div></details>
+</div>
+
+<h2 class="chap">第二章　银色的飞鱼</h2>
+<div class="scene"><svg viewBox="0 0 360 210" role="img" aria-label="峡湾里跃起的银色飞鱼和算式木牌">
+<rect width="360" height="210" rx="18" fill="#d7eaf7"/>
+<rect y="130" width="360" height="80" fill="#4a7fa5"/>
+<!-- fish -->
+<path d="M70 70 q30 -30 70 0 q-20 8 -35 6 q-10 18 -35 -6z" fill="#cfe8ff" stroke="#3d7bfd" stroke-width="3"/>
+<path d="M200 50 q35 -28 75 4 q-22 6 -38 4 q-8 16 -37 -8z" fill="#cfe8ff" stroke="#3d7bfd" stroke-width="3"/>
+<text x="105" y="74" font-size="16" font-weight="800" fill="#1d6fa5">÷</text>
+<text x="240" y="56" font-size="16" font-weight="800" fill="#1d6fa5">×</text>
+<!-- board -->
+<rect x="90" y="118" width="180" height="54" rx="10" fill="#fff8e1" stroke="#8d6e63" stroke-width="3"/>
+<text x="180" y="152" text-anchor="middle" font-size="22" font-weight="800">72 － 72 ÷ 8</text>
+<text x="180" y="198" text-anchor="middle" font-size="14" fill="#fff">飞鱼先跳，船才跟</text>
+</svg></div>
+<p>渡船拐进更窄的水道，第二块木牌升了起来：</p>
+<p style="text-align:center;font-size:28px;font-weight:800">72 － 72 ÷ 8</p>
+<p>阿冲又抢着喊：「还是从左往右！72 减 72 得 0，0 再除以 8……还是 0！简单！」</p>
+<p>雾笛不响。水面上忽然跃起两条银色的小鱼，鱼鳍上分别刻着「×」和「÷」。</p>
+<p>老船公笑着说：「峡湾的规矩变了。看见银色飞鱼，就要让它们先跳——也就是：<b>有乘除又有加减时，先算乘除，再算加减。</b>」</p>
+
+<div class="play">
+  <div class="qp">点「先让飞鱼跳」，再点「船跟上来」</div>
+  <div class="expr" id="ex2"></div>
+  <button class="btn" id="n2">先让飞鱼跳</button>
+  <button class="btn" id="n2b" disabled>船跟上来</button>
+  <button class="btn ghost" id="r2">再看一遍</button>
+  <p class="note" id="t2"></p>
+</div>
+
+<p><b class="who">小美：</b>飞鱼那一步：72÷8＝9。船再跟上来：72－9＝63。</p>
+<p>阿冲把 63 写上，雾笛又响了。远处的雾像被撕开一道口子，能看见对岸的灯。</p>
+
+<div class="stop">
+  <div class="stop-h">💭 想一想</div>
+  <p>为什么「72－72÷8」不能先算 72－72？</p>
+  <details><summary>点开看小美怎么想</summary>
+  <div>因为算式里有除法这只飞鱼。飞鱼要先跳完，再做减法。先减会变成 0÷8，那就不是原来那条航线了。</div></details>
+</div>
+
+<h2 class="chap">第三章　两艘船的比赛</h2>
+<div class="scene"><svg viewBox="0 0 360 200" role="img" aria-label="两艘渡船比赛，一艘偏航一艘对准灯塔">
+<rect width="360" height="200" rx="18" fill="#e8f1f8"/>
+<rect y="120" width="360" height="80" fill="#5b8db8"/>
+<path d="M40 150 h90 l-14 22 h-62z" fill="#c0392b"/>
+<path d="M200 150 h90 l-14 22 h-62z" fill="#1f7a4d"/>
+<text x="85" y="168" text-anchor="middle" font-size="12" fill="#fff">阿冲号</text>
+<text x="245" y="168" text-anchor="middle" font-size="12" fill="#fff">小美号</text>
+<rect x="300" y="40" width="28" height="70" fill="#fff" stroke="#333" stroke-width="2"/>
+<path d="M296 40 L314 18 L332 40Z" fill="#e76f51"/>
+<path d="M85 140 Q120 80 160 60" stroke="#c0392b" stroke-width="3" fill="none" stroke-dasharray="6 4"/>
+<path d="M245 140 Q280 100 314 70" stroke="#1f7a4d" stroke-width="3" fill="none"/>
+<text x="180" y="30" text-anchor="middle" font-size="15" font-weight="700">暗号：6 ＋ 3 × 6</text>
+</svg></div>
+<p>峡口最窄的地方，立着比赛木牌：<b>6 ＋ 3 × 6</b>。谁先让雾笛连响两声，谁就先靠岸。</p>
+<p>阿冲号冲在前面：「加和乘都有！我从左往右——6＋3＝9，9×6＝54！快！」</p>
+<p>船头猛地一歪，撞上了水里的浮标。雾笛不响。</p>
+<p>小美号不慌不忙。她先在手指上「圈」住那只飞鱼：3×6。</p>
+
+<div class="play">
+  <div class="qp">左右对照：阿冲的走法 vs 小美的走法（点按钮看）</div>
+  <div class="lanes">
+    <div class="lane bad" id="laneBad">
+      <b>阿冲号</b>
+      <p>先 6＋3＝9<br>再 9×6＝54</p>
+      <p>结果：偏航 ✗</p>
+    </div>
+    <div class="lane good" id="laneGood">
+      <b>小美号</b>
+      <p>先等你点按钮…</p>
+    </div>
+  </div>
+  <button class="btn" id="race">看小美怎么走</button>
+  <p class="note" id="t3"></p>
+</div>
+
+<p>小美写下 24。雾笛「呜——呜——」连响两声。对岸的灯一下子亮了起来。</p>
+<p><b class="who">阿冲：</b>明明都是 6、3、6，怎么差这么多？</p>
+<p><b class="who">小美：</b>因为飞鱼先跳。3×6＝18，再 6＋18＝24。你把加法抢在乘前面，航线就变成另一条了。</p>
+
+<div class="stop">
+  <div class="stop-h">💭 想一想</div>
+  <p>如果木牌是 264－8×8，阿冲乘完却做成加法，会发生什么？</p>
+  <details><summary>点开看小美怎么想</summary>
+  <div>先让飞鱼跳：8×8＝64。船跟上来应该是 264－64＝200。要是乘完变成加，就会越走越偏。算完可以问问自己：结果比原来大了还是小了？该减却变大，多半顺序或符号错了。</div></details>
+</div>
+
+<h2 class="chap">尾声　口袋里的两句话</h2>
+<div class="scene"><svg viewBox="0 0 360 160" role="img" aria-label="雾散了，渡船靠岸，雾笛塔亮着灯">
+<rect width="360" height="160" rx="18" fill="#fff6ea"/>
+<rect y="100" width="360" height="60" fill="#7fb8d8"/>
+<circle cx="300" cy="36" r="18" fill="#ffd166"/>
+<rect x="160" y="30" width="40" height="70" fill="#fff" stroke="#3a5a78" stroke-width="2"/>
+<path d="M156 30 L180 10 L204 30Z" fill="#e76f51"/>
+<path d="M60 118 h120 l-16 24 h-88z" fill="#1f7a4d"/>
+<text x="180" y="150" text-anchor="middle" font-size="14" fill="#243447">雾散了，岸到了</text>
+</svg></div>
+<p>渡船稳稳靠岸。阿冲红着脸，在航海日记里工工整整写了两行：</p>
+<p><b>只有加减，从左往右走。<br>看见乘除飞鱼，先让飞鱼跳。</b></p>
+<p>小美把这两句话也装进心里。雾笛塔在身后轻轻响了一下，像在说：算得快不重要，走对顺序才重要。</p>
+
+<div class="memo">
+  <h3>小美的顺序口袋</h3>
+  <ul>
+    <li>只有＋－：像走路，从左往右，一步一步。</li>
+    <li>有×÷又有＋－：银色飞鱼先跳，再让船跟上来。</li>
+    <li>算完估一估：结果突然变大或变小，多半顺序走错了。</li>
+  </ul>
+</div>
+<a class="go" href="../jiantou-lianxi/">读懂了？去练一练 →</a>
+</main>
+<script>
+(function(){
+  // 1) 56－20＋9 从左往右
+  var k1 = 0;
+  function draw1(){
+    var box = document.getElementById('ex1');
+    var tip = document.getElementById('t1');
+    var btn = document.getElementById('n1');
+    if (k1 === 0) {
+      box.innerHTML = '<span class="tok">56</span><span class="tok">－</span><span class="tok">20</span><span class="tok">＋</span><span class="tok">9</span>';
+      tip.textContent = '从左边第一步开始。';
+    } else if (k1 === 1) {
+      box.innerHTML = '<span class="tok on">56</span><span class="tok on">－</span><span class="tok on">20</span><span class="tok">＋</span><span class="tok">9</span>';
+      tip.textContent = '先看最左边：56 － 20';
+    } else if (k1 === 2) {
+      box.innerHTML = '<span class="tok done">36</span><span class="tok">＋</span><span class="tok">9</span>';
+      tip.textContent = '56－20＝36，把这一步收成 36';
+    } else if (k1 === 3) {
+      box.innerHTML = '<span class="tok done">36</span><span class="tok on">＋</span><span class="tok on">9</span>';
+      tip.textContent = '再往右走：36 ＋ 9';
+    } else {
+      box.innerHTML = '<span class="tok done">36</span><span class="tok done">＋</span><span class="tok done">9</span><span class="tok done">＝45</span>';
+      tip.textContent = '36＋9＝45。整条路走完啦！';
+    }
+    btn.disabled = k1 >= 4;
+  }
+  document.getElementById('n1').onclick = function(){ if (k1 < 4) { k1++; draw1(); } };
+  document.getElementById('r1').onclick = function(){ k1 = 0; draw1(); };
+  draw1();
+
+  // 2) 72－72÷8 飞鱼先跳
+  var phase = 0;
+  function draw2(){
+    var box = document.getElementById('ex2');
+    var tip = document.getElementById('t2');
+    if (phase === 0) {
+      box.innerHTML = '<span class="tok">72</span><span class="tok">－</span><span class="tok">72</span><span class="tok">÷</span><span class="tok">8</span>';
+      tip.textContent = '看见 ÷ 这只飞鱼了吗？';
+      document.getElementById('n2').disabled = false;
+      document.getElementById('n2b').disabled = true;
+    } else if (phase === 1) {
+      box.innerHTML = '<span class="tok">72</span><span class="tok">－</span><span class="tok fish on">72</span><span class="tok fish on">÷</span><span class="tok fish on">8</span>';
+      tip.textContent = '飞鱼先跳：72÷8＝9';
+      document.getElementById('n2').disabled = true;
+      document.getElementById('n2b').disabled = false;
+    } else {
+      box.innerHTML = '<span class="tok on">72</span><span class="tok on">－</span><span class="tok done">9</span><span class="tok done">＝63</span>';
+      tip.textContent = '船跟上来：72－9＝63。雾笛会认这条航线。';
+      document.getElementById('n2').disabled = true;
+      document.getElementById('n2b').disabled = true;
+    }
+  }
+  document.getElementById('n2').onclick = function(){ phase = 1; draw2(); };
+  document.getElementById('n2b').onclick = function(){ phase = 2; draw2(); };
+  document.getElementById('r2').onclick = function(){ phase = 0; draw2(); };
+  draw2();
+
+  // 3) 对照
+  document.getElementById('race').onclick = function(){
+    document.getElementById('laneGood').innerHTML = '<b>小美号</b><p>先 3×6＝18（飞鱼）<br>再 6＋18＝24</p><p>结果：靠岸 ✓</p>';
+    document.getElementById('t3').textContent = '同样三个数，顺序不同，航线就不同。';
+    this.disabled = true;
+  };
+})();
+</script>
+<script src="../common/nav.js"></script>
+<script>SiteNav.mount({title:'箭头峡的雾笛',dir:'../index.html'});</script>
+</body>
+</html>

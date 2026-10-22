@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>箭头峡配套练习</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:#eef5fb;color:#243447;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:21px;line-height:1.75}
+.top{position:sticky;top:var(--sn-h,0);z-index:20;background:rgba(238,245,251,.96);padding:8px 16px;border-bottom:1px solid #cfe0f0;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.top b{color:#1d6fa5}.wrap{max-width:720px;margin:0 auto;padding:0 16px 40px}
+h1{font-size:32px;text-align:center;margin:14px 0 4px}h2{font-size:26px;color:#1d6fa5}
+.sub{text-align:center;color:#6a7a8c;font-size:18px}
+svg{width:100%;height:auto;border-radius:16px;margin:8px 0}
+.play{background:#fff;border-radius:18px;padding:14px;margin:14px 0;box-shadow:0 2px 10px rgba(30,80,120,.08)}
+.play .qp{font-weight:700}
+.opt{display:block;width:100%;min-height:56px;margin:8px 0;border:3px solid #cfe0f0;background:#f8fbff;border-radius:14px;font-size:21px;text-align:left;padding:8px 12px;color:#243447}
+.opt.wrong{border-color:#c0392b;background:#fff0ee}.opt.correct{border-color:#1f7a4d;background:#e5f6ec}
+input{font-size:24px;min-height:56px;width:6em;text-align:center;border:3px solid #cfe0f0;border-radius:14px}
+.btn{min-height:54px;border:none;border-radius:14px;background:#e76f51;color:#fff;font-size:21px;font-weight:700;padding:8px 16px;margin:6px 4px 0 0}
+.fb{margin-top:8px;border-radius:12px;padding:0 10px}.fb.ok{background:#e5f6ec;color:#1f7a4d}.fb.no{background:#fff4e0;color:#9a4b00}
+details.ans{margin-top:8px;background:#f0f6ff;border-radius:12px;padding:6px 10px}summary{font-weight:700;color:#2a6f97}
+.memo{background:#fff1e0;border:3px dashed #1d6fa5;border-radius:18px;padding:12px}
+.done .submit{display:none}
+.teach{background:#fff;border-radius:16px;padding:12px;margin:10px 0;border:2px dashed #b9d3e6;font-size:.95em}
+</style>
+</head>
+<body>
+<header class="top"><b>箭头峡配套练习</b><span id="prog"></span></header>
+<main class="wrap">
+<h1>箭头峡配套练习</h1>
+<p class="sub">配套故事《箭头峡的雾笛》 · 6 题 · 人教版三年级上册</p>
+<p style="font-size:18px;color:#6a7a8c">每题提交马上判对错。错了看提示再试；错满 2 次讲解会打开。最后按「交作业」看成绩单。</p>
+
+<section id="s1">
+<h2>第一节　只有加减：从左往右</h2>
+<svg viewBox="0 0 360 120" role="img" aria-label="从左往右的小路石"><rect width="360" height="120" fill="#e8f1f8"/><text x="30" y="55" font-size="22" font-weight="800">19</text><text x="80" y="55" font-size="22">＋</text><text x="120" y="55" font-size="22" font-weight="800">25</text><text x="170" y="55" font-size="22">－</text><text x="210" y="55" font-size="22" font-weight="800">34</text><path d="M20 80 H340" stroke="#1d6fa5" stroke-width="4" marker-end="url(#a)"/><defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6Z" fill="#1d6fa5"/></marker></defs><text x="180" y="108" text-anchor="middle" font-size="14" fill="#6a7a8c">从左往右，一步一步</text></svg>
+<div class="teach">没有乘除、也没有括号时：先算左边第一步，再拿结果往右走。</div>
+
+<div class="play" id="box-q1"><div class="qp">第 1 题　19＋25－34＝？</div>
+<p><input id="in-q1" inputmode="numeric" autocomplete="off"> <button class="btn submit" data-fill="q1">提交</button></p>
+<div class="fb" id="fb-q1"></div>
+<details class="ans" id="ans-q1" hidden><summary>看讲解</summary><p>从左往右：19＋25＝44，再 44－34＝10。</p></details></div>
+
+<div class="play" id="box-q2"><div class="qp">第 2 题　120－19＋34，第一步该先算哪一段？</div>
+<button class="opt" data-q="q2" data-i="0">A. 先算 19＋34</button>
+<button class="opt" data-q="q2" data-i="1">B. 先算 120－19</button>
+<button class="opt" data-q="q2" data-i="2">C. 先算 120＋34</button>
+<div class="fb" id="fb-q2"></div>
+<details class="ans" id="ans-q2" hidden><summary>看讲解</summary><p>只有加减，从左往右，第一步是 120－19。</p></details></div>
+
+<div class="play" id="box-q3"><div class="qp">第 3 题　接着算完：120－19＋34＝？</div>
+<p><input id="in-q3" inputmode="numeric" autocomplete="off"> <button class="btn submit" data-fill="q3">提交</button></p>
+<div class="fb" id="fb-q3"></div>
+<details class="ans" id="ans-q3" hidden><summary>看讲解</summary><p>120－19＝101，101＋34＝135。</p></details></div>
+</section>
+
+<section id="s2">
+<h2>第二节　有乘除：飞鱼先跳</h2>
+<svg viewBox="0 0 360 120" role="img" aria-label="飞鱼先跳示意"><rect width="360" height="120" fill="#e8f4ff"/><text x="40" y="60" font-size="22" font-weight="800">6</text><text x="80" y="60" font-size="22">＋</text><text x="120" y="60" font-size="22" font-weight="800" fill="#1d6fa5">3</text><text x="160" y="60" font-size="22" font-weight="800" fill="#1d6fa5">×</text><text x="200" y="60" font-size="22" font-weight="800" fill="#1d6fa5">6</text><rect x="105" y="30" width="120" height="50" rx="12" fill="none" stroke="#1d6fa5" stroke-width="3" stroke-dasharray="6 4"/><text x="180" y="100" text-anchor="middle" font-size="14" fill="#1d6fa5">先圈住乘除飞鱼</text></svg>
+<div class="teach">算式里同时有乘除和加减、又没有括号：先算乘除，再算加减。</div>
+
+<div class="play" id="box-q4"><div class="qp">第 4 题　6＋3×6＝？</div>
+<p><input id="in-q4" inputmode="numeric" autocomplete="off"> <button class="btn submit" data-fill="q4">提交</button></p>
+<div class="fb" id="fb-q4"></div>
+<details class="ans" id="ans-q4" hidden><summary>看讲解</summary><p>先乘：3×6＝18；再加：6＋18＝24。若先加会得到 54，那是偏航。</p></details></div>
+
+<div class="play" id="box-q5"><div class="qp">第 5 题　72－72÷8，正确的第一步是？</div>
+<button class="opt" data-q="q5" data-i="0">A. 先算 72－72</button>
+<button class="opt" data-q="q5" data-i="1">B. 先算 72÷8</button>
+<button class="opt" data-q="q5" data-i="2">C. 先算 72＋8</button>
+<div class="fb" id="fb-q5"></div>
+<details class="ans" id="ans-q5" hidden><summary>看讲解</summary><p>有除法飞鱼，先算 72÷8＝9，再 72－9＝63。</p></details></div>
+
+<div class="play" id="box-q6"><div class="qp">第 6 题　264－8×8＝？</div>
+<p><input id="in-q6" inputmode="numeric" autocomplete="off"> <button class="btn submit" data-fill="q6">提交</button></p>
+<div class="fb" id="fb-q6"></div>
+<details class="ans" id="ans-q6" hidden><summary>看讲解</summary><p>先乘：8×8＝64；再减：264－64＝200。乘完不要改成加法。</p></details></div>
+</section>
+
+<section id="ending">
+<h2>做完了？</h2>
+<p>按下面的「交作业」看成绩单。</p>
+<div class="memo"><b>小美的顺序口袋</b><ul>
+<li>只有＋－：从左往右。</li>
+<li>有×÷又有＋－：飞鱼先跳，再加减。</li>
+<li>算完估一估，结果怪不怪。</li>
+</ul></div>
+<section id="kejian-report" class="kr"></section>
+<p style="text-align:center"><button class="btn" id="resetAll" style="background:#5c7a99">从头再做</button></p>
+</section>
+</main>
+<script src="../common/report.js"></script>
+<script>
+(function(){
+  var Q=[
+    {id:'q1',type:'fill',ans:'10',cat:'同级混合运算',brief:'19＋25－34 从左往右',hints:{'8':'先 19＋25＝44，再减 34。','44':'44 只是第一步，还要再减 34。','108':'不要把 19＋25－34 合成别的算法，从左往右两步走。'}},
+    {id:'q2',type:'choice',ans:1,cat:'同级混合运算',brief:'120－19＋34 第一步选哪段',hints:{'0':'只有加减时不能先把右边加起来，要从左往右。','2':'没有这一步。先看最左边的减法。'}},
+    {id:'q3',type:'fill',ans:'135',cat:'同级混合运算',brief:'120－19＋34 算完',hints:{'77':'那是先算了 19＋34。请先 120－19＝101，再加 34。','101':'101 是第一步，还要再加 34。','153':'120－19 是 101，不是 119。'}},
+    {id:'q4',type:'fill',ans:'24',cat:'两级混合运算',brief:'6＋3×6 先乘后加',hints:{'54':'你先算了 6＋3。飞鱼是 ×，要先 3×6＝18，再 6＋18。','18':'18 只是乘法，还要再加 6。','36':'再看：先乘再加。'}},
+    {id:'q5',type:'choice',ans:1,cat:'两级混合运算',brief:'72－72÷8 先算哪一步',hints:{'0':'有除法飞鱼，不能先减成 0。','2':'没有加法。'}},
+    {id:'q6',type:'fill',ans:'200',cat:'两级混合运算',brief:'264－8×8 先乘后减',hints:{'328':'乘完要减，不要加。8×8＝64，264－64＝200。','64':'64 是乘法结果，还要 264－64。','256':'8×8＝64，不是 8。'}}
+  ];
+  var KEY='kejian-lianxi-jiantou-v1',S={};try{S=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+  var byId={};Q.forEach(function(q){byId[q.id]=q});
+  function fb(id,k,t){var e=document.getElementById('fb-'+id);e.className='fb '+k;e.textContent=t}
+  function solved(id){S[id]=1;save();if(window.KejianReport&&(S['w'+id]||0)<2)KejianReport.pass(id);mark(id);gate()}
+  function wrongTry(id,ans){S['w'+id]=(S['w'+id]||0)+1;save();if(window.KejianReport)KejianReport.miss(id,ans);if(S['w'+id]>=2){document.getElementById('ans-'+id).hidden=false;fb(id,'no','已错 2 次，讲解已打开，可以先做下一题。')}}
+  function mark(id){var b=document.getElementById('box-'+id);b.classList.add('done');document.getElementById('ans-'+id).hidden=false;var q=byId[id];
+    if(q.type==='choice'){b.querySelectorAll('.opt').forEach(function(o){o.disabled=true;if(+o.dataset.i===q.ans)o.classList.add('correct')})}
+    if(q.type==='fill'){var i=document.getElementById('in-'+id);i.value=q.ans;i.disabled=true}
+    fb(id,'ok','答对了！')}
+  function norm(s){return String(s).replace(/\s/g,'').replace(/[０-９]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-65248)})}
+  document.querySelectorAll('.opt').forEach(function(o){o.onclick=function(){var q=byId[o.dataset.q];if(S[q.id])return;var i=+o.dataset.i;
+    if(i===q.ans)solved(q.id);else{o.classList.add('wrong');fb(q.id,'no',(q.hints&&q.hints[String(i)])||'再想一想。');wrongTry(q.id,o.textContent)}}});
+  document.querySelectorAll('[data-fill]').forEach(function(b){b.onclick=function(){var q=byId[b.dataset.fill];var v=norm(document.getElementById('in-'+q.id).value);if(!v){fb(q.id,'no','先写一个数再提交。');return}
+    if(v===q.ans)solved(q.id);else{fb(q.id,'no',(q.hints&&q.hints[v])||'不对哦，再按顺序走一遍。');wrongTry(q.id,v)}}});
+  function gate(){var n=Q.filter(function(q){return S[q.id]}).length;document.getElementById('prog').textContent='已做对 '+n+' / '+Q.length+' 题'}
+  Q.forEach(function(q){if(S[q.id])mark(q.id);else if((S['w'+q.id]||0)>=2)document.getElementById('ans-'+q.id).hidden=false});
+  gate();
+  if(window.KejianReport)KejianReport.mount({id:'jiantou-lianxi',name:'箭头峡配套练习',questions:Q.map(function(q){return {id:q.id,brief:q.brief,tag:q.cat,category:q.cat}}),legacySolved:[]});
+  document.getElementById('resetAll').onclick=function(){if(!confirm('清空本页所有进度，从头再做？'))return;S={};save();if(window.KejianReport)KejianReport.clear();location.reload()};
+})();
+</script>
+<script src="../common/nav.js"></script>
+<script>SiteNav.mount({title:'箭头峡配套练习',dir:'../index.html',report:true});</script>
+</body>
+</html>
