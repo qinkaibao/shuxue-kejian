@@ -73,34 +73,166 @@ ul{padding-left:1.15em}li{margin:6px 0}
 <div class="how"><b>读法</b>：从头往下读。黄色「✋ 停一停，想一想」可以先停；白色小卡片是动手看过程——点一点就懂，<b>不用答题、也不卡关</b>。答案要点开才显示。</div>
 
 <h2 class="chap">第一章　赶集日，秤桥响了</h2>
-<div class="scene"><svg viewBox="0 0 360 230" aria-label="秤桥镇集市和三枚大身份牌">
-<defs><linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe8c8"/><stop offset="1" stop-color="#fff6ea"/></linearGradient></defs>
-<rect width="360" height="230" rx="18" fill="url(#sky1)"/>
-<circle cx="300" cy="40" r="22" fill="#ffd166"/>
-<rect x="0" y="160" width="360" height="70" fill="#c9b896"/>
-<!-- bridge -->
-<path d="M40 160 Q180 110 320 160" fill="none" stroke="#8c5a3c" stroke-width="10"/>
-<path d="M40 160 Q180 118 320 160" fill="none" stroke="#e9c46a" stroke-width="4"/>
-<!-- stalls -->
-<rect x="20" y="120" width="70" height="50" fill="#e76f51"/><path d="M16 120 L55 95 L94 120Z" fill="#f4a261"/>
-<rect x="270" y="125" width="70" height="45" fill="#2a9d8f"/><path d="M266 125 L305 100 L344 125Z" fill="#40b4a4"/>
-<!-- three badges hanging -->
-<g transform="translate(70,20)">
-  <rect width="64" height="36" rx="10" fill="#ffe8a3" stroke="#c45c26" stroke-width="3"/>
-  <text x="32" y="24" text-anchor="middle" font-size="16" font-weight="800" fill="#c45c26">克 g</text>
+<div class="scene"><svg viewBox="0 0 360 230" aria-label="秤桥镇集市和三枚大身份牌（细画）">
+<defs>
+  <linearGradient id="skyF" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#FFD9A8"/>
+    <stop offset="0.55" stop-color="#FFEFD8"/>
+    <stop offset="1" stop-color="#FFF8EE"/>
+  </linearGradient>
+  <linearGradient id="sunG" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#FFE08A"/>
+    <stop offset="1" stop-color="#F4A261"/>
+  </linearGradient>
+  <linearGradient id="waterG" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#A8D4E8"/>
+    <stop offset="1" stop-color="#7BB8D4"/>
+  </linearGradient>
+  <linearGradient id="woodG" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#C48A5A"/>
+    <stop offset="1" stop-color="#8B5A3C"/>
+  </linearGradient>
+  <linearGradient id="badgeG" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#FFE9A8"/>
+    <stop offset="1" stop-color="#F4C96A"/>
+  </linearGradient>
+  <linearGradient id="badgeKg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#C8F0D4"/>
+    <stop offset="1" stop-color="#6BC98A"/>
+  </linearGradient>
+  <linearGradient id="badgeT" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#C8E4FF"/>
+    <stop offset="1" stop-color="#5BA3D9"/>
+  </linearGradient>
+  <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+    <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#5c4033" flood-opacity="0.18"/>
+  </filter>
+</defs>
+<!-- sky -->
+<rect width="360" height="230" rx="18" fill="url(#skyF)"/>
+<!-- soft clouds -->
+<ellipse cx="70" cy="42" rx="28" ry="12" fill="#fff" opacity="0.55"/>
+<ellipse cx="92" cy="40" rx="18" ry="10" fill="#fff" opacity="0.45"/>
+<ellipse cx="200" cy="28" rx="22" ry="9" fill="#fff" opacity="0.4"/>
+<!-- sun with glow -->
+<circle cx="308" cy="38" r="28" fill="#FFE8A0" opacity="0.35"/>
+<circle cx="308" cy="38" r="18" fill="url(#sunG)"/>
+<circle cx="302" cy="32" r="5" fill="#fff" opacity="0.45"/>
+<!-- distant hills -->
+<path d="M0 128 Q40 108 80 118 Q120 100 160 116 Q210 96 260 114 Q300 104 360 122 L360 150 L0 150Z" fill="#E8D4B0" opacity="0.7"/>
+<!-- far houses -->
+<g opacity="0.85">
+  <rect x="48" y="108" width="22" height="20" rx="2" fill="#E07A5F"/>
+  <path d="M45 108 L59 96 L73 108Z" fill="#C45C26"/>
+  <rect x="55" y="116" width="6" height="8" fill="#FFE8C8"/>
+  <rect x="95" y="112" width="18" height="16" rx="2" fill="#81B29A"/>
+  <path d="M92 112 L104 100 L116 112Z" fill="#3D7A5C"/>
+  <rect x="250" y="110" width="20" height="18" rx="2" fill="#E9C46A"/>
+  <path d="M247 110 L260 98 L273 110Z" fill="#B0892E"/>
+  <rect x="278" y="114" width="16" height="14" rx="2" fill="#F2A65A"/>
+  <path d="M275 114 L286 104 L297 114Z" fill="#C45C26"/>
 </g>
-<g transform="translate(148,12)">
-  <rect width="72" height="40" rx="10" fill="#d8f3dc" stroke="#2fa36b" stroke-width="3"/>
-  <text x="36" y="26" text-anchor="middle" font-size="15" font-weight="800" fill="#1f7a4d">千克 kg</text>
+<!-- ground bank -->
+<path d="M0 148 Q90 142 180 148 Q270 154 360 146 L360 230 L0 230Z" fill="#D9C4A0"/>
+<path d="M0 168 Q100 160 200 170 Q280 178 360 166 L360 230 L0 230Z" fill="#C9B08A"/>
+<!-- water under bridge -->
+<path d="M55 168 Q180 188 305 168 Q305 200 180 210 Q55 200 55 168Z" fill="url(#waterG)" opacity="0.9"/>
+<path d="M80 178 Q180 190 280 178" fill="none" stroke="#fff" stroke-width="2" opacity="0.35" stroke-linecap="round"/>
+<path d="M100 186 Q180 196 260 186" fill="none" stroke="#fff" stroke-width="1.5" opacity="0.25" stroke-linecap="round"/>
+<!-- bridge shadow on water -->
+<path d="M70 176 Q180 198 290 176" fill="none" stroke="#5c7a8a" stroke-width="8" opacity="0.22" stroke-linecap="round"/>
+<!-- bridge posts -->
+<rect x="52" y="132" width="10" height="42" rx="3" fill="url(#woodG)"/>
+<rect x="298" y="132" width="10" height="42" rx="3" fill="url(#woodG)"/>
+<!-- bridge arch deck -->
+<path d="M48 155 Q180 95 312 155 L308 168 Q180 118 52 168Z" fill="url(#woodG)" filter="url(#soft)"/>
+<!-- plank lines -->
+<path d="M70 152 Q180 108 290 152" fill="none" stroke="#E9C46A" stroke-width="1.5" opacity="0.55"/>
+<path d="M78 158 Q180 118 282 158" fill="none" stroke="#A47148" stroke-width="1" opacity="0.4"/>
+<path d="M86 164 Q180 128 274 164" fill="none" stroke="#A47148" stroke-width="1" opacity="0.35"/>
+<!-- rail -->
+<path d="M58 138 Q180 82 302 138" fill="none" stroke="#E9C46A" stroke-width="4" stroke-linecap="round"/>
+<path d="M58 138 Q180 82 302 138" fill="none" stroke="#8B5A3C" stroke-width="1.5" opacity="0.5"/>
+<!-- rail posts -->
+<line x1="100" y1="118" x2="100" y2="145" stroke="#8B5A3C" stroke-width="3" stroke-linecap="round"/>
+<line x1="180" y1="100" x2="180" y2="128" stroke="#8B5A3C" stroke-width="3" stroke-linecap="round"/>
+<line x1="260" y1="118" x2="260" y2="145" stroke="#8B5A3C" stroke-width="3" stroke-linecap="round"/>
+<!-- left stall -->
+<g filter="url(#soft)">
+  <rect x="12" y="128" width="58" height="42" rx="4" fill="#E76F51"/>
+  <path d="M8 128 L41 102 L74 128Z" fill="#F4A261"/>
+  <rect x="28" y="142" width="14" height="16" rx="2" fill="#FFE8C8"/>
+  <circle cx="26" cy="136" r="5" fill="#E9C46A"/>
+  <circle cx="40" cy="134" r="4" fill="#E07A5F"/>
+  <circle cx="52" cy="137" r="4.5" fill="#2A9D8F"/>
 </g>
-<g transform="translate(236,20)">
-  <rect width="64" height="36" rx="10" fill="#d0ebff" stroke="#1d6fa5" stroke-width="3"/>
-  <text x="32" y="24" text-anchor="middle" font-size="16" font-weight="800" fill="#1d6fa5">吨 t</text>
+<!-- right stall -->
+<g filter="url(#soft)">
+  <rect x="290" y="132" width="56" height="38" rx="4" fill="#2A9D8F"/>
+  <path d="M286 132 L318 108 L350 132Z" fill="#40B4A4"/>
+  <rect x="306" y="144" width="12" height="14" rx="2" fill="#D8F3DC"/>
+  <ellipse cx="304" cy="140" rx="6" ry="4" fill="#E76F51"/>
+  <ellipse cx="318" cy="138" rx="5" ry="3.5" fill="#F4A261"/>
+  <ellipse cx="330" cy="140" rx="5" ry="3.5" fill="#E9C46A"/>
 </g>
-<!-- girl -->
-<circle cx="160" cy="150" r="14" fill="#ffe0bd"/>
-<path d="M146 164 h28 l6 36 h-40z" fill="#e8453c"/>
-<text x="180" y="210" text-anchor="middle" font-size="14" fill="#5c4033">秤桥镇 · 赶集日</text>
+<!-- hanging rope for badges -->
+<path d="M78 58 Q180 42 282 58" fill="none" stroke="#A47148" stroke-width="2.5" stroke-linecap="round"/>
+<!-- badge: 克 g (orange) -->
+<g transform="translate(78,48)" filter="url(#soft)">
+  <line x1="28" y1="0" x2="28" y2="10" stroke="#A47148" stroke-width="2"/>
+  <circle cx="28" cy="38" r="26" fill="url(#badgeG)" stroke="#C45C26" stroke-width="3"/>
+  <circle cx="28" cy="38" r="20" fill="none" stroke="#FFE8A3" stroke-width="2" opacity="0.7"/>
+  <text x="28" y="34" text-anchor="middle" font-size="15" font-weight="800" fill="#C45C26" font-family="system-ui,sans-serif">克</text>
+  <text x="28" y="50" text-anchor="middle" font-size="11" font-weight="700" fill="#A04A20" font-family="system-ui,sans-serif">g</text>
+</g>
+<!-- badge: 千克 kg (green) -->
+<g transform="translate(152,36)" filter="url(#soft)">
+  <line x1="28" y1="0" x2="28" y2="10" stroke="#A47148" stroke-width="2"/>
+  <circle cx="28" cy="40" r="28" fill="url(#badgeKg)" stroke="#2FA36B" stroke-width="3"/>
+  <circle cx="28" cy="40" r="22" fill="none" stroke="#D8F3DC" stroke-width="2" opacity="0.75"/>
+  <text x="28" y="36" text-anchor="middle" font-size="14" font-weight="800" fill="#1F7A4D" font-family="system-ui,sans-serif">千克</text>
+  <text x="28" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="#1A6B42" font-family="system-ui,sans-serif">kg</text>
+</g>
+<!-- badge: 吨 t (blue) -->
+<g transform="translate(254,48)" filter="url(#soft)">
+  <line x1="28" y1="0" x2="28" y2="10" stroke="#A47148" stroke-width="2"/>
+  <circle cx="28" cy="38" r="26" fill="url(#badgeT)" stroke="#1D6FA5" stroke-width="3"/>
+  <circle cx="28" cy="38" r="20" fill="none" stroke="#D0EBFF" stroke-width="2" opacity="0.75"/>
+  <text x="28" y="34" text-anchor="middle" font-size="15" font-weight="800" fill="#1D6FA5" font-family="system-ui,sans-serif">吨</text>
+  <text x="28" y="50" text-anchor="middle" font-size="11" font-weight="700" fill="#155A88" font-family="system-ui,sans-serif">t</text>
+</g>
+<!-- girl (xiaomei) on bridge -->
+<g filter="url(#soft)">
+  <!-- feet shadow -->
+  <ellipse cx="168" cy="178" rx="14" ry="4" fill="#5c4033" opacity="0.2"/>
+  <!-- legs -->
+  <rect x="160" y="162" width="6" height="16" rx="3" fill="#FFE0BD"/>
+  <rect x="170" y="162" width="6" height="16" rx="3" fill="#FFE0BD"/>
+  <!-- shoes -->
+  <ellipse cx="163" cy="178" rx="5" ry="3" fill="#C45C26"/>
+  <ellipse cx="173" cy="178" rx="5" ry="3" fill="#C45C26"/>
+  <!-- dress -->
+  <path d="M152 148 Q168 142 184 148 L178 166 Q168 170 158 166Z" fill="#E8453C"/>
+  <path d="M156 150 Q168 146 180 150" fill="none" stroke="#FF8A80" stroke-width="2" opacity="0.5"/>
+  <!-- arms -->
+  <ellipse cx="150" cy="154" rx="5" ry="8" fill="#FFE0BD" transform="rotate(-20 150 154)"/>
+  <ellipse cx="186" cy="154" rx="5" ry="8" fill="#FFE0BD" transform="rotate(20 186 154)"/>
+  <!-- head -->
+  <circle cx="168" cy="132" r="14" fill="#FFE0BD"/>
+  <!-- hair -->
+  <path d="M154 130 Q168 112 182 130 Q176 120 168 118 Q160 120 154 130Z" fill="#5C4033"/>
+  <circle cx="156" cy="138" r="5" fill="#5C4033"/>
+  <circle cx="180" cy="138" r="5" fill="#5C4033"/>
+  <!-- face -->
+  <circle cx="163" cy="132" r="1.6" fill="#5C4033"/>
+  <circle cx="173" cy="132" r="1.6" fill="#5C4033"/>
+  <path d="M164 138 Q168 141 172 138" fill="none" stroke="#E07A5F" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="159" cy="136" r="2.5" fill="#FFB4A2" opacity="0.55"/>
+  <circle cx="177" cy="136" r="2.5" fill="#FFB4A2" opacity="0.55"/>
+</g>
+<!-- caption -->
+<rect x="110" y="198" width="140" height="22" rx="11" fill="#FFF8EE" opacity="0.85"/>
+<text x="180" y="213" text-anchor="middle" font-size="13" font-weight="700" fill="#5C4033" font-family="system-ui,sans-serif">秤桥镇 · 赶集日</text>
 </svg></div>
 
 <p>星期六一早，小美跟着妈妈来到<b>秤桥镇</b>赶集。镇口有一座弯弯的木桥，桥头挂着三枚亮闪闪的大牌子：</p>
