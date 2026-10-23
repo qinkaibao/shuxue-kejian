@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="format-detection" content="telephone=no">
 <meta name="theme-color" content="#fff8e7">
-<title>长度是什么</title>
+<title>毫米到千米</title>
 <style>
 :root{
   --ink:#2b2b3a;--muted:#6b6b80;--bg:#fff8e7;--card:#fffdf8;
@@ -33,7 +33,7 @@ body.has-site-nav{height:100dvh}
   padding:4px 2px 8px;
 }
 .toolbar h1{
-  margin:0;font-size:clamp(20px,5.2vw,26px);color:var(--pri);
+  margin:0;font-size:clamp(18px,5vw,24px);color:var(--pri);
   letter-spacing:1px;flex:1 1 auto;line-height:1.25;
 }
 .btn{
@@ -56,57 +56,57 @@ body.has-site-nav{height:100dvh}
 }
 .stage svg{width:100%;height:100%;display:block;max-height:100%}
 .progress{
-  display:flex;justify-content:center;gap:7px;padding:10px 4px 6px;flex-wrap:wrap;
+  display:flex;justify-content:center;gap:5px;padding:8px 4px 6px;flex-wrap:wrap;
 }
 .dot{
-  width:10px;height:10px;border-radius:50%;background:#e8d4a8;
-  transition:transform .2s,background .2s;
+  width:9px;height:9px;border-radius:50%;background:#e8d4a8;
+  transition:transform .2s,background .2s;cursor:pointer;
 }
-.dot.on{background:var(--pri);transform:scale(1.35)}
+.dot.on{background:var(--pri);transform:scale(1.4)}
 .dot.done{background:#f4a261}
 .narr{
   flex:0 0 auto;
   margin:0 12px calc(8px + env(safe-area-inset-bottom,0));
   max-width:720px;width:calc(100% - 24px);align-self:center;
   background:var(--bar);border:3px solid #f1c26b;border-radius:18px;
-  padding:12px 14px;min-height:88px;
+  padding:12px 14px;min-height:92px;
   box-shadow:0 4px 0 #efc77a;
 }
 .narr .scene-label{
-  display:inline-block;font-size:14px;font-weight:800;color:#9a6200;
+  display:inline-block;font-size:13px;font-weight:800;color:#9a6200;
   background:#ffe8a8;border-radius:999px;padding:2px 10px;margin-bottom:6px;
 }
 .narr .text{
-  margin:0;font-size:clamp(18px,4.8vw,22px);line-height:1.55;font-weight:700;
+  margin:0;font-size:clamp(17px,4.6vw,21px);line-height:1.55;font-weight:700;
   color:var(--ink);
 }
 .end-overlay{
   position:absolute;inset:0;display:none;align-items:center;justify-content:center;
-  flex-direction:column;gap:14px;background:rgba(255,248,231,.92);
+  flex-direction:column;gap:14px;background:rgba(255,248,231,.94);
   z-index:5;text-align:center;padding:20px;
 }
 .end-overlay.show{display:flex}
-.end-overlay b{font-size:clamp(22px,6vw,30px);color:var(--pri)}
-.end-overlay p{margin:0;font-size:18px;color:var(--muted);font-weight:600;max-width:16em;line-height:1.5}
+.end-overlay b{font-size:clamp(20px,5.5vw,28px);color:var(--pri)}
+.end-overlay p{margin:0;font-size:17px;color:var(--muted);font-weight:600;max-width:18em;line-height:1.55}
 @media(max-height:620px){
   .narr{min-height:72px;padding:10px 12px}
-  .narr .text{font-size:17px}
-  .toolbar h1{font-size:18px}
+  .narr .text{font-size:16px}
+  .toolbar h1{font-size:17px}
 }
 </style>
 </head>
 <body>
 <div class="stage-wrap">
   <div class="toolbar">
-    <h1>📏 长度是什么</h1>
+    <h1>📏 毫米到千米</h1>
     <button type="button" class="btn" id="btnPlay" aria-pressed="true">⏸ 暂停</button>
     <button type="button" class="btn ghost" id="btnReplay">↺ 重播</button>
   </div>
   <div class="stage" id="stage" aria-live="polite">
-    <svg id="canvas" viewBox="0 0 360 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="长度讲解动画"></svg>
+    <svg id="canvas" viewBox="0 0 360 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="长度单位讲解动画"></svg>
     <div class="end-overlay" id="endOverlay">
-      <b>今天的长度课讲完啦</b>
-      <p>记住：从一头量到另一头，尺子要从 0 对准，弯的东西先拉直。</p>
+      <b>毫米到千米，讲完啦</b>
+      <p>选对单位 · 对准再量 · 不对齐就用终点减起点 · 弯的先拉直 · 进率记牢。</p>
       <button type="button" class="btn big" id="btnAgain">再看一遍</button>
     </div>
   </div>
@@ -146,13 +146,17 @@ body.has-site-nav{height:100dvh}
   }
 
   function defsCommon() {
-    var defs = el('defs', null, [
+    return el('defs', null, [
       el('linearGradient', { id: 'sky', x1: '0', y1: '0', x2: '0', y2: '1' }, [
         el('stop', { offset: '0', 'stop-color': '#FFE8C2' }),
         el('stop', { offset: '1', 'stop-color': '#FFF8EE' })
       ]),
+      el('linearGradient', { id: 'sky2', x1: '0', y1: '0', x2: '0', y2: '1' }, [
+        el('stop', { offset: '0', 'stop-color': '#D6ECFF' }),
+        el('stop', { offset: '1', 'stop-color': '#FFF8EE' })
+      ]),
       el('linearGradient', { id: 'wood', x1: '0', y1: '0', x2: '0', y2: '1' }, [
-        el('stop', { offset: '0', 'stop-color': '#F0C98A' }),
+        el('stop', { offset: '0', 'stop-color': '#F5D4A0' }),
         el('stop', { offset: '1', 'stop-color': '#D4A05A' })
       ]),
       el('linearGradient', { id: 'pencil', x1: '0', y1: '0', x2: '1', y2: '0' }, [
@@ -164,56 +168,57 @@ body.has-site-nav{height:100dvh}
         el('stop', { offset: '0', 'stop-color': '#B8E0A8' }),
         el('stop', { offset: '1', 'stop-color': '#7CB86A' })
       ]),
-      el('filter', { id: 'soft', x: '-20%', y: '-20%', width: '140%', height: '140%' }, [
-        el('feDropShadow', { dx: '0', dy: '2', stdDeviation: '2', 'flood-color': '#5c4033', 'flood-opacity': '0.18' })
+      el('linearGradient', { id: 'road', x1: '0', y1: '0', x2: '0', y2: '1' }, [
+        el('stop', { offset: '0', 'stop-color': '#9AA3B2' }),
+        el('stop', { offset: '1', 'stop-color': '#6E7685' })
+      ]),
+      el('filter', { id: 'soft', x: '-25%', y: '-25%', width: '150%', height: '150%' }, [
+        el('feDropShadow', { dx: '0', dy: '2', stdDeviation: '2.2', 'flood-color': '#5c4033', 'flood-opacity': '0.18' })
       ])
     ]);
-    return defs;
   }
 
-  function bg() {
+  function bg(kind) {
+    var fill = kind === 'blue' ? 'url(#sky2)' : 'url(#sky)';
     return el('g', null, [
-      el('rect', { width: '360', height: '280', rx: '0', fill: 'url(#sky)' }),
-      el('ellipse', { cx: '60', cy: '36', rx: '26', ry: '11', fill: '#fff', opacity: '0.5' }),
-      el('ellipse', { cx: '82', cy: '34', rx: '16', ry: '9', fill: '#fff', opacity: '0.4' }),
-      el('ellipse', { cx: '280', cy: '30', rx: '30', ry: '12', fill: '#fff', opacity: '0.45' }),
-      el('circle', { cx: '320', cy: '42', r: '22', fill: '#FFE08A', opacity: '0.35' }),
-      el('circle', { cx: '320', cy: '42', r: '14', fill: '#FFD166' }),
-      el('rect', { y: '230', width: '360', height: '50', fill: 'url(#grass)' }),
-      el('ellipse', { cx: '40', cy: '238', rx: '18', ry: '8', fill: '#6aa85a', opacity: '0.5' }),
-      el('ellipse', { cx: '300', cy: '242', rx: '22', ry: '9', fill: '#6aa85a', opacity: '0.45' })
+      el('rect', { width: '360', height: '280', fill: fill }),
+      el('ellipse', { cx: '55', cy: '34', rx: '28', ry: '12', fill: '#fff', opacity: '0.55' }),
+      el('ellipse', { cx: '78', cy: '32', rx: '16', ry: '9', fill: '#fff', opacity: '0.4' }),
+      el('ellipse', { cx: '290', cy: '28', rx: '32', ry: '13', fill: '#fff', opacity: '0.45' }),
+      el('circle', { cx: '325', cy: '40', r: '20', fill: '#FFE08A', opacity: '0.4' }),
+      el('circle', { cx: '325', cy: '40', r: '13', fill: '#FFD166' }),
+      el('rect', { y: '232', width: '360', height: '48', fill: 'url(#grass)' }),
+      el('ellipse', { cx: '36', cy: '240', rx: '20', ry: '8', fill: '#6aa85a', opacity: '0.5' }),
+      el('ellipse', { cx: '310', cy: '244', rx: '24', ry: '9', fill: '#6aa85a', opacity: '0.45' })
     ]);
   }
 
-  /* 小美：圆润扁平小人 */
   function xiaomei(x, y, scale, face) {
     scale = scale || 1;
     var g = el('g', { transform: 'translate(' + x + ',' + y + ') scale(' + scale + ')', filter: 'url(#soft)' });
-    g.appendChild(el('ellipse', { cx: '0', cy: '52', rx: '18', ry: '6', fill: '#5c4033', opacity: '0.15' }));
-    g.appendChild(el('ellipse', { cx: '0', cy: '38', rx: '16', ry: '20', fill: '#5B8DEF' })); /* body */
-    g.appendChild(el('circle', { cx: '0', cy: '8', r: '16', fill: '#FFE0BD' })); /* head */
-    g.appendChild(el('path', { d: 'M-16 4 Q0 -14 16 4', fill: '#5C3A1E' })); /* hair */
-    g.appendChild(el('circle', { cx: '-14', cy: '10', r: '5', fill: '#FF9EB5' })); /* cheek L */
-    g.appendChild(el('circle', { cx: '14', cy: '10', r: '5', fill: '#FF9EB5' }));
+    g.appendChild(el('ellipse', { cx: '0', cy: '54', rx: '18', ry: '6', fill: '#5c4033', opacity: '0.15' }));
+    g.appendChild(el('ellipse', { cx: '0', cy: '38', rx: '16', ry: '20', fill: '#5B8DEF' }));
+    g.appendChild(el('rect', { x: '-10', y: '48', width: '8', height: '10', rx: '2', fill: '#3d5a80' }));
+    g.appendChild(el('rect', { x: '2', y: '48', width: '8', height: '10', rx: '2', fill: '#3d5a80' }));
+    g.appendChild(el('circle', { cx: '0', cy: '8', r: '16', fill: '#FFE0BD' }));
+    g.appendChild(el('path', { d: 'M-17 2 Q-10 -16 0 -12 Q10 -16 17 2 Q8 -2 0 0 Q-8 -2 -17 2', fill: '#5C3A1E' }));
+    g.appendChild(el('circle', { cx: '-14', cy: '12', r: '4.5', fill: '#FF9EB5', opacity: '0.85' }));
+    g.appendChild(el('circle', { cx: '14', cy: '12', r: '4.5', fill: '#FF9EB5', opacity: '0.85' }));
+    g.appendChild(el('circle', { cx: '-5', cy: '8', r: '2.2', fill: '#2b2b3a' }));
+    g.appendChild(el('circle', { cx: '5', cy: '8', r: '2.2', fill: '#2b2b3a' }));
     if (face === 'think') {
-      g.appendChild(el('circle', { cx: '-5', cy: '8', r: '2.2', fill: '#2b2b3a' }));
-      g.appendChild(el('circle', { cx: '5', cy: '8', r: '2.2', fill: '#2b2b3a' }));
       g.appendChild(el('path', { d: 'M-4 16 Q0 14 4 16', stroke: '#2b2b3a', 'stroke-width': '1.6', fill: 'none', 'stroke-linecap': 'round' }));
     } else if (face === 'wow') {
-      g.appendChild(el('circle', { cx: '-5', cy: '7', r: '2.4', fill: '#2b2b3a' }));
-      g.appendChild(el('circle', { cx: '5', cy: '7', r: '2.4', fill: '#2b2b3a' }));
       g.appendChild(el('ellipse', { cx: '0', cy: '15', rx: '3', ry: '4', fill: '#2b2b3a' }));
     } else if (face === 'sad') {
-      g.appendChild(el('circle', { cx: '-5', cy: '8', r: '2.2', fill: '#2b2b3a' }));
-      g.appendChild(el('circle', { cx: '5', cy: '8', r: '2.2', fill: '#2b2b3a' }));
       g.appendChild(el('path', { d: 'M-4 17 Q0 14 4 17', stroke: '#2b2b3a', 'stroke-width': '1.6', fill: 'none', 'stroke-linecap': 'round' }));
+    } else if (face === 'wrong') {
+      g.appendChild(el('path', { d: 'M-4 17 Q0 14 4 17', stroke: '#2b2b3a', 'stroke-width': '1.6', fill: 'none', 'stroke-linecap': 'round' }));
+      g.appendChild(el('line', { x1: '-8', y1: '4', x2: '-2', y2: '7', stroke: '#2b2b3a', 'stroke-width': '1.4', 'stroke-linecap': 'round' }));
+      g.appendChild(el('line', { x1: '2', y1: '7', x2: '8', y2: '4', stroke: '#2b2b3a', 'stroke-width': '1.4', 'stroke-linecap': 'round' }));
     } else {
-      g.appendChild(el('circle', { cx: '-5', cy: '8', r: '2.2', fill: '#2b2b3a' }));
-      g.appendChild(el('circle', { cx: '5', cy: '8', r: '2.2', fill: '#2b2b3a' }));
       g.appendChild(el('path', { d: 'M-5 15 Q0 19 5 15', stroke: '#2b2b3a', 'stroke-width': '1.8', fill: 'none', 'stroke-linecap': 'round' }));
     }
-    g.appendChild(el('ellipse', { cx: '-10', cy: '55', rx: '6', ry: '4', fill: '#3d5a80' }));
-    g.appendChild(el('ellipse', { cx: '10', cy: '55', rx: '6', ry: '4', fill: '#3d5a80' }));
     return g;
   }
 
@@ -224,285 +229,519 @@ body.has-site-nav{height:100dvh}
       fill: opts.fill || '#2b2b3a',
       'font-size': String(opts.size || 15),
       'font-weight': String(opts.weight || 700),
-      'text-anchor': opts.anchor || 'middle'
+      'text-anchor': opts.anchor || 'middle',
+      'font-family': '-apple-system,PingFang SC,Microsoft YaHei,sans-serif'
     });
     t.textContent = text;
     return t;
   }
 
+  function badge(x, y, w, h, fill, stroke) {
+    return el('rect', {
+      x: String(x), y: String(y), width: String(w), height: String(h), rx: '12',
+      fill: fill || '#fff', stroke: stroke || '#f1c26b', 'stroke-width': '3', filter: 'url(#soft)'
+    });
+  }
+
   function arrowH(x1, x2, y, color) {
     color = color || '#c45c26';
+    var left = Math.min(x1, x2), right = Math.max(x1, x2);
     return el('g', null, [
-      el('line', { x1: String(x1), y1: String(y), x2: String(x2), y2: String(y), stroke: color, 'stroke-width': '3', 'stroke-linecap': 'round' }),
-      el('polygon', { points: (x1) + ',' + y + ' ' + (x1 + 8) + ',' + (y - 5) + ' ' + (x1 + 8) + ',' + (y + 5), fill: color }),
-      el('polygon', { points: (x2) + ',' + y + ' ' + (x2 - 8) + ',' + (y - 5) + ' ' + (x2 - 8) + ',' + (y + 5), fill: color })
+      el('line', { x1: String(left), y1: String(y), x2: String(right), y2: String(y), stroke: color, 'stroke-width': '3', 'stroke-linecap': 'round' }),
+      el('polygon', { points: left + ',' + y + ' ' + (left + 7) + ',' + (y - 5) + ' ' + (left + 7) + ',' + (y + 5), fill: color }),
+      el('polygon', { points: right + ',' + y + ' ' + (right - 7) + ',' + (y - 5) + ' ' + (right - 7) + ',' + (y + 5), fill: color })
     ]);
   }
 
-  function ruler(x, y, w, highlightMm) {
+  /* 尺子：cm 刻度，可选起止高亮与标注 */
+  function ruler(x, y, cmCount, opts) {
+    opts = opts || {};
+    var pxPerCm = opts.pxPerCm || 12;
+    var w = cmCount * pxPerCm;
     var g = el('g', { filter: 'url(#soft)' });
-    g.appendChild(el('rect', { x: String(x), y: String(y), width: String(w), height: '28', rx: '4', fill: 'url(#wood)', stroke: '#b8843a', 'stroke-width': '1.5' }));
-    var n = Math.floor(w / 10);
-    for (var i = 0; i <= n; i++) {
-      var tx = x + i * 10;
-      var h = (i % 5 === 0) ? 14 : 8;
+    g.appendChild(el('rect', {
+      x: String(x), y: String(y), width: String(w), height: '30', rx: '4',
+      fill: 'url(#wood)', stroke: '#b8843a', 'stroke-width': '1.5'
+    }));
+    for (var i = 0; i <= cmCount; i++) {
+      var tx = x + i * pxPerCm;
+      var h = (i % 5 === 0) ? 16 : 9;
       g.appendChild(el('line', {
         x1: String(tx), y1: String(y), x2: String(tx), y2: String(y + h),
         stroke: '#5c4033', 'stroke-width': i % 5 === 0 ? '1.6' : '1'
       }));
-      if (i % 5 === 0) {
-        var num = txt(tx, y + 24, String(i), { size: 9, fill: '#5c4033', anchor: 'middle' });
-        g.appendChild(num);
+      if (i % 5 === 0 || opts.labelAll) {
+        g.appendChild(txt(tx, y + 26, String(i), { size: 9, fill: '#5c4033' }));
       }
     }
-    if (highlightMm) {
-      g.appendChild(el('rect', {
-        x: String(x), y: String(y + 28), width: '10', height: '6', rx: '1',
-        fill: '#3b82f6', opacity: '0.7'
-      }));
-      g.appendChild(txt(x + 5, y + 42, '1 毫米', { size: 11, fill: '#1d6fa5' }));
+    if (opts.mark0) {
+      g.appendChild(el('circle', { cx: String(x), cy: String(y - 4), r: '4', fill: '#2fa36b' }));
     }
     return g;
   }
 
-  /* ========== 各幕绘制 ========== */
+  function pill(x, y, label, ok) {
+    var fill = ok ? '#eafaf1' : '#fff0ee';
+    var stroke = ok ? '#2fa36b' : '#e5484d';
+    var g = el('g', { filter: 'url(#soft)' });
+    g.appendChild(el('rect', { x: String(x), y: String(y), width: '110', height: '36', rx: '18', fill: fill, stroke: stroke, 'stroke-width': '3' }));
+    g.appendChild(txt(x + 55, y + 24, label, { size: 15, fill: stroke }));
+    return g;
+  }
+
+  /* ========== 15 幕 ========== */
   var scenes = [
+    /* 1 */
     {
       title: '什么是长度',
-      duration: 11000,
-      narr: '长度，就是物体从一头到另一头有多长。小美的铅笔，从左边笔头量到右边橡皮，这一段就是它的长度。',
+      duration: 10000,
+      narr: '长度，就是物体从一头到另一头有多长。小美的铅笔，从笔尖量到橡皮这一头，这一段就是它的长度。',
       draw: function (t) {
-        clear();
-        canvas.appendChild(defsCommon());
-        canvas.appendChild(bg());
-        canvas.appendChild(xiaomei(55, 150, 1.05, 'happy'));
-        /* pencil */
-        var px = 110, py = 130, pw = 180;
-        var reveal = Math.min(1, t / 0.35);
+        clear(); canvas.appendChild(defsCommon()); canvas.appendChild(bg());
+        canvas.appendChild(xiaomei(48, 155, 1.05, 'happy'));
+        var px = 105, py = 125, pw = 190;
+        var reveal = Math.min(1, t / 0.3);
         var curW = pw * reveal;
         var g = el('g', { filter: 'url(#soft)' });
-        g.appendChild(el('rect', { x: String(px), y: String(py), width: String(curW), height: '22', rx: '4', fill: 'url(#pencil)' }));
-        if (reveal > 0.9) {
+        g.appendChild(el('rect', { x: String(px), y: String(py), width: String(Math.max(1, curW)), height: '22', rx: '4', fill: 'url(#pencil)' }));
+        if (reveal > 0.85) {
           g.appendChild(el('polygon', { points: px + ',' + (py + 11) + ' ' + (px + 14) + ',' + py + ' ' + (px + 14) + ',' + (py + 22), fill: '#E76F51' }));
           g.appendChild(el('rect', { x: String(px + pw - 18), y: String(py), width: '18', height: '22', rx: '3', fill: '#FF8FAB' }));
         }
         canvas.appendChild(g);
-        if (t > 0.4) {
-          var aProg = Math.min(1, (t - 0.4) / 0.3);
-          var ax2 = px + curW * aProg;
-          canvas.appendChild(arrowH(px, Math.max(px + 20, ax2), py - 18, '#c45c26'));
-          if (aProg > 0.85) {
-            canvas.appendChild(txt(px + pw / 2, py - 28, '长度 = 从一头到另一头', { size: 15, fill: '#c45c26' }));
-          }
+        if (t > 0.35) {
+          var a = Math.min(1, (t - 0.35) / 0.3);
+          canvas.appendChild(arrowH(px, px + Math.max(24, pw * a), py - 18));
+          if (a > 0.9) canvas.appendChild(txt(px + pw / 2, py - 30, '长度 = 从一头到另一头', { size: 15, fill: '#c45c26' }));
         }
-        canvas.appendChild(txt(180, 210, '铅笔的长度', { size: 18, fill: '#5a3d00' }));
+        canvas.appendChild(txt(200, 210, '铅笔的长度', { size: 17, fill: '#5a3d00' }));
       }
     },
+    /* 2 */
     {
-      title: '用尺子量',
-      duration: 13000,
-      narr: '量的时候，把尺子的 0 刻度对准物体的这一头，再看另一头对着几。小美的铅笔另一头对着 12，就是 12 厘米。',
+      title: '五个长度单位',
+      duration: 14000,
+      narr: '量长短常用五个单位：毫米、厘米、分米、米、千米。生活里「公里」就是「千米」，只是叫法不同。',
       draw: function (t) {
-        clear();
-        canvas.appendChild(defsCommon());
-        canvas.appendChild(bg());
-        canvas.appendChild(xiaomei(40, 155, 0.95, 'think'));
-        var px = 90, py = 100, pw = 120;
+        clear(); canvas.appendChild(defsCommon()); canvas.appendChild(bg('blue'));
+        canvas.appendChild(xiaomei(40, 200, 0.85, 'wow'));
+        var units = [
+          { name: '毫米', en: 'mm', c: '#2fa36b' },
+          { name: '厘米', en: 'cm', c: '#c45c26' },
+          { name: '分米', en: 'dm', c: '#8b5cf6' },
+          { name: '米', en: 'm', c: '#1d6fa5' },
+          { name: '千米', en: 'km', c: '#e5484d' }
+        ];
+        units.forEach(function (u, i) {
+          if (t < 0.08 + i * 0.12) return;
+          var x = 30 + i * 64;
+          canvas.appendChild(el('rect', {
+            x: String(x), y: '55', width: '58', height: '88', rx: '14',
+            fill: '#fff', stroke: u.c, 'stroke-width': '3', filter: 'url(#soft)'
+          }));
+          canvas.appendChild(txt(x + 29, 92, u.name, { size: 16, fill: u.c }));
+          canvas.appendChild(txt(x + 29, 118, u.en, { size: 13, fill: '#6b6b80' }));
+        });
+        if (t > 0.75) {
+          canvas.appendChild(badge(70, 165, 220, 48, '#fff7e0', '#f4a261'));
+          canvas.appendChild(txt(180, 186, '公里 = 千米', { size: 18, fill: '#c45c26' }));
+          canvas.appendChild(txt(180, 205, '只是生活中的另一种叫法', { size: 12, fill: '#8a5a09' }));
+        }
+      }
+    },
+    /* 3 */
+    {
+      title: '感觉一下：毫米',
+      duration: 11000,
+      narr: '1 毫米特别短。手指甲大约厚 1 毫米，身份证也大约厚 1 毫米。量很短、或要量得很精确时，用毫米。',
+      draw: function (t) {
+        clear(); canvas.appendChild(defsCommon()); canvas.appendChild(bg());
+        canvas.appendChild(xiaomei(45, 175, 0.95, 'think'));
+        /* ID card */
+        canvas.appendChild(el('g', { filter: 'url(#soft)' }, [
+          el('rect', { x: '130', y: '70', width: '160', height: '95', rx: '10', fill: '#E8F4FF', stroke: '#1d6fa5', 'stroke-width': '3' }),
+          el('rect', { x: '145', y: '88', width: '42', height: '52', rx: '4', fill: '#FFD8B0' }),
+          el('rect', { x: '200', y: '90', width: '70', height: '8', rx: '2', fill: '#9ec5e8' }),
+          el('rect', { x: '200', y: '108', width: '55', height: '8', rx: '2', fill: '#9ec5e8' }),
+          el('rect', { x: '200', y: '126', width: '60', height: '8', rx: '2', fill: '#9ec5e8' })
+        ]));
+        if (t > 0.35) {
+          /* thickness zoom */
+          canvas.appendChild(el('rect', { x: '300', y: '70', width: '8', height: '95', rx: '2', fill: '#1d6fa5' }));
+          canvas.appendChild(arrowH(312, 340, 118, '#2fa36b'));
+          canvas.appendChild(txt(250, 200, '厚约 1 毫米', { size: 16, fill: '#2fa36b' }));
+        }
+        if (t > 0.6) {
+          canvas.appendChild(badge(120, 220, 200, 36, '#eafaf1', '#2fa36b'));
+          canvas.appendChild(txt(220, 244, '指甲 ≈ 1 毫米', { size: 15, fill: '#2fa36b' }));
+        }
+      }
+    },
+    /* 4 */
+    {
+      title: '感觉一下：厘米·分米',
+      duration: 12000,
+      narr: '1 厘米大约是手指最宽的那一节那么宽。10 厘米就是 1 分米——张开手，大约一掌宽。铅笔常用厘米量。',
+      draw: function (t) {
+        clear(); canvas.appendChild(defsCommon()); canvas.appendChild(bg());
+        canvas.appendChild(xiaomei(40, 185, 0.9, 'happy'));
+        /* finger ~1cm */
+        canvas.appendChild(el('g', { filter: 'url(#soft)' }, [
+          el('rect', { x: '100', y: '70', width: '28', height: '70', rx: '12', fill: '#FFE0BD', stroke: '#e0b890', 'stroke-width': '2' }),
+          el('rect', { x: '104', y: '78', width: '20', height: '8', rx: '2', fill: '#f4c6a0', opacity: '0.6' })
+        ]));
+        canvas.appendChild(arrowH(100, 128, 55, '#c45c26'));
+        canvas.appendChild(txt(114, 48, '≈1厘米', { size: 14, fill: '#c45c26' }));
+        /* palm ~1dm */
+        if (t > 0.35) {
+          canvas.appendChild(el('g', { filter: 'url(#soft)' }, [
+            el('ellipse', { cx: '250', cy: '115', rx: '55', ry: '40', fill: '#FFE0BD', stroke: '#e0b890', 'stroke-width': '2' }),
+            el('rect', { x: '230', y: '145', width: '40', height: '35', rx: '8', fill: '#FFE0BD', stroke: '#e0b890', 'stroke-width': '2' })
+          ]));
+          canvas.appendChild(arrowH(195, 305, 70, '#8b5cf6'));
+          canvas.appendChild(txt(250, 58, '≈1分米（10厘米）', { size: 14, fill: '#8b5cf6' }));
+        }
+        if (t > 0.7) {
+          canvas.appendChild(badge(90, 210, 230, 40, '#fff', '#f1c26b'));
+          canvas.appendChild(txt(205, 236, '1分米 = 10厘米', { size: 17, fill: '#8b5cf6' }));
+        }
+      }
+    },
+    /* 5 */
+    {
+      title: '感觉一下：米·千米',
+      duration: 13000,
+      narr: '1 米大约到小美胸口那么高。操场一圈常是 400 米，跑两圈半就是 1000 米——也就是 1 千米，也叫 1 公里。',
+      draw: function (t) {
+        clear(); canvas.appendChild(defsCommon()); canvas.appendChild(bg('blue'));
+        /* height bar 1m */
+        canvas.appendChild(el('rect', { x: '40', y: '50', width: '16', height: '160', rx: '6', fill: '#1d6fa5', filter: 'url(#soft)' }));
+        canvas.appendChild(txt(48, 40, '1米', { size: 14, fill: '#1d6fa5' }));
+        canvas.appendChild(xiaomei(90, 155, 1.15, 'happy'));
+        canvas.appendChild(txt(90, 230, '大约到胸口', { size: 13, fill: '#1d6fa5' }));
+        /* track */
+        if (t > 0.35) {
+          canvas.appendChild(el('ellipse', { cx: '250', cy: '130', rx: '80', ry: '55', fill: 'none', stroke: '#e5484d', 'stroke-width': '10', opacity: '0.35' }));
+          canvas.appendChild(el('ellipse', { cx: '250', cy: '130', rx: '80', ry: '55', fill: 'none', stroke: '#e5484d', 'stroke-width': '4' }));
+          canvas.appendChild(txt(250, 125, '400米/圈', { size: 13, fill: '#e5484d' }));
+        }
+        if (t > 0.6) {
+          var n = Math.min(5, Math.floor((t - 0.6) / 0.08) + 1);
+          /* show 2.5 as progressive */
+          canvas.appendChild(badge(170, 200, 160, 52, '#fff0ee', '#e5484d'));
+          canvas.appendChild(txt(250, 222, '两圈半 = 1000米', { size: 14, fill: '#e5484d' }));
+          canvas.appendChild(txt(250, 242, '= 1千米（公里）', { size: 14, fill: '#e5484d' }));
+        }
+      }
+    },
+    /* 6 */
+    {
+      title: '选单位：身边的东西',
+      duration: 15000,
+      narr: '橡皮的厚用毫米；铅笔长用厘米；教室长、身高用米。选错单位，答案听起来就很奇怪——比如「橡皮厚 2 米」？不对！',
+      draw: function (t) {
+        clear(); canvas.appendChild(defsCommon()); canvas.appendChild(bg());
+        canvas.appendChild(xiaomei(30, 200, 0.8, t > 0.7 ? 'happy' : 'think'));
+        var items = [
+          { y: 45, name: '橡皮的厚', wrong: '2米 ✗', right: '2毫米 ✓', flip: 0.25 },
+          { y: 105, name: '铅笔的长', wrong: '15米 ✗', right: '15厘米 ✓', flip: 0.45 },
+          { y: 165, name: '教室的长', wrong: '8毫米 ✗', right: '8米 ✓', flip: 0.65 }
+        ];
+        items.forEach(function (it) {
+          canvas.appendChild(badge(70, it.y, 260, 48, '#fff', '#f1c26b'));
+          canvas.appendChild(txt(110, it.y + 30, it.name, { size: 14, fill: '#5a3d00', anchor: 'start' }));
+          if (t < it.flip) {
+            canvas.appendChild(txt(260, it.y + 30, it.wrong, { size: 15, fill: '#e5484d' }));
+          } else {
+            canvas.appendChild(txt(260, it.y + 30, it.right, { size: 15, fill: '#2fa36b' }));
+          }
+        });
+      }
+    },
+    /* 7 */
+    {
+      title: '选单位：很远的地方',
+      duration: 13000,
+      narr: '爸爸开车去很远的城市，路程用千米，也叫公里。从家走到楼下，用米就够了。远近不同，单位也不同。',
+      draw: function (t) {
+        clear(); canvas.appendChild(defsCommon()); canvas.appendChild(bg('blue'));
+        /* road + car */
+        canvas.appendChild(el('rect', { y: '150', width: '360', height: '50', fill: 'url(#road)' }));
+        canvas.appendChild(el('line', { x1: '0', y1: '175', x2: '360', y2: '175', stroke: '#fff', 'stroke-width': '3', 'stroke-dasharray': '14 10', opacity: '0.7' }));
+        var carX = 40 + Math.min(1, t / 0.7) * 200;
+        canvas.appendChild(el('g', { filter: 'url(#soft)', transform: 'translate(' + carX + ',130)' }, [
+          el('rect', { x: '0', y: '18', width: '70', height: '28', rx: '6', fill: '#3b82f6' }),
+          el('rect', { x: '18', y: '4', width: '36', height: '20', rx: '4', fill: '#93c5fd' }),
+          el('circle', { cx: '16', cy: '48', r: '8', fill: '#2b2b3a' }),
+          el('circle', { cx: '54', cy: '48', r: '8', fill: '#2b2b3a' }),
+          el('circle', { cx: '16', cy: '48', r: '3', fill: '#9ca3af' }),
+          el('circle', { cx: '54', cy: '48', r: '3', fill: '#9ca3af' })
+        ]));
+        /* city silhouette */
+        canvas.appendChild(el('g', { opacity: '0.85' }, [
+          el('rect', { x: '280', y: '90', width: '30', height: '60', fill: '#64748b' }),
+          el('rect', { x: '315', y: '70', width: '26', height: '80', fill: '#475569' }),
+          el('rect', { x: '250', y: '105', width: '24', height: '45', fill: '#94a3b8' })
+        ]));
+        canvas.appendChild(xiaomei(40, 95, 0.7, 'wow'));
+        if (t > 0.35) {
+          canvas.appendChild(badge(70, 210, 220, 44, '#fff0ee', '#e5484d'));
+          canvas.appendChild(txt(180, 238, '很远 → 用千米（公里）', { size: 15, fill: '#e5484d' }));
+        }
+        if (t < 0.35) {
+          canvas.appendChild(txt(180, 50, '去很远的地方……', { size: 16, fill: '#1d6fa5' }));
+        }
+      }
+    },
+    /* 8 */
+    {
+      title: '量法：对准 0',
+      duration: 12000,
+      narr: '量的时候，先把尺子的 0 刻度对准物体的这一头，再看另一头对着几。对准 0，另一头对着 12，就是 12 厘米。',
+      draw: function (t) {
+        clear(); canvas.appendChild(defsCommon()); canvas.appendChild(bg());
+        canvas.appendChild(xiaomei(35, 175, 0.9, 'think'));
+        var px = 90, py = 90, pw = 144; /* 12cm * 12px */
         canvas.appendChild(el('g', { filter: 'url(#soft)' }, [
           el('rect', { x: String(px), y: String(py), width: String(pw), height: '20', rx: '4', fill: 'url(#pencil)' }),
           el('polygon', { points: px + ',' + (py + 10) + ' ' + (px + 12) + ',' + py + ' ' + (px + 12) + ',' + (py + 20), fill: '#E76F51' }),
           el('rect', { x: String(px + pw - 16), y: String(py), width: '16', height: '20', rx: '3', fill: '#FF8FAB' })
         ]));
-        /* ruler slides up */
-        var ry = t < 0.25 ? 160 - (160 - 122) * (t / 0.25) : 122;
-        canvas.appendChild(ruler(px, ry, 200, false));
-        /* 0 marker */
+        var ry = t < 0.25 ? 165 - (165 - 118) * (t / 0.25) : 118;
+        canvas.appendChild(ruler(px, ry, 16, { pxPerCm: 12, mark0: t > 0.3 }));
         if (t > 0.3) {
           canvas.appendChild(el('line', { x1: String(px), y1: String(py + 20), x2: String(px), y2: String(ry), stroke: '#2fa36b', 'stroke-width': '2.5', 'stroke-dasharray': '4 3' }));
-          canvas.appendChild(txt(px, py - 10, '对准 0', { size: 14, fill: '#2fa36b' }));
+          canvas.appendChild(txt(px, py - 8, '对准 0', { size: 13, fill: '#2fa36b' }));
         }
         if (t > 0.55) {
           var endX = px + pw;
           canvas.appendChild(el('line', { x1: String(endX), y1: String(py + 20), x2: String(endX), y2: String(ry), stroke: '#c45c26', 'stroke-width': '2.5', 'stroke-dasharray': '4 3' }));
-          canvas.appendChild(txt(endX, py - 10, '对着 12', { size: 14, fill: '#c45c26' }));
-          canvas.appendChild(el('rect', {
-            x: '200', y: '200', width: '120', height: '40', rx: '12',
-            fill: '#eafaf1', stroke: '#2fa36b', 'stroke-width': '3'
-          }));
-          canvas.appendChild(txt(260, 226, '12 厘米', { size: 20, fill: '#2fa36b' }));
+          canvas.appendChild(txt(endX, py - 8, '对着 12', { size: 13, fill: '#c45c26' }));
+          canvas.appendChild(badge(200, 200, 120, 40, '#eafaf1', '#2fa36b'));
+          canvas.appendChild(txt(260, 226, '12 厘米', { size: 18, fill: '#2fa36b' }));
         }
       }
     },
+    /* 9 —— 凯特别强调 */
     {
-      title: '比较长短',
-      duration: 12000,
-      narr: '比谁长谁短，先把一头对齐，再看另一头谁伸得更远。红丝带和蓝丝带左端对齐，红丝带更长。',
+      title: '不对齐 0 也能量',
+      duration: 16000,
+      narr: '有的题故意不对齐 0。一端对着 3，另一端对着 8，长度不是 8，而是 8 减 3，等于 5。记住：终点减起点。',
       draw: function (t) {
-        clear();
-        canvas.appendChild(defsCommon());
-        canvas.appendChild(bg());
-        canvas.appendChild(xiaomei(40, 150, 0.95, 'happy'));
-        var align = Math.min(1, t / 0.35);
-        /* red ribbon longer */
-        var redX = 90;
-        var blueX = 90 + (1 - align) * 40;
-        var redW = 180, blueW = 120;
-        canvas.appendChild(el('rect', { x: String(redX), y: '95', width: String(redW), height: '22', rx: '8', fill: '#e5484d', filter: 'url(#soft)' }));
-        canvas.appendChild(el('rect', { x: String(blueX), y: '140', width: String(blueW), height: '22', rx: '8', fill: '#3b82f6', filter: 'url(#soft)' }));
-        if (t > 0.35) {
-          canvas.appendChild(el('line', { x1: String(redX), y1: '80', x2: String(redX), y2: '175', stroke: '#2fa36b', 'stroke-width': '2.5', 'stroke-dasharray': '4 3' }));
-          canvas.appendChild(txt(redX + 20, 78, '对齐这一头', { size: 13, fill: '#2fa36b', anchor: 'start' }));
-        }
-        if (t > 0.6) {
-          canvas.appendChild(arrowH(redX, redX + redW, 85, '#e5484d'));
-          canvas.appendChild(txt(redX + redW + 8, 108, '更长', { size: 16, fill: '#e5484d', anchor: 'start' }));
-          canvas.appendChild(txt(blueX + blueW + 8, 155, '更短', { size: 16, fill: '#3b82f6', anchor: 'start' }));
-        }
-        canvas.appendChild(txt(180, 210, '先对齐，再比另一头', { size: 17, fill: '#5a3d00' }));
-      }
-    },
-    {
-      title: '厘米 · 米 · 毫米',
-      duration: 14000,
-      narr: '量铅笔用「厘米」。量教室、操场常用「米」——1 米等于 100 厘米。尺子上更短的小格叫「毫米」，1 厘米里有 10 毫米。',
-      draw: function (t) {
-        clear();
-        canvas.appendChild(defsCommon());
-        canvas.appendChild(bg());
-        canvas.appendChild(xiaomei(40, 155, 0.9, 'wow'));
-        /* three cards appear in sequence */
-        function card(x, y, title, sub, color, show) {
-          if (!show) return;
-          var g = el('g', { filter: 'url(#soft)' });
-          g.appendChild(el('rect', { x: String(x), y: String(y), width: '90', height: '100', rx: '14', fill: '#fff', stroke: color, 'stroke-width': '3' }));
-          g.appendChild(txt(x + 45, y + 36, title, { size: 22, fill: color }));
-          g.appendChild(txt(x + 45, y + 64, sub, { size: 13, fill: '#6b6b80' }));
-          canvas.appendChild(g);
-        }
-        card(70, 70, '厘米', '铅笔、橡皮', '#c45c26', t > 0.1);
-        card(170, 70, '米', '1米=100厘米', '#1d6fa5', t > 0.35);
-        card(270, 70, '毫米', '更短的小格', '#2fa36b', t > 0.6);
-        if (t > 0.75) {
-          canvas.appendChild(ruler(80, 195, 200, true));
-          canvas.appendChild(txt(180, 250, '1 厘米 = 10 毫米', { size: 15, fill: '#1d6fa5' }));
-        }
-      }
-    },
-    {
-      title: '易错：没对齐 0',
-      duration: 13000,
-      narr: '小心！如果尺子不是从 0 开始，读数就会错。左边是错的：从 2 开始量，却读成 12。右边才对：从 0 对准，读 10。',
-      draw: function (t) {
-        clear();
-        canvas.appendChild(defsCommon());
-        canvas.appendChild(bg());
-        /* wrong side */
-        canvas.appendChild(el('rect', { x: '16', y: '50', width: '156', height: '150', rx: '14', fill: '#fff0ee', stroke: '#e5484d', 'stroke-width': '3' }));
-        canvas.appendChild(txt(94, 72, '✗ 错了', { size: 16, fill: '#e5484d' }));
-        var stickW = 100;
-        canvas.appendChild(el('rect', { x: '46', y: '95', width: String(stickW), height: '14', rx: '3', fill: '#8B5A3C' }));
-        canvas.appendChild(ruler(26, 120, 140, false));
-        /* object starts at 2cm mark (=20px from ruler start at 26) */
+        clear(); canvas.appendChild(defsCommon()); canvas.appendChild(bg());
+        canvas.appendChild(xiaomei(30, 195, 0.85, t > 0.7 ? 'happy' : 'think'));
+        var rx = 50, ry = 120, ppc = 22;
+        /* ruler 0-10 */
+        canvas.appendChild(ruler(rx, ry, 10, { pxPerCm: ppc, labelAll: false }));
+        /* object from 3 to 8 */
+        var x1 = rx + 3 * ppc, x2 = rx + 8 * ppc;
+        canvas.appendChild(el('rect', {
+          x: String(x1), y: '88', width: String(x2 - x1), height: '22', rx: '5',
+          fill: '#8B5A3C', filter: 'url(#soft)'
+        }));
         if (t > 0.2) {
-          canvas.appendChild(txt(94, 165, '从 2 量起', { size: 13, fill: '#e5484d' }));
-          canvas.appendChild(txt(94, 185, '却读成 12？错！', { size: 13, fill: '#e5484d' }));
+          canvas.appendChild(el('line', { x1: String(x1), y1: '88', x2: String(x1), y2: String(ry), stroke: '#1d6fa5', 'stroke-width': '2.5', 'stroke-dasharray': '4 3' }));
+          canvas.appendChild(txt(x1, 78, '对着 3', { size: 13, fill: '#1d6fa5' }));
         }
-        /* right side */
-        canvas.appendChild(el('rect', { x: '188', y: '50', width: '156', height: '150', rx: '14', fill: '#eafaf1', stroke: '#2fa36b', 'stroke-width': '3' }));
-        canvas.appendChild(txt(266, 72, '✓ 对了', { size: 16, fill: '#2fa36b' }));
-        canvas.appendChild(el('rect', { x: '208', y: '95', width: String(stickW), height: '14', rx: '3', fill: '#8B5A3C' }));
-        canvas.appendChild(ruler(208, 120, 140, false));
-        if (t > 0.45) {
-          canvas.appendChild(el('line', { x1: '208', y1: '95', x2: '208', y2: '120', stroke: '#2fa36b', 'stroke-width': '2', 'stroke-dasharray': '3 2' }));
-          canvas.appendChild(txt(266, 165, '从 0 对准', { size: 13, fill: '#2fa36b' }));
-          canvas.appendChild(txt(266, 185, '读数 10 厘米', { size: 13, fill: '#2fa36b' }));
+        if (t > 0.4) {
+          canvas.appendChild(el('line', { x1: String(x2), y1: '88', x2: String(x2), y2: String(ry), stroke: '#c45c26', 'stroke-width': '2.5', 'stroke-dasharray': '4 3' }));
+          canvas.appendChild(txt(x2, 78, '对着 8', { size: 13, fill: '#c45c26' }));
         }
-        canvas.appendChild(xiaomei(180, 220, 0.7, t > 0.5 ? 'happy' : 'sad'));
+        /* wrong then right */
+        if (t > 0.55 && t < 0.72) {
+          canvas.appendChild(badge(90, 175, 200, 44, '#fff0ee', '#e5484d'));
+          canvas.appendChild(txt(190, 203, '不是读成 8！', { size: 17, fill: '#e5484d' }));
+        }
+        if (t >= 0.72) {
+          canvas.appendChild(badge(70, 170, 240, 56, '#eafaf1', '#2fa36b'));
+          canvas.appendChild(txt(190, 194, '8 − 3 = 5（厘米）', { size: 18, fill: '#2fa36b' }));
+          canvas.appendChild(txt(190, 214, '终点 − 起点 = 长度', { size: 14, fill: '#1e7a48' }));
+          /* highlight span */
+          canvas.appendChild(el('rect', {
+            x: String(x1), y: String(ry + 2), width: String(x2 - x1), height: '26',
+            fill: '#2fa36b', opacity: '0.25'
+          }));
+        }
       }
     },
+    /* 10 */
     {
-      title: '易错：弯的要拉直',
-      duration: 14000,
-      narr: '绳子弯着量会偏短。要先轻轻拉直，再量整段长度。弯着像只有这么短，拉直才是真正的长。',
+      title: '易错：没对齐却直读',
+      duration: 13000,
+      narr: '左边错了：木棒从 2 开始，右端对着 12，却直接读成 12——其实是 12 减 2，等于 10。右边才对：从 0 对准，读 10。',
       draw: function (t) {
-        clear();
-        canvas.appendChild(defsCommon());
-        canvas.appendChild(bg());
-        canvas.appendChild(xiaomei(40, 150, 0.95, t > 0.55 ? 'happy' : 'think'));
-        /* bent rope */
-        var showStraight = t > 0.5;
-        if (!showStraight) {
+        clear(); canvas.appendChild(defsCommon()); canvas.appendChild(bg());
+        /* wrong panel */
+        canvas.appendChild(el('rect', { x: '12', y: '40', width: '160', height: '165', rx: '14', fill: '#fff0ee', stroke: '#e5484d', 'stroke-width': '3' }));
+        canvas.appendChild(txt(92, 62, '✗ 错了', { size: 15, fill: '#e5484d' }));
+        var stickW = 100;
+        canvas.appendChild(el('rect', { x: '42', y: '85', width: String(stickW), height: '14', rx: '3', fill: '#8B5A3C' }));
+        canvas.appendChild(ruler(22, 110, 12, { pxPerCm: 11 }));
+        if (t > 0.25) {
+          canvas.appendChild(txt(92, 160, '从 2 量起', { size: 12, fill: '#e5484d' }));
+          canvas.appendChild(txt(92, 178, '却读成 12？', { size: 12, fill: '#e5484d' }));
+          if (t > 0.5) canvas.appendChild(txt(92, 196, '应是 12−2=10', { size: 12, fill: '#c45c26' }));
+        }
+        /* right panel */
+        canvas.appendChild(el('rect', { x: '188', y: '40', width: '160', height: '165', rx: '14', fill: '#eafaf1', stroke: '#2fa36b', 'stroke-width': '3' }));
+        canvas.appendChild(txt(268, 62, '✓ 对了', { size: 15, fill: '#2fa36b' }));
+        canvas.appendChild(el('rect', { x: '208', y: '85', width: String(stickW), height: '14', rx: '3', fill: '#8B5A3C' }));
+        canvas.appendChild(ruler(208, 110, 12, { pxPerCm: 11, mark0: true }));
+        if (t > 0.4) {
+          canvas.appendChild(txt(268, 160, '从 0 对准', { size: 12, fill: '#2fa36b' }));
+          canvas.appendChild(txt(268, 178, '读数 10 厘米', { size: 12, fill: '#2fa36b' }));
+        }
+        canvas.appendChild(xiaomei(180, 225, 0.65, t > 0.55 ? 'happy' : 'sad'));
+      }
+    },
+    /* 11 */
+    {
+      title: '弯的要拉直',
+      duration: 13000,
+      narr: '绳子弯着量会偏短。要先轻轻拉直，再量整段。弯着看起来短短的，拉直才是真正的长度。',
+      draw: function (t) {
+        clear(); canvas.appendChild(defsCommon()); canvas.appendChild(bg());
+        canvas.appendChild(xiaomei(40, 165, 0.9, t > 0.55 ? 'happy' : 'think'));
+        if (t < 0.5) {
           canvas.appendChild(el('path', {
-            d: 'M90 110 Q130 70 170 110 Q210 150 250 100 Q280 70 310 110',
+            d: 'M95 105 Q135 65 175 105 Q215 145 255 95 Q285 65 315 105',
             stroke: '#c45c26', 'stroke-width': '8', fill: 'none', 'stroke-linecap': 'round', filter: 'url(#soft)'
           }));
-          canvas.appendChild(txt(200, 175, '弯着量 → 偏短', { size: 16, fill: '#e5484d' }));
-          /* short wrong reading */
-          canvas.appendChild(ruler(120, 195, 100, false));
-          canvas.appendChild(txt(170, 240, '看起来只有一点点？', { size: 13, fill: '#e5484d' }));
+          canvas.appendChild(txt(205, 165, '弯着量 → 偏短', { size: 16, fill: '#e5484d' }));
+          canvas.appendChild(ruler(130, 190, 8, { pxPerCm: 12 }));
+          canvas.appendChild(txt(178, 245, '看起来只有一点点？', { size: 13, fill: '#e5484d' }));
         } else {
-          var prog = Math.min(1, (t - 0.5) / 0.3);
-          var len = 80 + 140 * prog;
+          var prog = Math.min(1, (t - 0.5) / 0.28);
+          var len = 90 + 150 * prog;
           canvas.appendChild(el('line', {
-            x1: '90', y1: '120', x2: String(90 + len), y2: '120',
+            x1: '95', y1: '115', x2: String(95 + len), y2: '115',
             stroke: '#c45c26', 'stroke-width': '8', 'stroke-linecap': 'round', filter: 'url(#soft)'
           }));
-          canvas.appendChild(txt(200, 155, '拉直再量 → 才对', { size: 16, fill: '#2fa36b' }));
+          canvas.appendChild(txt(205, 150, '拉直再量 → 才对', { size: 16, fill: '#2fa36b' }));
           if (prog > 0.85) {
-            canvas.appendChild(ruler(90, 175, 220, false));
-            canvas.appendChild(txt(200, 230, '整段长度都量到了', { size: 15, fill: '#2fa36b' }));
+            canvas.appendChild(ruler(95, 170, 18, { pxPerCm: 12 }));
+            canvas.appendChild(txt(205, 230, '整段长度都量到了', { size: 15, fill: '#2fa36b' }));
           }
         }
       }
     },
+    /* 12 */
     {
-      title: '估一估再量',
-      duration: 12000,
-      narr: '量之前先估一估：这支铅笔大概几厘米？小美猜 10 厘米，量完是 12 厘米——估得差不多，感觉就建立起来了。',
+      title: '进率：厘米和毫米',
+      duration: 13000,
+      narr: '1 厘米里有 10 个小格，每小格是 1 毫米。所以 1 厘米等于 10 毫米。3 厘米就是 3 个 10 毫米，等于 30 毫米。',
       draw: function (t) {
-        clear();
-        canvas.appendChild(defsCommon());
-        canvas.appendChild(bg());
-        canvas.appendChild(xiaomei(50, 145, 1, 'think'));
-        var px = 120, py = 100, pw = 120;
-        canvas.appendChild(el('g', { filter: 'url(#soft)' }, [
-          el('rect', { x: String(px), y: String(py), width: String(pw), height: '20', rx: '4', fill: 'url(#pencil)' }),
-          el('polygon', { points: px + ',' + (py + 10) + ' ' + (px + 12) + ',' + py + ' ' + (px + 12) + ',' + (py + 20), fill: '#E76F51' }),
-          el('rect', { x: String(px + pw - 16), y: String(py), width: '16', height: '20', rx: '3', fill: '#FF8FAB' })
-        ]));
-        if (t < 0.45) {
-          canvas.appendChild(el('rect', { x: '130', y: '150', width: '160', height: '50', rx: '14', fill: '#fff7e0', stroke: '#f4a261', 'stroke-width': '3' }));
-          canvas.appendChild(txt(210, 180, '我猜：大约 10 厘米', { size: 15, fill: '#c45c26' }));
-        } else {
-          canvas.appendChild(ruler(px, 130, 180, false));
-          canvas.appendChild(el('line', { x1: String(px + pw), y1: '120', x2: String(px + pw), y2: '130', stroke: '#2fa36b', 'stroke-width': '2.5' }));
-          canvas.appendChild(el('rect', { x: '130', y: '175', width: '160', height: '50', rx: '14', fill: '#eafaf1', stroke: '#2fa36b', 'stroke-width': '3' }));
-          canvas.appendChild(txt(210, 205, '量出来：12 厘米！', { size: 16, fill: '#2fa36b' }));
+        clear(); canvas.appendChild(defsCommon()); canvas.appendChild(bg());
+        canvas.appendChild(xiaomei(35, 195, 0.85, 'think'));
+        /* big 1cm bar with 10 mm cells */
+        var bx = 80, by = 90, cell = 18;
+        canvas.appendChild(txt(170, 55, '1 厘米 = 10 毫米', { size: 17, fill: '#1d6fa5' }));
+        var show = Math.min(10, Math.floor(t * 14));
+        for (var i = 0; i < 10; i++) {
+          var filled = i < show;
+          canvas.appendChild(el('rect', {
+            x: String(bx + i * cell), y: String(by), width: String(cell - 2), height: '40', rx: '4',
+            fill: filled ? '#86efac' : '#fff', stroke: '#2fa36b', 'stroke-width': '2'
+          }));
+          if (filled) canvas.appendChild(txt(bx + i * cell + cell / 2 - 1, by + 26, String(i + 1), { size: 11, fill: '#166534' }));
+        }
+        canvas.appendChild(arrowH(bx, bx + 10 * cell - 2, by - 12, '#c45c26'));
+        canvas.appendChild(txt(bx + 5 * cell, by - 22, '1厘米', { size: 14, fill: '#c45c26' }));
+        if (t > 0.7) {
+          canvas.appendChild(badge(90, 160, 220, 50, '#eafaf1', '#2fa36b'));
+          canvas.appendChild(txt(200, 182, '3厘米 = 3个10毫米', { size: 15, fill: '#2fa36b' }));
+          canvas.appendChild(txt(200, 200, '= 30毫米', { size: 15, fill: '#2fa36b' }));
         }
       }
     },
+    /* 13 */
+    {
+      title: '进率：分米和米',
+      duration: 14000,
+      narr: '1 分米等于 10 厘米。1 米等于 10 分米，也等于 100 厘米。50 分米是 50 个 10 厘米，等于 500 厘米——别漏数「个 10」。',
+      draw: function (t) {
+        clear(); canvas.appendChild(defsCommon()); canvas.appendChild(bg());
+        canvas.appendChild(xiaomei(30, 200, 0.8, 'think'));
+        /* ladder */
+        var steps = [
+          { y: 50, label: '1 米', sub: '= 10 分米 = 100 厘米', c: '#1d6fa5', show: 0.1 },
+          { y: 110, label: '1 分米', sub: '= 10 厘米', c: '#8b5cf6', show: 0.35 },
+          { y: 170, label: '1 厘米', sub: '= 10 毫米', c: '#c45c26', show: 0.55 }
+        ];
+        steps.forEach(function (s) {
+          if (t < s.show) return;
+          canvas.appendChild(el('rect', {
+            x: '70', y: String(s.y), width: '260', height: '48', rx: '14',
+            fill: '#fff', stroke: s.c, 'stroke-width': '3', filter: 'url(#soft)'
+          }));
+          canvas.appendChild(txt(130, s.y + 30, s.label, { size: 16, fill: s.c, anchor: 'start' }));
+          canvas.appendChild(txt(250, s.y + 30, s.sub, { size: 13, fill: '#6b6b80' }));
+        });
+        if (t > 0.75) {
+          canvas.appendChild(badge(70, 228, 260, 36, '#fff7e0', '#f4a261'));
+          canvas.appendChild(txt(200, 252, '50分米=50个10厘米=500厘米', { size: 13, fill: '#c45c26' }));
+        }
+      }
+    },
+    /* 14 */
+    {
+      title: '进率：千米',
+      duration: 14000,
+      narr: '1 千米等于 1000 米。可以这样数：10 个 100 米，合起来就是 1000 米，也就是 1 千米。别把 100 米写成 1000 米——多写一个 0 就错了。',
+      draw: function (t) {
+        clear(); canvas.appendChild(defsCommon()); canvas.appendChild(bg('blue'));
+        canvas.appendChild(xiaomei(30, 200, 0.8, t > 0.8 ? 'happy' : 'think'));
+        canvas.appendChild(txt(200, 40, '10 个 100 米 = 1000 米 = 1 千米', { size: 14, fill: '#1d6fa5' }));
+        var show = Math.min(10, Math.floor((t / 0.7) * 10));
+        for (var i = 0; i < 10; i++) {
+          var col = i % 5, row = Math.floor(i / 5);
+          var x = 70 + col * 52, y = 60 + row * 55;
+          var on = i < show;
+          canvas.appendChild(el('rect', {
+            x: String(x), y: String(y), width: '46', height: '42', rx: '10',
+            fill: on ? '#fecaca' : '#fff', stroke: '#e5484d', 'stroke-width': '2.5',
+            opacity: on ? '1' : '0.45', filter: on ? 'url(#soft)' : null
+          }));
+          if (on) {
+            canvas.appendChild(txt(x + 23, y + 20, '100', { size: 13, fill: '#e5484d' }));
+            canvas.appendChild(txt(x + 23, y + 35, '米', { size: 11, fill: '#9f1239' }));
+          }
+        }
+        if (t > 0.72) {
+          canvas.appendChild(badge(70, 180, 260, 48, '#fff0ee', '#e5484d'));
+          canvas.appendChild(txt(200, 202, '数一数：10 个 100 米', { size: 14, fill: '#e5484d' }));
+          canvas.appendChild(txt(200, 220, '= 1000 米 = 1 千米', { size: 14, fill: '#e5484d' }));
+        }
+        if (t > 0.88) {
+          canvas.appendChild(txt(200, 250, '小心：100米 ≠ 1000米（多一个0）', { size: 13, fill: '#c45c26' }));
+        }
+      }
+    },
+    /* 15 */
     {
       title: '小结',
-      duration: 10000,
-      narr: '记住三句话：长度是从一头到另一头；尺子要从 0 对准；弯的东西先拉直再量。估一估，再动手量。',
+      duration: 12000,
+      narr: '记住：按远近选单位；能量就对准 0，不对齐就用终点减起点；弯的先拉直；进率靠「几个 10」「几个 100」来想。游泳池一个来回是两段长哦。',
       draw: function (t) {
-        clear();
-        canvas.appendChild(defsCommon());
-        canvas.appendChild(bg());
-        canvas.appendChild(xiaomei(50, 160, 1.1, 'happy'));
+        clear(); canvas.appendChild(defsCommon()); canvas.appendChild(bg());
+        canvas.appendChild(xiaomei(40, 195, 1, 'happy'));
         var tips = [
-          { y: 70, text: '① 从一头到另一头', show: t > 0.1 },
-          { y: 115, text: '② 尺子从 0 对准', show: t > 0.35 },
-          { y: 160, text: '③ 弯的先拉直再量', show: t > 0.6 }
+          { y: 42, text: '① 远近不同，单位不同', show: 0.08 },
+          { y: 82, text: '② 对准 0；或 终点−起点', show: 0.28 },
+          { y: 122, text: '③ 弯的东西先拉直再量', show: 0.48 },
+          { y: 162, text: '④ 进率：几个10、几个100', show: 0.68 }
         ];
         tips.forEach(function (tip) {
-          if (!tip.show) return;
+          if (t < tip.show) return;
           canvas.appendChild(el('rect', {
-            x: '110', y: String(tip.y), width: '220', height: '36', rx: '12',
+            x: '100', y: String(tip.y), width: '235', height: '34', rx: '12',
             fill: '#fff', stroke: '#f1c26b', 'stroke-width': '3', filter: 'url(#soft)'
           }));
-          canvas.appendChild(txt(220, tip.y + 24, tip.text, { size: 16, fill: '#c45c26' }));
+          canvas.appendChild(txt(218, tip.y + 23, tip.text, { size: 14, fill: '#c45c26' }));
         });
+        if (t > 0.85) {
+          canvas.appendChild(txt(200, 230, '来回 = 往返两段', { size: 13, fill: '#6b6b80' }));
+        }
       }
     }
   ];
@@ -520,7 +759,7 @@ body.has-site-nav{height:100dvh}
     scenes.forEach(function (_, i) {
       var d = document.createElement('span');
       d.className = 'dot' + (i === idx ? ' on' : (i < idx ? ' done' : ''));
-      d.title = '第 ' + (i + 1) + ' 幕';
+      d.title = '第 ' + (i + 1) + ' 幕 · ' + scenes[i].title;
       progressEl.appendChild(d);
     });
   }
@@ -568,9 +807,7 @@ body.has-site-nav{height:100dvh}
   }
 
   function play() {
-    if (finished) {
-      goScene(0);
-    }
+    if (finished) goScene(0);
     playing = true;
     btnPlay.textContent = '⏸ 暂停';
     btnPlay.setAttribute('aria-pressed', 'true');
@@ -603,7 +840,6 @@ body.has-site-nav{height:100dvh}
     play();
   });
 
-  /* 点击进度点跳幕 */
   progressEl.addEventListener('click', function (e) {
     var dots = progressEl.querySelectorAll('.dot');
     for (var i = 0; i < dots.length; i++) {
@@ -616,12 +852,11 @@ body.has-site-nav{height:100dvh}
     }
   });
 
-  /* 启动 */
   goScene(0);
   play();
 })();
 </script>
 <script src="../common/nav.js"></script>
-<script>SiteNav.mount({title:'长度是什么',dir:'../index.html'});</script>
+<script>SiteNav.mount({title:'毫米到千米',dir:'../index.html'});</script>
 </body>
 </html>
