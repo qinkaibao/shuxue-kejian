@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<title>秤桥镇的三枚身份牌</title>
+<style>
+:root{--ink:#2b2b3a;--muted:#6b6b80;--bg:#f7f3ea;--pri:#c45c26;--blue:#1d6fa5;--red:#e5484d;--green:#2fa36b;--gold:#f4a261}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:20px;line-height:1.85;padding:env(safe-area-inset-top) 0 48px}
+.top{position:sticky;top:var(--sn-h,0px);z-index:20;background:rgba(247,243,234,.96);backdrop-filter:blur(8px);padding:8px 16px;border-bottom:1px solid #e8d9c4;display:flex;justify-content:space-between;align-items:center}
+.top b{color:var(--pri)}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px}
+h1{font-size:1.7em;text-align:center;margin:16px 0 4px;letter-spacing:2px}
+.sub{text-align:center;color:var(--muted);font-size:.85em;margin:0 0 14px}
+.how{background:#fff;border-radius:16px;padding:12px 16px;font-size:.85em;color:var(--muted);box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:8px}
+h2.chap{font-size:1.2em;color:var(--pri);margin:34px 0 10px;padding-bottom:6px;border-bottom:3px dotted #e8c4a0}
+p{margin:10px 0}
+.who{color:var(--pri);font-weight:700}
+.scene svg,.play svg{width:100%;height:auto;display:block;margin:12px 0;border-radius:18px}
+.stop{background:#fff7e0;border:3px solid #ffd166;border-radius:20px;padding:14px 14px 6px;margin:22px 0}
+.stop-h{font-weight:800;color:#b5470f;font-size:1.08em}
+.focus{display:inline-block;font-size:.72em;background:#ffe8dc;color:#b5470f;border-radius:99px;padding:1px 10px;margin:4px 0}
+.ask{font-size:1.02em;margin:6px 0 10px}
+details{border-radius:14px;margin:10px 0;overflow:hidden;border:2px solid #eee;background:#fff}
+summary{cursor:pointer;list-style:none;padding:11px 14px;font-weight:700;-webkit-tap-highlight-color:transparent}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▶ ";font-size:.8em}details[open] summary::before{content:"▼ "}
+details>div{padding:2px 14px 12px}
+details.tip{border-color:#cfe0ff}details.tip summary{background:#eef4ff;color:#3d7bfd}
+details.ans{border-color:#cdeedd}details.ans summary{background:#eafaf1;color:var(--green)}
+.play{background:#fff;border-radius:18px;padding:14px;margin:16px 0;box-shadow:0 2px 12px rgba(90,50,20,.08)}
+.play .qp{font-weight:800;margin-bottom:8px}
+.btn{min-height:48px;border:none;border-radius:14px;background:var(--pri);color:#fff;font-size:18px;font-weight:700;padding:8px 14px;margin:6px 6px 0 0}
+.btn.ghost{background:#8a7a6a}
+.btn.sm{min-height:44px;font-size:17px;padding:6px 12px}
+.note{min-height:1.4em;color:var(--green);font-weight:700;margin-top:8px}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.badge{min-height:48px;padding:8px 14px;border-radius:999px;border:3px solid #e8d0b0;background:#fffaf3;font-size:18px;font-weight:700;color:var(--ink)}
+.badge.on{border-color:var(--pri);background:#ffe8d6}
+.badge.ok{border-color:var(--green);background:#e5f6ec;color:var(--green)}
+.badge.no{border-color:#e5484d;background:#fff0ee;opacity:.7}
+.items{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+@media(max-width:420px){.items{grid-template-columns:1fr}}
+.item{border:2px solid #efd8b8;border-radius:14px;padding:10px;background:#fffaf5;text-align:center}
+.item .name{font-weight:800;margin-bottom:6px}
+.ladder{display:flex;flex-direction:column;gap:8px;align-items:stretch;margin:10px 0}
+.rung{background:#fff8e8;border:2px solid #e8c4a0;border-radius:12px;padding:10px 12px;font-weight:700;text-align:center}
+.rung.hi{background:#e8f4ff;border-color:#7eb6e8}
+.rung.mid{background:#eafaf1;border-color:#8fd4a8}
+.chip{display:inline-block;background:#f1f1f6;border-radius:8px;padding:2px 8px;font-family:"SF Mono",Menlo,monospace;margin:0 2px}
+.memo{background:linear-gradient(135deg,#fff1e6,#e7f5ff);border:3px dashed var(--pri);border-radius:20px;padding:16px;margin:30px 0}
+.memo h2{margin:0 0 6px;color:var(--pri);font-size:1.2em}.memo li{margin:12px 0;font-size:1.05em}
+.go{display:block;text-align:center;background:var(--green);color:#fff;font-size:22px;font-weight:800;border-radius:16px;padding:14px;margin:18px 0;text-decoration:none}
+.foot{font-size:.72em;color:var(--muted);line-height:1.6}
+.ferry{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0}
+.pet{min-width:90px;min-height:64px;border:3px solid #cfe0f0;border-radius:14px;background:#f8fbff;font-size:17px;font-weight:700;padding:8px}
+.pet.on{border-color:var(--pri);background:#ffe8d6}
+.bar{height:18px;background:#eee;border-radius:9px;overflow:hidden;margin:8px 0}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,#f4a261,#e76f51);width:0;transition:width .35s}
+ul{padding-left:1.15em}li{margin:6px 0}
+.check{font-weight:700;color:var(--green)}
+@media print{body{font-size:15px;background:#fff}.stop,.scene,.play{break-inside:avoid}summary::before{content:""}}
+</style>
+</head>
+<body>
+<header class="top"><b>秤桥镇的三枚身份牌</b><span>数学小故事</span></header>
+<div class="wrap">
+<h1>⚖️ 秤桥镇的三枚身份牌</h1>
+<p class="sub">一次把「轻、重、很重」分清楚的赶集冒险<br>人教版三年级上册 · 认识质量单位 · 约 15～20 分钟</p>
+<div class="how"><b>读法</b>：从头往下读。黄色「✋ 停一停，想一想」可以先停；白色小卡片是动手看过程——点一点就懂，<b>不用答题、也不卡关</b>。答案要点开才显示。</div>
+
+<h2 class="chap">第一章　赶集日，秤桥响了</h2>
+<div class="scene"><svg viewBox="0 0 360 230" aria-label="秤桥镇集市和三枚大身份牌">
+<defs><linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe8c8"/><stop offset="1" stop-color="#fff6ea"/></linearGradient></defs>
+<rect width="360" height="230" rx="18" fill="url(#sky1)"/>
+<circle cx="300" cy="40" r="22" fill="#ffd166"/>
+<rect x="0" y="160" width="360" height="70" fill="#c9b896"/>
+<!-- bridge -->
+<path d="M40 160 Q180 110 320 160" fill="none" stroke="#8c5a3c" stroke-width="10"/>
+<path d="M40 160 Q180 118 320 160" fill="none" stroke="#e9c46a" stroke-width="4"/>
+<!-- stalls -->
+<rect x="20" y="120" width="70" height="50" fill="#e76f51"/><path d="M16 120 L55 95 L94 120Z" fill="#f4a261"/>
+<rect x="270" y="125" width="70" height="45" fill="#2a9d8f"/><path d="M266 125 L305 100 L344 125Z" fill="#40b4a4"/>
+<!-- three badges hanging -->
+<g transform="translate(70,20)">
+  <rect width="64" height="36" rx="10" fill="#ffe8a3" stroke="#c45c26" stroke-width="3"/>
+  <text x="32" y="24" text-anchor="middle" font-size="16" font-weight="800" fill="#c45c26">克 g</text>
+</g>
+<g transform="translate(148,12)">
+  <rect width="72" height="40" rx="10" fill="#d8f3dc" stroke="#2fa36b" stroke-width="3"/>
+  <text x="36" y="26" text-anchor="middle" font-size="15" font-weight="800" fill="#1f7a4d">千克 kg</text>
+</g>
+<g transform="translate(236,20)">
+  <rect width="64" height="36" rx="10" fill="#d0ebff" stroke="#1d6fa5" stroke-width="3"/>
+  <text x="32" y="24" text-anchor="middle" font-size="16" font-weight="800" fill="#1d6fa5">吨 t</text>
+</g>
+<!-- girl -->
+<circle cx="160" cy="150" r="14" fill="#ffe0bd"/>
+<path d="M146 164 h28 l6 36 h-40z" fill="#e8453c"/>
+<text x="180" y="210" text-anchor="middle" font-size="14" fill="#5c4033">秤桥镇 · 赶集日</text>
+</svg></div>
+
+<p>星期六一早，小美跟着妈妈来到<b>秤桥镇</b>赶集。镇口有一座弯弯的木桥，桥头挂着三枚亮闪闪的大牌子：</p>
+<p style="text-align:center;font-size:1.15em;font-weight:800">🟡 克（g）　🟢 千克（kg）　🔵 吨（t）</p>
+<p>桥边的秤婆婆捋着白胡子说：「过桥的货物，都要先贴对身份牌。贴错了，大秤不认，桥也不让过。」</p>
+<p>旁边有个急性子男孩叫<b class="who">阿冲</b>。他扛着一大袋盐，随手抓起蓝色的「吨」牌就往上贴。</p>
+<p><b class="who">阿冲：</b>盐袋好重！肯定得用最大的牌！</p>
+<p>大秤「嘀——」地亮了红灯。秤婆婆摇摇头：「一袋盐大约 500……你猜，该贴哪一枚？」</p>
+
+<div class="stop">
+<div class="stop-h">✋ 停一停，想一想 ①</div>
+<div class="focus">练的是：质量感 · 选合适单位</div>
+<div class="ask">一袋盐大约 500，该贴「克」「千克」还是「吨」？为什么阿冲的「吨」牌不对？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul>
+<li>「吨」有多重？——大概 10 袋大米合起来才接近 1 吨。一袋盐哪有那么重？</li>
+<li>手里掂掂盐袋：比苹果重，比桌子轻，更像用「克」来说。</li>
+<li>课本里：约 5 粒黄豆≈1 克；轻的用克，重一点的用千克，特别重的才用吨。</li>
+</ul></div></details>
+<details class="ans"><summary>点我看思路</summary><div><ul>
+<li>一袋盐大约 <b>500 克</b>，该贴黄色「克」牌。</li>
+<li>「吨」太大了：1 吨＝1000 千克，差不多能装很多很多袋米。贴错身份牌，大秤当然不认。</li>
+<li>口诀：<b>轻→克，重→千克，很重→吨</b>。</li>
+</ul><p class="check">阿冲改贴「克」牌，大秤绿灯亮了。</p></div></details>
+</div>
+
+<p>阿冲红着脸换上黄牌。小美摸摸三枚牌子，心里记下一句话：<b>先想轻不轻，再贴身份牌。</b></p>
+
+<div class="play">
+<div class="qp">动手看过程：给下面的东西选身份牌（点一枚试试，可改，不记分）</div>
+<div class="items" id="pickItems"></div>
+<p class="note" id="pickNote">先点一件东西，再点下面的身份牌。</p>
+<div class="badges">
+<button type="button" class="badge" data-u="g">克 g</button>
+<button type="button" class="badge" data-u="kg">千克 kg</button>
+<button type="button" class="badge" data-u="t">吨 t</button>
+</div>
+<button type="button" class="btn ghost sm" id="pickReset">全部重选</button>
+</div>
+
+<h2 class="chap">第二章　一千阶梯</h2>
+<div class="scene"><svg viewBox="0 0 360 220" aria-label="木梯上写着一千克等于一千克">
+<rect width="360" height="220" rx="18" fill="#eef6ff"/>
+<!-- ladder -->
+<rect x="80" y="30" width="12" height="170" fill="#8c5a3c"/>
+<rect x="200" y="30" width="12" height="170" fill="#8c5a3c"/>
+<rect x="80" y="50" width="132" height="10" fill="#a47148"/>
+<rect x="80" y="90" width="132" height="10" fill="#a47148"/>
+<rect x="80" y="130" width="132" height="10" fill="#a47148"/>
+<rect x="80" y="170" width="132" height="10" fill="#a47148"/>
+<text x="250" y="58" font-size="15" font-weight="700" fill="#1d6fa5">1 吨</text>
+<text x="250" y="98" font-size="15" font-weight="700" fill="#2fa36b">1000 千克</text>
+<text x="250" y="138" font-size="15" font-weight="700" fill="#2fa36b">1 千克</text>
+<text x="250" y="178" font-size="15" font-weight="700" fill="#c45c26">1000 克</text>
+<text x="180" y="210" text-anchor="middle" font-size="13" fill="#6b6b80">秤婆婆的「一千阶梯」</text>
+</svg></div>
+
+<p>过了秤桥，集市更热闹了。卖西红柿的大叔喊：「这一筐正好 1 千克！大约能装 6 个！」</p>
+<p>阿冲指着墙上一张旧告示：「上面写着『面粉 3000……』，没写单位！是 3000 克，还是 3000 千克？」</p>
+<p>秤婆婆笑着拉开一幅画——像一座梯子：「这叫<b>一千阶梯</b>。往上走，每走一格，就要换成『1000 个』。」</p>
+<p style="text-align:center;font-weight:800">1000 克 ＝ 1 千克<br>1000 千克 ＝ 1 吨</p>
+<p><b class="who">小美：</b>那 3000 克，就是 3 个 1000 克，等于 3 千克。要是 3000 千克，那就是 3 吨啦——一整卡车才扛得动！</p>
+
+<div class="play">
+<div class="qp">点「往上换 / 往下换」，看一千阶梯怎么走</div>
+<div class="ladder" id="ladder"></div>
+<button type="button" class="btn" id="ladUp">往上换（变大单位）</button>
+<button type="button" class="btn ghost" id="ladDown">往下换（变小单位）</button>
+<button type="button" class="btn ghost sm" id="ladReset">回到起点</button>
+<p class="note" id="ladNote"></p>
+</div>
+
+<div class="stop">
+<div class="stop-h">✋ 停一停，想一想 ②</div>
+<div class="focus">练的是：单位换算 · 复合单位</div>
+<div class="ask">妈妈买了「2 千克 30 克」红枣。要是大秤只认「克」，该写成多少克？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul>
+<li>2 千克里面有几个 1000 克？——2 个，就是 2000 克。</li>
+<li>再加上零头 30 克：2000＋30。</li>
+<li>也可以想：千克的数写在「千」的位置，克的数写在后面。</li>
+</ul></div></details>
+<details class="ans"><summary>点我看思路</summary><div><ul>
+<li>2 千克＝2×1000 克＝2000 克（也可以说：2 个 1000 克合起来）。</li>
+<li>再加 30 克：2000＋30＝<b>2030 克</b>。</li>
+<li>反过来：2030 克＝2 千克 30 克（先取出几个整千，剩下的是克）。</li>
+</ul><p class="check">答：2030 克。</p></div></details>
+</div>
+
+<h2 class="chap">第三章　两种牌，不能直接加</h2>
+<div class="scene"><svg viewBox="0 0 360 200" aria-label="两个购物袋，一个标2千克，一个标500克">
+<rect width="360" height="200" rx="18" fill="#fff6ea"/>
+<rect x="40" y="50" width="110" height="100" rx="12" fill="#e9c46a" stroke="#8c5a3c" stroke-width="3"/>
+<text x="95" y="95" text-anchor="middle" font-size="18" font-weight="800">面粉</text>
+<text x="95" y="122" text-anchor="middle" font-size="16" fill="#c45c26">2 千克</text>
+<rect x="210" y="70" width="110" height="80" rx="12" fill="#f4a261" stroke="#8c5a3c" stroke-width="3"/>
+<text x="265" y="105" text-anchor="middle" font-size="18" font-weight="800">红豆</text>
+<text x="265" y="130" text-anchor="middle" font-size="16" fill="#c45c26">500 克</text>
+<text x="180" y="40" text-anchor="middle" font-size="15" font-weight="700" fill="#5c4033">妈妈：「一共多重？」</text>
+<text x="180" y="185" text-anchor="middle" font-size="14" fill="#6b6b80">单位不一样，能直接 2＋500 吗？</text>
+</svg></div>
+
+<p>妈妈买了 2 千克面粉，又买了 500 克红豆，问：「一共多重？」</p>
+<p>阿冲脱口而出：「2 加 500，等于 502！……千克？还是克？」他自己也愣住了。</p>
+<p><b class="who">小美：</b>身份牌不一样，数字不能直接碰头。要先让它们穿上同一种牌。</p>
+
+<div class="play">
+<div class="qp">点「下一步」，看小美怎么先换再合</div>
+<div id="addSteps" style="min-height:4.5em;font-size:1.05em;font-weight:700;text-align:center;padding:8px 0"></div>
+<button type="button" class="btn" id="addNext">下一步</button>
+<button type="button" class="btn ghost sm" id="addReset">再看一遍</button>
+<p class="note" id="addNote"></p>
+</div>
+
+<div class="stop">
+<div class="stop-h">✋ 停一停，想一想 ③</div>
+<div class="focus">练的是：带单位加减 · 先统一单位</div>
+<div class="ask">2 千克面粉＋500 克红豆，一共是多少克？也可以说成几千克？</div>
+<details class="ans"><summary>点我看思路</summary><div><ul>
+<li>先都换成克：2 千克＝2000 克，再加上 500 克 → 2000＋500＝<b>2500 克</b>。</li>
+<li>2500 克里有 2 个整千，还剩 500：也可以说成 <b>2 千克 500 克</b>。</li>
+<li>阿冲的 502，是把「2」和「500」当成同一种牌硬加，牌不对，得数就胡说。</li>
+</ul><p class="check">答：一共 2500 克（或 2 千克 500 克）。</p></div></details>
+</div>
+
+<h2 class="chap">第四章　比一比，谁更重</h2>
+<p>水果摊前，阿冲举着两个标签吵架：「800 克的葡萄」和「1 千克的苹果」——他非说 800 更大，因为「800 比 1 大」。</p>
+<p>摊主阿姨笑得直不起腰：「小朋友，你比的是数字，还是质量呀？」</p>
+
+<div class="play">
+<div class="qp">点「换成一样的牌再比」</div>
+<div style="text-align:center;font-size:1.2em;font-weight:800;margin:8px 0">
+<span id="cmpL">800 克</span>
+　<span id="cmpO">○</span>　
+<span id="cmpR">1 千克</span>
+</div>
+<button type="button" class="btn" id="cmpGo">换成一样的牌再比</button>
+<button type="button" class="btn ghost sm" id="cmpReset">还原</button>
+<p class="note" id="cmpNote">单位不同时，先别急着比数字。</p>
+</div>
+
+<div class="stop">
+<div class="stop-h">✋ 停一停，想一想 ④</div>
+<div class="focus">练的是：比大小 · 先统一单位</div>
+<div class="ask">800 克 ○ 1 千克，○ 里该填 ＞、＜ 还是 ＝？</div>
+<details class="ans"><summary>点我看思路</summary><div><ul>
+<li>1 千克＝1000 克。</li>
+<li>800 克 ＜ 1000 克，所以 800 克 ＜ 1 千克。</li>
+<li>阿冲只看「800 和 1」，忘了它们的身份牌不一样。</li>
+</ul><p class="check">答：800 克 ＜ 1 千克。</p></div></details>
+</div>
+
+<h2 class="chap">第五章　过桥限重</h2>
+<div class="scene"><svg viewBox="0 0 360 210" aria-label="小木船限重3千克，旁边站着猫狗鸭">
+<rect width="360" height="210" rx="18" fill="#e8f4fb"/>
+<rect y="140" width="360" height="70" fill="#7fb8d8"/>
+<path d="M70 120 h180 l-20 40 h-140z" fill="#a0522d"/>
+<text x="160" y="108" text-anchor="middle" font-size="15" font-weight="800" fill="#c62828">限重 3 千克</text>
+<!-- pets -->
+<text x="60" y="50" font-size="28">🐱</text>
+<text x="50" y="72" font-size="12" fill="#5c4033">800 克</text>
+<text x="160" y="45" font-size="28">🐶</text>
+<text x="148" y="68" font-size="12" fill="#5c4033">1 千克</text>
+<text x="260" y="50" font-size="28">🦆</text>
+<text x="245" y="72" font-size="12" fill="#5c4033">900 克</text>
+<text x="180" y="195" text-anchor="middle" font-size="13" fill="#fff">能一起上船过河吗？</text>
+</svg></div>
+
+<p>集市尽头有条小河。渡船大叔指着船帮上的字：「小船限重 <b>3 千克</b>。猫 800 克，狗 1 千克，小鸭 900 克——能一起过河吗？」</p>
+<p>阿冲又要抢算：「800＋1＋900＝1701！太大了，上不了！」</p>
+<p><b class="who">小美：</b>又是身份牌闹的。我们先都换成克，再一个一个加起来。</p>
+
+<div class="play">
+<div class="qp">点小动物「请上船」，看总重有没有超过 3 千克（可反复试）</div>
+<div class="ferry">
+<button type="button" class="pet" data-g="800">🐱 猫<br>800 克</button>
+<button type="button" class="pet" data-g="1000">🐶 狗<br>1 千克</button>
+<button type="button" class="pet" data-g="900">🦆 鸭<br>900 克</button>
+</div>
+<div class="bar"><i id="ferryBar"></i></div>
+<p style="text-align:center;font-weight:800"><span id="ferrySum">船上：0 克</span>　/　限重 3000 克（3 千克）</p>
+<p class="note" id="ferryNote">点谁，谁就上船；再点一下可以下船。</p>
+<button type="button" class="btn ghost sm" id="ferryClear">清空甲板</button>
+</div>
+
+<div class="stop">
+<div class="stop-h">✋ 停一停，想一想 ⑤</div>
+<div class="focus">练的是：解决问题 · 先统一再合计 · 和限重比</div>
+<div class="ask">三只小动物一起上船，总重多少克？超过限重 3 千克了吗？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul>
+<li>狗的 1 千克＝多少克？——1000 克。</li>
+<li>不用乘法：800＋1000＝1800，再加 900。可以掰手指分段加。</li>
+<li>限重 3 千克＝3000 克。总重和 3000 比一比。</li>
+</ul></div></details>
+<details class="ans"><summary>点我看思路</summary><div><ul>
+<li>都换成克：猫 800，狗 1000，鸭 900。</li>
+<li>先 800＋1000＝1800，再 1800＋900＝<b>2700 克</b>。</li>
+<li>限重 3 千克＝3000 克。2700＜3000，<b>可以一起过河</b>。</li>
+<li>阿冲把「1」和「800、900」硬加，又踩进了身份牌陷阱。</li>
+</ul><p class="check">答：一共 2700 克，没有超过 3000 克，可以一起上船。</p></div></details>
+</div>
+
+<p>渡船稳稳靠岸。阿冲在小本子上工工整整写了三行，像贴了三枚真正的身份牌。</p>
+
+<div class="memo">
+<h2>📌 小美的身份牌口袋</h2>
+<p style="margin:0;font-size:.85em;color:#6b6b80">今天记住什么：</p>
+<ol>
+<li><b>先想轻不轻，再贴身份牌</b>：轻→克，重→千克，很重→吨。</li>
+<li><b>一千阶梯</b>：1000 克＝1 千克，1000 千克＝1 吨；复合单位先拆成「整千克＋零头克」。</li>
+<li><b>牌不一样，先换成一样</b>：再比大小，再加减，再和限重比。</li>
+</ol>
+<p style="text-align:center;font-size:1.5em;margin:4px 0">⚖️ 🪜 🚢</p>
+</div>
+
+<p>回家的路上，秤桥在夕阳里闪着金光。小美摸摸口袋里那枚小小的木牌——秤婆婆送的，正面刻着一个字：<b>称</b>。</p>
+<p>「不是秤砣的秤，」秤婆婆说过，「是把事情称准的称。」</p>
+
+<a class="go" href="../chengqiao-lianxi/">读懂了？去练一练 →</a>
+<p class="foot">参考说明：本故事原创编写，人物、情节与数字均为新编。写法借鉴公开数学故事思路（历险藏概念、一个故事盯一件事、生活麻烦逼出数学、单位「身份牌」），未摘抄任何版权原文。知识以人教版三年级上册「认识质量单位 / 曹冲称象」相关内容为准：克、千克、吨；1千克＝1000克；1吨＝1000千克；先估再称、选合适单位、同单位再比再算。</p>
+</div>
+<script>
+(function(){
+  // —— 选身份牌 ——
+  var ITEMS=[
+    {id:'salt',name:'一袋盐 ≈500',ans:'g'},
+    {id:'apple',name:'一个苹果 ≈200',ans:'g'},
+    {id:'rabbit',name:'一只兔 ≈3',ans:'kg'},
+    {id:'desk',name:'一张课桌 ≈15',ans:'kg'},
+    {id:'truck',name:'一辆卡车载重 ≈8',ans:'t'},
+    {id:'whale',name:'一头鲸 ≈150',ans:'t'}
+  ];
+  var pickSel=null, pickState={};
+  var box=document.getElementById('pickItems');
+  function drawItems(){
+    box.innerHTML=ITEMS.map(function(it){
+      var st=pickState[it.id];
+      var tag=st?(' → '+(st==='g'?'克':st==='kg'?'千克':'吨')+(st===it.ans?' ✓':'')):'';
+      var bg=st?(st===it.ans?'#e5f6ec':'#fff0ee'):'#fffaf5';
+      return '<button type="button" class="item" data-id="'+it.id+'" style="background:'+bg+'"><div class="name">'+it.name+'</div><div style="font-size:.85em;color:#6b6b80">'+(st?tag:'点我选牌')+'</div></button>';
+    }).join('');
+    box.querySelectorAll('.item').forEach(function(el){
+      el.onclick=function(){
+        pickSel=el.dataset.id;
+        document.getElementById('pickNote').textContent='已选「'+ITEMS.filter(function(x){return x.id===pickSel})[0].name+'」，再点下面的身份牌。';
+      };
+    });
+  }
+  drawItems();
+  document.querySelectorAll('.badge[data-u]').forEach(function(b){
+    b.onclick=function(){
+      if(!pickSel){document.getElementById('pickNote').textContent='先点上面的一件东西。';return;}
+      pickState[pickSel]=b.dataset.u;
+      var it=ITEMS.filter(function(x){return x.id===pickSel})[0];
+      document.getElementById('pickNote').textContent=b.dataset.u===it.ans?'贴对了！':'好像不太对，再想想轻不轻。';
+      drawItems();
+    };
+  });
+  document.getElementById('pickReset').onclick=function(){pickState={};pickSel=null;drawItems();document.getElementById('pickNote').textContent='先点一件东西，再点下面的身份牌。';};
+
+  // —— 一千阶梯 ——
+  var LAD=[
+    {label:'5000 克',tip:'起点：5000 克'},
+    {label:'5 千克',tip:'往上：每 1000 克收成 1 千克 → 5 千克'},
+    {label:'（还不是吨）',tip:'5 千克离 1 吨还远：1 吨要 1000 千克'},
+    {label:'若有 5000 千克 → 5 吨',tip:'往上再走一格：1000 千克＝1 吨'}
+  ];
+  var li=0;
+  function drawLad(){
+    var el=document.getElementById('ladder');
+    el.innerHTML=LAD.map(function(r,i){
+      var cls='rung'+(i===li?' hi':'');
+      return '<div class="'+cls+'">'+(i===li?'👉 ':'')+r.label+'</div>';
+    }).join('');
+    document.getElementById('ladNote').textContent=LAD[li].tip;
+  }
+  drawLad();
+  document.getElementById('ladUp').onclick=function(){if(li<LAD.length-1){li++;drawLad();}};
+  document.getElementById('ladDown').onclick=function(){if(li>0){li--;drawLad();}};
+  document.getElementById('ladReset').onclick=function(){li=0;drawLad();};
+
+  // —— 先换再合 ——
+  var ADD=[
+    {html:'2 千克　＋　500 克',note:'单位不一样，先别加。'},
+    {html:'2 千克 ＝ <span class="chip">2000 克</span>',note:'先把千克换成克：2 个 1000 克。'},
+    {html:'<span class="chip">2000 克</span>　＋　500 克',note:'牌一样了，可以合。'},
+    {html:'2000 ＋ 500 ＝ <span class="chip">2500 克</span>',note:'也可以说成 2 千克 500 克。'}
+  ];
+  var ai=0;
+  function drawAdd(){
+    document.getElementById('addSteps').innerHTML=ADD[ai].html;
+    document.getElementById('addNote').textContent=ADD[ai].note;
+    document.getElementById('addNext').disabled=ai>=ADD.length-1;
+  }
+  drawAdd();
+  document.getElementById('addNext').onclick=function(){if(ai<ADD.length-1){ai++;drawAdd();}};
+  document.getElementById('addReset').onclick=function(){ai=0;drawAdd();};
+
+  // —— 比大小 ——
+  document.getElementById('cmpGo').onclick=function(){
+    document.getElementById('cmpL').textContent='800 克';
+    document.getElementById('cmpR').textContent='1000 克';
+    document.getElementById('cmpO').textContent='＜';
+    document.getElementById('cmpO').style.color='#2fa36b';
+    document.getElementById('cmpNote').textContent='1 千克换成 1000 克，再比：800＜1000。';
+  };
+  document.getElementById('cmpReset').onclick=function(){
+    document.getElementById('cmpL').textContent='800 克';
+    document.getElementById('cmpR').textContent='1 千克';
+    document.getElementById('cmpO').textContent='○';
+    document.getElementById('cmpO').style.color='';
+    document.getElementById('cmpNote').textContent='单位不同时，先别急着比数字。';
+  };
+
+  // —— 过桥 ——
+  var onBoard={};
+  function drawFerry(){
+    var sum=0;
+    document.querySelectorAll('.pet').forEach(function(p){
+      var g=+p.dataset.g;
+      if(onBoard[g]){p.classList.add('on');sum+=g;}else p.classList.remove('on');
+    });
+    document.getElementById('ferrySum').textContent='船上：'+sum+' 克';
+    var pct=Math.min(100,sum/3000*100);
+    document.getElementById('ferryBar').style.width=pct+'%';
+    document.getElementById('ferryBar').style.background=sum>3000?'#e5484d':'linear-gradient(90deg,#f4a261,#2fa36b)';
+    if(sum===0)document.getElementById('ferryNote').textContent='点谁，谁就上船；再点一下可以下船。';
+    else if(sum>3000)document.getElementById('ferryNote').textContent='超重了！'+sum+'＞3000。';
+    else if(sum===2700)document.getElementById('ferryNote').textContent='三只都上船：2700＜3000，可以过河！';
+    else document.getElementById('ferryNote').textContent='现在 '+sum+' 克，限重 3000 克。';
+  }
+  document.querySelectorAll('.pet').forEach(function(p){
+    p.onclick=function(){
+      var g=+p.dataset.g;
+      onBoard[g]=!onBoard[g];
+      drawFerry();
+    };
+  });
+  document.getElementById('ferryClear').onclick=function(){onBoard={};drawFerry();};
+  drawFerry();
+})();
+window.addEventListener('beforeprint',function(){document.querySelectorAll('details').forEach(function(d){d.open=true;});});
+</script>
+<script src="../common/nav.js"></script>
+<script>SiteNav.mount({title:'秤桥镇的三枚身份牌',dir:'../index.html'});</script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>秤桥镇配套练习</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:#f7f3ea;color:#2b2b3a;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:21px;line-height:1.75}
+.top{position:sticky;top:var(--sn-h,0);z-index:20;background:rgba(247,243,234,.96);padding:8px 16px;border-bottom:1px solid #e8d9c4;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.top b{color:#c45c26}.wrap{max-width:720px;margin:0 auto;padding:0 16px 40px}
+h1{font-size:30px;text-align:center;margin:14px 0 4px}h2{font-size:24px;color:#c45c26;margin:28px 0 10px}
+.sub{text-align:center;color:#7a6558;font-size:17px}
+svg{width:100%;height:auto;border-radius:16px;margin:8px 0}
+.play{background:#fff;border-radius:18px;padding:14px;margin:14px 0;box-shadow:0 2px 10px rgba(90,50,20,.08)}
+.play .qp{font-weight:700}
+.opt{display:block;width:100%;min-height:56px;margin:8px 0;border:3px solid #efd3b4;background:#fffaf5;border-radius:14px;font-size:20px;text-align:left;padding:8px 12px;color:#2b2b3a}
+.opt.wrong{border-color:#c0392b;background:#fff0ee}.opt.correct{border-color:#1f7a4d;background:#e5f6ec}
+input{font-size:24px;min-height:56px;width:7em;max-width:46%;text-align:center;border:3px solid #efd3b4;border-radius:14px}
+.btn{min-height:54px;border:none;border-radius:14px;background:#e76f51;color:#fff;font-size:20px;font-weight:700;padding:8px 16px;margin:6px 4px 0 0}
+.fb{margin-top:8px;border-radius:12px;padding:0 10px}.fb.ok{background:#e5f6ec;color:#1f7a4d}.fb.no{background:#fff4e0;color:#9a4b00}
+details.ans{margin-top:8px;background:#f6f0ff;border-radius:12px;padding:6px 10px}summary{font-weight:700;color:#2a6f97}
+.teach{background:#fff;border-radius:16px;padding:12px;margin:10px 0;border:2px dashed #e8c4a0;font-size:.95em}
+.memo{background:#fff1e0;border:3px dashed #c45c26;border-radius:18px;padding:12px}
+.done .submit{display:none}
+.dual input{width:4.5em;margin:0 4px}
+</style>
+</head>
+<body>
+<header class="top"><b>秤桥镇配套练习</b><span id="prog"></span></header>
+<main class="wrap">
+<h1>秤桥镇配套练习</h1>
+<p class="sub">配套故事《秤桥镇的三枚身份牌》 · 15 题 · 约 15～20 分钟<br>人教版三年级上册 · 认识质量单位</p>
+<p style="font-size:17px;color:#7a6558">每类先看一小段讲解，再做 2～3 题。提交马上判对错；错满 2 次讲解会打开。最后按「交作业」看成绩单（一次就对 / 几次才对 / 没做对）。</p>
+
+<section id="s1">
+<h2>第一节　选合适单位</h2>
+<svg viewBox="0 0 360 120" role="img" aria-label="三枚身份牌"><rect width="360" height="120" fill="#fff6ea"/>
+<rect x="20" y="35" width="90" height="50" rx="12" fill="#ffe8a3" stroke="#c45c26" stroke-width="3"/><text x="65" y="67" text-anchor="middle" font-size="20" font-weight="800" fill="#c45c26">克</text>
+<rect x="135" y="35" width="90" height="50" rx="12" fill="#d8f3dc" stroke="#2fa36b" stroke-width="3"/><text x="180" y="67" text-anchor="middle" font-size="18" font-weight="800" fill="#1f7a4d">千克</text>
+<rect x="250" y="35" width="90" height="50" rx="12" fill="#d0ebff" stroke="#1d6fa5" stroke-width="3"/><text x="295" y="67" text-anchor="middle" font-size="20" font-weight="800" fill="#1d6fa5">吨</text>
+<text x="180" y="108" text-anchor="middle" font-size="14" fill="#7a6558">轻→克　重→千克　很重→吨</text></svg>
+<div class="teach">想一想东西轻不轻：一片叶子、一粒糖用<b>克</b>；兔子、课桌、人用<b>千克</b>；卡车、鲸鱼用<b>吨</b>。约 5 粒黄豆≈1 克，可帮你建立感觉。</div>
+
+<div class="play" id="box-q1"><div class="qp">第 1 题　一片树叶大约重 1（　）</div>
+<button class="opt" data-q="q1" data-i="0">A. 克</button>
+<button class="opt" data-q="q1" data-i="1">B. 千克</button>
+<button class="opt" data-q="q1" data-i="2">C. 吨</button>
+<div class="fb" id="fb-q1"></div>
+<details class="ans" id="ans-q1" hidden><summary>看讲解</summary><p>树叶很轻，大约 1 克。千克、吨都太大了。</p></details></div>
+
+<div class="play" id="box-q2"><div class="qp">第 2 题　小明大约重 32（　）</div>
+<button class="opt" data-q="q2" data-i="0">A. 克</button>
+<button class="opt" data-q="q2" data-i="1">B. 千克</button>
+<button class="opt" data-q="q2" data-i="2">C. 吨</button>
+<div class="fb" id="fb-q2"></div>
+<details class="ans" id="ans-q2" hidden><summary>看讲解</summary><p>小朋友体重大约几十千克。32 克太轻（像几颗糖），32 吨是大象都不止。</p></details></div>
+
+<div class="play" id="box-q3"><div class="qp">第 3 题　一辆卡车载重约 8（　）</div>
+<button class="opt" data-q="q3" data-i="0">A. 克</button>
+<button class="opt" data-q="q3" data-i="1">B. 千克</button>
+<button class="opt" data-q="q3" data-i="2">C. 吨</button>
+<div class="fb" id="fb-q3"></div>
+<details class="ans" id="ans-q3" hidden><summary>看讲解</summary><p>卡车装货很重，常用吨。8 千克只像两袋面粉，装不满一卡车。</p></details></div>
+</section>
+
+<section id="s2">
+<h2>第二节　单位换算</h2>
+<svg viewBox="0 0 360 110" role="img" aria-label="一千阶梯"><rect width="360" height="110" fill="#eef6ff"/>
+<text x="30" y="40" font-size="18" font-weight="700">1000 克 ＝ 1 千克</text>
+<text x="30" y="75" font-size="18" font-weight="700">1000 千克 ＝ 1 吨</text>
+<text x="250" y="58" font-size="40">🪜</text></svg>
+<div class="teach">往大单位走：每满 1000，收成 1 个大单位。<br>复合例子：3 千克 20 克＝3020 克；4500 克＝4 千克 500 克。</div>
+
+<div class="play" id="box-q4"><div class="qp">第 4 题　6 千克 ＝（　）克</div>
+<p><input id="in-q4" inputmode="numeric" autocomplete="off"> <button class="btn submit" data-fill="q4">提交</button></p>
+<div class="fb" id="fb-q4"></div>
+<details class="ans" id="ans-q4" hidden><summary>看讲解</summary><p>1 千克＝1000 克，6 千克就是 6 个 1000 克：1000＋1000＋1000＋1000＋1000＋1000＝6000。也可以想：6×1000＝6000（整千相乘，用口诀想「六个千」）。</p></details></div>
+
+<div class="play" id="box-q5"><div class="qp">第 5 题　4000 千克 ＝（　）吨</div>
+<p><input id="in-q5" inputmode="numeric" autocomplete="off"> <button class="btn submit" data-fill="q5">提交</button></p>
+<div class="fb" id="fb-q5"></div>
+<details class="ans" id="ans-q5" hidden><summary>看讲解</summary><p>1000 千克＝1 吨。4000 里有几个 1000？4 个，所以是 4 吨。</p></details></div>
+
+<div class="play" id="box-q6"><div class="qp">第 6 题　5 千克 80 克 ＝（　）克</div>
+<p><input id="in-q6" inputmode="numeric" autocomplete="off"> <button class="btn submit" data-fill="q6">提交</button></p>
+<div class="fb" id="fb-q6"></div>
+<details class="ans" id="ans-q6" hidden><summary>看讲解</summary><p>5 千克＝5000 克，再加 80 克：5000＋80＝5080 克。</p></details></div>
+
+<div class="play" id="box-q7"><div class="qp">第 7 题　3250 克 ＝（　）千克（　）克　<small>（两个空都填）</small></div>
+<p class="dual"><input id="in-q7a" inputmode="numeric" autocomplete="off" aria-label="千克"> 千克 <input id="in-q7b" inputmode="numeric" autocomplete="off" aria-label="克"> 克
+<button class="btn submit" data-fill="q7">提交</button></p>
+<div class="fb" id="fb-q7"></div>
+<details class="ans" id="ans-q7" hidden><summary>看讲解</summary><p>先取出整千：3250＝3000＋250，所以是 3 千克 250 克。</p></details></div>
+</section>
+
+<section id="s3">
+<h2>第三节　带单位的加减</h2>
+<svg viewBox="0 0 360 100" role="img" aria-label="先换成一样再算"><rect width="360" height="100" fill="#fff6ea"/>
+<text x="180" y="40" text-anchor="middle" font-size="18" font-weight="700">先换成一样的单位</text>
+<text x="180" y="72" text-anchor="middle" font-size="18" font-weight="700">再加或减</text></svg>
+<div class="teach">单位不同时，先都变成克（或都变成千克），再算。算完看看要不要再换回更合适的说法。</div>
+
+<div class="play" id="box-q8"><div class="qp">第 8 题　3 千克＋400 克 ＝（　）克</div>
+<p><input id="in-q8" inputmode="numeric" autocomplete="off"> <button class="btn submit" data-fill="q8">提交</button></p>
+<div class="fb" id="fb-q8"></div>
+<details class="ans" id="ans-q8" hidden><summary>看讲解</summary><p>3 千克＝3000 克，3000＋400＝3400 克。</p></details></div>
+
+<div class="play" id="box-q9"><div class="qp">第 9 题　1 千克－350 克 ＝（　）克</div>
+<p><input id="in-q9" inputmode="numeric" autocomplete="off"> <button class="btn submit" data-fill="q9">提交</button></p>
+<div class="fb" id="fb-q9"></div>
+<details class="ans" id="ans-q9" hidden><summary>看讲解</summary><p>1 千克＝1000 克，1000－350＝650 克。</p></details></div>
+
+<div class="play" id="box-q10"><div class="qp">第 10 题　700 克＋300 克 ＝（　）千克</div>
+<p><input id="in-q10" inputmode="numeric" autocomplete="off"> <button class="btn submit" data-fill="q10">提交</button></p>
+<div class="fb" id="fb-q10"></div>
+<details class="ans" id="ans-q10" hidden><summary>看讲解</summary><p>700＋300＝1000 克，1000 克正好是 1 千克。</p></details></div>
+</section>
+
+<section id="s4">
+<h2>第四节　比大小</h2>
+<svg viewBox="0 0 360 90" role="img" aria-label="统一单位再比"><rect width="360" height="90" fill="#e8f4fb"/>
+<text x="180" y="55" text-anchor="middle" font-size="20" font-weight="700">牌不一样 → 先换成一样 → 再比</text></svg>
+<div class="teach">比较时，把两边都换成同一种单位（常常都换成克，或都换成千克），再填 ＞ ＜ ＝。</div>
+
+<div class="play" id="box-q11"><div class="qp">第 11 题　900 克 ○ 1 千克</div>
+<button class="opt" data-q="q11" data-i="0">A. ＞</button>
+<button class="opt" data-q="q11" data-i="1">B. ＜</button>
+<button class="opt" data-q="q11" data-i="2">C. ＝</button>
+<div class="fb" id="fb-q11"></div>
+<details class="ans" id="ans-q11" hidden><summary>看讲解</summary><p>1 千克＝1000 克，900＜1000，所以 900 克＜1 千克。</p></details></div>
+
+<div class="play" id="box-q12"><div class="qp">第 12 题　5 千克 ○ 5000 克</div>
+<button class="opt" data-q="q12" data-i="0">A. ＞</button>
+<button class="opt" data-q="q12" data-i="1">B. ＜</button>
+<button class="opt" data-q="q12" data-i="2">C. ＝</button>
+<div class="fb" id="fb-q12"></div>
+<details class="ans" id="ans-q12" hidden><summary>看讲解</summary><p>5 千克＝5000 克，两边一样重。</p></details></div>
+
+<div class="play" id="box-q13"><div class="qp">第 13 题　2 吨 ○ 2000 千克</div>
+<button class="opt" data-q="q13" data-i="0">A. ＞</button>
+<button class="opt" data-q="q13" data-i="1">B. ＜</button>
+<button class="opt" data-q="q13" data-i="2">C. ＝</button>
+<div class="fb" id="fb-q13"></div>
+<details class="ans" id="ans-q13" hidden><summary>看讲解</summary><p>1 吨＝1000 千克，2 吨＝2000 千克，相等。</p></details></div>
+</section>
+
+<section id="s5">
+<h2>第五节　解决问题</h2>
+<svg viewBox="0 0 360 110" role="img" aria-label="购物袋和限重小船"><rect width="360" height="110" fill="#e8f4fb"/>
+<rect x="30" y="30" width="70" height="55" rx="8" fill="#e9c46a"/><text x="65" y="62" text-anchor="middle" font-size="14">面粉</text>
+<rect x="120" y="40" width="60" height="45" rx="8" fill="#f4a261"/><text x="150" y="68" text-anchor="middle" font-size="13">红豆</text>
+<path d="M230 50 h100 l-14 35 h-72z" fill="#a0522d"/><text x="280" y="40" text-anchor="middle" font-size="13" fill="#c62828">限重</text></svg>
+<div class="teach">应用题三步：①问什么、单位是什么？②单位一样吗？不一样先换。③再合计或和限重比。数字保持简单，用连加就能算。</div>
+
+<div class="play" id="box-q14"><div class="qp">第 14 题　妈妈买了 2 袋面粉，每袋 1 千克，又买了 400 克红豆。面粉和红豆一共多少克？</div>
+<p><input id="in-q14" inputmode="numeric" autocomplete="off"> <button class="btn submit" data-fill="q14">提交</button></p>
+<div class="fb" id="fb-q14"></div>
+<details class="ans" id="ans-q14" hidden><summary>看讲解</summary><p>2 袋面粉：1 千克＋1 千克＝2 千克＝2000 克。再加上红豆 400 克：2000＋400＝2400 克。<br>（不用乘法硬写「2×1000」，想成两袋合起来也行。）</p></details></div>
+
+<div class="play" id="box-q15"><div class="qp">第 15 题　小船限重 2 千克。已经上了 700 克的猫和 900 克的鸭。再让 500 克的兔子上船，会不会超重？</div>
+<button class="opt" data-q="q15" data-i="0">A. 不会超重（总重不到 2 千克）</button>
+<button class="opt" data-q="q15" data-i="1">B. 会超重（总重超过 2 千克）</button>
+<button class="opt" data-q="q15" data-i="2">C. 正好 2 千克，算超重</button>
+<div class="fb" id="fb-q15"></div>
+<details class="ans" id="ans-q15" hidden><summary>看讲解</summary><p>先加：700＋900＝1600，再加 500＝2100 克。限重 2 千克＝2000 克。2100＞2000，会超重。不能三只一起上。</p></details></div>
+</section>
+
+<section id="ending">
+<h2>做完了？</h2>
+<p>按下面的「交作业」看成绩单。</p>
+<div class="memo"><b>小美的身份牌口袋</b><ul>
+<li>轻→克，重→千克，很重→吨。</li>
+<li>1000 克＝1 千克，1000 千克＝1 吨。</li>
+<li>单位不一样，先换成一样再比、再算。</li>
+</ul></div>
+<section id="kejian-report" class="kr"></section>
+<p style="text-align:center"><button class="btn" id="resetAll" style="background:#8c5a3c">从头再做</button></p>
+<p style="text-align:center;font-size:16px;color:#7a6558"><a href="../chengqiao/">← 返回故事</a></p>
+</section>
+</main>
+<script src="../common/report.js"></script>
+<script>
+(function(){
+  var Q=[
+    {id:'q1',type:'choice',ans:0,cat:'选合适单位',brief:'树叶约1（　）',hints:{'1':'树叶没有那么重，千克太大了。','2':'吨是卡车、鲸鱼才用的。'}},
+    {id:'q2',type:'choice',ans:1,cat:'选合适单位',brief:'小明约32（　）',hints:{'0':'32克只有几颗糖那么重。','2':'32吨太重了。'}},
+    {id:'q3',type:'choice',ans:2,cat:'选合适单位',brief:'卡车载重约8（　）',hints:{'0':'克太轻。','1':'8千克只像两袋面粉，装不满卡车。'}},
+    {id:'q4',type:'fill',ans:'6000',cat:'单位换算',brief:'6千克＝（　）克',hints:{'6':'别忘了乘上1000：6个1000克。','600':'少了一个0，1千克是1000克。','1000':'那是1千克。'}},
+    {id:'q5',type:'fill',ans:'4',cat:'单位换算',brief:'4000千克＝（　）吨',hints:{'40':'1000千克才是1吨，4000里有4个1000。','4000':'要换成吨，不是照抄。'}},
+    {id:'q6',type:'fill',ans:'5080',cat:'单位换算',brief:'5千克80克＝（　）克',hints:{'580':'5千克是5000克，不是500克。','5000':'还要再加上80克。','508':'少写了一个0。'}},
+    {id:'q7',type:'dual',ans:['3','250'],cat:'单位换算',brief:'3250克＝（　）千克（　）克',hints:{}},
+    {id:'q8',type:'fill',ans:'3400',cat:'带单位加减',brief:'3千克＋400克＝（　）克',hints:{'403':'单位不同不能直接3＋400。先把3千克换成3000克。','340':'少写了0。','3000':'还要再加400克。'}},
+    {id:'q9',type:'fill',ans:'650',cat:'带单位加减',brief:'1千克－350克＝（　）克',hints:{'6500':'1千克是1000克，1000－350＝650。','350':'要用1000去减。','1000':'还要减去350。'}},
+    {id:'q10',type:'fill',ans:'1',cat:'带单位加减',brief:'700克＋300克＝（　）千克',hints:{'1000':'1000克要收成1千克再填。','10':'700＋300＝1000克＝1千克。'}},
+    {id:'q11',type:'choice',ans:1,cat:'比大小',brief:'900克○1千克',hints:{'0':'1千克＝1000克，900比较小。','2':'900不等于1000。'}},
+    {id:'q12',type:'choice',ans:2,cat:'比大小',brief:'5千克○5000克',hints:{'0':'5千克正好等于5000克。','1':'两边一样重。'}},
+    {id:'q13',type:'choice',ans:2,cat:'比大小',brief:'2吨○2000千克',hints:{'0':'2吨＝2000千克。','1':'两边相等。'}},
+    {id:'q14',type:'fill',ans:'2400',cat:'解决问题',brief:'2袋1千克面粉＋400克红豆共多少克',hints:{'240':'少写了0。','2000':'面粉是2000克，还要加红豆400克。','1400':'两袋面粉是2千克＝2000克，不是1000。','2':'问的是克，先换成克再算。'}},
+    {id:'q15',type:'choice',ans:1,cat:'解决问题',brief:'限重2千克，700+900+500会否超重',hints:{'0':'700＋900＋500＝2100克，大于2000克。','2':'正好才是2000克；现在是2100，已经超过。'}}
+  ];
+  var KEY='kejian-lianxi-kg-20261023',S={};try{S=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+  var byId={};Q.forEach(function(q){byId[q.id]=q});
+  function fb(id,k,t){var e=document.getElementById('fb-'+id);e.className='fb '+k;e.textContent=t}
+  function solved(id){S[id]=1;save();if(window.KejianReport&&(S['w'+id]||0)<2)KejianReport.pass(id);mark(id);gate()}
+  function wrongTry(id,ans){S['w'+id]=(S['w'+id]||0)+1;save();if(window.KejianReport)KejianReport.miss(id,ans);if(S['w'+id]>=2){document.getElementById('ans-'+id).hidden=false;fb(id,'no','已错 2 次，讲解已打开，可以先做下一题。')}}
+  function mark(id){var b=document.getElementById('box-'+id);b.classList.add('done');document.getElementById('ans-'+id).hidden=false;var q=byId[id];
+    if(q.type==='choice'){b.querySelectorAll('.opt').forEach(function(o){o.disabled=true;if(+o.dataset.i===q.ans)o.classList.add('correct')})}
+    if(q.type==='fill'){var i=document.getElementById('in-'+id);i.value=q.ans;i.disabled=true}
+    if(q.type==='dual'){document.getElementById('in-'+id+'a').value=q.ans[0];document.getElementById('in-'+id+'b').value=q.ans[1];document.getElementById('in-'+id+'a').disabled=true;document.getElementById('in-'+id+'b').disabled=true}
+    fb(id,'ok','答对了！')}
+  function norm(s){return String(s).replace(/\s/g,'').replace(/[０-９]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-65248)}).replace(/克|千克|吨/g,'')}
+  document.querySelectorAll('.opt').forEach(function(o){o.onclick=function(){var q=byId[o.dataset.q];if(S[q.id])return;var i=+o.dataset.i;
+    if(i===q.ans)solved(q.id);else{o.classList.add('wrong');fb(q.id,'no',(q.hints&&q.hints[String(i)])||'再想一想。');wrongTry(q.id,o.textContent)}}});
+  document.querySelectorAll('[data-fill]').forEach(function(b){b.onclick=function(){var q=byId[b.dataset.fill];
+    if(q.type==='dual'){
+      var a=norm(document.getElementById('in-'+q.id+'a').value),c=norm(document.getElementById('in-'+q.id+'b').value);
+      if(!a||!c){fb(q.id,'no','两个空都要填。');return}
+      if(a===q.ans[0]&&c===q.ans[1])solved(q.id);
+      else{var tip='再看看：先取出几个整千作千克，剩下的是克。';if(a==='32'||a==='325')tip='千克那边只要整千的个数，3250里有 3 个千。';fb(q.id,'no',tip);wrongTry(q.id,a+','+c)}
+      return;
+    }
+    var v=norm(document.getElementById('in-'+q.id).value);if(!v){fb(q.id,'no','先写一个数再提交。');return}
+    if(v===q.ans)solved(q.id);else{fb(q.id,'no',(q.hints&&q.hints[v])||'不对哦，先统一单位再算一遍。');wrongTry(q.id,v)}}});
+  function gate(){var n=Q.filter(function(q){return S[q.id]}).length;document.getElementById('prog').textContent='已做对 '+n+' / '+Q.length+' 题'}
+  Q.forEach(function(q){if(S[q.id])mark(q.id);else if((S['w'+q.id]||0)>=2){var el=document.getElementById('ans-'+q.id);if(el)el.hidden=false}});
+  gate();
+  if(window.KejianReport)KejianReport.mount({id:'chengqiao-lianxi',name:'秤桥镇配套练习',questions:Q.map(function(q){return {id:q.id,brief:q.brief,tag:q.cat,category:q.cat}}),legacySolved:[]});
+  document.getElementById('resetAll').onclick=function(){if(!confirm('清空本页所有进度，从头再做？'))return;S={};save();if(window.KejianReport)KejianReport.clear();location.reload()};
+})();
+</script>
+<script src="../common/nav.js"></script>
+<script>SiteNav.mount({title:'秤桥镇配套练习',dir:'../index.html',report:true});</script>
+</body>
+</html>
