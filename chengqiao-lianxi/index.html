@@ -30,7 +30,7 @@ details.ans{margin-top:8px;background:#f6f0ff;border-radius:12px;padding:6px 10p
 <header class="top"><b>秤桥镇配套练习</b><span id="prog"></span></header>
 <main class="wrap">
 <h1>秤桥镇配套练习</h1>
-<p class="sub">配套故事《秤桥镇的三枚身份牌》 · 15 题 · 约 15～20 分钟<br>人教版三年级上册 · 认识质量单位</p>
+<p class="sub">配套故事《秤桥镇的三枚身份牌》 · 23 题 · 约 20～25 分钟<br>人教版三年级上册 · 认识质量单位</p>
 <p style="font-size:17px;color:#7a6558">每类先看一小段讲解，再做 2～3 题。提交马上判对错；错满 2 次讲解会打开。最后按「交作业」看成绩单（一次就对 / 几次才对 / 没做对）。</p>
 
 <section id="s1">
@@ -166,13 +166,97 @@ details.ans{margin-top:8px;background:#f6f0ff;border-radius:12px;padding:6px 10p
 <details class="ans" id="ans-q15" hidden><summary>看讲解</summary><p>先加：700＋900＝1600，再加 500＝2100 克。限重 2 千克＝2000 克。2100＞2000，会超重。不能三只一起上。</p></details></div>
 </section>
 
+
+<section id="s6">
+<h2>第六节　选单位 + 比大小专项</h2>
+<p style="font-size:17px;color:#7a6558">针对最近易错：大米/课桌别写成克、鲸鱼用吨；同数字不同单位要先换再比；复合换算中间补 0；问什么单位就答什么单位。</p>
+
+<div class="teach" id="sense-demo">
+  <b>先练感觉：点一物件，再点该贴的牌。</b>
+  <div id="senseItems" style="display:flex;flex-wrap:wrap;gap:8px;margin:10px 0"></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin:6px 0">
+    <button type="button" class="btn sense-badge" data-u="g" style="background:#e9a825;min-height:48px">克</button>
+    <button type="button" class="btn sense-badge" data-u="kg" style="background:#2fa36b;min-height:48px">千克</button>
+    <button type="button" class="btn sense-badge" data-u="t" style="background:#1d6fa5;min-height:48px">吨</button>
+  </div>
+  <div class="fb" id="senseFb" style="min-height:1.4em"></div>
+  <p style="margin:8px 0 0;font-size:.92em">记住：一袋大米、一张课桌，用手能搬但沉沉的 → <b>千克</b>；鲸鱼、卡车 → <b>吨</b>；一小块糖 → <b>克</b>。</p>
+</div>
+
+<div class="play" id="box-q16"><div class="qp">第 16 题　一袋大米大约重 20（　）</div>
+<button class="opt" data-q="q16" data-i="0">A. 克</button>
+<button class="opt" data-q="q16" data-i="1">B. 千克</button>
+<button class="opt" data-q="q16" data-i="2">C. 吨</button>
+<div class="fb" id="fb-q16"></div>
+<details class="ans" id="ans-q16" hidden><summary>看讲解</summary><p>一袋大米沉沉的，大约 20 千克。20 克只有几块糖；20 吨是好几头大象。</p></details></div>
+
+<div class="play" id="box-q17"><div class="qp">第 17 题　一张课桌大约重 15（　）</div>
+<button class="opt" data-q="q17" data-i="0">A. 克</button>
+<button class="opt" data-q="q17" data-i="1">B. 千克</button>
+<button class="opt" data-q="q17" data-i="2">C. 吨</button>
+<div class="fb" id="fb-q17"></div>
+<details class="ans" id="ans-q17" hidden><summary>看讲解</summary><p>课桌要两个人抬，大约十几千克。15 克太轻；15 吨像一辆大卡车。</p></details></div>
+
+<div class="play" id="box-q18"><div class="qp">第 18 题　一头鲸鱼大约重 150（　）</div>
+<button class="opt" data-q="q18" data-i="0">A. 克</button>
+<button class="opt" data-q="q18" data-i="1">B. 千克</button>
+<button class="opt" data-q="q18" data-i="2">C. 吨</button>
+<div class="fb" id="fb-q18"></div>
+<details class="ans" id="ans-q18" hidden><summary>看讲解</summary><p>鲸鱼很重，常用吨。150 千克只像两个大人；150 克更轻。</p></details></div>
+
+<div class="teach">
+  <b>比大小口诀：牌不一样，先换成一样，再比。</b><br>
+  例：4 千克＝4×1000＝4000 克，所以 4 千克＝4000 克。<br>
+  例：6 千克＝6000 克，600 克＜6000 克，所以 600 克＜6 千克。<br>
+  <span style="color:#9a4b00">易错：看见两边数字一样（都是 4、都是 6）就写＝——单位不同时，数字一样也不一定一样重。</span>
+</div>
+
+<div class="play" id="box-q19"><div class="qp">第 19 题　4 千克 ○ 4000 克</div>
+<button class="opt" data-q="q19" data-i="0">A. ＞</button>
+<button class="opt" data-q="q19" data-i="1">B. ＜</button>
+<button class="opt" data-q="q19" data-i="2">C. ＝</button>
+<div class="fb" id="fb-q19"></div>
+<details class="ans" id="ans-q19" hidden><summary>看讲解</summary><p>4 千克＝4×1000＝4000 克，两边一样重，填＝。不要看见「4」和「4000」数字不同就写＞。</p></details></div>
+
+<div class="play" id="box-q20"><div class="qp">第 20 题　600 克 ○ 6 千克</div>
+<button class="opt" data-q="q20" data-i="0">A. ＞</button>
+<button class="opt" data-q="q20" data-i="1">B. ＜</button>
+<button class="opt" data-q="q20" data-i="2">C. ＝</button>
+<div class="fb" id="fb-q20"></div>
+<details class="ans" id="ans-q20" hidden><summary>看讲解</summary><p>6 千克＝6000 克。600＜6000，所以 600 克＜6 千克。两边都有「6」和「00」，但单位不同，不是相等。</p></details></div>
+
+<div class="play" id="box-q21"><div class="qp">第 21 题　3 吨 ○ 2800 千克</div>
+<button class="opt" data-q="q21" data-i="0">A. ＞</button>
+<button class="opt" data-q="q21" data-i="1">B. ＜</button>
+<button class="opt" data-q="q21" data-i="2">C. ＝</button>
+<div class="fb" id="fb-q21"></div>
+<details class="ans" id="ans-q21" hidden><summary>看讲解</summary><p>3 吨＝3000 千克，3000＞2800，所以 3 吨＞2800 千克。</p></details></div>
+
+<div class="teach">
+  <b>轻练两招：</b><br>
+  ① 复合换算：7 千克 15 克＝7000＋15＝<b>7015</b> 克（中间要补 0，不是 715）。<br>
+  ② 审题圈单位：题目问「多少千克」，答案就要写成千克，不要悄悄改成克。
+</div>
+
+<div class="play" id="box-q22"><div class="qp">第 22 题　8 千克 20 克 ＝（　）克</div>
+<p><input id="in-q22" inputmode="numeric" autocomplete="off"> <button class="btn submit" data-fill="q22">提交</button></p>
+<div class="fb" id="fb-q22"></div>
+<details class="ans" id="ans-q22" hidden><summary>看讲解</summary><p>8 千克＝8000 克，再加 20 克：8000＋20＝8020 克。别写成 820（漏了两个 0）。</p></details></div>
+
+<div class="play" id="box-q23"><div class="qp">第 23 题　一箱梨重 4500 克。这箱梨重多少千克多少克？　<small>（问的是千克和克）</small></div>
+<p class="dual"><input id="in-q23a" inputmode="numeric" autocomplete="off" aria-label="千克"> 千克 <input id="in-q23b" inputmode="numeric" autocomplete="off" aria-label="克"> 克
+<button class="btn submit" data-fill="q23">提交</button></p>
+<div class="fb" id="fb-q23"></div>
+<details class="ans" id="ans-q23" hidden><summary>看讲解</summary><p>4500＝4000＋500，所以是 4 千克 500 克。题目问「多少千克多少克」，不要只写 4500 克。</p></details></div>
+</section>
+
 <section id="ending">
 <h2>做完了？</h2>
 <p>按下面的「交作业」看成绩单。</p>
 <div class="memo"><b>小美的身份牌口袋</b><ul>
-<li>轻→克，重→千克，很重→吨。</li>
-<li>1000 克＝1 千克，1000 千克＝1 吨。</li>
-<li>单位不一样，先换成一样再比、再算。</li>
+<li>轻→克，重→千克，很重→吨（大米、课桌用千克；鲸鱼用吨）。</li>
+<li>1000 克＝1 千克，1000 千克＝1 吨；复合如 8 千克 20 克＝8020 克（中间补 0）。</li>
+<li>单位不一样，先换成一样再比、再算；问什么单位就答什么单位。</li>
 </ul></div>
 <section id="kejian-report" class="kr"></section>
 <p style="text-align:center"><button class="btn" id="resetAll" style="background:#8c5a3c">从头再做</button></p>
@@ -197,7 +281,15 @@ details.ans{margin-top:8px;background:#f6f0ff;border-radius:12px;padding:6px 10p
     {id:'q12',type:'choice',ans:2,cat:'比大小',brief:'5千克○5000克',hints:{'0':'5千克正好等于5000克。','1':'两边一样重。'}},
     {id:'q13',type:'choice',ans:2,cat:'比大小',brief:'2吨○2000千克',hints:{'0':'2吨＝2000千克。','1':'两边相等。'}},
     {id:'q14',type:'fill',ans:'2400',cat:'解决问题',brief:'2袋1千克面粉＋400克红豆共多少克',hints:{'240':'少写了0。','2000':'面粉是2000克，还要加红豆400克。','1400':'两袋面粉是2千克＝2000克，不是1000。','2':'问的是克，先换成克再算。'}},
-    {id:'q15',type:'choice',ans:1,cat:'解决问题',brief:'限重2千克，700+900+500会否超重',hints:{'0':'700＋900＋500＝2100克，大于2000克。','2':'正好才是2000克；现在是2100，已经超过。'}}
+    {id:'q15',type:'choice',ans:1,cat:'解决问题',brief:'限重2千克，700+900+500会否超重',hints:{'0':'700＋900＋500＝2100克，大于2000克。','2':'正好才是2000克；现在是2100，已经超过。'}},
+    {id:'q16',type:'choice',ans:1,cat:'选单位专项',brief:'大米约20（　）',hints:{'0':'20克只有几块糖，一袋大米沉得多。','2':'20吨太大了，像好几头大象。'}},
+    {id:'q17',type:'choice',ans:1,cat:'选单位专项',brief:'课桌约15（　）',hints:{'0':'15克太轻，课桌要人抬。','2':'15吨像大卡车，课桌没有那么重。'}},
+    {id:'q18',type:'choice',ans:2,cat:'选单位专项',brief:'鲸鱼约150（　）',hints:{'0':'克太轻。','1':'150千克只像两个大人，鲸鱼要用吨。'}},
+    {id:'q19',type:'choice',ans:2,cat:'比大小专项',brief:'4千克○4000克',hints:{'0':'4千克＝4000克，两边一样重。','1':'两边相等，不是小于。'}},
+    {id:'q20',type:'choice',ans:1,cat:'比大小专项',brief:'600克○6千克',hints:{'0':'6千克＝6000克，600比较小。','2':'600不等于6000；单位不同时数字像也不一定相等。'}},
+    {id:'q21',type:'choice',ans:0,cat:'比大小专项',brief:'3吨○2800千克',hints:{'1':'3吨＝3000千克，大于2800。','2':'3000不等于2800。'}},
+    {id:'q22',type:'fill',ans:'8020',cat:'换算审题专项',brief:'8千克20克＝（　）克',hints:{'820':'8千克是8000克，不是800克；要写成8020。','8000':'还要再加上20克。','802':'少写了一个0。'}},
+    {id:'q23',type:'dual',ans:['4','500'],cat:'换算审题专项',brief:'4500克＝（　）千克（　）克',hints:{}}
   ];
   var KEY='kejian-lianxi-kg-20261023',S={};try{S=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){}
   function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
@@ -223,6 +315,40 @@ details.ans{margin-top:8px;background:#f6f0ff;border-radius:12px;padding:6px 10p
     }
     var v=norm(document.getElementById('in-'+q.id).value);if(!v){fb(q.id,'no','先写一个数再提交。');return}
     if(v===q.ans)solved(q.id);else{fb(q.id,'no',(q.hints&&q.hints[v])||'不对哦，先统一单位再算一遍。');wrongTry(q.id,v)}}});
+
+  // 选单位感觉小互动
+  (function(){
+    var ITEMS=[
+      {name:'一袋大米 ≈20',ans:'kg'},
+      {name:'一张课桌 ≈15',ans:'kg'},
+      {name:'一头鲸 ≈150',ans:'t'},
+      {name:'一块糖 ≈5',ans:'g'}
+    ];
+    var box=document.getElementById('senseItems');
+    var fb=document.getElementById('senseFb');
+    if(!box)return;
+    var sel=null, done={};
+    function paint(){
+      box.innerHTML=ITEMS.map(function(it,i){
+        var ok=done[i]?'border-color:#1f7a4d;background:#e5f6ec':'';
+        var mark=done[i]?' ✓':'';
+        return '<button type="button" class="opt sense-item" data-i="'+i+'" style="width:auto;min-width:42%;margin:0;'+ok+'">'+it.name+mark+'</button>';
+      }).join('');
+      box.querySelectorAll('.sense-item').forEach(function(b){
+        b.onclick=function(){sel=+b.dataset.i;fb.className='fb';fb.textContent='已选「'+ITEMS[sel].name+'」，再点下面的克 / 千克 / 吨。';};
+      });
+    }
+    document.querySelectorAll('.sense-badge').forEach(function(b){
+      b.onclick=function(){
+        if(sel===null){fb.className='fb no';fb.textContent='先点上面的物件。';return;}
+        var it=ITEMS[sel];
+        if(b.dataset.u===it.ans){done[sel]=1;fb.className='fb ok';fb.textContent='对！「'+it.name+'」贴「'+b.textContent+'」。';sel=null;paint();}
+        else{fb.className='fb no';fb.textContent='再想想轻不轻：大米/课桌→千克，鲸→吨，糖→克。';}
+      };
+    });
+    paint();
+  })();
+
   function gate(){var n=Q.filter(function(q){return S[q.id]}).length;document.getElementById('prog').textContent='已做对 '+n+' / '+Q.length+' 题'}
   Q.forEach(function(q){if(S[q.id])mark(q.id);else if((S['w'+q.id]||0)>=2){var el=document.getElementById('ans-'+q.id);if(el)el.hidden=false}});
   gate();

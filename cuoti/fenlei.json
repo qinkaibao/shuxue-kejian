@@ -308,5 +308,26 @@
     "错题数": 1,
     "pages": [],
     "相关练习题数合计": 0
+  },
+  {
+    "分类": "质量单位与换算",
+    "错题数": 10,
+    "pages": [
+      {
+        "名称": "秤桥镇的三枚身份牌",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/chengqiao/",
+        "题数": 0,
+        "reportId": "",
+        "localStorageKey": ""
+      },
+      {
+        "名称": "秤桥镇配套练习",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/chengqiao-lianxi/",
+        "题数": 23,
+        "reportId": "chengqiao-lianxi",
+        "localStorageKey": "kejian-report-v1:chengqiao-lianxi"
+      }
+    ],
+    "相关练习题数合计": 23
   }
 ]
