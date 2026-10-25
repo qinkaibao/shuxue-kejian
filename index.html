@@ -64,7 +64,7 @@
   .hero {
     position: relative;
     overflow: hidden;
-    min-height: 220px;
+    min-height: 250px;
     margin: 4px 0 0;
     border: 3px solid #f1c26b;
     border-radius: 28px;
@@ -78,7 +78,8 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 72% center;
+    /* 人物在右侧偏上：优先保住脑袋和翅膀，宁可裁脚 */
+    object-position: 74% 20%;
     pointer-events: none;
     user-select: none;
   }
@@ -124,10 +125,10 @@
 
   @media (max-width: 420px) {
     .hero {
-      min-height: 210px;
+      min-height: 240px;
       border-radius: 24px;
     }
-    .hero-bg { object-position: 78% center; }
+    .hero-bg { object-position: 80% 26%; }
     .hero-copy {
       max-width: 62%;
       padding: 18px 12px 16px 14px;
@@ -519,10 +520,11 @@
     }
 
     .hero {
-      min-height: 280px;
+      /* iPad/平板横幅加高，人物头和翅膀才能进框 */
+      min-height: 400px;
     }
 
-    .hero-bg { object-position: 68% center; }
+    .hero-bg { object-position: 70% 16%; }
 
     .hero-copy {
       max-width: 22em;
@@ -560,6 +562,13 @@
     }
   }
 
+
+  @media (min-width: 980px) {
+    .hero {
+      min-height: 440px;
+    }
+    .hero-bg { object-position: 68% 14%; }
+  }
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
