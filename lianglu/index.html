@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<title>里桥驿的量路旗</title>
+<style>
+:root{--ink:#2b2b3a;--muted:#6b6b80;--bg:#f7f3ea;--pri:#c45c26;--blue:#1d6fa5;--red:#e5484d;--green:#2fa36b;--gold:#f4a261}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:20px;line-height:1.85;padding:env(safe-area-inset-top) 0 48px}
+.top{position:sticky;top:var(--sn-h,0px);z-index:20;background:rgba(247,243,234,.96);backdrop-filter:blur(8px);padding:8px 16px;border-bottom:1px solid #e8d9c4;display:flex;justify-content:space-between;align-items:center}
+.top b{color:var(--pri)}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px}
+h1{font-size:1.7em;text-align:center;margin:16px 0 4px;letter-spacing:2px}
+.sub{text-align:center;color:var(--muted);font-size:.85em;margin:0 0 14px}
+.how{background:#fff;border-radius:16px;padding:12px 16px;font-size:.85em;color:var(--muted);box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:8px}
+h2.chap{font-size:1.2em;color:var(--pri);margin:34px 0 10px;padding-bottom:6px;border-bottom:3px dotted #e8c4a0}
+p{margin:10px 0}
+.who{color:var(--pri);font-weight:700}
+.scene svg,.play svg{width:100%;height:auto;display:block;margin:12px 0;border-radius:18px}
+.stop{background:#fff7e0;border:3px solid #ffd166;border-radius:20px;padding:14px 14px 6px;margin:22px 0}
+.stop-h{font-weight:800;color:#b5470f;font-size:1.08em}
+.focus{display:inline-block;font-size:.72em;background:#ffe8dc;color:#b5470f;border-radius:99px;padding:1px 10px;margin:4px 0}
+.ask{font-size:1.02em;margin:6px 0 10px}
+details{border-radius:14px;margin:10px 0;overflow:hidden;border:2px solid #eee;background:#fff}
+summary{cursor:pointer;list-style:none;padding:11px 14px;font-weight:700;-webkit-tap-highlight-color:transparent}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▶ ";font-size:.8em}details[open] summary::before{content:"▼ "}
+details>div{padding:2px 14px 12px}
+details.tip{border-color:#cfe0ff}details.tip summary{background:#eef4ff;color:#3d7bfd}
+details.ans{border-color:#cdeedd}details.ans summary{background:#eafaf1;color:var(--green)}
+.play{background:#fff;border-radius:18px;padding:14px;margin:16px 0;box-shadow:0 2px 12px rgba(90,50,20,.08)}
+.play .qp{font-weight:800;margin-bottom:8px}
+.btn{min-height:48px;border:none;border-radius:14px;background:var(--pri);color:#fff;font-size:18px;font-weight:700;padding:8px 14px;margin:6px 6px 0 0}
+.btn.ghost{background:#8a7a6a}
+.btn.sm{min-height:44px;font-size:17px;padding:6px 12px}
+.btn:disabled{opacity:.45}
+.note{min-height:1.4em;color:var(--green);font-weight:700;margin-top:8px}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.badge{min-height:48px;padding:8px 14px;border-radius:999px;border:3px solid #e8d0b0;background:#fffaf3;font-size:17px;font-weight:700;color:var(--ink)}
+.badge.on{border-color:var(--pri);background:#ffe8d6}
+.items{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+@media(max-width:420px){.items{grid-template-columns:1fr}}
+.item{border:2px solid #efd8b8;border-radius:14px;padding:10px;background:#fffaf5;text-align:center}
+.item .name{font-weight:800;margin-bottom:6px}
+.ladder{display:flex;flex-direction:column;gap:8px;align-items:stretch;margin:10px 0}
+.rung{background:#fff8e8;border:2px solid #e8c4a0;border-radius:12px;padding:10px 12px;font-weight:700;text-align:center}
+.rung.hi{background:#e8f4ff;border-color:#7eb6e8}
+.chip{display:inline-block;background:#f1f1f6;border-radius:8px;padding:2px 8px;font-family:"SF Mono",Menlo,monospace;margin:0 2px}
+.blocks{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0}
+.blk{width:56px;height:44px;border-radius:10px;border:2px solid #b8d4f0;background:#eef6ff;font-size:13px;font-weight:800;color:#1d6fa5;display:flex;align-items:center;justify-content:center}
+.blk.on{background:#c8e8ff;border-color:var(--blue);box-shadow:0 0 0 3px rgba(29,111,165,.2)}
+.seg{display:flex;gap:4px;margin:10px 0;flex-wrap:wrap;justify-content:center}
+.seg i{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:36px;padding:0 4px;border-radius:8px;background:#e8f4fb;border:2px solid #9ec9e8;font-size:12px;font-weight:800;color:#1d6fa5;font-style:normal}
+.seg i.on{background:#2fa36b;border-color:#1e7a4d;color:#fff}
+.memo{background:linear-gradient(135deg,#fff1e6,#e7f5ff);border:3px dashed var(--pri);border-radius:20px;padding:16px;margin:30px 0}
+.memo h2{margin:0 0 6px;color:var(--pri);font-size:1.2em}.memo li{margin:12px 0;font-size:1.05em}
+.go{display:block;text-align:center;background:var(--green);color:#fff;font-size:22px;font-weight:800;border-radius:16px;padding:14px;margin:18px 0;text-decoration:none}
+.go.alt{background:var(--blue);margin-top:8px}
+.foot{font-size:.72em;color:var(--muted);line-height:1.6}
+ul{padding-left:1.15em}li{margin:6px 0}
+.check{font-weight:700;color:var(--green)}
+@media print{body{font-size:15px;background:#fff}.stop,.scene,.play{break-inside:avoid}summary::before{content:""}}
+</style>
+</head>
+<body>
+<header class="top"><b>里桥驿的量路旗</b><span>数学小故事</span></header>
+<div class="wrap">
+<h1>🚩 里桥驿的量路旗</h1>
+<p class="sub">一次把「长短单位」和「进率方向」分清楚的上坡冒险<br>人教版三年级上册 · 毫米、分米和千米 · 约 15～20 分钟</p>
+<div class="how"><b>读法</b>：从头往下读。黄色「✋ 停一停，想一想」可以先停；白色小卡片是动手看过程——点一点就懂，<b>不用答题、也不卡关</b>。答案要点开才显示。</div>
+
+<h2 class="chap">先复习　十个一百，凑成一千</h2>
+<div class="scene"><svg viewBox="0 0 360 200" aria-label="十块一百积木凑成一千">
+<defs>
+  <linearGradient id="sky0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D6ECFF"/><stop offset="1" stop-color="#FFF8EE"/></linearGradient>
+  <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#5c4033" flood-opacity="0.18"/></filter>
+</defs>
+<rect width="360" height="200" rx="18" fill="url(#sky0)"/>
+<text x="180" y="28" text-anchor="middle" font-size="14" font-weight="700" fill="#1d6fa5" font-family="system-ui,sans-serif">二下复习：10 个一百 = 一千</text>
+<!-- 10 blocks -->
+<g filter="url(#soft)">
+  <rect x="18" y="50" width="28" height="40" rx="6" fill="#7EB6E8"/><text x="32" y="75" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="50" y="50" width="28" height="40" rx="6" fill="#7EB6E8"/><text x="64" y="75" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="82" y="50" width="28" height="40" rx="6" fill="#7EB6E8"/><text x="96" y="75" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="114" y="50" width="28" height="40" rx="6" fill="#7EB6E8"/><text x="128" y="75" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="146" y="50" width="28" height="40" rx="6" fill="#7EB6E8"/><text x="160" y="75" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="178" y="50" width="28" height="40" rx="6" fill="#5BA3D9"/><text x="192" y="75" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="210" y="50" width="28" height="40" rx="6" fill="#5BA3D9"/><text x="224" y="75" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="242" y="50" width="28" height="40" rx="6" fill="#5BA3D9"/><text x="256" y="75" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="274" y="50" width="28" height="40" rx="6" fill="#5BA3D9"/><text x="288" y="75" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="306" y="50" width="28" height="40" rx="6" fill="#1D6FA5"/><text x="320" y="75" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+</g>
+<!-- arrow to 1000 -->
+<path d="M180 100 L180 118" stroke="#c45c26" stroke-width="3" stroke-linecap="round"/>
+<path d="M172 112 L180 124 L188 112" fill="#c45c26"/>
+<rect x="110" y="130" width="140" height="44" rx="14" fill="#FFE8D6" stroke="#c45c26" stroke-width="3" filter="url(#soft)"/>
+<text x="180" y="158" text-anchor="middle" font-size="20" font-weight="800" fill="#c45c26" font-family="system-ui,sans-serif">1000＝一千</text>
+</svg></div>
+
+<p>去千米坡之前，旗婆婆先把小美和阿冲拉到驿站门口的积木墙前。</p>
+<p>「二年级学过：<b>10 个一百是一千</b>。」她拍拍墙，「今天上坡要用到『一千米』。一千米，就叫 <b>1 千米</b>。」</p>
+
+<div class="play">
+<div class="qp">点积木：凑满 10 个「一百」，看看会变成什么</div>
+<div class="blocks" id="hundredBlocks"></div>
+<p style="text-align:center;font-weight:800"><span id="hSum">已点亮：0 个一百＝0</span></p>
+<button type="button" class="btn ghost sm" id="hReset">全部熄灭</button>
+<p class="note" id="hNote">每点一块亮一格「一百」。凑满十格，就是一千。</p>
+</div>
+
+<p>阿冲眼睛一亮：「那 1000 米，不就是 1 千米吗？」旗婆婆点点头：「对。先把这句话放口袋里，上坡会用到。」</p>
+
+<h2 class="chap">第一章　驿站门口的量路旗</h2>
+<div class="scene"><svg viewBox="0 0 360 240" aria-label="里桥驿站和三面量路旗（细画）">
+<defs>
+  <linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD9A8"/><stop offset="0.55" stop-color="#FFEFD8"/><stop offset="1" stop-color="#E8F4D8"/></linearGradient>
+  <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C48A5A"/><stop offset="1" stop-color="#8B5A3C"/></linearGradient>
+  <linearGradient id="roof" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E07A5F"/><stop offset="1" stop-color="#C45C26"/></linearGradient>
+</defs>
+<rect width="360" height="240" rx="18" fill="url(#sky1)"/>
+<!-- soft clouds -->
+<ellipse cx="60" cy="36" rx="26" ry="11" fill="#fff" opacity="0.5"/>
+<ellipse cx="82" cy="34" rx="16" ry="9" fill="#fff" opacity="0.4"/>
+<circle cx="300" cy="32" r="22" fill="#FFE8A0" opacity="0.35"/>
+<circle cx="300" cy="32" r="14" fill="#F4A261"/>
+<!-- hills -->
+<path d="M0 130 Q60 100 120 120 Q180 95 240 118 Q300 100 360 124 L360 160 L0 160Z" fill="#C5D9A8" opacity="0.75"/>
+<!-- ground -->
+<path d="M0 150 Q180 142 360 152 L360 240 L0 240Z" fill="#D9C4A0"/>
+<path d="M0 175 Q180 168 360 178 L360 240 L0 240Z" fill="#C9B08A"/>
+<!-- station house -->
+<g filter="url(#soft)">
+  <rect x="118" y="88" width="124" height="72" rx="4" fill="#F2E6D0"/>
+  <path d="M108 92 L180 48 L252 92Z" fill="url(#roof)"/>
+  <rect x="162" y="118" width="28" height="42" rx="3" fill="#8B5A3C"/>
+  <rect x="130" y="105" width="22" height="18" rx="2" fill="#A8D4E8"/>
+  <rect x="208" y="105" width="22" height="18" rx="2" fill="#A8D4E8"/>
+  <rect x="155" y="58" width="50" height="14" rx="4" fill="#FFE8D6" stroke="#c45c26" stroke-width="1.5"/>
+  <text x="180" y="69" text-anchor="middle" font-size="10" font-weight="800" fill="#c45c26" font-family="system-ui,sans-serif">里桥驿</text>
+</g>
+<!-- flag poles -->
+<g filter="url(#soft)">
+  <line x1="48" y1="70" x2="48" y2="170" stroke="#8B5A3C" stroke-width="4" stroke-linecap="round"/>
+  <path d="M50 72 L98 88 L50 104Z" fill="#E8453C"/>
+  <text x="68" y="94" font-size="10" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">mm</text>
+  <line x1="180" y1="40" x2="180" y2="48" stroke="#8B5A3C" stroke-width="3"/>
+  <line x1="300" y1="78" x2="300" y2="170" stroke="#8B5A3C" stroke-width="4" stroke-linecap="round"/>
+  <path d="M302 80 L348 96 L302 112Z" fill="#2FA36B"/>
+  <text x="318" y="102" font-size="10" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">m</text>
+  <line x1="230" y1="85" x2="230" y2="170" stroke="#8B5A3C" stroke-width="4" stroke-linecap="round"/>
+  <path d="M232 87 L278 102 L232 117Z" fill="#1D6FA5"/>
+  <text x="248" y="108" font-size="10" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">cm</text>
+</g>
+<!-- xiaomei -->
+<g filter="url(#soft)">
+  <ellipse cx="95" cy="188" rx="12" ry="3.5" fill="#5c4033" opacity="0.2"/>
+  <rect x="88" y="172" width="5" height="14" rx="2.5" fill="#FFE0BD"/>
+  <rect x="97" y="172" width="5" height="14" rx="2.5" fill="#FFE0BD"/>
+  <ellipse cx="90.5" cy="186" rx="4.5" ry="2.5" fill="#C45C26"/>
+  <ellipse cx="99.5" cy="186" rx="4.5" ry="2.5" fill="#C45C26"/>
+  <path d="M82 158 Q95 152 108 158 L103 174 Q95 178 87 174Z" fill="#E8453C"/>
+  <circle cx="95" cy="144" r="12" fill="#FFE0BD"/>
+  <path d="M83 142 Q95 128 107 142 Q102 134 95 132 Q88 134 83 142Z" fill="#5C4033"/>
+  <circle cx="87" cy="148" r="4" fill="#5C4033"/>
+  <circle cx="103" cy="148" r="4" fill="#5C4033"/>
+  <circle cx="91" cy="144" r="1.4" fill="#5C4033"/>
+  <circle cx="99" cy="144" r="1.4" fill="#5C4033"/>
+  <path d="M91 149 Q95 152 99 149" fill="none" stroke="#E07A5F" stroke-width="1.3" stroke-linecap="round"/>
+</g>
+<!-- achong -->
+<g filter="url(#soft)">
+  <ellipse cx="265" cy="188" rx="12" ry="3.5" fill="#5c4033" opacity="0.2"/>
+  <rect x="258" y="172" width="5" height="14" rx="2.5" fill="#FFE0BD"/>
+  <rect x="267" y="172" width="5" height="14" rx="2.5" fill="#FFE0BD"/>
+  <ellipse cx="260.5" cy="186" rx="4.5" ry="2.5" fill="#1D6FA5"/>
+  <ellipse cx="269.5" cy="186" rx="4.5" ry="2.5" fill="#1D6FA5"/>
+  <path d="M252 158 Q265 152 278 158 L273 174 Q265 178 257 174Z" fill="#1D6FA5"/>
+  <circle cx="265" cy="144" r="12" fill="#FFE0BD"/>
+  <path d="M253 140 Q265 126 277 140 Q272 132 265 130 Q258 132 253 140Z" fill="#3D2914"/>
+  <circle cx="261" cy="144" r="1.4" fill="#5C4033"/>
+  <circle cx="269" cy="144" r="1.4" fill="#5C4033"/>
+  <path d="M261 149 Q265 151 269 149" fill="none" stroke="#E07A5F" stroke-width="1.3" stroke-linecap="round"/>
+</g>
+<rect x="100" y="208" width="160" height="22" rx="11" fill="#FFF8EE" opacity="0.9"/>
+<text x="180" y="223" text-anchor="middle" font-size="13" font-weight="700" fill="#5C4033" font-family="system-ui,sans-serif">里桥驿 · 量路旗要贴对</text>
+</svg></div>
+
+<p>星期六下午，小美和急性子男孩<b class="who">阿冲</b>来到山脚的<b>里桥驿</b>。再往上，就是能看见日落的<b>千米坡</b>。</p>
+<p>驿门口竖着几面彩色的「量路旗」。旗婆婆说：「上坡的路标，单位必须贴对。贴错了，灯不亮，坡也不让你们走。」</p>
+<p>阿冲指着驿站大门嚷：「这门大约 2……肯定是 2 分米！分米听起来挺大的！」</p>
+<p>旗婆婆笑了：「你用身体比比——1 分米大约四根手指并起来那么宽。门只有四指宽吗？」</p>
+
+<div class="stop">
+<div class="stop-h">✋ 停一停，想一想 ①</div>
+<div class="focus">练的是：长度量感 · 选合适单位</div>
+<div class="ask">驿站大门大约高 2，该用「米」「分米」还是「厘米」？阿冲的「2 分米」为什么不对？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul>
+<li>张开双臂大概是 1 米多；门大约比你高一点，更像 2 米。</li>
+<li>2 分米＝20 厘米，差不多一本练习本那么长，哪够做门？</li>
+<li>课本里：量比较长的用米；短一点用厘米、分米；很短或要精确用毫米。</li>
+</ul></div></details>
+<details class="ans"><summary>点我看思路</summary><div><ul>
+<li>门大约 <b>2 米</b>。阿冲选「分米」把单位选小了。</li>
+<li>口诀：<b>门、身高、教室长 → 米；铅笔、鞋 → 厘米；硬币厚、蝴蝶翅 → 毫米</b>。</li>
+</ul><p class="check">阿冲改成「2 米」，第一面量路旗亮了绿灯。</p></div></details>
+</div>
+
+<div class="play">
+<div class="qp">动手看过程：给下面的东西选单位（点一枚试试，可改，不记分）</div>
+<div class="items" id="pickItems"></div>
+<p class="note" id="pickNote">先点一件东西，再点下面的单位旗。</p>
+<div class="badges">
+<button type="button" class="badge" data-u="mm">毫米 mm</button>
+<button type="button" class="badge" data-u="cm">厘米 cm</button>
+<button type="button" class="badge" data-u="dm">分米 dm</button>
+<button type="button" class="badge" data-u="m">米 m</button>
+</div>
+<button type="button" class="btn ghost sm" id="pickReset">全部重选</button>
+</div>
+
+<p>小美摸摸亮起来的旗，小声说：<b>先想长短，再选单位。</b></p>
+
+<h2 class="chap">第二章　「几个十」的阶梯</h2>
+<div class="scene"><svg viewBox="0 0 360 230" aria-label="进率阶梯：毫米到米">
+<defs>
+  <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E8F4FF"/><stop offset="1" stop-color="#FFF6EA"/></linearGradient>
+</defs>
+<rect width="360" height="230" rx="18" fill="url(#sky2)"/>
+<!-- stairs -->
+<g filter="url(#soft)">
+  <rect x="40" y="175" width="70" height="28" rx="6" fill="#FFE8A3" stroke="#C45C26" stroke-width="2"/>
+  <text x="75" y="194" text-anchor="middle" font-size="13" font-weight="800" fill="#C45C26" font-family="system-ui,sans-serif">毫米</text>
+  <rect x="100" y="140" width="70" height="28" rx="6" fill="#FFD4A8" stroke="#C45C26" stroke-width="2"/>
+  <text x="135" y="159" text-anchor="middle" font-size="13" font-weight="800" fill="#C45C26" font-family="system-ui,sans-serif">厘米</text>
+  <rect x="160" y="105" width="70" height="28" rx="6" fill="#C8F0D4" stroke="#2FA36B" stroke-width="2"/>
+  <text x="195" y="124" text-anchor="middle" font-size="13" font-weight="800" fill="#1F7A4D" font-family="system-ui,sans-serif">分米</text>
+  <rect x="220" y="70" width="70" height="28" rx="6" fill="#C8E4FF" stroke="#1D6FA5" stroke-width="2"/>
+  <text x="255" y="89" text-anchor="middle" font-size="13" font-weight="800" fill="#1D6FA5" font-family="system-ui,sans-serif">米</text>
+</g>
+<!-- ×10 labels -->
+<text x="95" y="172" font-size="11" font-weight="700" fill="#6b6b80" font-family="system-ui,sans-serif">×10</text>
+<text x="155" y="137" font-size="11" font-weight="700" fill="#6b6b80" font-family="system-ui,sans-serif">×10</text>
+<text x="215" y="102" font-size="11" font-weight="700" fill="#6b6b80" font-family="system-ui,sans-serif">×10</text>
+<text x="180" y="40" text-anchor="middle" font-size="14" font-weight="800" fill="#5C4033" font-family="system-ui,sans-serif">旗婆婆的「几个十」阶梯</text>
+<text x="180" y="220" text-anchor="middle" font-size="12" fill="#6b6b80" font-family="system-ui,sans-serif">往上：变大单位（÷10）　往下：变小单位（×10）</text>
+</svg></div>
+
+<p>过了驿门，墙上画着一座小梯子。旗婆婆说：「这叫<b>『几个十』阶梯</b>。课本里换算，都爱问一句：<b>想——几里面有几个 10？</b>」</p>
+<p style="text-align:center;font-weight:800">1 厘米＝10 毫米<br>1 分米＝10 厘米<br>1 米＝10 分米＝100 厘米</p>
+<p><b class="who">小美：</b>3 厘米＝3 个 10 毫米＝30 毫米。70 厘米里面有 7 个 10 厘米，就是 7 分米。</p>
+<p>阿冲挠头：「那 1 米到厘米呢？中间隔着分米，是不是两个 10，合起来 100？」</p>
+<p>旗婆婆竖起大拇指：「对！米→分米是 10，分米→厘米又是 10，所以 <b>1 米＝100 厘米</b>。」</p>
+
+<div class="play">
+<div class="qp">点「往上换 / 往下换」，看「几个十」阶梯怎么走</div>
+<div class="ladder" id="ladder"></div>
+<button type="button" class="btn" id="ladUp">往上换（变大单位）</button>
+<button type="button" class="btn ghost" id="ladDown">往下换（变小单位）</button>
+<button type="button" class="btn ghost sm" id="ladReset">回到起点</button>
+<p class="note" id="ladNote"></p>
+</div>
+
+<div class="stop">
+<div class="stop-h">✋ 停一停，想一想 ②</div>
+<div class="focus">练的是：单位换算 · 想「几个 10」</div>
+<div class="ask">纪念币直径 3 厘米＝（　）毫米？桌子高 70 厘米＝（　）分米？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul>
+<li>照课本说：「想：1 厘米是 10 毫米，3 厘米是（　）个 10 毫米。」</li>
+<li>「想：10 厘米是 1 分米，70 厘米里面有（　）个 10 厘米。」</li>
+<li>大单位化小单位，数变大；小单位化大单位，数变小。</li>
+</ul></div></details>
+<details class="ans"><summary>点我看思路</summary><div><ul>
+<li>3 厘米＝3 个 10 毫米＝<b>30 毫米</b>。</li>
+<li>70 厘米里有 7 个 10 厘米＝<b>7 分米</b>。</li>
+</ul><p class="check">第二面量路旗亮了。</p></div></details>
+</div>
+
+<h2 class="chap">第三章　方向别搞反</h2>
+<div class="scene"><svg viewBox="0 0 360 200" aria-label="路标写着400米，阿冲错写成40分米">
+<rect width="360" height="200" rx="18" fill="#fff6ea"/>
+<!-- road sign -->
+<g filter="url(#soft)">
+  <rect x="40" y="40" width="120" height="80" rx="10" fill="#2FA36B" stroke="#1e7a4d" stroke-width="3"/>
+  <text x="100" y="75" text-anchor="middle" font-size="18" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">前面</text>
+  <text x="100" y="100" text-anchor="middle" font-size="20" font-weight="800" fill="#FFE8A3" font-family="system-ui,sans-serif">400 米</text>
+  <rect x="92" y="120" width="16" height="50" fill="#8B5A3C"/>
+</g>
+<!-- wrong bubble -->
+<g filter="url(#soft)">
+  <ellipse cx="260" cy="70" rx="78" ry="42" fill="#fff0ee" stroke="#e5484d" stroke-width="2.5"/>
+  <text x="260" y="62" text-anchor="middle" font-size="14" font-weight="800" fill="#e5484d" font-family="system-ui,sans-serif">阿冲抢答</text>
+  <text x="260" y="84" text-anchor="middle" font-size="15" font-weight="800" fill="#c62828" font-family="system-ui,sans-serif">400÷10＝40 分米？</text>
+</g>
+<text x="180" y="185" text-anchor="middle" font-size="14" font-weight="700" fill="#5C4033" font-family="system-ui,sans-serif">米 → 分米：数应该变大，不是变小</text>
+</svg></div>
+
+<p>坡道拐弯处，立着一块绿牌子：「前面还有 <b>400 米</b>。」</p>
+<p>阿冲脱口而出：「米换成分米，除以 10！400÷10＝40 分米！……咦，灯怎么还是红的？」</p>
+<p><b class="who">小美：</b>方向反了！米是大单位，分米是小单位。大单位换成小单位，数要变大——应该乘 10。</p>
+
+<div class="play">
+<div class="qp">点「下一步」，看小美怎么把方向摆正</div>
+<div id="dirSteps" style="min-height:4.5em;font-size:1.05em;font-weight:700;text-align:center;padding:8px 0"></div>
+<button type="button" class="btn" id="dirNext">下一步</button>
+<button type="button" class="btn ghost sm" id="dirReset">再看一遍</button>
+<p class="note" id="dirNote"></p>
+</div>
+
+<div class="stop">
+<div class="stop-h">✋ 停一停，想一想 ③</div>
+<div class="focus">练的是：换算方向 · 米与分米</div>
+<div class="ask">400 米＝（　）分米？阿冲写成 40 分米，错在哪？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul>
+<li>1 米＝10 分米。400 米里有几个 10 分米？——400 个 10，就是 4000 分米。</li>
+<li>口诀：<b>换小单位，数变大；换大单位，数变小</b>。</li>
+<li>反过来验：4000 分米÷10＝400 米，对上了。</li>
+</ul></div></details>
+<details class="ans"><summary>点我看思路</summary><div><ul>
+<li>1 米＝10 分米，所以 400 米＝400×10＝<b>4000 分米</b>。</li>
+<li>阿冲用了 ÷10，把「大→小」当成「小→大」，方向反了。</li>
+<li>（提醒：100 分米＝10 米，不是 1000 米——小变大才除。）</li>
+</ul><p class="check">答：4000 分米。第三面旗亮了。</p></div></details>
+</div>
+
+<h2 class="chap">第四章　旗面上的 ○</h2>
+<p>再往上，一面黄旗写着比大小题：</p>
+<p style="text-align:center;font-size:1.25em;font-weight:800">70 毫米　○　6 厘米</p>
+<p>阿冲又抢：「毫米比厘米小，所以 70 毫米更小！○ 填 ＜！」</p>
+<p>旗婆婆摇头：「你比的是单位名，不是长度。要先让它们穿上同一种牌。」</p>
+
+<div class="play">
+<div class="qp">点「换成一样的单位再比」</div>
+<div style="text-align:center;font-size:1.2em;font-weight:800;margin:8px 0">
+<span id="cmpL">70 毫米</span>
+　<span id="cmpO">○</span>　
+<span id="cmpR">6 厘米</span>
+</div>
+<button type="button" class="btn" id="cmpGo">换成一样的单位再比</button>
+<button type="button" class="btn ghost sm" id="cmpReset">还原</button>
+<p class="note" id="cmpNote">单位不同时，先别急着比数字，也别只看单位名。</p>
+</div>
+
+<div class="stop">
+<div class="stop-h">✋ 停一停，想一想 ④</div>
+<div class="focus">练的是：比大小 · 先统一单位</div>
+<div class="ask">70 毫米 ○ 6 厘米，○ 里该填 ＞、＜ 还是 ＝？</div>
+<details class="ans"><summary>点我看思路</summary><div><ul>
+<li>6 厘米＝6×10 毫米＝60 毫米。</li>
+<li>70 毫米 ＞ 60 毫米，所以 70 毫米 ＞ 6 厘米。</li>
+<li>阿冲只看「毫米比厘米小」，忘了左边数字更大，统一后再比才公平。</li>
+</ul><p class="check">答：70 毫米 ＞ 6 厘米。第四面旗亮了。</p></div></details>
+</div>
+
+<p>小美又比了一组：5 分米 ○ 5 毫米。「分米大得多，化成毫米：5 分米＝500 毫米，500＞5，所以 5 分米＞5 毫米。」阿冲学着点头：「单位不一样，先换成一样。」</p>
+
+<h2 class="chap">第五章　千米坡的一千米</h2>
+<div class="scene"><svg viewBox="0 0 360 230" aria-label="千米坡十段一百米台阶通向日落">
+<defs>
+  <linearGradient id="sky5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB347"/><stop offset="0.45" stop-color="#FFD9A8"/><stop offset="1" stop-color="#E8D4B0"/></linearGradient>
+  <linearGradient id="sun5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE08A"/><stop offset="1" stop-color="#F4A261"/></linearGradient>
+</defs>
+<rect width="360" height="230" rx="18" fill="url(#sky5)"/>
+<!-- sun -->
+<circle cx="290" cy="48" r="32" fill="#FFE8A0" opacity="0.4"/>
+<circle cx="290" cy="48" r="20" fill="url(#sun5)"/>
+<!-- slope path -->
+<path d="M20 200 Q100 170 160 140 Q220 110 300 70 L320 70 L320 90 Q230 130 170 160 Q110 190 30 210Z" fill="#C9B08A" opacity="0.9"/>
+<!-- 10 segments markers -->
+<g font-family="system-ui,sans-serif" font-size="9" font-weight="700" fill="#5C4033">
+  <circle cx="40" cy="198" r="5" fill="#2FA36B"/><text x="40" y="216" text-anchor="middle">1</text>
+  <circle cx="70" cy="186" r="5" fill="#2FA36B"/><text x="70" y="216" text-anchor="middle">2</text>
+  <circle cx="100" cy="174" r="5" fill="#2FA36B"/><text x="100" y="216" text-anchor="middle">3</text>
+  <circle cx="130" cy="160" r="5" fill="#2FA36B"/><text x="130" y="216" text-anchor="middle">4</text>
+  <circle cx="160" cy="146" r="5" fill="#2FA36B"/><text x="160" y="216" text-anchor="middle">5</text>
+  <circle cx="190" cy="132" r="5" fill="#1D6FA5"/><text x="190" y="216" text-anchor="middle">6</text>
+  <circle cx="220" cy="118" r="5" fill="#1D6FA5"/><text x="220" y="216" text-anchor="middle">7</text>
+  <circle cx="250" cy="104" r="5" fill="#1D6FA5"/><text x="250" y="216" text-anchor="middle">8</text>
+  <circle cx="280" cy="90" r="5" fill="#C45C26"/><text x="280" y="216" text-anchor="middle">9</text>
+  <circle cx="310" cy="76" r="6" fill="#C45C26"/><text x="310" y="216" text-anchor="middle">10</text>
+</g>
+<text x="180" y="28" text-anchor="middle" font-size="14" font-weight="800" fill="#5C4033" font-family="system-ui,sans-serif">千米坡 · 10 段一百米＝1 千米</text>
+</svg></div>
+
+<p>最后一面大旗写着：<b>坡顶距离：1 千米</b>。</p>
+<p>阿冲问：「1 千米到底有多远呀？」</p>
+<p>旗婆婆指着坡道上十个小石墩：「每个石墩之间大约 100 米。你数一数——10 个一百米，正好是 <b>1000 米</b>，也就是 <b>1 千米</b>。」</p>
+<p style="text-align:center;font-weight:800">1 千米＝1000 米<br>（也可以想：10 个一百米）</p>
+
+<div class="play">
+<div class="qp">点石墩：点亮一段段「一百米」，凑满十段看看</div>
+<div class="seg" id="kmSeg"></div>
+<p style="text-align:center;font-weight:800"><span id="kmSum">已点亮：0 段＝0 米</span></p>
+<button type="button" class="btn ghost sm" id="kmReset">全部熄灭</button>
+<p class="note" id="kmNote">每段 100 米。凑满 10 段＝1000 米＝1 千米。</p>
+</div>
+
+<div class="stop">
+<div class="stop-h">✋ 停一停，想一想 ⑤</div>
+<div class="focus">练的是：千米换算 · 想「几个 1000」</div>
+<div class="ask">3 千米＝（　）米？5000 米＝（　）千米？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul>
+<li>照课本：「想：1 千米是 1000 米，3 千米是（　）个 1000 米。」</li>
+<li>「想：1000 米是 1 千米，5000 米里面有（　）个 1000 米。」</li>
+<li>不用超纲乘法口诀表外的算法：可以说「三个一千合起来」「五个一千」。</li>
+</ul></div></details>
+<details class="ans"><summary>点我看思路</summary><div><ul>
+<li>3 千米＝3 个 1000 米＝<b>3000 米</b>。</li>
+<li>5000 米里有 5 个 1000 米＝<b>5 千米</b>。</li>
+</ul><p class="check">坡顶的灯全部亮起来了！</p></div></details>
+</div>
+
+<h2 class="chap">第六章　歪尺子也能量（可选）</h2>
+<p>驿站休息亭里，阿冲拿尺子量一根小木条，却把 0 刻度对歪了——木条一端对准「2」，另一端对准「8」。</p>
+<p>「完蛋了，尺子没从 0 开始！」阿冲急得跳脚。</p>
+<p><b class="who">小美：</b>没关系。用终点减起点：8−2＝6，木条还是 6 格长。</p>
+
+<div class="play">
+<div class="qp">点「下一步」，看「终点减起点」</div>
+<div id="rulerSteps" style="min-height:3.5em;font-size:1.05em;font-weight:700;text-align:center;padding:8px 0"></div>
+<button type="button" class="btn" id="rulerNext">下一步</button>
+<button type="button" class="btn ghost sm" id="rulerReset">再看一遍</button>
+<p class="note" id="rulerNote"></p>
+</div>
+
+<div class="scene"><svg viewBox="0 0 360 120" aria-label="尺子从2量到8">
+<rect width="360" height="120" rx="18" fill="#eef6ff"/>
+<rect x="40" y="45" width="280" height="28" rx="4" fill="#FFF8EE" stroke="#8B5A3C" stroke-width="2"/>
+<!-- ticks -->
+<g stroke="#5C4033" stroke-width="1.5">
+  <line x1="60" y1="45" x2="60" y2="73"/><line x1="95" y1="45" x2="95" y2="65"/>
+  <line x1="130" y1="45" x2="130" y2="73"/><line x1="165" y1="45" x2="165" y2="65"/>
+  <line x1="200" y1="45" x2="200" y2="73"/><line x1="235" y1="45" x2="235" y2="65"/>
+  <line x1="270" y1="45" x2="270" y2="73"/><line x1="305" y1="45" x2="305" y2="65"/>
+</g>
+<text x="60" y="95" text-anchor="middle" font-size="13" font-weight="800" fill="#c45c26" font-family="system-ui,sans-serif">2</text>
+<text x="130" y="95" text-anchor="middle" font-size="12" fill="#6b6b80" font-family="system-ui,sans-serif">4</text>
+<text x="200" y="95" text-anchor="middle" font-size="12" fill="#6b6b80" font-family="system-ui,sans-serif">6</text>
+<text x="270" y="95" text-anchor="middle" font-size="13" font-weight="800" fill="#c45c26" font-family="system-ui,sans-serif">8</text>
+<!-- stick -->
+<rect x="60" y="30" width="210" height="10" rx="3" fill="#E07A5F"/>
+<text x="180" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#5C4033" font-family="system-ui,sans-serif">木条：8 − 2 ＝ 6</text>
+</svg></div>
+
+<div class="memo">
+<h2>📌 小美的量路旗口袋</h2>
+<p style="margin:0;font-size:.85em;color:#6b6b80">今天记住什么：</p>
+<ol>
+<li><b>先想长短，再选单位</b>：门、身高→米；鞋、铅笔→厘米；薄翅、硬币厚→毫米。</li>
+<li><b>想：几个 10 / 几个 1000</b>：1 厘米＝10 毫米，1 分米＝10 厘米，1 米＝10 分米＝100 厘米；1 千米＝1000 米。</li>
+<li><b>换算看方向</b>：换小单位，数变大（×）；换大单位，数变小（÷）。别把 400 米写成 40 分米。</li>
+<li><b>单位不一样，先换成一样</b>：再比大小，再加减。</li>
+</ol>
+<p style="text-align:center;font-size:1.5em;margin:4px 0">🚩 🪜 🌄</p>
+</div>
+
+<p>日落把千米坡染成金色。阿冲在小本子上工工整整写了四行，像四面真正的量路旗。</p>
+<p>旗婆婆递过一面小小的布旗，上面绣着两个字：<b>量准</b>。</p>
+<p>「不是量路的量，」她说，「是把长短量准的量。」</p>
+
+<p style="text-align:center;font-size:.95em;color:#7a6558">读懂了可以去练一练：长度专题、单位换算练习都有现成入口。</p>
+<a class="go" href="../changdu-zhuanti/">去长度专题练一练 →</a>
+<a class="go alt" href="../danwei-lianxi/">去单位换算练习 →</a>
+<p class="foot">参考说明：本故事原创编写，人物、情节与数字均为新编。写法借鉴公开数学故事思路（历险藏概念、一个故事盯一件事、生活麻烦逼出数学、任务说明书读错就翻车），未摘抄任何版权原文。知识以人教版三年级上册「毫米、分米和千米」为准：1厘米＝10毫米，1分米＝10厘米，1米＝10分米＝100厘米，1千米＝1000米；照课本「想：几个10/几个1000」；选单位看量感；比大小与加减先统一单位。开篇「10个一百是一千」为二年级下册数的认识复习，用来引出千米。</p>
+</div>
+<script>
+(function(){
+  // —— 十个一百 ——
+  var hOn={}, hBox=document.getElementById('hundredBlocks');
+  function drawH(){
+    var s='',n=0;
+    for(var i=0;i<10;i++){
+      var on=!!hOn[i]; if(on)n++;
+      s+='<button type="button" class="blk'+(on?' on':'')+'" data-i="'+i+'">100</button>';
+    }
+    hBox.innerHTML=s;
+    hBox.querySelectorAll('.blk').forEach(function(b){
+      b.onclick=function(){hOn[b.dataset.i]=!hOn[b.dataset.i];drawH();};
+    });
+    var total=n*100;
+    document.getElementById('hSum').textContent='已点亮：'+n+' 个一百＝'+total+(n===10?' → 一千！':'');
+    document.getElementById('hNote').textContent=n===10?'凑满了：10 个一百＝1000＝一千。后面 1000 米就是 1 千米。':('再点 '+(10-n)+' 块，就能凑成一千。');
+  }
+  drawH();
+  document.getElementById('hReset').onclick=function(){hOn={};drawH();};
+
+  // —— 选单位 ——
+  var ITEMS=[
+    {id:'door',name:'大门高约 2',ans:'m'},
+    {id:'shoe',name:'运动鞋长约 20',ans:'cm'},
+    {id:'wing',name:'蝴蝶翅约 35',ans:'mm'},
+    {id:'desk',name:'课桌高约 7',ans:'dm'},
+    {id:'pencil',name:'铅笔长约 18',ans:'cm'},
+    {id:'coin',name:'硬币厚约 2',ans:'mm'}
+  ];
+  var pickSel=null, pickState={};
+  var box=document.getElementById('pickItems');
+  var uName={mm:'毫米',cm:'厘米',dm:'分米',m:'米'};
+  function drawItems(){
+    box.innerHTML=ITEMS.map(function(it){
+      var st=pickState[it.id];
+      var tag=st?(' → '+uName[st]+(st===it.ans?' ✓':'')):'';
+      var bg=st?(st===it.ans?'#e5f6ec':'#fff0ee'):'#fffaf5';
+      return '<button type="button" class="item" data-id="'+it.id+'" style="background:'+bg+'"><div class="name">'+it.name+'</div><div style="font-size:.85em;color:#6b6b80">'+(st?tag:'点我选旗')+'</div></button>';
+    }).join('');
+    box.querySelectorAll('.item').forEach(function(el){
+      el.onclick=function(){
+        pickSel=el.dataset.id;
+        document.getElementById('pickNote').textContent='已选「'+ITEMS.filter(function(x){return x.id===pickSel})[0].name+'」，再点下面的单位旗。';
+      };
+    });
+  }
+  drawItems();
+  document.querySelectorAll('.badge[data-u]').forEach(function(b){
+    b.onclick=function(){
+      if(!pickSel){document.getElementById('pickNote').textContent='先点上面的一件东西。';return;}
+      pickState[pickSel]=b.dataset.u;
+      var it=ITEMS.filter(function(x){return x.id===pickSel})[0];
+      document.getElementById('pickNote').textContent=b.dataset.u===it.ans?'贴对了！':'好像不太对，再用身体比比长短。';
+      drawItems();
+    };
+  });
+  document.getElementById('pickReset').onclick=function(){pickState={};pickSel=null;drawItems();document.getElementById('pickNote').textContent='先点一件东西，再点下面的单位旗。';};
+
+  // —— 几个十阶梯 ——
+  var LAD=[
+    {label:'30 毫米',tip:'起点：30 毫米'},
+    {label:'3 厘米',tip:'往上：每 10 毫米收成 1 厘米 → 3 厘米（想：30 里面有 3 个 10）'},
+    {label:'若有 30 厘米 → 3 分米',tip:'再往上：每 10 厘米收成 1 分米'},
+    {label:'若有 30 分米 → 3 米',tip:'再往上：每 10 分米收成 1 米；别忘了 1 米＝100 厘米'}
+  ];
+  var li=0;
+  function drawLad(){
+    var el=document.getElementById('ladder');
+    el.innerHTML=LAD.map(function(r,i){
+      return '<div class="rung'+(i===li?' hi':'')+'">'+(i===li?'👉 ':'')+r.label+'</div>';
+    }).join('');
+    document.getElementById('ladNote').textContent=LAD[li].tip;
+  }
+  drawLad();
+  document.getElementById('ladUp').onclick=function(){if(li<LAD.length-1){li++;drawLad();}};
+  document.getElementById('ladDown').onclick=function(){if(li>0){li--;drawLad();}};
+  document.getElementById('ladReset').onclick=function(){li=0;drawLad();};
+
+  // —— 方向 ——
+  var DIR=[
+    {html:'400 米　→　？分米',note:'米是大单位，分米是小单位。'},
+    {html:'想：1 米＝<span class="chip">10</span> 分米',note:'大单位换小单位，数要变大。'},
+    {html:'400 米＝400 个 10 分米',note:'也可以说：400×10。'},
+    {html:'＝ <span class="chip">4000 分米</span>',note:'阿冲的 ÷10 把方向搞反了。反过来验：4000÷10＝400 米。'}
+  ];
+  var di=0;
+  function drawDir(){
+    document.getElementById('dirSteps').innerHTML=DIR[di].html;
+    document.getElementById('dirNote').textContent=DIR[di].note;
+    document.getElementById('dirNext').disabled=di>=DIR.length-1;
+  }
+  drawDir();
+  document.getElementById('dirNext').onclick=function(){if(di<DIR.length-1){di++;drawDir();}};
+  document.getElementById('dirReset').onclick=function(){di=0;drawDir();};
+
+  // —— 比大小 ——
+  document.getElementById('cmpGo').onclick=function(){
+    document.getElementById('cmpL').textContent='70 毫米';
+    document.getElementById('cmpR').textContent='60 毫米';
+    document.getElementById('cmpO').textContent='＞';
+    document.getElementById('cmpO').style.color='#2fa36b';
+    document.getElementById('cmpNote').textContent='6 厘米＝60 毫米，再比：70＞60。';
+  };
+  document.getElementById('cmpReset').onclick=function(){
+    document.getElementById('cmpL').textContent='70 毫米';
+    document.getElementById('cmpR').textContent='6 厘米';
+    document.getElementById('cmpO').textContent='○';
+    document.getElementById('cmpO').style.color='';
+    document.getElementById('cmpNote').textContent='单位不同时，先别急着比数字，也别只看单位名。';
+  };
+
+  // —— 千米十段 ——
+  var kmOn={}, kmBox=document.getElementById('kmSeg');
+  function drawKm(){
+    var s='',n=0;
+    for(var i=0;i<10;i++){
+      var on=!!kmOn[i]; if(on)n++;
+      s+='<i class="'+(on?'on':'')+'" data-i="'+i+'">'+(i+1)+'</i>';
+    }
+    kmBox.innerHTML=s;
+    kmBox.querySelectorAll('i').forEach(function(b){
+      b.onclick=function(){kmOn[b.dataset.i]=!kmOn[b.dataset.i];drawKm();};
+    });
+    var m=n*100;
+    document.getElementById('kmSum').textContent='已点亮：'+n+' 段＝'+m+' 米'+(n===10?' → 1 千米！':'');
+    document.getElementById('kmNote').textContent=n===10?'10 段一百米＝1000 米＝1 千米。坡顶的灯可以亮啦！':('再点 '+(10-n)+' 段。');
+  }
+  drawKm();
+  document.getElementById('kmReset').onclick=function(){kmOn={};drawKm();};
+
+  // —— 歪尺子 ——
+  var RUL=[
+    {html:'左端对准 <span class="chip">2</span>，右端对准 <span class="chip">8</span>',note:'尺子没从 0 开始，别慌。'},
+    {html:'长度＝终点 − 起点',note:'用大的刻度减去小的刻度。'},
+    {html:'8 − 2 ＝ <span class="chip">6</span>',note:'木条长 6（格/厘米，看尺子单位）。'}
+  ];
+  var ri=0;
+  function drawRuler(){
+    document.getElementById('rulerSteps').innerHTML=RUL[ri].html;
+    document.getElementById('rulerNote').textContent=RUL[ri].note;
+    document.getElementById('rulerNext').disabled=ri>=RUL.length-1;
+  }
+  drawRuler();
+  document.getElementById('rulerNext').onclick=function(){if(ri<RUL.length-1){ri++;drawRuler();}};
+  document.getElementById('rulerReset').onclick=function(){ri=0;drawRuler();};
+})();
+window.addEventListener('beforeprint',function(){document.querySelectorAll('details').forEach(function(d){d.open=true;});});
+</script>
+<script src="../common/nav.js"></script>
+<script>SiteNav.mount({title:'里桥驿的量路旗',dir:'../index.html'});</script>
+</body>
+</html>
