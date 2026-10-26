@@ -81,6 +81,7 @@
     bar.innerHTML = '<a class="sn-btn" href="' + (opts.dir || '../index.html') + '">🏠 回总目录</a>' +
       '<button type="button" class="sn-btn" id="snHome">本页开头</button>' +
       '<button type="button" class="sn-btn" id="snMap">关卡</button>' +
+      '<button type="button" class="sn-btn" id="snReload">🔄 刷新</button>' +
       '<div class="sn-title">' + (opts.title || '') + '</div>' +
       '<div class="sn-prog" id="snProg"></div>' + work;
     var sheet = document.createElement('div');
@@ -103,6 +104,11 @@
       var opened = document.getElementById('snSheet');
       if (opened && !opened.hidden) closeSheet();
       else openChapters();
+    };
+    document.getElementById('snReload').onclick = function () {
+      var u = new URL(location.href);
+      u.searchParams.set('r', String(Date.now()));
+      location.replace(u.toString());
     };
     if (opts.report) {
       document.getElementById('snWork').onclick = function () {

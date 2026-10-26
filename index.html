@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#fff8e7">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
 <title>数学课件总目录</title>
 <style>
   :root {
@@ -209,6 +211,13 @@
     padding: calc(6px + env(safe-area-inset-top, 0px)) max(10px, env(safe-area-inset-right, 0px)) 6px max(10px, env(safe-area-inset-left, 0px));
     background: #fff8e7;
     box-shadow: 0 2px 0 #f1c26b;
+  }
+
+  .guide-reload {
+    background: #d8f3dc;
+    border-color: rgba(255,255,255,.7);
+    box-shadow: 0 2px 0 #7bb87f;
+    cursor: pointer;
   }
 
   .guide-btn {
@@ -580,13 +589,14 @@
 <nav class="home-bar" aria-label="快速开始">
   <a class="guide-btn guide-story" href="#stories">📖 读故事</a>
   <a class="guide-btn guide-practice" href="#practice">✏️ 做练习</a>
+  <button type="button" class="guide-btn guide-reload" id="reloadHome">🔄 刷新</button>
   <p class="sum-line" id="sumLine">练习星还没点亮</p>
 </nav>
 <div id="app">
   <header class="hero">
     <picture>
-      <source media="(max-width: 520px)" srcset="assets/tangguo/hero-forest-mobile.webp">
-      <img class="hero-bg" src="assets/tangguo/hero-forest.webp" alt="" width="1600" height="900" decoding="async" aria-hidden="true">
+      <source media="(max-width: 520px)" srcset="assets/tangguo/hero-forest-mobile.webp?v=20261026b">
+      <img class="hero-bg" src="assets/tangguo/hero-forest.webp?v=20261026b" alt="" width="1600" height="900" decoding="async" aria-hidden="true">
     </picture>
     <div class="hero-copy">
       <p class="kicker"><span aria-hidden="true">🌞</span> 三年级 · 数学小书房</p>
@@ -1177,6 +1187,15 @@ function paintSumLine() {
 }
 
 function syncHomeBar() {
+  var reloadBtn = document.getElementById('reloadHome');
+  if (reloadBtn) {
+    reloadBtn.addEventListener('click', function () {
+      var u = new URL(location.href);
+      u.searchParams.set('r', String(Date.now()));
+      location.replace(u.toString());
+    });
+  }
+
   var bar = document.querySelector('.home-bar');
   if (!bar) return;
   document.documentElement.style.setProperty('--home-bar-h', bar.offsetHeight + 'px');
