@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<title>进率邮局的三色邮票</title>
+<style>
+:root{--ink:#2b2b3a;--muted:#6b6b80;--bg:#f7f3ea;--pri:#c45c26;--blue:#1d6fa5;--red:#e5484d;--green:#2fa36b;--gold:#f4a261;--pink:#d65a8a}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:20px;line-height:1.85;padding:env(safe-area-inset-top) 0 48px}
+.top{position:sticky;top:var(--sn-h,0px);z-index:20;background:rgba(247,243,234,.96);backdrop-filter:blur(8px);padding:8px 16px;border-bottom:1px solid #e8d9c4;display:flex;justify-content:space-between;align-items:center}
+.top b{color:var(--pri)}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px}
+h1{font-size:1.7em;text-align:center;margin:16px 0 4px;letter-spacing:2px}
+.sub{text-align:center;color:var(--muted);font-size:.85em;margin:0 0 14px}
+.how{background:#fff;border-radius:16px;padding:12px 16px;font-size:.85em;color:var(--muted);box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:8px}
+h2.chap{font-size:1.2em;color:var(--pri);margin:34px 0 10px;padding-bottom:6px;border-bottom:3px dotted #e8c4a0}
+p{margin:10px 0}
+.who{color:var(--pri);font-weight:700}
+.scene svg,.play svg{width:100%;height:auto;display:block;margin:12px 0;border-radius:18px}
+.stop{background:#fff7e0;border:3px solid #ffd166;border-radius:20px;padding:14px 14px 6px;margin:22px 0}
+.stop-h{font-weight:800;color:#b5470f;font-size:1.08em}
+.focus{display:inline-block;font-size:.72em;background:#ffe8dc;color:#b5470f;border-radius:99px;padding:1px 10px;margin:4px 0}
+.ask{font-size:1.02em;margin:6px 0 10px}
+details{border-radius:14px;margin:10px 0;overflow:hidden;border:2px solid #eee;background:#fff}
+summary{cursor:pointer;list-style:none;padding:11px 14px;font-weight:700;-webkit-tap-highlight-color:transparent}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▶ ";font-size:.8em}details[open] summary::before{content:"▼ "}
+details>div{padding:2px 14px 12px}
+details.tip{border-color:#cfe0ff}details.tip summary{background:#eef4ff;color:#3d7bfd}
+details.ans{border-color:#cdeedd}details.ans summary{background:#eafaf1;color:var(--green)}
+.play{background:#fff;border-radius:18px;padding:14px;margin:16px 0;box-shadow:0 2px 12px rgba(90,50,20,.08)}
+.play .qp{font-weight:800;margin-bottom:8px}
+.btn{min-height:48px;border:none;border-radius:14px;background:var(--pri);color:#fff;font-size:18px;font-weight:700;padding:8px 14px;margin:6px 6px 0 0}
+.btn.ghost{background:#8a7a6a}
+.btn.sm{min-height:44px;font-size:17px;padding:6px 12px}
+.btn:disabled{opacity:.45}
+.note{min-height:1.4em;color:var(--green);font-weight:700;margin-top:8px}
+.ladder{display:flex;flex-direction:column;gap:8px;align-items:stretch;margin:10px 0}
+.rung{background:#fff8e8;border:2px solid #e8c4a0;border-radius:12px;padding:10px 12px;font-weight:700;text-align:center}
+.rung.hi{background:#e8f4ff;border-color:#7eb6e8}
+.rung.mid{background:#eafaf1;border-color:#8fd4a8}
+.chip{display:inline-block;background:#f1f1f6;border-radius:8px;padding:2px 8px;font-family:"SF Mono",Menlo,monospace;margin:0 2px}
+.blocks{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0}
+.blk{width:56px;height:44px;border-radius:10px;border:2px solid #b8d4f0;background:#eef6ff;font-size:13px;font-weight:800;color:#1d6fa5;display:flex;align-items:center;justify-content:center}
+.blk.on{background:#c8e8ff;border-color:var(--blue);box-shadow:0 0 0 3px rgba(29,111,165,.2)}
+.seg{display:flex;gap:4px;margin:10px 0;flex-wrap:wrap;justify-content:center}
+.seg i{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:36px;padding:0 4px;border-radius:8px;background:#e8f4fb;border:2px solid #9ec9e8;font-size:12px;font-weight:800;color:#1d6fa5;font-style:normal}
+.seg i.on{background:#2fa36b;border-color:#1e7a4d;color:#fff}
+.formula{background:#fff;border-radius:14px;padding:12px 14px;margin:10px 0;border-left:6px solid var(--pri);font-weight:700}
+.formula.yellow{border-left-color:#e9c46a;background:#fffbf0}
+.formula.pink{border-left-color:#d65a8a;background:#fff5f8}
+.formula.green{border-left-color:#2fa36b;background:#f3fbf6}
+.memo{background:linear-gradient(135deg,#fff1e6,#e7f5ff);border:3px dashed var(--pri);border-radius:20px;padding:16px;margin:30px 0}
+.memo h2{margin:0 0 6px;color:var(--pri);font-size:1.2em}.memo li{margin:12px 0;font-size:1.05em}
+.go{display:block;text-align:center;background:var(--green);color:#fff;font-size:20px;font-weight:800;border-radius:16px;padding:14px;margin:12px 0;text-decoration:none}
+.go.alt{background:var(--blue)}.go.pink{background:var(--pink)}
+.foot{font-size:.72em;color:var(--muted);line-height:1.6}
+ul{padding-left:1.15em}li{margin:6px 0}
+.check{font-weight:700;color:var(--green)}
+.stamp-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.stamp{min-width:96px;min-height:72px;border-radius:12px;border:3px dashed #ccc;background:#fff;font-weight:800;font-size:16px;padding:8px}
+.stamp.on{border-style:solid;box-shadow:0 0 0 3px rgba(196,92,38,.2)}
+.stamp.y{border-color:#e9c46a;color:#9a6b10}.stamp.y.on{background:#fff3cd}
+.stamp.p{border-color:#d65a8a;color:#a03d62}.stamp.p.on{background:#ffe4ee}
+.stamp.g{border-color:#2fa36b;color:#1e7a4d}.stamp.g.on{background:#e5f6ec}
+@media print{body{font-size:15px;background:#fff}.stop,.scene,.play{break-inside:avoid}summary::before{content:""}}
+</style>
+</head>
+<body>
+<header class="top"><b>进率邮局的三色邮票</b><span>数学小故事</span></header>
+<div class="wrap">
+<h1>📮 进率邮局的三色邮票</h1>
+<p class="sub">一次把「进率」记牢并懂为什么的寄信冒险<br>人教版三年级上册 · 长度＋质量＋生活换算 · 约 15～20 分钟</p>
+<div class="how"><b>读法</b>：从头往下读。黄色「✋ 停一停，想一想」可以先停；白色小卡片是动手看过程——点一点就懂，<b>不用答题、也不卡关</b>。答案要点开才显示。口袋要点对照老师「必背公式」原话。</div>
+
+<h2 class="chap">先复习　十个一百，凑成一千</h2>
+<div class="scene"><svg viewBox="0 0 360 200" aria-label="十块一百积木凑成一千">
+<defs>
+  <linearGradient id="sky0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D6ECFF"/><stop offset="1" stop-color="#FFF8EE"/></linearGradient>
+  <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#5c4033" flood-opacity="0.18"/></filter>
+</defs>
+<rect width="360" height="200" rx="18" fill="url(#sky0)"/>
+<text x="180" y="28" text-anchor="middle" font-size="14" font-weight="700" fill="#1d6fa5" font-family="system-ui,sans-serif">二下复习：10 个一百 = 一千</text>
+<g filter="url(#soft)">
+  <rect x="18" y="50" width="28" height="40" rx="6" fill="#7EB6E8"/><text x="32" y="75" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="50" y="50" width="28" height="40" rx="6" fill="#7EB6E8"/><text x="64" y="75" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="82" y="50" width="28" height="40" rx="6" fill="#7EB6E8"/><text x="96" y="75" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="114" y="50" width="28" height="40" rx="6" fill="#7EB6E8"/><text x="128" y="75" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="146" y="50" width="28" height="40" rx="6" fill="#7EB6E8"/><text x="160" y="75" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="178" y="50" width="28" height="40" rx="6" fill="#5BA3D9"/><text x="192" y="75" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="210" y="50" width="28" height="40" rx="6" fill="#5BA3D9"/><text x="224" y="75" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="242" y="50" width="28" height="40" rx="6" fill="#5BA3D9"/><text x="256" y="75" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="274" y="50" width="28" height="40" rx="6" fill="#5BA3D9"/><text x="288" y="75" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="306" y="50" width="28" height="40" rx="6" fill="#1D6FA5"/><text x="320" y="75" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+</g>
+<path d="M180 100 L180 118" stroke="#c45c26" stroke-width="3" stroke-linecap="round"/>
+<path d="M172 112 L180 124 L188 112" fill="#c45c26"/>
+<rect x="110" y="130" width="140" height="44" rx="14" fill="#FFE8D6" stroke="#c45c26" stroke-width="3" filter="url(#soft)"/>
+<text x="180" y="158" text-anchor="middle" font-size="20" font-weight="800" fill="#c45c26" font-family="system-ui,sans-serif">1000＝一千</text>
+</svg></div>
+
+<p>邮婆婆把小美和阿冲拉到邮局门口的积木墙前：「二年级学过：<b>10 个一百是一千</b>。今天寄信要用到两个『一千』——<b>1000 米＝1 千米</b>，还有 <b>1000 克＝1 千克</b>。」</p>
+
+<div class="play">
+<div class="qp">点积木：凑满 10 个「一百」，看看会变成什么</div>
+<div class="blocks" id="hundredBlocks"></div>
+<p style="text-align:center;font-weight:800"><span id="hSum">已点亮：0 个一百＝0</span></p>
+<button type="button" class="btn ghost sm" id="hReset">全部熄灭</button>
+<p class="note" id="hNote">每点一块亮一格「一百」。凑满十格，就是一千。</p>
+</div>
+
+<p>阿冲拍脑袋：「哦！一千米叫 1 千米，一千克叫 1 千克。进率都跟『一千』有关。」邮婆婆笑：「不完全。长度相邻单位是『十』，质量才是『一千』。跟我进邮局贴邮票。」</p>
+
+<h2 class="chap">第一章　邮局门口的三色邮票</h2>
+<div class="scene"><svg viewBox="0 0 360 250" aria-label="进率邮局和三色邮票">
+<defs>
+  <linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD9A8"/><stop offset="0.55" stop-color="#FFEFD8"/><stop offset="1" stop-color="#E8F4D8"/></linearGradient>
+  <linearGradient id="roof" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E07A5F"/><stop offset="1" stop-color="#C45C26"/></linearGradient>
+</defs>
+<rect width="360" height="250" rx="18" fill="url(#sky1)"/>
+<ellipse cx="60" cy="36" rx="26" ry="11" fill="#fff" opacity="0.5"/>
+<ellipse cx="82" cy="34" rx="16" ry="9" fill="#fff" opacity="0.4"/>
+<circle cx="300" cy="32" r="22" fill="#FFE8A0" opacity="0.35"/>
+<circle cx="300" cy="32" r="14" fill="#F4A261"/>
+<path d="M0 130 Q60 100 120 120 Q180 95 240 118 Q300 100 360 124 L360 160 L0 160Z" fill="#C5D9A8" opacity="0.75"/>
+<path d="M0 150 Q180 142 360 152 L360 250 L0 250Z" fill="#D9C4A0"/>
+<path d="M0 180 Q180 172 360 182 L360 250 L0 250Z" fill="#C9B08A"/>
+<!-- post office -->
+<g filter="url(#soft)">
+  <rect x="100" y="78" width="160" height="82" rx="4" fill="#F2E6D0"/>
+  <path d="M88 82 L180 40 L272 82Z" fill="url(#roof)"/>
+  <rect x="158" y="110" width="44" height="50" rx="3" fill="#8B5A3C"/>
+  <circle cx="192" cy="136" r="3" fill="#FFE8A3"/>
+  <rect x="118" y="98" width="28" height="22" rx="2" fill="#A8D4E8"/>
+  <rect x="214" y="98" width="28" height="22" rx="2" fill="#A8D4E8"/>
+  <rect x="130" y="52" width="100" height="16" rx="4" fill="#FFE8D6" stroke="#c45c26" stroke-width="1.5"/>
+  <text x="180" y="64" text-anchor="middle" font-size="11" font-weight="800" fill="#c45c26" font-family="system-ui,sans-serif">进率邮局</text>
+</g>
+<!-- three stamps hanging -->
+<g filter="url(#soft)">
+  <rect x="28" y="88" width="54" height="64" rx="6" fill="#FFF3CD" stroke="#E9C46A" stroke-width="3" stroke-dasharray="4 3"/>
+  <text x="55" y="116" text-anchor="middle" font-size="13" font-weight="800" fill="#9a6b10" font-family="system-ui,sans-serif">黄票</text>
+  <text x="55" y="136" text-anchor="middle" font-size="11" font-weight="700" fill="#9a6b10" font-family="system-ui,sans-serif">几个十</text>
+  <rect x="153" y="168" width="54" height="48" rx="6" fill="#FFE4EE" stroke="#D65A8A" stroke-width="3" stroke-dasharray="4 3"/>
+  <text x="180" y="190" text-anchor="middle" font-size="13" font-weight="800" fill="#a03d62" font-family="system-ui,sans-serif">粉票</text>
+  <text x="180" y="206" text-anchor="middle" font-size="11" font-weight="700" fill="#a03d62" font-family="system-ui,sans-serif">几个一千</text>
+  <rect x="278" y="88" width="54" height="64" rx="6" fill="#E5F6EC" stroke="#2FA36B" stroke-width="3" stroke-dasharray="4 3"/>
+  <text x="305" y="116" text-anchor="middle" font-size="13" font-weight="800" fill="#1e7a4d" font-family="system-ui,sans-serif">绿票</text>
+  <text x="305" y="136" text-anchor="middle" font-size="11" font-weight="700" fill="#1e7a4d" font-family="system-ui,sans-serif">斤两</text>
+</g>
+<!-- xiaomei -->
+<g filter="url(#soft)">
+  <ellipse cx="70" cy="228" rx="12" ry="3.5" fill="#5c4033" opacity="0.2"/>
+  <rect x="63" y="212" width="5" height="14" rx="2.5" fill="#FFE0BD"/>
+  <rect x="72" y="212" width="5" height="14" rx="2.5" fill="#FFE0BD"/>
+  <ellipse cx="65.5" cy="226" rx="4.5" ry="2.5" fill="#C45C26"/>
+  <ellipse cx="74.5" cy="226" rx="4.5" ry="2.5" fill="#C45C26"/>
+  <path d="M57 198 Q70 192 83 198 L78 214 Q70 218 62 214Z" fill="#E8453C"/>
+  <circle cx="70" cy="184" r="12" fill="#FFE0BD"/>
+  <path d="M58 182 Q70 168 82 182 Q77 174 70 172 Q63 174 58 182Z" fill="#5C4033"/>
+  <circle cx="66" cy="184" r="1.4" fill="#5C4033"/>
+  <circle cx="74" cy="184" r="1.4" fill="#5C4033"/>
+  <path d="M66 189 Q70 192 74 189" fill="none" stroke="#E07A5F" stroke-width="1.3" stroke-linecap="round"/>
+</g>
+<!-- achong -->
+<g filter="url(#soft)">
+  <ellipse cx="290" cy="228" rx="12" ry="3.5" fill="#5c4033" opacity="0.2"/>
+  <rect x="283" y="212" width="5" height="14" rx="2.5" fill="#FFE0BD"/>
+  <rect x="292" y="212" width="5" height="14" rx="2.5" fill="#FFE0BD"/>
+  <ellipse cx="285.5" cy="226" rx="4.5" ry="2.5" fill="#1D6FA5"/>
+  <ellipse cx="294.5" cy="226" rx="4.5" ry="2.5" fill="#1D6FA5"/>
+  <path d="M277 198 Q290 192 303 198 L298 214 Q290 218 282 214Z" fill="#1D6FA5"/>
+  <circle cx="290" cy="184" r="12" fill="#FFE0BD"/>
+  <path d="M278 180 Q290 166 302 180 Q297 172 290 170 Q283 172 278 180Z" fill="#3D2914"/>
+  <circle cx="286" cy="184" r="1.4" fill="#5C4033"/>
+  <circle cx="294" cy="184" r="1.4" fill="#5C4033"/>
+  <path d="M286 189 Q290 191 294 189" fill="none" stroke="#E07A5F" stroke-width="1.3" stroke-linecap="round"/>
+</g>
+</svg></div>
+
+<p>星期六，小美和急性子男孩<b class="who">阿冲</b>来到<b>进率邮局</b>。柜台上摆着三种邮票：</p>
+<ul>
+<li><b style="color:#9a6b10">黄邮票</b>——长度进率（相邻是 <span class="chip">10</span>）</li>
+<li><b style="color:#a03d62">粉邮票</b>——质量进率（相邻是 <span class="chip">1000</span>）</li>
+<li><b style="color:#1e7a4d">绿邮票</b>——生活里的斤、两、公斤</li>
+</ul>
+<p>邮婆婆说：「三封信都要寄出。贴错进率，邮筒不吞信。」阿冲抢着说：「进率不都是 10 吗？背起来简单！」邮婆婆摇头：「不全是。跟我一封一封贴。」</p>
+
+<div class="play">
+<div class="qp">点一枚邮票，听听它管什么（可再点，不记分）</div>
+<div class="stamp-row">
+<button type="button" class="stamp y" id="stY">黄票<br>几个十</button>
+<button type="button" class="stamp p" id="stP">粉票<br>几个一千</button>
+<button type="button" class="stamp g" id="stG">绿票<br>斤两</button>
+</div>
+<p class="note" id="stNote">先点一枚，看它管哪一类换算。</p>
+</div>
+
+<h2 class="chap">第二章　黄邮票：几个十的阶梯</h2>
+<div class="scene"><svg viewBox="0 0 360 230" aria-label="长度进率阶梯">
+<rect width="360" height="230" rx="18" fill="#FFFBF0"/>
+<g filter="url(#soft)">
+  <rect x="30" y="175" width="68" height="28" rx="6" fill="#FFE8A3" stroke="#C45C26" stroke-width="2"/>
+  <text x="64" y="194" text-anchor="middle" font-size="13" font-weight="800" fill="#C45C26" font-family="system-ui,sans-serif">毫米</text>
+  <rect x="90" y="140" width="68" height="28" rx="6" fill="#FFD4A8" stroke="#C45C26" stroke-width="2"/>
+  <text x="124" y="159" text-anchor="middle" font-size="13" font-weight="800" fill="#C45C26" font-family="system-ui,sans-serif">厘米</text>
+  <rect x="150" y="105" width="68" height="28" rx="6" fill="#C8F0D4" stroke="#2FA36B" stroke-width="2"/>
+  <text x="184" y="124" text-anchor="middle" font-size="13" font-weight="800" fill="#1F7A4D" font-family="system-ui,sans-serif">分米</text>
+  <rect x="210" y="70" width="68" height="28" rx="6" fill="#C8E4FF" stroke="#1D6FA5" stroke-width="2"/>
+  <text x="244" y="89" text-anchor="middle" font-size="13" font-weight="800" fill="#1D6FA5" font-family="system-ui,sans-serif">米</text>
+  <rect x="270" y="35" width="68" height="28" rx="6" fill="#E8D4FF" stroke="#7B5EA7" stroke-width="2"/>
+  <text x="304" y="54" text-anchor="middle" font-size="13" font-weight="800" fill="#5B3D87" font-family="system-ui,sans-serif">千米</text>
+</g>
+<text x="88" y="172" font-size="11" font-weight="700" fill="#c45c26" font-family="system-ui,sans-serif">×10</text>
+<text x="148" y="137" font-size="11" font-weight="700" fill="#c45c26" font-family="system-ui,sans-serif">×10</text>
+<text x="208" y="102" font-size="11" font-weight="700" fill="#c45c26" font-family="system-ui,sans-serif">×10</text>
+<text x="268" y="67" font-size="11" font-weight="700" fill="#7B5EA7" font-family="system-ui,sans-serif">×1000</text>
+<text x="180" y="220" text-anchor="middle" font-size="12" fill="#6b6b80" font-family="system-ui,sans-serif">相邻黄票：进率 10　｜　米到千米：进率 1000</text>
+</svg></div>
+
+<p>第一封信封面写着「长度」。邮婆婆贴上黄邮票：「相邻单位，进率是 <b>10</b>。课本爱问：<b>想——几里面有几个 10？</b>」</p>
+
+<div class="formula yellow">
+1 米＝10 分米　　1 分米＝10 厘米　　1 厘米＝10 毫米<br>
+常用：1 米＝100 厘米　　1 分米＝100 毫米　　1 米＝1000 毫米
+</div>
+
+<p><b class="who">小美：</b>米→分米是一个 10；再→厘米又一个 10，所以 1 米＝100 厘米。三个 10 连乘，1 米＝1000 毫米。</p>
+<p>阿冲：「那千米呢？也是 ×10？」邮婆婆：「不。米到千米隔得很远，进率是 <b>1000</b>——跟开头的『十个一百』对上了。」</p>
+
+<div class="formula yellow">1 千米＝1000 米（公里同千米）</div>
+
+<div class="play">
+<div class="qp">点「往上换 / 往下换」，看黄票阶梯怎么走</div>
+<div class="ladder" id="ladder"></div>
+<button type="button" class="btn" id="ladUp">往上换（变大单位）</button>
+<button type="button" class="btn ghost" id="ladDown">往下换（变小单位）</button>
+<button type="button" class="btn ghost sm" id="ladReset">回到起点</button>
+<p class="note" id="ladNote"></p>
+</div>
+
+<div class="stop">
+<div class="stop-h">✋ 停一停，想一想 ①</div>
+<div class="focus">练的是：长度进率 · 几个 10 / 几个 1000</div>
+<div class="ask">为什么 1 米＝100 厘米，不是 10 厘米？1 千米为什么等于 1000 米？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul>
+<li>米和厘米中间还隔着分米：10×10＝100。</li>
+<li>想：1 米＝10 分米，1 分米＝10 厘米，所以 1 米＝100 厘米。</li>
+<li>千米：10 个一百米＝1000 米＝1 千米。</li>
+</ul></div></details>
+<details class="ans"><summary>点我看思路</summary><div><ul>
+<li>相邻进率 10；跨一级是 100，跨两级是 1000（毫米↔米）。</li>
+<li>1 千米＝1000 米，因为「十个一百米」凑成一千米。</li>
+</ul><p class="check">第一封黄票信进了邮筒。</p></div></details>
+</div>
+
+<div class="play">
+<div class="qp">操场一圈约 200 米：点亮几圈，凑成 1 千米？</div>
+<div class="seg" id="kmSeg"></div>
+<p style="text-align:center;font-weight:800"><span id="kmSum">已点亮：0 圈＝0 米</span></p>
+<button type="button" class="btn ghost sm" id="kmReset">全部熄灭</button>
+<p class="note" id="kmNote">老师公式里说：操场一圈约 200 米，5 圈＝1 千米。</p>
+</div>
+
+<h2 class="chap">第三章　粉邮票：几个一千</h2>
+<div class="scene"><svg viewBox="0 0 360 210" aria-label="质量一千阶梯">
+<rect width="360" height="210" rx="18" fill="#FFF5F8"/>
+<g filter="url(#soft)">
+  <rect x="50" y="140" width="80" height="36" rx="8" fill="#FFE8A3" stroke="#C45C26" stroke-width="2"/>
+  <text x="90" y="164" text-anchor="middle" font-size="16" font-weight="800" fill="#C45C26" font-family="system-ui,sans-serif">克 g</text>
+  <rect x="140" y="90" width="80" height="36" rx="8" fill="#C8F0D4" stroke="#2FA36B" stroke-width="2"/>
+  <text x="180" y="114" text-anchor="middle" font-size="15" font-weight="800" fill="#1F7A4D" font-family="system-ui,sans-serif">千克 kg</text>
+  <rect x="230" y="40" width="80" height="36" rx="8" fill="#C8E4FF" stroke="#1D6FA5" stroke-width="2"/>
+  <text x="270" y="64" text-anchor="middle" font-size="16" font-weight="800" fill="#1D6FA5" font-family="system-ui,sans-serif">吨 t</text>
+</g>
+<text x="125" y="138" font-size="13" font-weight="800" fill="#d65a8a" font-family="system-ui,sans-serif">×1000</text>
+<text x="215" y="88" font-size="13" font-weight="800" fill="#d65a8a" font-family="system-ui,sans-serif">×1000</text>
+<text x="180" y="200" text-anchor="middle" font-size="13" font-weight="700" fill="#a03d62" font-family="system-ui,sans-serif">粉票口诀：相邻单位，进率 1000</text>
+</svg></div>
+
+<p>第二封信写着「质量」。邮婆婆换上粉邮票：「克、千克、吨，相邻进率是 <b>1000</b>。想——几里面有几个 1000？」</p>
+
+<div class="formula pink">
+1 吨＝1000 千克　　1 千克＝1000 克<br>
+记住：1 千克＝1 公斤
+</div>
+
+<p>阿冲嘀咕：「公斤？又多一个名字。」邮婆婆：「公斤就是千克的另一个叫法，数字一样。买菜时常说『几公斤』，其实就是几千克。」</p>
+
+<div class="play">
+<div class="qp">点「往上换 / 往下换」，看粉票「一千阶梯」</div>
+<div class="ladder" id="massLadder"></div>
+<button type="button" class="btn" id="mUp">往上换（变大单位）</button>
+<button type="button" class="btn ghost" id="mDown">往下换（变小单位）</button>
+<button type="button" class="btn ghost sm" id="mReset">回到起点</button>
+<p class="note" id="mNote"></p>
+</div>
+
+<div class="stop">
+<div class="stop-h">✋ 停一停，想一想 ②</div>
+<div class="focus">练的是：质量进率 1000 · 千克＝公斤</div>
+<div class="ask">2 千克＝（　）克？3 吨＝（　）千克？「2 公斤」和「2 千克」一样吗？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul>
+<li>1 千克＝1000 克，所以 2 千克＝2 个 1000 克。</li>
+<li>1 吨＝1000 千克，3 吨＝3×1000。</li>
+<li>公斤＝千克，只是叫法不同。</li>
+</ul></div></details>
+<details class="ans"><summary>点我看思路</summary><div><ul>
+<li>2 千克＝<b>2000 克</b>；3 吨＝<b>3000 千克</b>。</li>
+<li>2 公斤＝2 千克，一样重。</li>
+</ul><p class="check">第二封粉票信进了邮筒。</p></div></details>
+</div>
+
+<h2 class="chap">第四章　绿邮票：生活里的斤和两</h2>
+<div class="scene"><svg viewBox="0 0 360 220" aria-label="菜市场斤两换算">
+<defs>
+  <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E8F8EE"/><stop offset="1" stop-color="#FFF8EE"/></linearGradient>
+</defs>
+<rect width="360" height="220" rx="18" fill="url(#skyG)"/>
+<!-- stall -->
+<g filter="url(#soft)">
+  <rect x="40" y="100" width="120" height="70" rx="6" fill="#E76F51"/>
+  <path d="M30 100 L100 70 L170 100Z" fill="#F4A261"/>
+  <ellipse cx="70" cy="125" rx="14" ry="10" fill="#2FA36B"/>
+  <ellipse cx="100" cy="122" rx="12" ry="9" fill="#E9C46A"/>
+  <ellipse cx="128" cy="126" rx="11" ry="8" fill="#E07A5F"/>
+  <rect x="78" y="140" width="40" height="18" rx="3" fill="#FFE8C8"/>
+  <text x="98" y="153" text-anchor="middle" font-size="10" font-weight="800" fill="#c45c26" font-family="system-ui,sans-serif">1 斤</text>
+</g>
+<!-- scale -->
+<g filter="url(#soft)">
+  <rect x="220" y="90" width="100" height="14" rx="4" fill="#8B5A3C"/>
+  <rect x="262" y="104" width="16" height="50" fill="#8B5A3C"/>
+  <ellipse cx="270" cy="160" rx="40" ry="10" fill="#C9B08A"/>
+  <circle cx="240" cy="90" r="18" fill="#FFF8EE" stroke="#2FA36B" stroke-width="3"/>
+  <text x="240" y="95" text-anchor="middle" font-size="11" font-weight="800" fill="#1e7a4d" font-family="system-ui,sans-serif">500g</text>
+  <circle cx="300" cy="90" r="18" fill="#FFF8EE" stroke="#d65a8a" stroke-width="3"/>
+  <text x="300" y="95" text-anchor="middle" font-size="11" font-weight="800" fill="#a03d62" font-family="system-ui,sans-serif">1斤</text>
+</g>
+<text x="180" y="40" text-anchor="middle" font-size="14" font-weight="800" fill="#1e7a4d" font-family="system-ui,sans-serif">绿票：买菜常说的斤、两、公斤</text>
+<text x="180" y="205" text-anchor="middle" font-size="12" fill="#6b6b80" font-family="system-ui,sans-serif">1 公斤＝2 斤　｜　1 斤＝10 两</text>
+</svg></div>
+
+<p>第三封信写着「生活常用」。邮婆婆贴上绿邮票：「买菜不说『克』『千克』，常说『斤』『两』『公斤』。这几句要和黄票、粉票对得上。」</p>
+
+<div class="formula green">
+1 公斤＝2 斤　　1 斤＝500 克<br>
+1 斤＝10 两　　1 两＝50 克
+</div>
+
+<p>阿冲掰手指：「1 公斤＝1000 克，拆成 2 斤，每斤不就是 500 克？1 斤再拆成 10 两，一两就是 50 克！」</p>
+<p><b class="who">小美：</b>对！绿票不是新规矩，是把粉票里的「千克／克」翻译成买菜话。</p>
+
+<div class="play">
+<div class="qp">点「下一步」，看 1 公斤怎么拆成斤和两</div>
+<div id="lifeSteps" style="min-height:4.5em;font-size:1.05em;font-weight:700;text-align:center;padding:8px 0"></div>
+<button type="button" class="btn" id="lifeNext">下一步</button>
+<button type="button" class="btn ghost sm" id="lifeReset">再看一遍</button>
+<p class="note" id="lifeNote"></p>
+</div>
+
+<div class="stop">
+<div class="stop-h">✋ 停一停，想一想 ③</div>
+<div class="focus">练的是：生活换算 · 公斤斤两克</div>
+<div class="ask">3 公斤＝（　）斤？2 斤＝（　）克？半斤＝（　）两＝（　）克？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul>
+<li>1 公斤＝2 斤，所以 3 公斤＝6 斤。</li>
+<li>1 斤＝500 克，2 斤＝1000 克（正好 1 千克）。</li>
+<li>1 斤＝10 两，半斤＝5 两＝5×50＝250 克。</li>
+</ul></div></details>
+<details class="ans"><summary>点我看思路</summary><div><ul>
+<li>3 公斤＝<b>6 斤</b>；2 斤＝<b>1000 克</b>。</li>
+<li>半斤＝<b>5 两</b>＝<b>250 克</b>。</li>
+</ul><p class="check">第三封绿票信也进了邮筒。三色邮件齐了！</p></div></details>
+</div>
+
+<h2 class="chap">第五章　合寄：一封「公式信」</h2>
+<p>邮婆婆把三张邮票并排贴在一张大信封上：「以后背公式，别死记一串字。先想：这是黄票、粉票，还是绿票？」</p>
+
+<div class="formula yellow"><b>黄·长度</b><br>1 米＝10 分米；1 分米＝10 厘米；1 厘米＝10 毫米<br>1 米＝100 厘米；1 分米＝100 毫米；1 米＝1000 毫米<br>1 千米＝1000 米</div>
+<div class="formula pink"><b>粉·质量</b><br>1 吨＝1000 千克；1 千克＝1000 克；1 千克＝1 公斤</div>
+<div class="formula green"><b>绿·生活</b><br>1 公斤＝2 斤；1 斤＝500 克；1 斤＝10 两；1 两＝50 克</div>
+
+<p>阿冲把信封塞进邮筒，绿灯亮了。小美把口袋要点念了一遍——正是老师发的那张「必背公式」。</p>
+
+<div class="memo">
+<h2>📌 小美的三色邮票口袋</h2>
+<ul>
+<li><b>黄票（长度）</b>：相邻进率 <b>10</b>——1 米＝10 分米，1 分米＝10 厘米，1 厘米＝10 毫米；常用 1 米＝100 厘米，1 分米＝100 毫米，1 米＝1000 毫米；长距离 1 千米＝1000 米。</li>
+<li><b>粉票（质量）</b>：相邻进率 <b>1000</b>——1 吨＝1000 千克，1 千克＝1000 克；1 千克＝1 公斤。</li>
+<li><b>绿票（生活）</b>：1 公斤＝2 斤，1 斤＝500 克，1 斤＝10 两，1 两＝50 克。</li>
+<li>换算口诀：大单位换小单位，数变大；小单位换大单位，数变小。先想「几个 10 / 几个 1000」。</li>
+</ul>
+</div>
+
+<p style="text-align:center;font-weight:800">还想再练？可以去下面这些页（本篇不另开闯关）：</p>
+<a class="go alt" href="../lianglu/">里桥驿的量路旗（长度故事）→</a>
+<a class="go pink" href="../chengqiao/">秤桥镇的三枚身份牌（质量故事）→</a>
+<a class="go" href="../changdu-zhuanti/">长度换算专题练一练 →</a>
+<a class="go alt" href="../chengqiao-lianxi/">秤桥镇配套练习 →</a>
+
+<p class="foot">本页为理解用故事，不记分、不卡关。公式对照 2026 秋新三年级上册「重点必背公式汇总」。主角小美；页面不出现学生真名。</p>
+</div>
+
+<script>
+(function(){
+  // 一百积木
+  var hOn={}, hBox=document.getElementById('hundredBlocks');
+  function drawH(){
+    var s='',n=0;
+    for(var i=0;i<10;i++){
+      var on=!!hOn[i]; if(on)n++;
+      s+='<div class="blk'+(on?' on':'')+'" data-i="'+i+'">100</div>';
+    }
+    hBox.innerHTML=s;
+    hBox.querySelectorAll('.blk').forEach(function(b){
+      b.onclick=function(){hOn[b.dataset.i]=!hOn[b.dataset.i];drawH();};
+    });
+    document.getElementById('hSum').textContent='已点亮：'+n+' 个一百＝'+(n*100)+(n===10?' → 一千！':'');
+    document.getElementById('hNote').textContent=n===10?'10 个一百＝1000＝一千。记住：1000 米＝1 千米，1000 克＝1 千克。':('再点 '+(10-n)+' 块。');
+  }
+  drawH();
+  document.getElementById('hReset').onclick=function(){hOn={};drawH();};
+
+  // 三色邮票介绍
+  var tips={
+    stY:'黄票管长度：相邻单位进率 10（毫米↔厘米↔分米↔米）；米到千米是 1000。',
+    stP:'粉票管质量：克↔千克↔吨，相邻进率 1000；千克又叫公斤。',
+    stG:'绿票管买菜话：公斤、斤、两，要和克、千克对得上。'
+  };
+  ['stY','stP','stG'].forEach(function(id){
+    document.getElementById(id).onclick=function(){
+      document.querySelectorAll('.stamp').forEach(function(el){el.classList.remove('on');});
+      this.classList.add('on');
+      document.getElementById('stNote').textContent=tips[id];
+    };
+  });
+
+  // 长度阶梯
+  var LAD=[
+    {label:'20 毫米',tip:'起点：20 毫米'},
+    {label:'2 厘米',tip:'往上：每 10 毫米收成 1 厘米 → 2 厘米（想：20 里面有 2 个 10）'},
+    {label:'若有 20 厘米 → 2 分米',tip:'再往上：每 10 厘米收成 1 分米'},
+    {label:'若有 20 分米 → 2 米',tip:'再往上：每 10 分米收成 1 米；别忘了 1 米＝100 厘米＝1000 毫米'},
+    {label:'若有 2000 米 → 2 千米',tip:'米到千米进率 1000：想几个 1000'}
+  ];
+  var li=0;
+  function drawLad(){
+    var el=document.getElementById('ladder');
+    el.innerHTML=LAD.map(function(r,i){
+      return '<div class="rung'+(i===li?' hi':'')+'">'+(i===li?'👉 ':'')+r.label+'</div>';
+    }).join('');
+    document.getElementById('ladNote').textContent=LAD[li].tip;
+  }
+  drawLad();
+  document.getElementById('ladUp').onclick=function(){if(li<LAD.length-1){li++;drawLad();}};
+  document.getElementById('ladDown').onclick=function(){if(li>0){li--;drawLad();}};
+  document.getElementById('ladReset').onclick=function(){li=0;drawLad();};
+
+  // 操场 5 圈
+  var kmOn={}, kmBox=document.getElementById('kmSeg');
+  function drawKm(){
+    var s='',n=0;
+    for(var i=0;i<5;i++){
+      var on=!!kmOn[i]; if(on)n++;
+      s+='<i class="'+(on?'on':'')+'" data-i="'+i+'">圈'+(i+1)+'</i>';
+    }
+    kmBox.innerHTML=s;
+    kmBox.querySelectorAll('i').forEach(function(b){
+      b.onclick=function(){kmOn[b.dataset.i]=!kmOn[b.dataset.i];drawKm();};
+    });
+    var m=n*200;
+    document.getElementById('kmSum').textContent='已点亮：'+n+' 圈＝'+m+' 米'+(n===5?' → 1 千米！':'');
+    document.getElementById('kmNote').textContent=n===5?'5×200＝1000 米＝1 千米。黄票上的长距离公式对上了！':('再点 '+(5-n)+' 圈。');
+  }
+  drawKm();
+  document.getElementById('kmReset').onclick=function(){kmOn={};drawKm();};
+
+  // 质量阶梯
+  var MASS=[
+    {label:'3000 克',tip:'起点：3000 克',cls:''},
+    {label:'3 千克（＝3 公斤）',tip:'往上：每 1000 克收成 1 千克 → 3 千克。千克＝公斤。',cls:'mid'},
+    {label:'若有 3000 千克 → 3 吨',tip:'再往上：每 1000 千克收成 1 吨',cls:'hi'}
+  ];
+  var mi=0;
+  function drawMass(){
+    var el=document.getElementById('massLadder');
+    el.innerHTML=MASS.map(function(r,i){
+      var c='rung'+(i===mi?' '+(r.cls||'hi'):'');
+      return '<div class="'+c+'">'+(i===mi?'👉 ':'')+r.label+'</div>';
+    }).join('');
+    document.getElementById('mNote').textContent=MASS[mi].tip;
+  }
+  drawMass();
+  document.getElementById('mUp').onclick=function(){if(mi<MASS.length-1){mi++;drawMass();}};
+  document.getElementById('mDown').onclick=function(){if(mi>0){mi--;drawMass();}};
+  document.getElementById('mReset').onclick=function(){mi=0;drawMass();};
+
+  // 生活换算步骤
+  var LIFE=[
+    {html:'1 公斤＝1 千克＝<span class="chip">1000</span> 克',note:'先用粉票：公斤就是千克。'},
+    {html:'1 公斤＝2 斤　→　每斤 <span class="chip">500</span> 克',note:'1000÷2＝500。绿票第一句。'},
+    {html:'1 斤＝10 两　→　每两 <span class="chip">50</span> 克',note:'500÷10＝50。绿票后两句对上了。'},
+    {html:'所以：1 公斤＝2 斤＝20 两＝1000 克',note:'买菜、称重，都可以互相翻译。'}
+  ];
+  var fi=0;
+  function drawLife(){
+    document.getElementById('lifeSteps').innerHTML=LIFE[fi].html;
+    document.getElementById('lifeNote').textContent=LIFE[fi].note;
+    document.getElementById('lifeNext').disabled=fi>=LIFE.length-1;
+  }
+  drawLife();
+  document.getElementById('lifeNext').onclick=function(){if(fi<LIFE.length-1){fi++;drawLife();}};
+  document.getElementById('lifeReset').onclick=function(){fi=0;drawLife();};
+})();
+window.addEventListener('beforeprint',function(){document.querySelectorAll('details').forEach(function(d){d.open=true;});});
+</script>
+<script src="../common/nav.js"></script>
+<script>SiteNav.mount({title:'进率邮局的三色邮票',dir:'../index.html'});</script>
+</body>
+</html>
