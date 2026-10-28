@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<title>雾谷的双色石阶</title>
+<style>
+:root{--ink:#2b2b3a;--muted:#6b6b80;--bg:#eef3f8;--pri:#3d6b9a;--blue:#1d6fa5;--red:#e5484d;--green:#2fa36b;--gold:#e9a825;--pink:#d65a8a;--yellow:#c9a227}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:20px;line-height:1.85;padding:env(safe-area-inset-top) 0 48px}
+.top{position:sticky;top:var(--sn-h,0px);z-index:20;background:rgba(238,243,248,.96);backdrop-filter:blur(8px);padding:8px 16px;border-bottom:1px solid #c5d4e4;display:flex;justify-content:space-between;align-items:center}
+.top b{color:var(--pri)}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px}
+h1{font-size:1.65em;text-align:center;margin:16px 0 4px;letter-spacing:2px}
+.sub{text-align:center;color:var(--muted);font-size:.85em;margin:0 0 14px}
+.how{background:#fff;border-radius:16px;padding:12px 16px;font-size:.85em;color:var(--muted);box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:8px}
+h2.chap{font-size:1.2em;color:var(--pri);margin:34px 0 10px;padding-bottom:6px;border-bottom:3px dotted #a8c4de}
+p{margin:10px 0}
+.who{color:var(--pri);font-weight:700}
+.scene svg,.play svg{width:100%;height:auto;display:block;margin:12px 0;border-radius:18px}
+.stop{background:#fff7e0;border:3px solid #ffd166;border-radius:20px;padding:14px 14px 6px;margin:22px 0}
+.stop-h{font-weight:800;color:#b5470f;font-size:1.08em}
+.focus{display:inline-block;font-size:.72em;background:#ffe8dc;color:#b5470f;border-radius:99px;padding:1px 10px;margin:4px 0}
+.ask{font-size:1.02em;margin:6px 0 10px}
+details{border-radius:14px;margin:10px 0;overflow:hidden;border:2px solid #eee;background:#fff}
+summary{cursor:pointer;list-style:none;padding:11px 14px;font-weight:700}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▶ ";font-size:.8em}details[open] summary::before{content:"▼ "}
+details>div{padding:2px 14px 12px}
+details.tip{border-color:#cfe0ff}details.tip summary{background:#eef4ff;color:#3d7bfd}
+details.ans{border-color:#cdeedd}details.ans summary{background:#eafaf1;color:var(--green)}
+.play{background:#fff;border-radius:18px;padding:14px;margin:16px 0;box-shadow:0 2px 12px rgba(40,70,100,.08)}
+.play .qp{font-weight:800;margin-bottom:8px}
+.btn{min-height:48px;border:none;border-radius:14px;background:var(--pri);color:#fff;font-size:18px;font-weight:700;padding:8px 14px;margin:6px 6px 0 0}
+.btn.ghost{background:#7a8a9a}
+.btn.sm{min-height:44px;font-size:17px;padding:6px 12px}
+.btn.yellow{background:#c9a227}.btn.pink{background:#d65a8a}.btn.green{background:#2fa36b}
+.btn:disabled{opacity:.45}
+.note{min-height:1.4em;color:var(--green);font-weight:700;margin-top:8px}
+.ladder{display:flex;flex-direction:column;gap:8px;align-items:stretch;margin:10px 0}
+.rung{background:#fff8e8;border:2px solid #e8c4a0;border-radius:12px;padding:10px 12px;font-weight:700;text-align:center}
+.rung.hi{background:#e8f4ff;border-color:#7eb6e8}
+.rung.mid{background:#eafaf1;border-color:#8fd4a8}
+.rung.y{background:#fff8e0;border-color:#e9c46a}
+.rung.p{background:#fff0f5;border-color:#d65a8a}
+.chip{display:inline-block;background:#f1f1f6;border-radius:8px;padding:2px 8px;font-family:"SF Mono",Menlo,monospace;margin:0 2px}
+.blocks{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0}
+.blk{width:56px;height:44px;border-radius:10px;border:2px solid #b8d4f0;background:#eef6ff;font-size:13px;font-weight:800;color:#1d6fa5;display:flex;align-items:center;justify-content:center}
+.blk.on{background:#c8e8ff;border-color:var(--blue);box-shadow:0 0 0 3px rgba(29,111,165,.2)}
+.seg{display:flex;gap:4px;margin:10px 0;flex-wrap:wrap;justify-content:center}
+.seg i{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:36px;padding:0 6px;border-radius:8px;background:#e8f4fb;border:2px solid #9ec9e8;font-size:12px;font-weight:800;color:#1d6fa5;font-style:normal}
+.seg i.on{background:#2fa36b;border-color:#1e7a4d;color:#fff}
+.mm{display:flex;gap:3px;flex-wrap:wrap;justify-content:center;margin:10px 0}
+.mm i{width:22px;height:28px;border-radius:5px;background:#fff3cd;border:2px solid #e9c46a;font-size:10px;font-weight:800;color:#9a6b10;display:flex;align-items:center;justify-content:center;font-style:normal}
+.mm i.on{background:#c9a227;color:#fff;border-color:#8a7010}
+.formula{background:#fff;border-radius:14px;padding:12px 14px;margin:10px 0;border-left:6px solid var(--pri);font-weight:700}
+.formula.yellow{border-left-color:#e9c46a;background:#fffbf0}
+.formula.pink{border-left-color:#d65a8a;background:#fff5f8}
+.formula.green{border-left-color:#2fa36b;background:#f3fbf6}
+.memo{background:linear-gradient(135deg,#fff1e6,#e7f5ff);border:3px dashed var(--pri);border-radius:20px;padding:16px;margin:30px 0}
+.memo h2{margin:0 0 6px;color:var(--pri);font-size:1.2em}.memo li{margin:12px 0;font-size:1.05em}
+.go{display:block;text-align:center;background:var(--green);color:#fff;font-size:20px;font-weight:800;border-radius:16px;padding:14px;margin:12px 0;text-decoration:none}
+.go.alt{background:var(--blue)}.go.pink{background:var(--pink)}.go.gold{background:#c9a227}
+.foot{font-size:.72em;color:var(--muted);line-height:1.6}
+ul{padding-left:1.15em}li{margin:6px 0}
+.check{font-weight:700;color:var(--green)}
+.pick-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.pick{min-width:110px;min-height:72px;border-radius:14px;border:3px dashed #ccc;background:#fff;font-weight:800;font-size:16px;padding:10px;cursor:pointer}
+.pick.on{border-style:solid;box-shadow:0 0 0 3px rgba(61,107,154,.2)}
+.pick.y{border-color:#e9c46a;color:#9a6b10}.pick.y.on{background:#fff3cd}
+.pick.p{border-color:#d65a8a;color:#a03d62}.pick.p.on{background:#ffe4ee}
+.pick.g{border-color:#2fa36b;color:#1e7a4d}.pick.g.on{background:#e5f6ec}
+@media print{body{font-size:15px;background:#fff}.stop,.scene,.play{break-inside:avoid}summary::before{content:""}}
+</style>
+</head>
+<body>
+<header class="top"><b>雾谷的双色石阶</b><span>数学小故事</span></header>
+<div class="wrap">
+<h1>🌫️ 雾谷的双色石阶</h1>
+<p class="sub">一次踩对「进率」走出大雾的冒险<br>人教版三年级上册 · 长度＋质量＋生活换算 · 约 15～20 分钟</p>
+<div class="how"><b>读法</b>：从头往下读。黄色「✋ 停一停，想一想」可以先停；白色小卡片是动手看过程——点一点就懂，<b>不用答题、也不卡关</b>。答案要点开才显示。结尾口袋口诀对照老师「必背公式」原话。</div>
+
+<h2 class="chap">序　十盏「一百」石灯</h2>
+<div class="scene"><svg viewBox="0 0 360 210" aria-label="雾谷入口十盏石灯">
+<defs>
+  <linearGradient id="fogSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B8C9DC"/><stop offset="1" stop-color="#E8EEF5"/></linearGradient>
+  <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#3a4a5c" flood-opacity="0.2"/></filter>
+</defs>
+<rect width="360" height="210" rx="18" fill="url(#fogSky)"/>
+<ellipse cx="40" cy="50" rx="50" ry="16" fill="#fff" opacity=".45"/>
+<ellipse cx="120" cy="40" rx="60" ry="18" fill="#fff" opacity=".4"/>
+<ellipse cx="220" cy="55" rx="55" ry="15" fill="#fff" opacity=".35"/>
+<ellipse cx="310" cy="42" rx="45" ry="14" fill="#fff" opacity=".4"/>
+<text x="180" y="28" text-anchor="middle" font-size="13" font-weight="700" fill="#3d6b9a" font-family="system-ui,sans-serif">守夜人说：先把「十个一百」点亮</text>
+<g filter="url(#soft)">
+  <rect x="16" y="70" width="28" height="36" rx="6" fill="#7EB6E8"/><text x="30" y="93" text-anchor="middle" font-size="10" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="48" y="70" width="28" height="36" rx="6" fill="#7EB6E8"/><text x="62" y="93" text-anchor="middle" font-size="10" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="80" y="70" width="28" height="36" rx="6" fill="#7EB6E8"/><text x="94" y="93" text-anchor="middle" font-size="10" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="112" y="70" width="28" height="36" rx="6" fill="#7EB6E8"/><text x="126" y="93" text-anchor="middle" font-size="10" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="144" y="70" width="28" height="36" rx="6" fill="#7EB6E8"/><text x="158" y="93" text-anchor="middle" font-size="10" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="176" y="70" width="28" height="36" rx="6" fill="#5BA3D9"/><text x="190" y="93" text-anchor="middle" font-size="10" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="208" y="70" width="28" height="36" rx="6" fill="#5BA3D9"/><text x="222" y="93" text-anchor="middle" font-size="10" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="240" y="70" width="28" height="36" rx="6" fill="#5BA3D9"/><text x="254" y="93" text-anchor="middle" font-size="10" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="272" y="70" width="28" height="36" rx="6" fill="#5BA3D9"/><text x="286" y="93" text-anchor="middle" font-size="10" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+  <rect x="304" y="70" width="28" height="36" rx="6" fill="#1D6FA5"/><text x="318" y="93" text-anchor="middle" font-size="10" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">100</text>
+</g>
+<path d="M180 116 L180 132" stroke="#3d6b9a" stroke-width="3" stroke-linecap="round"/>
+<path d="M172 126 L180 138 L188 126" fill="#3d6b9a"/>
+<rect x="110" y="148" width="140" height="40" rx="14" fill="#FFE8D6" stroke="#3d6b9a" stroke-width="3" filter="url(#soft)"/>
+<text x="180" y="174" text-anchor="middle" font-size="18" font-weight="800" fill="#3d6b9a" font-family="system-ui,sans-serif">1000＝一千</text>
+</svg></div>
+
+<p>雾从山谷里漫出来，小路只剩两条脚印。小美拽住急性子男孩<b class="who">阿冲</b>：「别乱跑！前面有灯。」</p>
+<p>石阶旁站着一位戴斗笠的老人——<b>石阶守夜人</b>。他把十盏石灯一盏盏摸过：「二年级学过：<b>10 个一百是一千</b>。今天出谷，要用两个『一千』——<b>1000 米＝1 千米</b>，还有 <b>1000 克＝1 千克</b>。」</p>
+
+<div class="play">
+<div class="qp">点石灯：凑满 10 个「一百」，看看会变成什么</div>
+<div class="blocks" id="hundredBlocks"></div>
+<p style="text-align:center;font-weight:800"><span id="hSum">已点亮：0 个一百＝0</span></p>
+<button type="button" class="btn ghost sm" id="hReset">全部熄灭</button>
+<p class="note" id="hNote">每点一盏亮一格「一百」。凑满十格，就是一千。</p>
+</div>
+
+<p>阿冲拍脑袋：「一千米叫 1 千米，一千克叫 1 千克！」守夜人笑：「对了一半。谷里还有『几个十』——那是黄阶的事。跟我走。」</p>
+
+<h2 class="chap">第一章　雾里出现双色石阶</h2>
+<div class="scene"><svg viewBox="0 0 360 260" aria-label="雾谷双色石阶">
+<defs>
+  <linearGradient id="valley" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A8BDD4"/><stop offset="0.5" stop-color="#D4E0EC"/><stop offset="1" stop-color="#C5D4A8"/></linearGradient>
+</defs>
+<rect width="360" height="260" rx="18" fill="url(#valley)"/>
+<ellipse cx="50" cy="40" rx="55" ry="16" fill="#fff" opacity=".5"/>
+<ellipse cx="160" cy="30" rx="70" ry="18" fill="#fff" opacity=".4"/>
+<ellipse cx="290" cy="45" rx="50" ry="14" fill="#fff" opacity=".45"/>
+<!-- yellow steps left -->
+<g filter="url(#soft)">
+  <rect x="30" y="200" width="100" height="22" rx="4" fill="#FFE8A3" stroke="#C9A227" stroke-width="2"/>
+  <rect x="40" y="172" width="100" height="22" rx="4" fill="#FFD97A" stroke="#C9A227" stroke-width="2"/>
+  <rect x="50" y="144" width="100" height="22" rx="4" fill="#F4C430" stroke="#C9A227" stroke-width="2"/>
+  <rect x="60" y="116" width="100" height="22" rx="4" fill="#E9B820" stroke="#A88810" stroke-width="2"/>
+  <text x="100" y="108" text-anchor="middle" font-size="12" font-weight="800" fill="#9a6b10" font-family="system-ui,sans-serif">黄阶·几个十</text>
+</g>
+<!-- pink steps right -->
+<g filter="url(#soft)">
+  <rect x="210" y="200" width="100" height="22" rx="4" fill="#FFD0E0" stroke="#D65A8A" stroke-width="2"/>
+  <rect x="220" y="160" width="100" height="22" rx="4" fill="#FFB3CC" stroke="#D65A8A" stroke-width="2"/>
+  <rect x="230" y="120" width="100" height="22" rx="4" fill="#F48FB1" stroke="#A03D62" stroke-width="2"/>
+  <text x="280" y="108" text-anchor="middle" font-size="12" font-weight="800" fill="#a03d62" font-family="system-ui,sans-serif">粉阶·几个一千</text>
+</g>
+<!-- fog lamps -->
+<circle cx="100" cy="90" r="10" fill="#FFE8A3" opacity=".7"/><circle cx="100" cy="90" r="5" fill="#FFF"/>
+<circle cx="280" cy="90" r="10" fill="#FFD0E0" opacity=".7"/><circle cx="280" cy="90" r="5" fill="#FFF"/>
+<!-- characters -->
+<g filter="url(#soft)">
+  <ellipse cx="155" cy="235" rx="10" ry="3" fill="#3a4a5c" opacity=".25"/>
+  <circle cx="155" cy="200" r="11" fill="#FFE0BD"/>
+  <path d="M144 198 Q155 186 166 198 Q161 192 155 190 Q149 192 144 198Z" fill="#5C4033"/>
+  <circle cx="151" cy="200" r="1.3" fill="#333"/><circle cx="159" cy="200" r="1.3" fill="#333"/>
+  <path d="M151 205 Q155 208 159 205" fill="none" stroke="#E07A5F" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M144 214 Q155 208 166 214 L162 230 Q155 234 148 230Z" fill="#E8453C"/>
+</g>
+<g filter="url(#soft)">
+  <ellipse cx="195" cy="235" rx="10" ry="3" fill="#3a4a5c" opacity=".25"/>
+  <circle cx="195" cy="200" r="11" fill="#FFE0BD"/>
+  <path d="M184 196 Q195 184 206 196 Q201 190 195 188 Q189 190 184 196Z" fill="#3D2914"/>
+  <circle cx="191" cy="200" r="1.3" fill="#333"/><circle cx="199" cy="200" r="1.3" fill="#333"/>
+  <path d="M191 205 Q195 207 199 205" fill="none" stroke="#E07A5F" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M184 214 Q195 208 206 214 L202 230 Q195 234 188 230Z" fill="#1D6FA5"/>
+</g>
+<!-- keeper -->
+<g filter="url(#soft)">
+  <ellipse cx="180" cy="80" rx="14" ry="4" fill="#3a4a5c" opacity=".2"/>
+  <ellipse cx="180" cy="48" rx="16" ry="6" fill="#8B7355"/>
+  <circle cx="180" cy="58" r="12" fill="#F2C79B"/>
+  <path d="M168 56 Q180 46 192 56 Q180 50 168 56Z" fill="#D6D6D6"/>
+  <circle cx="176" cy="58" r="1.2" fill="#333"/><circle cx="184" cy="58" r="1.2" fill="#333"/>
+  <path d="M176 63 Q180 66 184 63" fill="none" stroke="#555" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M168 72 Q180 68 192 72 L188 95 Q180 100 172 95Z" fill="#6B5B95"/>
+  <text x="180" y="28" text-anchor="middle" font-size="11" font-weight="700" fill="#3d6b9a" font-family="system-ui,sans-serif">石阶守夜人</text>
+</g>
+</svg></div>
+
+<p>谷里并排两道石阶：左边发黄，右边发粉。守夜人敲敲石壁：「<b>踩对进率，雾灯才亮，路才会开。</b>」</p>
+<ul>
+<li><b style="color:#9a6b10">黄阶「几个十」</b>——量绳、旗杆、尺子一类的<b>长度</b></li>
+<li><b style="color:#a03d62">粉阶「几个一千」</b>——驮篓、石块一类的<b>质量</b></li>
+</ul>
+<p>阿冲往粉阶冲：「进率不都是 10 吗？」脚刚沾粉石，雾灯灭了一半。守夜人喊：「粉阶不是『十』！先选对颜色。」</p>
+
+<div class="play">
+<div class="qp">点一阶，听听它管什么（可再点，不记分）</div>
+<div class="pick-row">
+<button type="button" class="pick y" id="pkY">黄阶<br>几个十</button>
+<button type="button" class="pick p" id="pkP">粉阶<br>几个一千</button>
+</div>
+<p class="note" id="pkNote">先点一阶，看它管长度还是质量。</p>
+</div>
+
+<h2 class="chap">第二章　黄阶：量绳上的「几个十」</h2>
+<div class="scene"><svg viewBox="0 0 360 240" aria-label="黄阶量绳旗杆">
+<rect width="360" height="240" rx="18" fill="#FFFBF0"/>
+<!-- rope measure -->
+<g filter="url(#soft)">
+  <rect x="40" y="160" width="200" height="14" rx="4" fill="#E9C46a"/>
+  <line x1="40" y1="160" x2="40" y2="180" stroke="#C9A227" stroke-width="2"/>
+  <line x1="90" y1="160" x2="90" y2="176" stroke="#C9A227" stroke-width="1.5"/>
+  <line x1="140" y1="160" x2="140" y2="176" stroke="#C9A227" stroke-width="1.5"/>
+  <line x1="190" y1="160" x2="190" y2="176" stroke="#C9A227" stroke-width="1.5"/>
+  <line x1="240" y1="160" x2="240" y2="180" stroke="#C9A227" stroke-width="2"/>
+  <text x="65" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="#9a6b10" font-family="system-ui,sans-serif">1 dm</text>
+  <text x="115" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="#9a6b10" font-family="system-ui,sans-serif">1 dm</text>
+  <text x="165" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="#9a6b10" font-family="system-ui,sans-serif">1 dm</text>
+  <text x="215" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="#9a6b10" font-family="system-ui,sans-serif">…</text>
+</g>
+<!-- flagpole -->
+<g filter="url(#soft)">
+  <rect x="280" y="40" width="8" height="150" rx="2" fill="#8B7355"/>
+  <path d="M288 48 L340 70 L288 92Z" fill="#E8453C"/>
+  <text x="300" y="210" text-anchor="middle" font-size="11" font-weight="700" fill="#3d6b9a" font-family="system-ui,sans-serif">旗杆</text>
+</g>
+<!-- ladder labels -->
+<g filter="url(#soft)">
+  <rect x="30" y="40" width="56" height="22" rx="6" fill="#FFE8A3" stroke="#C9A227" stroke-width="1.5"/>
+  <text x="58" y="55" text-anchor="middle" font-size="11" font-weight="800" fill="#9a6b10" font-family="system-ui,sans-serif">毫米</text>
+  <rect x="95" y="40" width="56" height="22" rx="6" fill="#FFD4A8" stroke="#C9A227" stroke-width="1.5"/>
+  <text x="123" y="55" text-anchor="middle" font-size="11" font-weight="800" fill="#9a6b10" font-family="system-ui,sans-serif">厘米</text>
+  <rect x="160" y="40" width="56" height="22" rx="6" fill="#C8F0D4" stroke="#2FA36B" stroke-width="1.5"/>
+  <text x="188" y="55" text-anchor="middle" font-size="11" font-weight="800" fill="#1F7A4D" font-family="system-ui,sans-serif">分米</text>
+  <rect x="30" y="72" width="56" height="22" rx="6" fill="#C8E4FF" stroke="#1D6FA5" stroke-width="1.5"/>
+  <text x="58" y="87" text-anchor="middle" font-size="11" font-weight="800" fill="#1D6FA5" font-family="system-ui,sans-serif">米</text>
+</g>
+<path d="M86 51 L95 51" stroke="#c9a227" stroke-width="2"/><text x="90" y="46" text-anchor="middle" font-size="9" fill="#c9a227" font-family="system-ui,sans-serif">10</text>
+<path d="M151 51 L160 51" stroke="#c9a227" stroke-width="2"/><text x="155" y="46" text-anchor="middle" font-size="9" fill="#c9a227" font-family="system-ui,sans-serif">10</text>
+<text x="180" y="230" text-anchor="middle" font-size="12" fill="#6b6b80" font-family="system-ui,sans-serif">黄阶规矩：相邻单位，进率是 10</text>
+</svg></div>
+
+<p>第一道关是黄阶。石壁上挂着一卷量绳，旁边立着旗杆。守夜人说：「相邻单位，进率是 <b>10</b>。课本爱这样问——」</p>
+<p style="background:#fff;border-radius:12px;padding:10px 14px;border-left:5px solid #e9c46a;font-weight:700">想：1 厘米是 10 毫米，3 厘米是（　）个 10 毫米。</p>
+
+<div class="formula yellow">
+1 米＝10 分米　　1 分米＝10 厘米　　1 厘米＝10 毫米<br>
+常用：1 米＝100 厘米　　1 分米＝100 毫米　　1 米＝1000 毫米
+</div>
+
+<p><b class="who">小美：</b>米到分米，是一个「10」；分米到厘米，又是一个「10」。两个「10」连着走，1 米就等于 100 厘米——不是 10 厘米！</p>
+<p>阿冲：「那毫米呢？」小美指着石阶：「再往下一级，又是一个「10」。三级连着：米→分米→厘米→毫米，1 米＝1000 毫米。」</p>
+
+<div class="play">
+<div class="qp">点「往上踩 / 往下踩」，看黄阶怎么走</div>
+<div class="ladder" id="ladder"></div>
+<button type="button" class="btn yellow" id="ladUp">往上踩（变大单位）</button>
+<button type="button" class="btn ghost" id="ladDown">往下踩（变小单位）</button>
+<button type="button" class="btn ghost sm" id="ladReset">回到起点</button>
+<p class="note" id="ladNote"></p>
+</div>
+
+<div class="play">
+<div class="qp">3 厘米有几个「10 毫米」？点亮毫米小格（每 10 格收成 1 厘米）</div>
+<div class="mm" id="mmSeg"></div>
+<p style="text-align:center;font-weight:800"><span id="mmSum">已点亮：0 毫米</span></p>
+<button type="button" class="btn ghost sm" id="mmReset">全部熄灭</button>
+<p class="note" id="mmNote">想：1 厘米＝10 毫米。3 厘米＝3 个 10 毫米。</p>
+</div>
+
+<div class="stop">
+<div class="stop-h">✋ 停一停，想一想 ①</div>
+<div class="focus">练的是：长度相邻进率 10 · 几个 10</div>
+<div class="ask">为什么 1 米＝100 厘米，不是 10 厘米？3 厘米等于几个 10 毫米？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul>
+<li>米和厘米中间还隔着分米：先 1 米＝10 分米，再 1 分米＝10 厘米。</li>
+<li>十个十是一百——所以 1 米＝100 厘米（用「数段」想，不必急着乘）。</li>
+<li>课本：想——1 厘米是 10 毫米，3 厘米是 3 个 10 毫米＝30 毫米。</li>
+</ul></div></details>
+<details class="ans"><summary>点我看思路</summary><div><ul>
+<li>相邻进率 10；跨一级（米↔厘米）是 100；跨两级（米↔毫米）是 1000。</li>
+<li>3 厘米＝<b>3 个 10 毫米</b>＝30 毫米。</li>
+</ul><p class="check">黄阶雾灯亮了一半，量绳路开了。</p></div></details>
+</div>
+
+<h2 class="chap">第三章　黄阶尽头：一千米的雾灯</h2>
+<div class="scene"><svg viewBox="0 0 360 220" aria-label="操场五圈凑成千米">
+<defs>
+  <linearGradient id="trackBg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D4E8D0"/><stop offset="1" stop-color="#F5F0E0"/></linearGradient>
+</defs>
+<rect width="360" height="220" rx="18" fill="url(#trackBg)"/>
+<ellipse cx="180" cy="110" rx="130" ry="70" fill="none" stroke="#E07A5F" stroke-width="14" opacity=".35"/>
+<ellipse cx="180" cy="110" rx="130" ry="70" fill="none" stroke="#C45C26" stroke-width="3" stroke-dasharray="18 12"/>
+<text x="180" y="40" text-anchor="middle" font-size="13" font-weight="800" fill="#3d6b9a" font-family="system-ui,sans-serif">操场一圈约 200 米</text>
+<text x="180" y="115" text-anchor="middle" font-size="16" font-weight="800" fill="#C45C26" font-family="system-ui,sans-serif">5 圈 ≈ 1 千米</text>
+<text x="180" y="200" text-anchor="middle" font-size="12" fill="#6b6b80" font-family="system-ui,sans-serif">1 千米＝1000 米（公里同千米）</text>
+</svg></div>
+
+<p>黄阶尽头竖着一块石碑：「1 千米＝1000 米」。守夜人说：「公里就是千米。想——」</p>
+<p style="background:#fff;border-radius:12px;padding:10px 14px;border-left:5px solid #e9c46a;font-weight:700">想：1 千米是 1000 米，3 千米是（　）个 1000 米。</p>
+<p>阿冲又要抢：「那不就是十个一百米吗？」小美点头：「对！开头十盏石灯——10 个一百＝一千。一千米，就叫 1 千米。」</p>
+
+<div class="formula yellow">1 千米＝1000 米（公里同千米）<br>操场一圈约 200 米；5 圈约 1 千米</div>
+
+<div class="play">
+<div class="qp">操场一圈约 200 米：点亮几圈，凑成 1 千米？</div>
+<div class="seg" id="kmSeg"></div>
+<p style="text-align:center;font-weight:800"><span id="kmSum">已点亮：0 圈＝0 米</span></p>
+<button type="button" class="btn ghost sm" id="kmReset">全部熄灭</button>
+<p class="note" id="kmNote">老师公式：操场一圈约 200 米，5 圈＝1 千米。用连加：200＋200＋200＋200＋200＝1000。</p>
+</div>
+
+<div class="stop">
+<div class="stop-h">✋ 停一停，想一想 ②</div>
+<div class="focus">练的是：千米＝1000 米 · 几个 1000</div>
+<div class="ask">3 千米等于几个 1000 米？5 圈操场大约多少米？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul>
+<li>想：1 千米是 1000 米，3 千米是 3 个 1000 米。</li>
+<li>一圈 200 米，五圈：200＋200＋200＋200＋200＝1000 米＝1 千米。</li>
+</ul></div></details>
+<details class="ans"><summary>点我看思路</summary><div><ul>
+<li>3 千米＝<b>3 个 1000 米</b>＝3000 米。</li>
+<li>5 圈≈<b>1000 米</b>＝1 千米。</li>
+</ul><p class="check">黄阶雾灯全亮！长度路通了。</p></div></details>
+</div>
+
+<h2 class="chap">第四章　粉阶：驮篓里的「几个一千」</h2>
+<div class="scene"><svg viewBox="0 0 360 230" aria-label="粉阶驮篓石块">
+<rect width="360" height="230" rx="18" fill="#FFF5F8"/>
+<!-- baskets -->
+<g filter="url(#soft)">
+  <ellipse cx="90" cy="160" rx="40" ry="18" fill="#C9A86A"/>
+  <path d="M50 160 Q50 120 90 110 Q130 120 130 160" fill="#E8D4A8" stroke="#8B7355" stroke-width="2"/>
+  <rect x="70" y="125" width="40" height="28" rx="4" fill="#D65A8A" opacity=".7"/>
+  <text x="90" y="144" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">石块</text>
+  <text x="90" y="190" text-anchor="middle" font-size="12" font-weight="700" fill="#a03d62" font-family="system-ui,sans-serif">驮篓</text>
+</g>
+<!-- mass ladder -->
+<g filter="url(#soft)">
+  <rect x="180" y="150" width="70" height="32" rx="8" fill="#FFE8A3" stroke="#C45C26" stroke-width="2"/>
+  <text x="215" y="171" text-anchor="middle" font-size="14" font-weight="800" fill="#C45C26" font-family="system-ui,sans-serif">克 g</text>
+  <rect x="220" y="95" width="70" height="32" rx="8" fill="#C8F0D4" stroke="#2FA36B" stroke-width="2"/>
+  <text x="255" y="116" text-anchor="middle" font-size="13" font-weight="800" fill="#1F7A4D" font-family="system-ui,sans-serif">千克 kg</text>
+  <rect x="260" y="40" width="70" height="32" rx="8" fill="#C8E4FF" stroke="#1D6FA5" stroke-width="2"/>
+  <text x="295" y="61" text-anchor="middle" font-size="14" font-weight="800" fill="#1D6FA5" font-family="system-ui,sans-serif">吨 t</text>
+</g>
+<text x="200" y="145" font-size="12" font-weight="800" fill="#d65a8a" font-family="system-ui,sans-serif">×1000</text>
+<text x="240" y="90" font-size="12" font-weight="800" fill="#d65a8a" font-family="system-ui,sans-serif">×1000</text>
+<text x="180" y="220" text-anchor="middle" font-size="12" font-weight="700" fill="#a03d62" font-family="system-ui,sans-serif">粉阶口诀：相邻单位，进率 1000</text>
+</svg></div>
+
+<p>粉阶旁摆着两只驮篓，篓里塞满石块。守夜人说：「克、千克、吨，相邻进率是 <b>1000</b>。想——几里面有几个 1000？」</p>
+
+<div class="formula pink">
+1 吨＝1000 千克　　1 千克＝1000 克<br>
+记住：1 千克＝1 公斤
+</div>
+
+<p>阿冲嘀咕：「公斤？又多一个名字。」守夜人：「公斤就是千克的另一个叫法，数字一样。买菜常说『几公斤』，其实就是几千克。」</p>
+<p><b class="who">小美：</b>2 千克，就是 2 个 1000 克；3 吨，就是 3 个 1000 千克。</p>
+
+<div class="play">
+<div class="qp">点「往上踩 / 往下踩」，看粉阶「一千」怎么走</div>
+<div class="ladder" id="massLadder"></div>
+<button type="button" class="btn pink" id="mUp">往上踩（变大单位）</button>
+<button type="button" class="btn ghost" id="mDown">往下踩（变小单位）</button>
+<button type="button" class="btn ghost sm" id="mReset">回到起点</button>
+<p class="note" id="mNote"></p>
+</div>
+
+<div class="stop">
+<div class="stop-h">✋ 停一停，想一想 ③</div>
+<div class="focus">练的是：质量进率 1000 · 千克＝公斤</div>
+<div class="ask">2 千克＝（　）克？3 吨＝（　）千克？「2 公斤」和「2 千克」一样吗？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul>
+<li>1 千克＝1000 克，所以 2 千克＝2 个 1000 克。</li>
+<li>1 吨＝1000 千克，3 吨＝3 个 1000 千克。</li>
+<li>公斤＝千克，只是叫法不同。</li>
+</ul></div></details>
+<details class="ans"><summary>点我看思路</summary><div><ul>
+<li>2 千克＝<b>2000 克</b>；3 吨＝<b>3000 千克</b>。</li>
+<li>2 公斤＝2 千克，一样重。</li>
+</ul><p class="check">粉阶雾灯亮了！双色石阶都通了。</p></div></details>
+</div>
+
+<h2 class="chap">第五章　谷口夜市：绿灯笼「斤两」</h2>
+<div class="scene"><svg viewBox="0 0 360 240" aria-label="谷口夜市绿灯笼">
+<defs>
+  <linearGradient id="night" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2C3E50"/><stop offset="0.55" stop-color="#3D5A4C"/><stop offset="1" stop-color="#1A2A1A"/></linearGradient>
+</defs>
+<rect width="360" height="240" rx="18" fill="url(#night)"/>
+<!-- stars -->
+<circle cx="40" cy="30" r="1.5" fill="#FFE8A3"/><circle cx="90" cy="22" r="1" fill="#FFE8A3"/>
+<circle cx="200" cy="28" r="1.5" fill="#FFE8A3"/><circle cx="300" cy="35" r="1" fill="#FFE8A3"/>
+<circle cx="330" cy="20" r="1.5" fill="#FFE8A3"/>
+<!-- green lanterns -->
+<g filter="url(#soft)">
+  <ellipse cx="70" cy="70" rx="22" ry="28" fill="#2FA36B"/>
+  <ellipse cx="70" cy="70" rx="14" ry="18" fill="#5FCF8A" opacity=".5"/>
+  <rect x="64" y="42" width="12" height="8" rx="2" fill="#8B7355"/>
+  <line x1="70" y1="98" x2="70" y2="112" stroke="#E9C46A" stroke-width="2"/>
+  <text x="70" y="76" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">斤</text>
+</g>
+<g filter="url(#soft)">
+  <ellipse cx="140" cy="80" rx="22" ry="28" fill="#2FA36B"/>
+  <ellipse cx="140" cy="80" rx="14" ry="18" fill="#5FCF8A" opacity=".5"/>
+  <rect x="134" y="52" width="12" height="8" rx="2" fill="#8B7355"/>
+  <line x1="140" y1="108" x2="140" y2="122" stroke="#E9C46A" stroke-width="2"/>
+  <text x="140" y="86" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">两</text>
+</g>
+<g filter="url(#soft)">
+  <ellipse cx="210" cy="70" rx="26" ry="30" fill="#1E7A4D"/>
+  <ellipse cx="210" cy="70" rx="16" ry="20" fill="#5FCF8A" opacity=".45"/>
+  <rect x="202" y="40" width="16" height="8" rx="2" fill="#8B7355"/>
+  <line x1="210" y1="100" x2="210" y2="114" stroke="#E9C46A" stroke-width="2"/>
+  <text x="210" y="76" text-anchor="middle" font-size="12" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">公斤</text>
+</g>
+<!-- stall -->
+<g filter="url(#soft)">
+  <rect x="40" y="150" width="160" height="55" rx="6" fill="#E76F51"/>
+  <path d="M30 150 L120 120 L210 150Z" fill="#F4A261"/>
+  <ellipse cx="80" cy="170" rx="12" ry="9" fill="#2FA36B"/>
+  <ellipse cx="115" cy="168" rx="11" ry="8" fill="#E9C46A"/>
+  <ellipse cx="148" cy="172" rx="10" ry="7" fill="#E07A5F"/>
+  <text x="120" y="220" text-anchor="middle" font-size="12" font-weight="700" fill="#E8F5E9" font-family="system-ui,sans-serif">灯笼阿婆的早点摊</text>
+</g>
+<!-- granny -->
+<g filter="url(#soft)">
+  <circle cx="280" cy="155" r="14" fill="#FFE3C4"/>
+  <path d="M266 152 Q280 138 294 152 Q280 144 266 152Z" fill="#D6D6D6"/>
+  <circle cx="275" cy="155" r="1.4" fill="#333"/><circle cx="285" cy="155" r="1.4" fill="#333"/>
+  <path d="M275 161 Q280 164 285 161" fill="none" stroke="#555" stroke-width="1.3" stroke-linecap="round"/>
+  <path d="M266 172 Q280 166 294 172 L290 205 Q280 212 270 205Z" fill="#2FA36B"/>
+  <text x="280" y="230" text-anchor="middle" font-size="11" font-weight="700" fill="#A8E6C0" font-family="system-ui,sans-serif">灯笼阿婆</text>
+</g>
+</svg></div>
+
+<p>雾散了。谷口亮起一串绿灯笼，香气飘过来——是<b>灯笼阿婆</b>的早点摊。阿冲肚子咕咕叫：「我要买两公斤包子！」</p>
+<p>灯笼阿婆笑：「谷外买菜，不说『克』『千克』，常说『斤』『两』『公斤』。绿灯笼管的，是把粉阶的『千克／克』翻译成买菜话。」</p>
+
+<div class="formula green">
+1 公斤＝2 斤　　1 斤＝500 克<br>
+1 斤＝10 两　　1 两＝50 克
+</div>
+
+<p>阿冲掰手指：「1 公斤＝1000 克，拆成 2 斤，每斤不就是 500 克？1 斤再拆成 10 两，一两就是 50 克！」</p>
+<p><b class="who">小美：</b>对！绿灯笼不是新规矩，是把粉阶翻译成夜市话。</p>
+
+<div class="play">
+<div class="qp">点「下一步」，看 1 公斤怎么拆成斤和两</div>
+<div id="lifeSteps" style="min-height:4.5em;font-size:1.05em;font-weight:700;text-align:center;padding:8px 0"></div>
+<button type="button" class="btn green" id="lifeNext">下一步</button>
+<button type="button" class="btn ghost sm" id="lifeReset">再看一遍</button>
+<p class="note" id="lifeNote"></p>
+</div>
+
+<div class="stop">
+<div class="stop-h">✋ 停一停，想一想 ④</div>
+<div class="focus">练的是：生活换算 · 公斤斤两克</div>
+<div class="ask">3 公斤＝（　）斤？2 斤＝（　）克？半斤＝（　）两＝（　）克？</div>
+<details class="tip"><summary>家长：怎么追问</summary><div><ul>
+<li>1 公斤＝2 斤，所以 3 公斤＝6 斤。</li>
+<li>1 斤＝500 克，2 斤＝1000 克（正好 1 千克）。</li>
+<li>1 斤＝10 两，半斤＝5 两；每两 50 克，5 两＝250 克。</li>
+</ul></div></details>
+<details class="ans"><summary>点我看思路</summary><div><ul>
+<li>3 公斤＝<b>6 斤</b>；2 斤＝<b>1000 克</b>。</li>
+<li>半斤＝<b>5 两</b>＝<b>250 克</b>。</li>
+</ul><p class="check">绿灯笼亮堂堂。包子到手，回家路上不饿了。</p></div></details>
+</div>
+
+<h2 class="chap">结尾　口袋口诀</h2>
+<p>灯笼阿婆把一张软纸塞进小美口袋：「以后背公式，别死记一串字。先想：这是黄阶、粉阶，还是绿灯笼？」</p>
+
+<div class="formula yellow"><b>黄阶·长度</b><br>1 米＝10 分米；1 分米＝10 厘米；1 厘米＝10 毫米<br>1 米＝100 厘米；1 分米＝100 毫米；1 米＝1000 毫米<br>1 千米＝1000 米（公里同千米）· 操场一圈约 200 米，5 圈约 1 千米</div>
+<div class="formula pink"><b>粉阶·质量</b><br>1 吨＝1000 千克；1 千克＝1000 克；1 千克＝1 公斤</div>
+<div class="formula green"><b>绿灯笼·生活</b><br>1 公斤＝2 斤；1 斤＝500 克；1 斤＝10 两；1 两＝50 克</div>
+
+<p>阿冲把包子咬了一大口：「原来进率不是都是 10……黄阶几个十，粉阶几个一千，绿灯笼是买菜话。」小美把口袋要点念了一遍——正是老师发的那张「必背公式」。</p>
+
+<div class="memo">
+<h2>📌 小美的双色石阶口袋</h2>
+<ul>
+<li><b>黄阶（长度）</b>：相邻进率 <b>10</b>——1 米＝10 分米，1 分米＝10 厘米，1 厘米＝10 毫米；常用 1 米＝100 厘米，1 分米＝100 毫米，1 米＝1000 毫米；长距离 1 千米＝1000 米。想：几个 10？几个 1000？</li>
+<li><b>粉阶（质量）</b>：相邻进率 <b>1000</b>——1 吨＝1000 千克，1 千克＝1000 克；1 千克＝1 公斤。</li>
+<li><b>绿灯笼（生活）</b>：1 公斤＝2 斤，1 斤＝500 克，1 斤＝10 两，1 两＝50 克。</li>
+<li>先分清：量的是「长短」还是「轻重」？再选黄阶还是粉阶；买菜再说绿灯笼。</li>
+</ul>
+</div>
+
+<p style="text-align:center;font-weight:800">还想再练？可以去下面这些页（本篇不另开闯关）：</p>
+<a class="go alt" href="../lianglu/">里桥驿的量路旗（长度故事）→</a>
+<a class="go pink" href="../chengqiao/">秤桥镇的三枚身份牌（质量故事）→</a>
+<a class="go" href="../changdu-zhuanti/">长度换算专题练一练 →</a>
+<a class="go alt" href="../chengqiao-lianxi/">秤桥镇配套练习 →</a>
+<a class="go gold" href="../jinlv/">进率邮局的三色邮票（另一场景对照）→</a>
+
+<p class="foot">本页为理解用故事，不记分、不卡关。公式对照 2026 秋新三年级上册「重点必背公式汇总」。主角小美；页面不出现学生真名。场景：雾谷双色石阶＋谷口夜市，不同于进率邮局。</p>
+</div>
+
+<script>
+(function(){
+  // 一百石灯
+  var hOn={}, hBox=document.getElementById('hundredBlocks');
+  function drawH(){
+    var s='',n=0;
+    for(var i=0;i<10;i++){
+      var on=!!hOn[i]; if(on)n++;
+      s+='<div class="blk'+(on?' on':'')+'" data-i="'+i+'">100</div>';
+    }
+    hBox.innerHTML=s;
+    hBox.querySelectorAll('.blk').forEach(function(b){
+      b.onclick=function(){hOn[b.dataset.i]=!hOn[b.dataset.i];drawH();};
+    });
+    document.getElementById('hSum').textContent='已点亮：'+n+' 个一百＝'+(n*100)+(n===10?' → 一千！':'');
+    document.getElementById('hNote').textContent=n===10?'10 个一百＝1000＝一千。记住：1000 米＝1 千米，1000 克＝1 千克。':('再点 '+(10-n)+' 盏。');
+  }
+  drawH();
+  document.getElementById('hReset').onclick=function(){hOn={};drawH();};
+
+  // 双色石阶介绍
+  var tips={
+    pkY:'黄阶管长度：量绳、旗杆、尺子。相邻单位进率 10（毫米↔厘米↔分米↔米）；米到千米是 1000。',
+    pkP:'粉阶管质量：驮篓、石块。克↔千克↔吨，相邻进率 1000；千克又叫公斤。'
+  };
+  ['pkY','pkP'].forEach(function(id){
+    document.getElementById(id).onclick=function(){
+      document.querySelectorAll('.pick').forEach(function(el){el.classList.remove('on');});
+      this.classList.add('on');
+      document.getElementById('pkNote').textContent=tips[id];
+    };
+  });
+
+  // 长度阶梯
+  var LAD=[
+    {label:'30 毫米',tip:'起点：30 毫米——像量绳上很短的一段',cls:'y'},
+    {label:'3 厘米',tip:'往上：每 10 毫米收成 1 厘米 → 3 厘米（想：30 里面有 3 个 10）',cls:'y'},
+    {label:'若有 30 厘米 → 3 分米',tip:'再往上：每 10 厘米收成 1 分米',cls:'y'},
+    {label:'若有 30 分米 → 3 米',tip:'再往上：每 10 分米收成 1 米；别忘了 1 米＝100 厘米＝1000 毫米',cls:'hi'},
+    {label:'若有 3000 米 → 3 千米',tip:'米到千米进率 1000：想几个 1000（3 个 1000 米＝3 千米）',cls:'hi'}
+  ];
+  var li=0;
+  function drawLad(){
+    var el=document.getElementById('ladder');
+    el.innerHTML=LAD.map(function(r,i){
+      var c='rung'+(i===li?' '+(r.cls||'hi'):'');
+      return '<div class="'+c+'">'+(i===li?'👉 ':'')+r.label+'</div>';
+    }).join('');
+    document.getElementById('ladNote').textContent=LAD[li].tip;
+  }
+  drawLad();
+  document.getElementById('ladUp').onclick=function(){if(li<LAD.length-1){li++;drawLad();}};
+  document.getElementById('ladDown').onclick=function(){if(li>0){li--;drawLad();}};
+  document.getElementById('ladReset').onclick=function(){li=0;drawLad();};
+
+  // 3厘米＝30毫米 小格
+  var mmOn={}, mmBox=document.getElementById('mmSeg');
+  function drawMm(){
+    var s='',n=0;
+    for(var i=0;i<30;i++){
+      var on=!!mmOn[i]; if(on)n++;
+      s+='<i class="'+(on?'on':'')+'" data-i="'+i+'"></i>';
+    }
+    mmBox.innerHTML=s;
+    mmBox.querySelectorAll('i').forEach(function(b){
+      b.onclick=function(){mmOn[b.dataset.i]=!mmOn[b.dataset.i];drawMm();};
+    });
+    var cm=Math.floor(n/10);
+    var extra=n%10;
+    document.getElementById('mmSum').textContent='已点亮：'+n+' 毫米'+(cm?(' ＝ '+cm+' 厘米'+(extra?' 还多 '+extra+' 毫米':'')):'');
+    document.getElementById('mmNote').textContent=n===30?'3 个 10 毫米＝30 毫米＝3 厘米。课本那句「想」对上了！':(n>=10?('已经收成 '+cm+' 厘米，再点可以凑满 3 厘米。'):'每 10 格收成 1 厘米。想：3 厘米是几个 10 毫米？');
+  }
+  drawMm();
+  document.getElementById('mmReset').onclick=function(){mmOn={};drawMm();};
+
+  // 操场 5 圈
+  var kmOn={}, kmBox=document.getElementById('kmSeg');
+  function drawKm(){
+    var s='',n=0;
+    for(var i=0;i<5;i++){
+      var on=!!kmOn[i]; if(on)n++;
+      s+='<i class="'+(on?'on':'')+'" data-i="'+i+'">圈'+(i+1)+'</i>';
+    }
+    kmBox.innerHTML=s;
+    kmBox.querySelectorAll('i').forEach(function(b){
+      b.onclick=function(){kmOn[b.dataset.i]=!kmOn[b.dataset.i];drawKm();};
+    });
+    var m=n*200;
+    var add='';
+    if(n>0){add='（';for(var k=0;k<n;k++){add+=(k?'＋':'')+'200';}add+='）';}
+    document.getElementById('kmSum').textContent='已点亮：'+n+' 圈＝'+m+' 米'+add+(n===5?' → 1 千米！':'');
+    document.getElementById('kmNote').textContent=n===5?'连加五次 200，凑成 1000 米＝1 千米。黄阶长距离公式对上了！':('再点 '+(5-n)+' 圈。');
+  }
+  drawKm();
+  document.getElementById('kmReset').onclick=function(){kmOn={};drawKm();};
+
+  // 质量阶梯
+  var MASS=[
+    {label:'3000 克',tip:'起点：3000 克——驮篓里许多小石块',cls:'p'},
+    {label:'3 千克（＝3 公斤）',tip:'往上：每 1000 克收成 1 千克 → 3 千克。千克＝公斤。',cls:'mid'},
+    {label:'若有 3000 千克 → 3 吨',tip:'再往上：每 1000 千克收成 1 吨（想：几个 1000）',cls:'hi'}
+  ];
+  var mi=0;
+  function drawMass(){
+    var el=document.getElementById('massLadder');
+    el.innerHTML=MASS.map(function(r,i){
+      var c='rung'+(i===mi?' '+(r.cls||'hi'):'');
+      return '<div class="'+c+'">'+(i===mi?'👉 ':'')+r.label+'</div>';
+    }).join('');
+    document.getElementById('mNote').textContent=MASS[mi].tip;
+  }
+  drawMass();
+  document.getElementById('mUp').onclick=function(){if(mi<MASS.length-1){mi++;drawMass();}};
+  document.getElementById('mDown').onclick=function(){if(mi>0){mi--;drawMass();}};
+  document.getElementById('mReset').onclick=function(){mi=0;drawMass();};
+
+  // 生活换算步骤
+  var LIFE=[
+    {html:'1 公斤＝1 千克＝<span class="chip">1000</span> 克',note:'先用粉阶：公斤就是千克。'},
+    {html:'1 公斤＝2 斤　→　每斤 <span class="chip">500</span> 克',note:'1000 克拆成两份，每份 500 克。绿灯笼第一句。'},
+    {html:'1 斤＝10 两　→　每两 <span class="chip">50</span> 克',note:'500 克再拆成十份，每份 50 克。绿灯笼后两句。'},
+    {html:'所以：1 公斤＝2 斤＝20 两＝1000 克',note:'买早点、称重，都可以互相翻译。'}
+  ];
+  var fi=0;
+  function drawLife(){
+    document.getElementById('lifeSteps').innerHTML=LIFE[fi].html;
+    document.getElementById('lifeNote').textContent=LIFE[fi].note;
+    document.getElementById('lifeNext').disabled=fi>=LIFE.length-1;
+  }
+  drawLife();
+  document.getElementById('lifeNext').onclick=function(){if(fi<LIFE.length-1){fi++;drawLife();}};
+  document.getElementById('lifeReset').onclick=function(){fi=0;drawLife();};
+})();
+window.addEventListener('beforeprint',function(){document.querySelectorAll('details').forEach(function(d){d.open=true;});});
+</script>
+<script src="../common/nav.js"></script>
+<script>SiteNav.mount({title:'雾谷的双色石阶',dir:'../index.html'});</script>
+</body>
+</html>
