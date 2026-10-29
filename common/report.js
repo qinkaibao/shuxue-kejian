@@ -2,6 +2,7 @@
    记录写在单独的 localStorage 键 kejian-report-v1:<页面id>，不改各页原来的进度键。 */
 (function (global) {
   var PREFIX = 'kejian-report-v1:';
+  var ATTEMPTS_MAX = 500;
   var current = '';
   var opts = null;
   var styled = false;
@@ -9,7 +10,7 @@
   function sid(id) { return String(id); }
 
   function empty() {
-    return { misses: {}, firstWrong: {}, solved: {}, legacy: {}, history: [] };
+    return { misses: {}, firstWrong: {}, solved: {}, legacy: {}, history: [], attempts: [] };
   }
 
   function storageKey() { return PREFIX + current; }
@@ -27,6 +28,7 @@
       if (o.solved && typeof o.solved === 'object') data.solved = o.solved;
       if (o.legacy && typeof o.legacy === 'object') data.legacy = o.legacy;
       if (Array.isArray(o.history)) data.history = o.history;
+      if (Array.isArray(o.attempts)) data.attempts = o.attempts;
     } catch (e) {}
     return data;
   }
@@ -43,12 +45,38 @@
     return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
   }
 
+  function fileStamp() {
+    var d = new Date();
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + '-' + pad(d.getHours()) + pad(d.getMinutes());
+  }
+
+  function safeFileName(s) {
+    return String(s == null ? '' : s).replace(/[\\/:*?"<>|\s]+/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '') || '练习';
+  }
+
   function esc(s) {
     return String(s == null ? '' : s)
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;');
+  }
+
+  function trimAnswer(answer) {
+    return String(answer == null ? '' : answer).replace(/\s+/g, ' ').slice(0, 200);
+  }
+
+  function pushAttempt(data, id, ok, answer) {
+    if (!Array.isArray(data.attempts)) data.attempts = [];
+    data.attempts.push({
+      id: id,
+      ok: !!ok,
+      answer: trimAnswer(answer),
+      at: nowText()
+    });
+    if (data.attempts.length > ATTEMPTS_MAX) {
+      data.attempts = data.attempts.slice(data.attempts.length - ATTEMPTS_MAX);
+    }
   }
 
   function statusOf(q, data) {
@@ -88,7 +116,8 @@
       none: none,
       old: old,
       when: nowText(),
-      name: (opts && opts.name) || '练习'
+      name: (opts && opts.name) || '练习',
+      pageId: current || ((opts && opts.id) ? sid(opts.id) : '')
     };
   }
 
@@ -96,6 +125,7 @@
     var lines = [];
     lines.push('成绩单');
     lines.push('页面：' + model.name);
+    lines.push('页面ID：' + (model.pageId || ''));
     lines.push('时间：' + model.when);
     lines.push('');
     for (var i = 0; i < model.rows.length; i++) {
@@ -112,6 +142,104 @@
     return lines.join('\n');
   }
 
+  function buildExportPayload(model) {
+    var data = load();
+    var questions = [];
+    for (var i = 0; i < model.rows.length; i++) {
+      var row = model.rows[i];
+      var item = {
+        id: sid(row.q.id),
+        brief: row.q.brief || '',
+        tag: row.q.tag || '',
+        status: row.st.label,
+        firstWrong: row.st.wrong || ''
+      };
+      if (row.q.category) item.category = row.q.category;
+      questions.push(item);
+    }
+    return {
+      pageId: model.pageId || '',
+      pageName: model.name || '',
+      when: model.when,
+      summary: {
+        once: model.once,
+        later: model.later,
+        none: model.none,
+        old: model.old,
+        correct: model.correct,
+        total: model.total
+      },
+      questions: questions,
+      attempts: Array.isArray(data.attempts) ? data.attempts.slice() : []
+    };
+  }
+
+  function buildExportHtml(model, text) {
+    var payload = buildExportPayload(model);
+    var rate = model.total ? Math.round(model.correct / model.total * 100) : 0;
+    var rowsHtml = '';
+    for (var i = 0; i < model.rows.length; i++) {
+      var row = model.rows[i];
+      rowsHtml += '<tr><td>' + row.no + '</td><td>' + esc(row.q.brief) + '</td><td>' + esc(row.q.tag)
+        + '</td><td>' + esc(row.st.label) + '</td><td>' + esc(row.st.wrong || '无') + '</td></tr>';
+    }
+    var jsonStr = JSON.stringify(payload).replace(/</g, '\\u003c');
+    return '<!DOCTYPE html>\n<html lang="zh-CN"><head><meta charset="UTF-8">'
+      + '<meta name="viewport" content="width=device-width,initial-scale=1">'
+      + '<title>成绩单 · ' + esc(model.name) + '</title>'
+      + '<style>'
+      + 'body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;'
+      + 'margin:0;padding:16px;color:#222;background:#fff8ef;line-height:1.5}'
+      + 'h1{font-size:24px;color:#e8590c;margin:0 0 8px}'
+      + '.meta{color:#666;font-size:15px;margin:0 0 16px}'
+      + '.meta b{color:#333}'
+      + 'table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;'
+      + 'box-shadow:0 2px 8px rgba(0,0,0,.06);font-size:15px}'
+      + 'th,td{padding:10px 8px;border-bottom:1px solid #f0e0c8;text-align:left;vertical-align:top}'
+      + 'th{background:#fff3bf;color:#7a4b00}'
+      + '.sum{margin:16px 0;padding:12px 14px;background:#fff;border-radius:12px;font-size:16px}'
+      + 'pre{white-space:pre-wrap;word-break:break-word;background:#fff;padding:12px;border-radius:12px;'
+      + 'border:1px solid #f0d9a8;font-size:14px}'
+      + '.hint{margin-top:20px;font-size:13px;color:#888}'
+      + '</style></head><body>'
+      + '<h1>成绩单 · ' + esc(model.name) + '</h1>'
+      + '<p class="meta">页面：<b>' + esc(model.name) + '</b><br>'
+      + '页面ID：<b>' + esc(model.pageId || '') + '</b><br>'
+      + '时间：' + esc(model.when) + '</p>'
+      + '<div class="sum">正确率 <b>' + rate + '%</b>（' + model.correct + '/' + model.total
+      + '） · 一次对 ' + model.once + ' · 多次后对 ' + model.later
+      + ' · 未对 ' + model.none + ' · 接入前已对 ' + model.old + '</div>'
+      + '<table><thead><tr><th>#</th><th>题目</th><th>知识点</th><th>结果</th><th>首次错答</th></tr></thead>'
+      + '<tbody>' + rowsHtml + '</tbody></table>'
+      + '<h2 style="font-size:18px;margin:20px 0 8px;color:#7a4b00">纯文本成绩单</h2>'
+      + '<pre>' + esc(text) + '</pre>'
+      + '<p class="hint">下方 JSON 供助手解析，勿删。</p>'
+      + '<script type="application/json" id="kejian-report-data">' + jsonStr + '</script>'
+      + '</body></html>';
+  }
+
+  function downloadExport(model, text) {
+    var html = buildExportHtml(model, text);
+    var fname = '成绩单_' + safeFileName(model.name) + '_' + fileStamp() + '.html';
+    try {
+      var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = fname;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () {
+        try { URL.revokeObjectURL(url); } catch (e) {}
+        try { a.remove(); } catch (e2) {}
+      }, 1500);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   function ensureStyle() {
     if (styled) return;
     styled = true;
@@ -119,11 +247,13 @@
       + '.kr{max-width:1100px;margin:0 auto;padding:8px 12px 48px;box-sizing:border-box;'
       + 'font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Source Han Sans SC",sans-serif;color:#333}'
       + '.kr *{box-sizing:border-box}'
-      + '.kr-go,.kr-copy{display:block;width:100%;max-width:420px;margin:12px auto;border:none;border-radius:20px;color:#fff;font-size:28px;font-weight:bold;padding:14px 28px;min-height:64px;cursor:pointer;touch-action:manipulation}'
+      + '.kr-go,.kr-copy,.kr-export{display:block;width:100%;max-width:420px;margin:12px auto;border:none;border-radius:20px;color:#fff;font-size:28px;font-weight:bold;padding:14px 28px;min-height:64px;cursor:pointer;touch-action:manipulation}'
       + '.kr-go{background:#fb8500;box-shadow:0 5px 0 #c96a00}'
       + '.kr-go:active{transform:translateY(3px);box-shadow:0 2px 0 #c96a00}'
       + '.kr-copy{background:#3b82f6;box-shadow:0 4px 0 #1d5fd0;font-size:24px;min-height:58px}'
       + '.kr-copy:active{transform:translateY(2px);box-shadow:0 2px 0 #1d5fd0}'
+      + '.kr-export{background:#16a34a;box-shadow:0 4px 0 #0f7a36;font-size:24px;min-height:58px}'
+      + '.kr-export:active{transform:translateY(2px);box-shadow:0 2px 0 #0f7a36}'
       + '.kr-card{background:#fff;border-radius:20px;box-shadow:0 4px 14px rgba(200,140,0,.15);padding:16px 16px 8px;margin-top:8px}'
       + '.kr-title{font-size:34px;color:#e8590c;margin:4px 0;text-align:center;line-height:1.3}'
       + '.kr-sub{text-align:center;color:#8a6d3b;font-size:20px;margin:0 0 8px}'
@@ -204,6 +334,7 @@
       + '<li>未对 ' + model.none + ' 题</li>'
       + '<li>接入前已对 ' + model.old + ' 题</li></ul></aside></div>'
       + '<p class="kr-msg" id="krMsg" role="status">' + esc(copiedMsg || '') + '</p>'
+      + '<button type="button" class="kr-export" id="krExport">导出文件</button>'
       + '<button type="button" class="kr-copy" id="krCopy">再复制一次</button>'
       + '<details class="kr-raw" id="krRaw"><summary>纯文本（复制失败时，长按下面全选）</summary>'
       + '<textarea class="kr-ta" id="krTa" readonly>' + esc(text) + '</textarea></details>'
@@ -211,6 +342,21 @@
     document.getElementById('krClose').onclick = function () { overlay.remove(); };
     overlay.onclick = function (e) { if (e.target === overlay) overlay.remove(); };
     document.getElementById('krCopy').onclick = function () { copyText(model, text); };
+    document.getElementById('krExport').onclick = function () {
+      var ok = downloadExport(model, text);
+      var msg = document.getElementById('krMsg');
+      if (msg) {
+        msg.textContent = ok
+          ? '已下载成绩单文件。若没看到下载，请再点一次「导出文件」，或长按下面纯文本复制。'
+          : '这个浏览器不好下载文件。请长按下面的纯文本，全选后复制发给家长。';
+      }
+      if (!ok) {
+        var raw = document.getElementById('krRaw');
+        if (raw) raw.open = true;
+        var ta = document.getElementById('krTa');
+        if (ta) { ta.focus(); ta.select(); }
+      }
+    };
     if (copiedMsg && copiedMsg.indexOf('长按') >= 0) {
       var raw = document.getElementById('krRaw');
       if (raw) raw.open = true;
@@ -234,13 +380,13 @@
       var msg = document.getElementById('krMsg');
       if (msg) {
         msg.textContent = ok
-          ? '已复制成绩单，可以贴到微信或备忘录。'
-          : '这个浏览器不能自动复制。请长按下面的文本，全选后复制。';
+          ? '已复制成绩单，可以贴到微信或备忘录。已尝试下载成绩单文件，也可点「导出文件」。'
+          : '这个浏览器不能自动复制。请长按下面的文本，全选后复制；也可点「导出文件」下载。';
       }
     }
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(function () {
-        render(model, text, '已复制成绩单，可以贴到微信或备忘录。');
+        render(model, text, '已复制成绩单，可以贴到微信或备忘录。已尝试下载成绩单文件，也可点「导出文件」。');
       }, fallback);
     } else fallback();
   }
@@ -299,7 +445,11 @@
     var model = summarize();
     appendHistory(model);
     var text = buildText(model);
-    render(model, text, '正在复制…');
+    var dlOk = downloadExport(model, text);
+    var tip = dlOk
+      ? '正在复制…已尝试下载成绩单文件，也可点「导出文件」。'
+      : '正在复制…若没下到文件，请点「导出文件」，或长按纯文本。';
+    render(model, text, tip);
     copyText(model, text);
     var overlay = document.getElementById('krOverlay');
     if (overlay) overlay.scrollTop = 0;
@@ -333,18 +483,20 @@
     var data = load();
     data.misses[id] = (data.misses[id] || 0) + 1;
     if (!data.firstWrong[id]) {
-      data.firstWrong[id] = String(answer == null ? '' : answer).replace(/\s+/g, ' ').slice(0, 200);
+      data.firstWrong[id] = trimAnswer(answer);
     }
+    pushAttempt(data, id, false, answer);
     delete data.legacy[id];
     delete data.solved[id];
     save(data);
   }
 
-  function pass(qid) {
+  function pass(qid, answer) {
     if (!current) return;
     var id = sid(qid);
     var data = load();
     data.solved[id] = 1;
+    pushAttempt(data, id, true, answer == null ? '' : answer);
     delete data.legacy[id];
     save(data);
   }
