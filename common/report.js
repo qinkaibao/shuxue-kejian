@@ -247,13 +247,16 @@
       + '.kr{max-width:1100px;margin:0 auto;padding:8px 12px 48px;box-sizing:border-box;'
       + 'font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Source Han Sans SC",sans-serif;color:#333}'
       + '.kr *{box-sizing:border-box}'
-      + '.kr-go,.kr-copy,.kr-export{display:block;width:100%;max-width:420px;margin:12px auto;border:none;border-radius:20px;color:#fff;font-size:28px;font-weight:bold;padding:14px 28px;min-height:64px;cursor:pointer;touch-action:manipulation}'
+      + '.kr-go,.kr-copy,.kr-export,.kr-review{display:block;width:100%;max-width:420px;margin:12px auto;border:none;border-radius:20px;color:#fff;font-size:28px;font-weight:bold;padding:14px 28px;min-height:64px;cursor:pointer;touch-action:manipulation}'
       + '.kr-go{background:#fb8500;box-shadow:0 5px 0 #c96a00}'
       + '.kr-go:active{transform:translateY(3px);box-shadow:0 2px 0 #c96a00}'
       + '.kr-copy{background:#3b82f6;box-shadow:0 4px 0 #1d5fd0;font-size:24px;min-height:58px}'
       + '.kr-copy:active{transform:translateY(2px);box-shadow:0 2px 0 #1d5fd0}'
       + '.kr-export{background:#16a34a;box-shadow:0 4px 0 #0f7a36;font-size:24px;min-height:58px}'
       + '.kr-export:active{transform:translateY(2px);box-shadow:0 2px 0 #0f7a36}'
+      + '.kr-review{background:#7c3aed;box-shadow:0 4px 0 #5b21b6;font-size:24px;min-height:58px}'
+      + '.kr-review:active{transform:translateY(2px);box-shadow:0 2px 0 #5b21b6}'
+      + '.kr-saved{text-align:center;font-size:22px;color:#14692c;font-weight:bold;min-height:28px;margin:4px 0 0}'
       + '.kr-card{background:#fff;border-radius:20px;box-shadow:0 4px 14px rgba(200,140,0,.15);padding:16px 16px 8px;margin-top:8px}'
       + '.kr-title{font-size:34px;color:#e8590c;margin:4px 0;text-align:center;line-height:1.3}'
       + '.kr-sub{text-align:center;color:#8a6d3b;font-size:20px;margin:0 0 8px}'
@@ -380,13 +383,13 @@
       var msg = document.getElementById('krMsg');
       if (msg) {
         msg.textContent = ok
-          ? '已复制成绩单，可以贴到微信或备忘录。已尝试下载成绩单文件，也可点「导出文件」。'
+          ? '已复制成绩单，可以贴到微信或备忘录。'
           : '这个浏览器不能自动复制。请长按下面的文本，全选后复制；也可点「导出文件」下载。';
       }
     }
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(function () {
-        render(model, text, '已复制成绩单，可以贴到微信或备忘录。已尝试下载成绩单文件，也可点「导出文件」。');
+        render(model, text, '已复制成绩单，可以贴到微信或备忘录。');
       }, fallback);
     } else fallback();
   }
@@ -441,19 +444,33 @@
     save(data);
   }
 
-  function openReport() {
+  /* 小朋友交作业：只把本次成绩写入本页 localStorage，不下载、不抢剪贴板。 */
+  function submitHomework() {
     var model = summarize();
     appendHistory(model);
+    ensureStyle();
+    var host = hostEl();
+    var tip = host.querySelector('#krSaved');
+    if (!tip) {
+      tip = document.createElement('p');
+      tip.id = 'krSaved';
+      tip.className = 'kr-saved';
+      tip.setAttribute('role', 'status');
+      host.appendChild(tip);
+    }
+    var rate = model.total ? Math.round(model.correct / model.total * 100) : 0;
+    tip.textContent = '已保存 ✓ 做对 ' + model.correct + '/' + model.total + '（' + rate + '%）。家长若要复制或导出，请点下面「复习导出」。';
+  }
+
+  /* 家长复习：打开成绩单浮层，可复制纯文本或导出 HTML 文件。 */
+  function openReview() {
+    var model = summarize();
     var text = buildText(model);
-    var dlOk = downloadExport(model, text);
-    var tip = dlOk
-      ? '正在复制…已尝试下载成绩单文件，也可点「导出文件」。'
-      : '正在复制…若没下到文件，请点「导出文件」，或长按纯文本。';
-    render(model, text, tip);
-    copyText(model, text);
+    render(model, text, '家长可点「导出文件」下载，或「再复制一次」复制纯文本。');
     var overlay = document.getElementById('krOverlay');
     if (overlay) overlay.scrollTop = 0;
   }
+
 
   function mount(options) {
     opts = options || {};
@@ -472,8 +489,12 @@
     ensureStyle();
     if (!opts.noButton) {
       var host = hostEl();
-      host.innerHTML = '<button type="button" class="kr-go" id="krGo">交作业</button>';
-      document.getElementById('krGo').onclick = openReport;
+      host.innerHTML = ''
+        + '<button type="button" class="kr-go" id="krGo">交作业</button>'
+        + '<button type="button" class="kr-review" id="krReview">复习导出</button>'
+        + '<p class="kr-saved" id="krSaved" role="status"></p>';
+      document.getElementById('krGo').onclick = submitHomework;
+      document.getElementById('krReview').onclick = openReview;
     }
   }
 
@@ -508,7 +529,9 @@
 
   global.KejianReport = {
     mount: mount,
-    open: openReport,
+    open: openReview,
+    submit: submitHomework,
+    review: openReview,
     miss: miss,
     pass: pass,
     clear: clear,
