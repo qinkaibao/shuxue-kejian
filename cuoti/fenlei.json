@@ -130,6 +130,13 @@
     "错题数": 20,
     "pages": [
       {
+        "名称": "说法找算法",
+        "url": "https://qinkaibao.github.io/shuxue-kejian/shuofa/",
+        "题数": 15,
+        "reportId": "shuofa",
+        "localStorageKey": "math_shuofa_v1"
+      },
+      {
         "名称": "错题练习册",
         "url": "https://qinkaibao.github.io/shuxue-kejian/lianxi/",
         "题数": 7,
@@ -179,7 +186,7 @@
         "localStorageKey": ""
       }
     ],
-    "相关练习题数合计": 34
+    "相关练习题数合计": 49
   },
   {
     "分类": "同级混合运算",

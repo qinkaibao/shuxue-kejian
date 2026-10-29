@@ -1,0 +1,3325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>说法找算法 · 数学闯关</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{font-size:20px}
+body{margin:0;font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Source Han Sans SC",sans-serif;background:#fff8e7;color:#333;font-size:22px;line-height:1.5;-webkit-text-size-adjust:100%;touch-action:manipulation}
+button{font-family:inherit;touch-action:manipulation;cursor:pointer}
+#app{max-width:1100px;margin:0 auto;padding:calc(48px + env(safe-area-inset-top,0px)) 12px 40px}
+/* header */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:20;background:#fff8e7;display:flex;align-items:center;gap:6px;flex-wrap:nowrap;overflow-x:auto;padding:calc(4px + env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) 6px max(12px,env(safe-area-inset-left,0px));box-shadow:0 2px 0 #f1c26b}
+.hbtn{border:none;background:#ffd166;border-radius:12px;font-size:16px;min-width:0;height:36px;padding:0 8px;font-weight:bold;color:#5a3d00;box-shadow:0 2px 0 #e0a800;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;white-space:nowrap}
+.hbtn:active{transform:translateY(2px);box-shadow:0 1px 0 #e0a800}
+.htitle{font-weight:bold;font-size:22px;color:#e8590c;white-space:nowrap}
+.prog{flex:1 1 auto;min-width:72px}
+.pbar{height:10px;background:#ffe8b0;border-radius:9px;overflow:hidden}
+.pfill{height:100%;background:linear-gradient(90deg,#ffb703,#fb8500);border-radius:9px;transition:width .6s}
+.ptxt{font-size:13px;color:#8a6d3b;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stars{font-size:24px;font-weight:bold;color:#e09f00;white-space:nowrap;display:flex;align-items:center;gap:4px}
+.star{display:inline-block;width:28px;height:28px;vertical-align:middle}
+/* cards */
+.card{background:#fff;border-radius:20px;box-shadow:0 4px 14px rgba(200,140,0,.15);padding:16px 20px;margin:10px 0}
+h1{font-size:34px;color:#e8590c;margin:10px 0 4px;text-align:center}
+.sub{text-align:center;color:#8a6d3b;font-size:20px}
+.entry{text-align:center;margin:14px 0 0;font-size:20px}
+.entry a{color:#1d5fd0;font-weight:bold}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px}
+.three>div{background:#fff3d6;border-radius:16px;padding:12px;text-align:center}
+.three .no{display:inline-block;width:40px;height:40px;line-height:40px;border-radius:50%;background:#fb8500;color:#fff;font-weight:bold;font-size:24px}
+.three b{display:block;font-size:24px;margin:4px 0;color:#c2410c}
+.three small{font-size:18px;color:#6b5a3a;display:block;line-height:1.4}
+.flow{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px;font-size:20px}
+.flow span{background:#e6f4ea;color:#1e7b34;border-radius:12px;padding:4px 12px;font-weight:bold}
+.flow i{font-style:normal;color:#aaa}
+.bigbtn{display:block;margin:16px auto 4px;border:none;border-radius:20px;background:#fb8500;color:#fff;font-size:28px;font-weight:bold;padding:14px 44px;box-shadow:0 5px 0 #c96a00;min-height:64px}
+.bigbtn:active{transform:translateY(3px);box-shadow:0 2px 0 #c96a00}
+.bigbtn.green{background:#2fb344;box-shadow:0 5px 0 #1f8a30}
+.bigbtn.blue{background:#3b82f6;box-shadow:0 5px 0 #1d5fd0}
+.levels{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:14px;margin-top:6px}
+.lv{border:none;text-align:left;background:#fff;border-radius:20px;padding:14px 16px;box-shadow:0 4px 0 #f1c26b;display:flex;gap:14px;align-items:center;font-size:22px;min-height:100px;color:#333}
+.lv:active{transform:translateY(2px)}
+.lv .ic{font-size:44px;width:64px;height:64px;border-radius:16px;background:#fff3d6;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.lv b{display:block;font-size:24px;color:#c2410c}
+.lv small{display:block;font-size:17px;color:#7a6a4a;line-height:1.35}
+.lv .lvst{font-size:16px;color:#e09f00;margin-top:2px}
+.lv.done{box-shadow:0 4px 0 #8fd19e;background:#f3fff5}
+.lv.chal .ic{background:#ffe3ec}
+.tips{font-size:17px;color:#6b5a3a;background:#f6f1e6;border-radius:14px;padding:8px 14px;margin-top:10px}
+.tips summary{cursor:pointer;font-weight:bold;min-height:36px;line-height:36px}
+/* question layout */
+.qwrap{display:grid;grid-template-columns:1fr;gap:0 14px}
+@media (min-width:960px){.qwrap{grid-template-columns:1fr 270px}.board{position:sticky;top:calc(var(--hdr-h,56px) + 8px);align-self:start}}
+@media (max-width:800px){.htitle{display:none}.hbtn{height:32px;font-size:14px;padding:0 7px;border-radius:10px}.pbar{height:8px}.ptxt{font-size:12px}}
+.stages{display:flex;gap:6px;align-items:center;justify-content:center;margin:4px 0 0;font-size:18px}
+.stages span{padding:3px 12px;border-radius:12px;background:#eee;color:#999}
+.stages span.on{background:#2fb344;color:#fff;font-weight:bold}
+.stages span.past{background:#c9efd1;color:#1e7b34}
+.stages i{color:#ccc;font-style:normal}
+.qtag{display:inline-block;background:#fb8500;color:#fff;border-radius:10px;padding:0 10px;font-size:17px;margin-bottom:4px}
+.qtag.ch{background:#e64980}
+.qtext{font-size:24px;line-height:1.7}
+.qtext .n{color:#d6336c;font-weight:bold;font-size:26px;padding:0 1px}
+.qtext .ask{border-bottom:3px dashed #f59f00;transition:all .4s;padding:0 2px}
+.qtext .ask.circled{border:3px solid #e03131;border-radius:22px;padding:0 6px;background:#fff0f0}
+.qtext .cond{font-weight:bold;background:#e6f4ea;border-radius:8px;padding:0 4px}
+.infocards{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.infocards span{background:#eef5ff;border:2px solid #b7d3ff;border-radius:12px;padding:2px 12px;font-size:21px}
+.infocards span.off{opacity:.35;text-decoration:line-through}
+.tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.tags span{background:#fff3bf;border:2px dashed #f59f00;border-radius:12px;padding:2px 14px;font-size:22px;font-weight:bold}
+.diagBox{margin-top:6px;position:relative}
+.diagBox svg{width:100%;height:auto;display:block;max-height:300px}
+.replay{display:block;margin:0 0 0 auto;border:none;background:#eef5ff;color:#1d5fd0;border-radius:12px;font-size:16px;padding:4px 10px;min-height:36px}
+.cap{background:#eef8ff;border-left:6px solid #3b82f6;border-radius:10px;padding:8px 12px;font-size:21px;margin-top:6px;min-height:46px}
+/* step */
+.step{min-height:160px}
+.prompt{font-size:23px;font-weight:bold;color:#1f3b73;margin-bottom:8px}
+.prompt .sg{display:inline-block;font-size:16px;color:#fff;background:#2fb344;border-radius:8px;padding:0 8px;margin-right:6px;vertical-align:middle;font-weight:normal}
+.bubbles{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.bubble{flex:1;min-width:240px;background:#fffbe6;border:2px solid #ffe08a;border-radius:16px;padding:8px 12px;font-size:20px}
+.bubble b{color:#c2410c}
+.opts{display:grid;grid-template-columns:1fr;gap:10px}
+.opts.two{grid-template-columns:1fr 1fr}
+.opt{border:3px solid #cfe0ff;background:#f5f9ff;border-radius:16px;font-size:23px;padding:10px 14px;text-align:left;min-height:60px;color:#1f2d4d;transition:background .2s}
+.opt.c{text-align:center;font-size:26px;font-weight:bold}
+.opt.sel{border-color:#3b82f6;background:#dbeafe}
+.opt.ok{border-color:#2fb344;background:#dcfce7}
+.opt.bad{border-color:#f03e3e;background:#ffe3e3;animation:shake .4s}
+.opt:disabled{cursor:default}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.fb{margin-top:10px;font-size:21px;border-radius:14px;padding:0}
+.fb .good{background:#dcfce7;color:#14692c;border-radius:14px;padding:8px 14px;font-weight:bold}
+.fb .hint{background:#fff4e0;color:#9a4b00;border-radius:14px;padding:8px 14px}
+.fb .exp{background:#e7f0ff;color:#1d3f8a;border-radius:14px;padding:8px 14px}
+.row{display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap;margin-top:10px}
+.btn{border:none;border-radius:16px;font-size:24px;font-weight:bold;padding:10px 28px;min-height:58px;color:#fff;background:#3b82f6;box-shadow:0 4px 0 #1d5fd0}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 #1d5fd0}
+.btn.go{background:#2fb344;box-shadow:0 4px 0 #1f8a30}
+.btn.gray{background:#adb5bd;box-shadow:0 4px 0 #868e96}
+.btn[disabled]{opacity:.45}
+/* equation & keypad */
+.eqs{font-size:28px;line-height:2;margin:4px 0}
+.eqline{white-space:nowrap;overflow-x:auto}
+.blank{display:inline-block;min-width:72px;height:50px;line-height:44px;border:3px solid #9bbcf5;border-radius:12px;background:#fff;text-align:center;vertical-align:middle;font-weight:bold;color:#1d3f8a;margin:0 4px;cursor:pointer;padding:0 6px}
+.blank.focus{border-color:#fb8500;box-shadow:0 0 0 4px #ffe1b3}
+.blank.ok{border-color:#2fb344;background:#dcfce7}
+.blank.bad{border-color:#f03e3e;background:#ffe3e3}
+.units{display:inline-flex;gap:8px;vertical-align:middle;margin-left:6px}
+.unit{border:3px solid #ffd8a8;background:#fff4e6;border-radius:12px;font-size:24px;min-width:62px;min-height:52px;font-weight:bold;color:#a14a00}
+.unit.sel{border-color:#fb8500;background:#ffd8a8}
+.unit.ok{border-color:#2fb344;background:#dcfce7;color:#14692c}
+.unit.bad{border-color:#f03e3e;background:#ffe3e3}
+.unitq{font-size:20px;color:#8a6d3b}
+.pad{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:8px;max-width:640px}
+.pad button{border:none;background:#fff1d6;border-radius:14px;font-size:28px;font-weight:bold;min-height:58px;color:#5a3d00;box-shadow:0 3px 0 #f1c26b}
+.pad button:active{transform:translateY(2px);box-shadow:0 1px 0 #f1c26b}
+.pad .del{background:#ffe3e3;color:#c92a2a;box-shadow:0 3px 0 #f5a3a3}
+/* sort */
+.sortc{display:flex;flex-direction:column;gap:10px}
+.sitem{display:flex;align-items:center;gap:10px;background:#f8fbff;border:2px solid #dbe7ff;border-radius:16px;padding:8px 10px;flex-wrap:wrap}
+.sitem .st{flex:1;min-width:260px;font-size:21px}
+.sitem .sb{display:flex;gap:8px}
+.sitem .sb button{border:3px solid #cfe0ff;background:#fff;border-radius:12px;font-size:21px;font-weight:bold;min-height:52px;padding:0 12px}
+.sitem.ok{border-color:#2fb344;background:#effcf2}
+.sitem .sb button.ok{border-color:#2fb344;background:#dcfce7}
+.sitem .sb button.bad{border-color:#f03e3e;background:#ffe3e3;animation:shake .4s}
+.sitem .note{width:100%;font-size:20px}
+/* board */
+.board h3{margin:0 0 6px;font-size:22px;color:#c2410c}
+.board ol{margin:0;padding-left:0;list-style:none}
+.board li{font-size:21px;padding:6px 0;border-bottom:1px dashed #f0d9a8;animation:pop .4s}
+.board li small{display:block;font-size:16px;color:#2b8a3e}
+.board .empty{color:#bbb;font-size:18px}
+@keyframes pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+/* end */
+.endbox{text-align:center}
+.endstars{margin:10px 0}
+.endstars .star{width:64px;height:64px;animation:pop .5s backwards}
+.sum{background:#fff3d6;border-radius:16px;padding:12px 16px;font-size:23px;text-align:left;margin:10px 0}
+.price{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.price span{background:#fff;border:3px solid #ffa94d;border-radius:30px;padding:2px 16px;font-size:22px}
+.price span b{color:#d6336c}
+@media (max-width:700px){html{font-size:18px}.three{grid-template-columns:1fr}.opts.two{grid-template-columns:1fr}.htitle{display:none}.pad{grid-template-columns:repeat(4,1fr)}}
+/* svg */
+.rv{opacity:0;transition:opacity .6s}
+.rv.on{opacity:1}
+.grow{transform:scaleX(0);transform-box:fill-box;transform-origin:left center;transition:transform .8s ease-out,opacity .3s;opacity:0}
+.grow.on{transform:scaleX(1);opacity:1}
+.dlab{font-size:20px;fill:#333;font-weight:bold}
+.dtxt{font-size:19px;fill:#333}
+.dtin{font-size:16px;fill:#fff;font-weight:bold}
+.noanim *{transition:none!important}
+/* v2 手机适配（仅窄屏生效，不改题目与逻辑） */
+@media (max-width:700px){
+.qwrap{grid-template-columns:minmax(0,1fr)}
+.qwrap>div,.card,.step{min-width:0}
+.card{padding:14px 14px}
+.eqs{font-size:23px}
+.eqline{white-space:normal}
+.blank{min-width:56px;height:46px;line-height:40px;margin:0 3px}
+.dlab{font-size:21px}.dtxt{font-size:23px}.dtin{font-size:20px}
+.diagBox svg{max-height:none}
+}
+
+/* shuofa: preserve the original warm cards and generous mobile controls. */
+.stages{flex-wrap:wrap}
+.blank{font:inherit;font-weight:bold;min-height:50px}
+.diagBox{overflow-x:auto}
+.diagBox svg{min-width:360px}
+.dlab{font-size:24px}.dtxt{font-size:24px}.dtin{font-size:20px}
+.opt:focus-visible,.btn:focus-visible,.blank:focus-visible{outline:4px solid #fb8500;outline-offset:3px}
+@media(max-width:420px){
+ h1{font-size:30px}.card{padding:14px 12px}.lv b{font-size:22px}.lv .ic{width:50px;height:56px;font-size:36px}
+ .hdr{gap:4px;padding-left:8px;padding-right:8px}.hbtn{padding:0 5px;font-size:13px}.prog{min-width:50px}
+ .stages{font-size:16px;gap:4px}.stages span{padding:3px 8px}.qtext{font-size:23px}
+ .eqs{font-size:22px}.blank{min-width:48px;padding:0 4px}.opt{font-size:22px}
+ .diagBox::after{content:'线段图可左右滑动查看';display:block;font-size:15px;color:#8a6d3b;text-align:center}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<noscript>请允许浏览器运行脚本（JavaScript）后再打开本课件。</noscript>
+<script src="../common/report.js"></script>
+<script>
+/* ===== 题目数据 =====  stage: 0 阅读理解 / 1 分析解答 / 2 回顾反思 */
+var LEVELS=[
+  {
+    "icon": "🍊",
+    "name": "第1关　每人、平分、平均分",
+    "desc": "先找到要分的总数，再想分成几份",
+    "sum": "知道总数，<b>平均分</b>成几份，求每份多少，用<b>除法</b>。<br>“剩下的平均分”：先求剩下多少，再除以份数。要先减，就用括号。",
+    "qs": [
+      {
+        "id": "1-1",
+        "text": "手工课有 30 张彩纸，平分给 5 个小朋友。[[每人分到几张？]]",
+        "source": [
+          "M-20260927-051",
+          "M-20261004-067"
+        ],
+        "skill": "每人 / 平分 → 除法",
+        "answer": "30÷5＝6（张）",
+        "checks": [
+          [
+            "30/5",
+            6
+          ]
+        ],
+        "steps": [
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "先圈问句：这道题问的是什么？",
+            "opts": [
+              "每人分到几张",
+              "一共有几个小朋友",
+              "每人分到几盒彩纸"
+            ],
+            "a": 0,
+            "hint": "“每人”问的是一个小朋友分到的张数。",
+            "exp": "问每人分到几张，单位是“张”。",
+            "circle": true,
+            "bd": [
+              [
+                "问：每人分到几张",
+                "先认清求谁、求什么单位"
+              ]
+            ]
+          },
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "“平分给 5 人”，求每人几张，该用什么运算？",
+            "opts": [
+              "加法：30＋5",
+              "乘法：求几个同样多的总数",
+              "除法：30÷5"
+            ],
+            "a": 2,
+            "hint": "30 张要分成同样多的 5 份，求的是一份。",
+            "exp": "把 30 张平均分成 5 份，求一份，用除法。"
+          },
+          {
+            "type": "diagram",
+            "st": 0,
+            "p": "每个数表示什么？一步一步画线段图。"
+          },
+          {
+            "type": "blanks",
+            "st": 1,
+            "p": "把“平分”写成除法算式。",
+            "lines": [
+              "30 ÷ {} = {} （张）"
+            ],
+            "a": [
+              5,
+              6
+            ],
+            "hint": "想口诀：五六三十。",
+            "exp": "30÷5＝6（张）。",
+            "bd": [
+              [
+                "30÷5＝6（张）",
+                "每人分到的张数"
+              ]
+            ]
+          },
+          {
+            "type": "choice",
+            "st": 2,
+            "p": "换个说法：“平均分给 5 人，每人一样多”，算法变了吗？",
+            "opts": [
+              "变了，要用加法",
+              "没变，仍把 30 张分成 5 份"
+            ],
+            "a": 1,
+            "hint": "“平分”和“平均分”都要求每份一样多。",
+            "exp": "说法变了，数量关系没变：仍用 30÷5。"
+          },
+          {
+            "type": "blanks",
+            "st": 2,
+            "p": "写“答：”，让数和单位都对上问题。",
+            "lines": [
+              "答：每人分到 {} 张。"
+            ],
+            "a": [
+              6
+            ],
+            "hint": "回看“我的解答”，再对照圈出的问句。",
+            "exp": "答：每人分到 6 张。",
+            "ans": true,
+            "bd": [
+              [
+                "答：每人分到 6 张。",
+                ""
+              ]
+            ]
+          }
+        ],
+        "diagram": {
+          "max": 30,
+          "rows": [
+            {
+              "label": "彩纸",
+              "s": 1,
+              "segs": [
+                {
+                  "v": 30,
+                  "c": "a"
+                }
+              ]
+            }
+          ],
+          "braces": [
+            {
+              "r": 0,
+              "f": 0,
+              "t": 30,
+              "txt": "30张",
+              "s": 1,
+              "pos": "top"
+            },
+            {
+              "r": 0,
+              "f": 0,
+              "t": 6,
+              "txt": "每人？张",
+              "s": 2,
+              "pos": "bot",
+              "c": "hl"
+            }
+          ],
+          "caps": [
+            "点“下一步”，把说法画出来。",
+            "先画一整条：这是全部的 30 张。",
+            "把整条平均分成 5 段，每一段就是一个小朋友分到的。"
+          ],
+          "ticks": [
+            {
+              "r": 0,
+              "every": 6,
+              "f": 0,
+              "t": 30,
+              "s": 2
+            }
+          ]
+        }
+      },
+      {
+        "id": "1-2",
+        "text": "有 48 个橘子，吃了 12 个，剩下的平均分给 6 人。[[每人分到几个橘子？]]",
+        "source": [
+          "M-20261004-067"
+        ],
+        "skill": "先求剩下，再平均分",
+        "answer": "(48－12)÷6＝6（个）",
+        "checks": [
+          [
+            "48-12",
+            36
+          ],
+          [
+            "(48-12)/6",
+            6
+          ]
+        ],
+        "steps": [
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "先圈问句：这道题问的是什么？",
+            "opts": [
+              "吃了几个",
+              "每人分到几个橘子",
+              "剩下几个橘子"
+            ],
+            "a": 1,
+            "hint": "“剩下的”是拿来分的，问题还问“每人”。",
+            "exp": "问每人分到几个，不能只算剩下几个。",
+            "circle": true,
+            "bd": [
+              [
+                "问：每人分到几个橘子",
+                "先认清求谁、求什么单位"
+              ]
+            ]
+          },
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "先算什么，才能知道拿多少个去分？",
+            "opts": [
+              "先算 48÷6",
+              "先算 12÷6",
+              "先算 48－12，求剩下的"
+            ],
+            "a": 2,
+            "hint": "吃掉的橘子还能分给大家吗？",
+            "exp": "先把吃掉的减去，得到剩下的 36 个。"
+          },
+          {
+            "type": "diagram",
+            "st": 0,
+            "p": "每个数表示什么？一步一步画线段图。"
+          },
+          {
+            "type": "choice",
+            "st": 1,
+            "p": "“剩下的平均分给 6 人”，完整算式选哪个？",
+            "opts": [
+              "(48－12)÷6",
+              "48－12÷6",
+              "先求剩下的，再用乘法"
+            ],
+            "a": 0,
+            "hint": "要先减，给先算的 48－12 加括号；求每人用除法。",
+            "exp": "先减去吃掉的，再把剩下的平均分成 6 份。"
+          },
+          {
+            "type": "blanks",
+            "st": 1,
+            "p": "按顺序填一填。",
+            "lines": [
+              "剩下：48 − 12 = {} （个）",
+              "每人：{} ÷ 6 = {} （个）"
+            ],
+            "a": [
+              36,
+              36,
+              6
+            ],
+            "hint": "六六三十六。",
+            "exp": "48－12＝36（个），36÷6＝6（个）。",
+            "bd": [
+              [
+                "48－12＝36（个）",
+                "剩下的橘子"
+              ],
+              [
+                "36÷6＝6（个）",
+                "每人分到的橘子"
+              ]
+            ]
+          },
+          {
+            "type": "blanks",
+            "st": 2,
+            "p": "回顾：分给大家的，加上吃掉的，应等于原来的。",
+            "lines": [
+              "6 × 6 + 12 = {} （个）"
+            ],
+            "a": [
+              48
+            ],
+            "hint": "分给 6 人，每人 6 个，共 36 个，再加吃掉的。",
+            "exp": "36＋12＝48，和原来的个数对上了。"
+          },
+          {
+            "type": "blanks",
+            "st": 2,
+            "p": "写“答：”，让数和单位都对上问题。",
+            "lines": [
+              "答：每人分到 {} 个橘子。"
+            ],
+            "a": [
+              6
+            ],
+            "hint": "回看“我的解答”，再对照圈出的问句。",
+            "exp": "答：每人分到 6 个橘子。",
+            "ans": true,
+            "bd": [
+              [
+                "答：每人分到 6 个橘子。",
+                ""
+              ]
+            ]
+          }
+        ],
+        "diagram": {
+          "max": 48,
+          "rows": [
+            {
+              "label": "原有",
+              "s": 1,
+              "segs": [
+                {
+                  "v": 12,
+                  "c": "b"
+                },
+                {
+                  "v": 36,
+                  "c": "a"
+                }
+              ]
+            }
+          ],
+          "braces": [
+            {
+              "r": 0,
+              "f": 0,
+              "t": 48,
+              "txt": "48个",
+              "s": 1,
+              "pos": "top"
+            },
+            {
+              "r": 0,
+              "f": 0,
+              "t": 12,
+              "txt": "吃12个",
+              "s": 1,
+              "pos": "bot"
+            },
+            {
+              "r": 0,
+              "f": 12,
+              "t": 48,
+              "txt": "剩下的分6份",
+              "s": 2,
+              "pos": "bot",
+              "c": "hl"
+            }
+          ],
+          "caps": [
+            "点“下一步”，把说法画出来。",
+            "整条是 48 个，左边是吃掉的 12 个。",
+            "只把右边剩下的部分平均分成 6 份，一小段才是每人的。"
+          ],
+          "ticks": [
+            {
+              "r": 0,
+              "every": 6,
+              "f": 12,
+              "t": 48,
+              "s": 2
+            }
+          ]
+        }
+      },
+      {
+        "id": "1-3",
+        "text": "美术组有 42 张书签，留出 7 张展示，其余的平均分给 7 个小朋友。[[每人分到几张书签？]]",
+        "source": [
+          "M-20260927-051"
+        ],
+        "skill": "说法与两步算式对应",
+        "answer": "(42－7)÷7＝5（张）",
+        "checks": [
+          [
+            "42-7",
+            35
+          ],
+          [
+            "(42-7)/7",
+            5
+          ]
+        ],
+        "steps": [
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "先圈问句：这道题问的是什么？",
+            "opts": [
+              "每人分到几张书签",
+              "展示用了几张",
+              "一共多少张书签"
+            ],
+            "a": 0,
+            "hint": "展示的 7 张不参与分，问的是每人的。",
+            "exp": "问每人分到几张，单位是“张”。",
+            "circle": true,
+            "bd": [
+              [
+                "问：每人分到几张书签",
+                "先认清求谁、求什么单位"
+              ]
+            ]
+          },
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "两个“7”分别表示什么？",
+            "opts": [
+              "都表示书签的张数",
+              "第一个是留出的张数，第二个是分给的人数",
+              "第一个是人数，第二个是张数"
+            ],
+            "a": 1,
+            "hint": "读数字后面的单位：“7 张”和“7 个小朋友”。",
+            "exp": "数字相同，意义不同：先减 7 张，再除以 7 人。"
+          },
+          {
+            "type": "choice",
+            "st": 1,
+            "p": "哪一个算式和这道题的说法对上了？",
+            "opts": [
+              "42÷7－7",
+              "先求其余，再用乘法",
+              "(42－7)÷7"
+            ],
+            "a": 2,
+            "hint": "“留出”先减，“其余平均分”再除。",
+            "exp": "(42－7)÷7 表示先求其余张数，再求每人张数。"
+          },
+          {
+            "type": "blanks",
+            "st": 1,
+            "p": "先填中间结果，再填答案。",
+            "lines": [
+              "其余：42 − 7 = {} （张）",
+              "每人：{} ÷ 7 = {} （张）"
+            ],
+            "a": [
+              35,
+              35,
+              5
+            ],
+            "hint": "五七三十五。",
+            "exp": "42－7＝35（张），35÷7＝5（张）。",
+            "bd": [
+              [
+                "(42－7)÷7＝5（张）",
+                "每人分到的书签"
+              ]
+            ]
+          },
+          {
+            "type": "choice",
+            "st": 2,
+            "p": "回顾：35 张表示什么？",
+            "opts": [
+              "每人 35 张",
+              "参与平均分的书签一共 35 张",
+              "有 35 个小朋友"
+            ],
+            "a": 1,
+            "hint": "35 是除之前的数，还是除之后的数？",
+            "exp": "35 张是要分的总数；除以 7 后的 5 张才是每人的。"
+          },
+          {
+            "type": "blanks",
+            "st": 2,
+            "p": "写“答：”，让数和单位都对上问题。",
+            "lines": [
+              "答：每人分到 {} 张书签。"
+            ],
+            "a": [
+              5
+            ],
+            "hint": "回看“我的解答”，再对照圈出的问句。",
+            "exp": "答：每人分到 5 张书签。",
+            "ans": true,
+            "bd": [
+              [
+                "答：每人分到 5 张书签。",
+                ""
+              ]
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "icon": "⚖️",
+    "name": "第2关　谁比谁多，谁比谁少",
+    "desc": "先圈问的是谁，同一关系换个说法",
+    "sum": "“A 比 B 多几”和“B 比 A 少几”说的是<b>同一个差</b>。<br>先认清求谁：求较多的就添上差，求较少的就减去差。比较三个人时，要找同一个标准。",
+    "qs": [
+      {
+        "id": "2-1",
+        "text": "小美有 18 张贴纸，小宇比小美少 6 张。也可以说：“小美比小宇多 6 张。”[[小宇有多少张贴纸？]]",
+        "source": [
+          "M-20260927-052",
+          "M-20260927-053"
+        ],
+        "skill": "换说法 / 求较少的数",
+        "answer": "18－6＝12（张）",
+        "checks": [
+          [
+            "18-6",
+            12
+          ]
+        ],
+        "steps": [
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "先圈问句：这道题问的是什么？",
+            "opts": [
+              "小美有多少张",
+              "小宇有多少张",
+              "两人一共有多少张"
+            ],
+            "a": 1,
+            "hint": "两句条件说法不同，问句里仍然是“小宇”。",
+            "exp": "求的是较少的小宇。",
+            "circle": true,
+            "bd": [
+              [
+                "问：小宇有多少张",
+                "先认清求谁、求什么单位"
+              ]
+            ]
+          },
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "“小美比小宇多 6 张”换成哪句，意思相同？",
+            "opts": [
+              "小宇比小美多 6 张",
+              "小宇比小美少 6 张",
+              "小宇是小美的 6 倍"
+            ],
+            "a": 1,
+            "hint": "把名字交换，多和少也要交换。",
+            "exp": "小美多 6 张，就是小宇少 6 张。"
+          },
+          {
+            "type": "diagram",
+            "st": 0,
+            "p": "每个数表示什么？一步一步画线段图。"
+          },
+          {
+            "type": "choice",
+            "st": 1,
+            "p": "虽然看到“多 6 张”，但要求小宇，怎样算？",
+            "opts": [
+              "18＋6",
+              "18＋18",
+              "18－6"
+            ],
+            "a": 2,
+            "hint": "小宇那条线段比小美短，还是长？",
+            "exp": "已知较多的小美有 18 张，求较少的小宇，要减去相差的 6 张。"
+          },
+          {
+            "type": "blanks",
+            "st": 1,
+            "p": "列式求小宇的张数。",
+            "lines": [
+              "18 − 6 = {} （张）"
+            ],
+            "a": [
+              12
+            ],
+            "hint": "把小美多的那一段拿掉。",
+            "exp": "18－6＝12（张）。",
+            "bd": [
+              [
+                "18－6＝12（张）",
+                "小宇的张数"
+              ]
+            ]
+          },
+          {
+            "type": "blanks",
+            "st": 2,
+            "p": "回顾：小宇加上相差的张数，应等于小美。",
+            "lines": [
+              "12 + 6 = {} （张）"
+            ],
+            "a": [
+              18
+            ],
+            "hint": "把少的补上。",
+            "exp": "12＋6＝18，符合条件。"
+          },
+          {
+            "type": "blanks",
+            "st": 2,
+            "p": "写“答：”，让数和单位都对上问题。",
+            "lines": [
+              "答：小宇有 {} 张贴纸。"
+            ],
+            "a": [
+              12
+            ],
+            "hint": "回看“我的解答”，再对照圈出的问句。",
+            "exp": "答：小宇有 12 张贴纸。",
+            "ans": true,
+            "bd": [
+              [
+                "答：小宇有 12 张贴纸。",
+                ""
+              ]
+            ]
+          }
+        ],
+        "diagram": {
+          "max": 18,
+          "rows": [
+            {
+              "label": "小美",
+              "s": 1,
+              "segs": [
+                {
+                  "v": 18,
+                  "c": "a"
+                }
+              ]
+            },
+            {
+              "label": "小宇",
+              "s": 2,
+              "segs": [
+                {
+                  "v": 12,
+                  "c": "b"
+                },
+                {
+                  "v": 6,
+                  "c": "dash"
+                }
+              ]
+            }
+          ],
+          "braces": [
+            {
+              "r": 0,
+              "f": 0,
+              "t": 18,
+              "txt": "18张",
+              "s": 1,
+              "pos": "top"
+            },
+            {
+              "r": 1,
+              "f": 12,
+              "t": 18,
+              "txt": "少6张",
+              "s": 2,
+              "pos": "top",
+              "c": "hl"
+            },
+            {
+              "r": 1,
+              "f": 0,
+              "t": 12,
+              "txt": "？张",
+              "s": 2,
+              "pos": "bot"
+            }
+          ],
+          "caps": [
+            "点“下一步”，把说法画出来。",
+            "小美是较长的一条，共 18 张。",
+            "小宇比小美短一段 6 张；反过来说，小美比小宇多这一段。"
+          ]
+        }
+      },
+      {
+        "id": "2-2",
+        "text": "小林比小美少 7 颗玻璃球，小林有 16 颗。[[小美有多少颗玻璃球？]]",
+        "source": [
+          "M-20260927-053",
+          "M-20261004-059"
+        ],
+        "skill": "见“少”但求较多的数",
+        "answer": "16＋7＝23（颗）",
+        "checks": [
+          [
+            "16+7",
+            23
+          ]
+        ],
+        "steps": [
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "先圈问句：这道题问的是什么？",
+            "opts": [
+              "小林有多少颗",
+              "两人相差多少颗",
+              "小美有多少颗"
+            ],
+            "a": 2,
+            "hint": "16 颗是小林的，问的是另一个人。",
+            "exp": "求小美的颗数，小美比小林多。",
+            "circle": true,
+            "bd": [
+              [
+                "问：小美有多少颗",
+                "先认清求谁、求什么单位"
+              ]
+            ]
+          },
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "“小林比小美少 7 颗”，还可以怎样说？",
+            "opts": [
+              "小美比小林多 7 颗",
+              "小美比小林少 7 颗",
+              "两人一共有 7 颗"
+            ],
+            "a": 0,
+            "hint": "谁少，谁就短；换主语后，另一人就是多。",
+            "exp": "小林少 7 颗，也就是小美多 7 颗。"
+          },
+          {
+            "type": "diagram",
+            "st": 0,
+            "p": "每个数表示什么？一步一步画线段图。"
+          },
+          {
+            "type": "choice",
+            "st": 1,
+            "p": "题目有“少”，求小美却该用哪个算式？",
+            "opts": [
+              "16－7",
+              "16＋7",
+              "16－7－7"
+            ],
+            "a": 1,
+            "hint": "要在小林的 16 颗后面添上一段，才能成为小美的。",
+            "exp": "求较多的小美，用 16＋7。不能见“少”就减。"
+          },
+          {
+            "type": "blanks",
+            "st": 1,
+            "p": "把较少的和相差的合起来。",
+            "lines": [
+              "16 + 7 = {} （颗）"
+            ],
+            "a": [
+              23
+            ],
+            "hint": "先凑成 20，再加余下的。",
+            "exp": "16＋7＝23（颗）。",
+            "bd": [
+              [
+                "16＋7＝23（颗）",
+                "小美的颗数"
+              ]
+            ]
+          },
+          {
+            "type": "blanks",
+            "st": 2,
+            "p": "回顾：从小美的数量减去相差的，能回到小林吗？",
+            "lines": [
+              "23 − 7 = {} （颗）"
+            ],
+            "a": [
+              16
+            ],
+            "hint": "小林应该有 16 颗。",
+            "exp": "23－7＝16，和小林的数量一致。"
+          },
+          {
+            "type": "blanks",
+            "st": 2,
+            "p": "写“答：”，让数和单位都对上问题。",
+            "lines": [
+              "答：小美有 {} 颗玻璃球。"
+            ],
+            "a": [
+              23
+            ],
+            "hint": "回看“我的解答”，再对照圈出的问句。",
+            "exp": "答：小美有 23 颗玻璃球。",
+            "ans": true,
+            "bd": [
+              [
+                "答：小美有 23 颗玻璃球。",
+                ""
+              ]
+            ]
+          }
+        ],
+        "diagram": {
+          "max": 23,
+          "rows": [
+            {
+              "label": "小林",
+              "s": 1,
+              "segs": [
+                {
+                  "v": 16,
+                  "c": "b"
+                }
+              ]
+            },
+            {
+              "label": "小美",
+              "s": 2,
+              "segs": [
+                {
+                  "v": 16,
+                  "c": "a"
+                },
+                {
+                  "v": 7,
+                  "c": "hl"
+                }
+              ]
+            }
+          ],
+          "braces": [
+            {
+              "r": 0,
+              "f": 0,
+              "t": 16,
+              "txt": "16颗",
+              "s": 1,
+              "pos": "top"
+            },
+            {
+              "r": 1,
+              "f": 16,
+              "t": 23,
+              "txt": "多7颗",
+              "s": 2,
+              "pos": "top",
+              "c": "hl"
+            },
+            {
+              "r": 1,
+              "f": 0,
+              "t": 23,
+              "txt": "？颗",
+              "s": 2,
+              "pos": "bot"
+            }
+          ],
+          "caps": [
+            "点“下一步”，把说法画出来。",
+            "小林有 16 颗，先画已知的一条。",
+            "小林比小美少，所以小美更长：一样长的一段，再添 7 颗。"
+          ]
+        }
+      },
+      {
+        "id": "2-3",
+        "text": "阿青比阿禾重 8 千克，小美比阿青轻 3 千克。[[三个人中谁最轻？]]",
+        "source": [
+          "M-20261028-181"
+        ],
+        "skill": "三人比较 / 统一标准",
+        "answer": "阿禾最轻；小美比阿禾重 8－3＝5（千克）",
+        "checks": [
+          [
+            "8-3",
+            5
+          ]
+        ],
+        "steps": [
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "先圈问句：这道题问的是什么？",
+            "opts": [
+              "阿青的体重是多少千克",
+              "三个人中谁最轻",
+              "小美是不是比阿青轻"
+            ],
+            "a": 1,
+            "hint": "“比阿青轻”只比较了两个人，还要把阿禾一起比。",
+            "exp": "问三个人谁最轻，要比较三个人。",
+            "circle": true,
+            "bd": [
+              [
+                "问：三个人中谁最轻",
+                "先认清求谁、求什么单位"
+              ]
+            ]
+          },
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "都和阿青比：阿禾和小美分别轻多少？",
+            "opts": [
+              "阿禾轻 8 千克，小美轻 3 千克",
+              "阿禾轻 3 千克，小美轻 8 千克",
+              "阿禾重 8 千克，小美轻 3 千克"
+            ],
+            "a": 0,
+            "hint": "“阿青比阿禾重 8”就是“阿禾比阿青轻 8”。",
+            "exp": "以阿青为共同标准：阿禾轻 8 千克，小美轻 3 千克。"
+          },
+          {
+            "type": "diagram",
+            "st": 0,
+            "p": "每个数表示什么？一步一步画线段图。"
+          },
+          {
+            "type": "choice",
+            "st": 1,
+            "p": "同样从阿青那里往回减，谁的线段更短？",
+            "opts": [
+              "阿青",
+              "小美",
+              "阿禾"
+            ],
+            "a": 2,
+            "hint": "减去 8 和减去 3，哪一个剩得更少？",
+            "exp": "阿禾比阿青轻得更多，所以阿禾最轻。"
+          },
+          {
+            "type": "blanks",
+            "st": 1,
+            "p": "小美比阿禾重多少？",
+            "lines": [
+              "8 − 3 = {} （千克）"
+            ],
+            "a": [
+              5
+            ],
+            "hint": "两人都比阿青轻，比较的是两个差。",
+            "exp": "8－3＝5（千克）。",
+            "bd": [
+              [
+                "8－3＝5（千克）",
+                "小美比阿禾重"
+              ]
+            ]
+          },
+          {
+            "type": "choice",
+            "st": 2,
+            "p": "回顾：从轻到重排一排。",
+            "opts": [
+              "小美 → 阿禾 → 阿青",
+              "阿禾 → 小美 → 阿青",
+              "阿青 → 小美 → 阿禾"
+            ],
+            "a": 1,
+            "hint": "看三条线段从短到长的顺序。",
+            "exp": "阿禾最轻，小美居中，阿青最重。"
+          },
+          {
+            "type": "choice",
+            "st": 2,
+            "p": "写“答：”——哪一句完整回答了问题？",
+            "opts": [
+              "答：小美比阿青轻。",
+              "答：三个人中阿禾最轻。",
+              "答：小美最轻。"
+            ],
+            "a": 1,
+            "hint": "问谁最轻，要明确写出名字。",
+            "exp": "小美比阿青轻，但阿禾又比小美轻 5 千克。",
+            "ans": true,
+            "bd": [
+              [
+                "答：阿禾最轻。",
+                ""
+              ]
+            ]
+          }
+        ],
+        "diagram": {
+          "max": 18,
+          "rows": [
+            {
+              "label": "阿青",
+              "s": 1,
+              "segs": [
+                {
+                  "v": 18,
+                  "c": "a"
+                }
+              ]
+            },
+            {
+              "label": "阿禾",
+              "s": 2,
+              "segs": [
+                {
+                  "v": 10,
+                  "c": "b"
+                },
+                {
+                  "v": 8,
+                  "c": "dash"
+                }
+              ]
+            },
+            {
+              "label": "小美",
+              "s": 3,
+              "segs": [
+                {
+                  "v": 15,
+                  "c": "c"
+                },
+                {
+                  "v": 3,
+                  "c": "dash"
+                }
+              ]
+            }
+          ],
+          "braces": [
+            {
+              "r": 1,
+              "f": 10,
+              "t": 18,
+              "txt": "轻8千克",
+              "s": 2,
+              "pos": "bot",
+              "c": "hl"
+            },
+            {
+              "r": 2,
+              "f": 15,
+              "t": 18,
+              "txt": "轻3千克",
+              "s": 3,
+              "pos": "bot",
+              "c": "hl"
+            }
+          ],
+          "caps": [
+            "点“下一步”，把说法画出来。",
+            "先画阿青作为共同标准。图只表示大小关系，不表示实际体重。",
+            "阿禾比阿青轻 8 千克，短一大段。",
+            "小美比阿青轻 3 千克，短一小段；阿禾的线段最短。"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "icon": "🎈",
+    "name": "第3关　几倍，还是多几",
+    "desc": "多一小段，还是有几段一样长？",
+    "sum": "“多几”是<b>相差多少</b>，“几倍”是<b>有几个同样长的一份</b>。<br>求几倍的量用乘法；已知几倍的量求一份，或求有几份，用除法。先认准谁是 1 份。",
+    "qs": [
+      {
+        "id": "3-1",
+        "text": "黄花有 4 朵，蓝花比黄花多 5 朵，红花的朵数是黄花的 5 倍。[[蓝花和红花各有多少朵？]]",
+        "source": [
+          "M-20260927-056",
+          "M-20260917-045"
+        ],
+        "skill": "线段图区分多几和几倍",
+        "answer": "蓝花 4＋5＝9（朵）；红花 4×5＝20（朵）",
+        "checks": [
+          [
+            "4+5",
+            9
+          ],
+          [
+            "4*5",
+            20
+          ]
+        ],
+        "steps": [
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "先圈问句：这道题问的是什么？",
+            "opts": [
+              "黄花有多少朵",
+              "蓝花和红花各有多少朵",
+              "三种花一共有多少朵"
+            ],
+            "a": 1,
+            "hint": "“各有”要分别求出蓝花、红花。",
+            "exp": "要回答两种花各自的朵数。",
+            "circle": true,
+            "bd": [
+              [
+                "问：蓝花和红花各有多少朵",
+                "先认清求谁、求什么单位"
+              ]
+            ]
+          },
+          {
+            "type": "diagram",
+            "st": 0,
+            "p": "每个数表示什么？一步一步画线段图。"
+          },
+          {
+            "type": "choice",
+            "st": 1,
+            "p": "看图：“多 5 朵”和“5 倍”分别怎样算？",
+            "opts": [
+              "蓝花 4×5；红花 4＋5",
+              "蓝花 4＋5；红花 4×5",
+              "蓝花和红花都用 4×5"
+            ],
+            "a": 1,
+            "hint": "蓝花只多一小段；红花有 5 段，每段都是 4 朵。",
+            "exp": "多 5 朵用加法；5 倍是 5 个 4，用乘法。"
+          },
+          {
+            "type": "blanks",
+            "st": 1,
+            "p": "把两种说法分别列式。",
+            "lines": [
+              "蓝花：4 + 5 = {} （朵）",
+              "红花：4 × 5 = {} （朵）"
+            ],
+            "a": [
+              9,
+              20
+            ],
+            "hint": "四五二十。",
+            "exp": "蓝花 9 朵，红花 20 朵。",
+            "bd": [
+              [
+                "4＋5＝9（朵）",
+                "蓝花，比黄花多5朵"
+              ],
+              [
+                "4×5＝20（朵）",
+                "红花，是黄花的5倍"
+              ]
+            ]
+          },
+          {
+            "type": "choice",
+            "st": 2,
+            "p": "回顾：蓝花那条线段可以说成“黄花的 5 倍”吗？",
+            "opts": [
+              "可以，题目里有 5",
+              "不可以，它是一段 4 朵再多 5 朵"
+            ],
+            "a": 1,
+            "hint": "倍数要数一样长的段，不能看见数字 5 就说 5 倍。",
+            "exp": "蓝花没有 5 段一样长的 4 朵，不能说成 5 倍。"
+          },
+          {
+            "type": "blanks",
+            "st": 2,
+            "p": "写“答：”——分别填上两种花的朵数。",
+            "lines": [
+              "答：蓝花有 {} 朵，红花有 {} 朵。"
+            ],
+            "a": [
+              9,
+              20
+            ],
+            "hint": "蓝花是多几，红花是几倍。",
+            "exp": "答：蓝花有 9 朵，红花有 20 朵。",
+            "ans": true
+          }
+        ],
+        "diagram": {
+          "max": 20,
+          "rows": [
+            {
+              "label": "黄花",
+              "s": 1,
+              "segs": [
+                {
+                  "v": 4,
+                  "c": "b",
+                  "t": "4朵"
+                }
+              ]
+            },
+            {
+              "label": "蓝花",
+              "s": 2,
+              "segs": [
+                {
+                  "v": 4,
+                  "c": "a"
+                },
+                {
+                  "v": 5,
+                  "c": "hl"
+                }
+              ]
+            },
+            {
+              "label": "红花",
+              "s": 3,
+              "segs": [
+                {
+                  "v": 4,
+                  "c": "r",
+                  "t": "4朵"
+                },
+                {
+                  "v": 4,
+                  "c": "r",
+                  "t": "4朵"
+                },
+                {
+                  "v": 4,
+                  "c": "r",
+                  "t": "4朵"
+                },
+                {
+                  "v": 4,
+                  "c": "r",
+                  "t": "4朵"
+                },
+                {
+                  "v": 4,
+                  "c": "r",
+                  "t": "4朵"
+                }
+              ]
+            }
+          ],
+          "braces": [
+            {
+              "r": 1,
+              "f": 4,
+              "t": 9,
+              "txt": "多5朵",
+              "s": 2,
+              "pos": "top",
+              "c": "hl"
+            },
+            {
+              "r": 2,
+              "f": 0,
+              "t": 20,
+              "txt": "5个同样长的1份",
+              "s": 3,
+              "pos": "bot"
+            }
+          ],
+          "caps": [
+            "点“下一步”，把说法画出来。",
+            "黄花 4 朵是一份。",
+            "蓝花：先画一份 4 朵，再添一小段 5 朵。",
+            "红花：画 5 份，每一份都是黄花的 4 朵。"
+          ],
+          "rowH": 100
+        }
+      },
+      {
+        "id": "3-2",
+        "text": "红丝带长 24 厘米，是蓝丝带的 4 倍。[[蓝丝带长多少厘米？]]",
+        "source": [
+          "M-20261014-094"
+        ],
+        "skill": "已知几倍的量，求一份",
+        "answer": "24÷4＝6（厘米）",
+        "checks": [
+          [
+            "24/4",
+            6
+          ]
+        ],
+        "steps": [
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "先圈问句：这道题问的是什么？",
+            "opts": [
+              "蓝丝带长多少厘米",
+              "红丝带长多少厘米",
+              "红丝带比蓝丝带长几厘米"
+            ],
+            "a": 0,
+            "hint": "24 厘米是红丝带，问的是蓝丝带。",
+            "exp": "问蓝丝带，也就是一份的长度。",
+            "circle": true,
+            "bd": [
+              [
+                "问：蓝丝带长多少厘米",
+                "先认清求谁、求什么单位"
+              ]
+            ]
+          },
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "“红丝带是蓝丝带的 4 倍”，谁是 1 份？",
+            "opts": [
+              "红丝带",
+              "蓝丝带",
+              "两条合起来"
+            ],
+            "a": 1,
+            "hint": "“是蓝丝带的 4 倍”，蓝丝带是标准。",
+            "exp": "蓝丝带是 1 份，红丝带是 4 份。"
+          },
+          {
+            "type": "diagram",
+            "st": 0,
+            "p": "每个数表示什么？一步一步画线段图。"
+          },
+          {
+            "type": "choice",
+            "st": 1,
+            "p": "知道 4 份共 24 厘米，求 1 份，怎样算？",
+            "opts": [
+              "24＋4",
+              "24－4",
+              "24÷4"
+            ],
+            "a": 2,
+            "hint": "把 24 厘米平均分成 4 段，求一段。",
+            "exp": "求一份用除法，不是见“倍”就乘。"
+          },
+          {
+            "type": "blanks",
+            "st": 1,
+            "p": "把几倍的关系写成除法。",
+            "lines": [
+              "24 ÷ 4 = {} （厘米）"
+            ],
+            "a": [
+              6
+            ],
+            "hint": "四六二十四。",
+            "exp": "24÷4＝6（厘米）。",
+            "bd": [
+              [
+                "24÷4＝6（厘米）",
+                "蓝丝带的长度"
+              ]
+            ]
+          },
+          {
+            "type": "blanks",
+            "st": 2,
+            "p": "回顾：蓝丝带的 4 倍，是红丝带吗？",
+            "lines": [
+              "6 × 4 = {} （厘米）"
+            ],
+            "a": [
+              24
+            ],
+            "hint": "用一份的长度乘份数。",
+            "exp": "6×4＝24，和红丝带一样长。"
+          },
+          {
+            "type": "blanks",
+            "st": 2,
+            "p": "写“答：”，让数和单位都对上问题。",
+            "lines": [
+              "答：蓝丝带长 {} 厘米。"
+            ],
+            "a": [
+              6
+            ],
+            "hint": "回看“我的解答”，再对照圈出的问句。",
+            "exp": "答：蓝丝带长 6 厘米。",
+            "ans": true,
+            "bd": [
+              [
+                "答：蓝丝带长 6 厘米。",
+                ""
+              ]
+            ]
+          }
+        ],
+        "diagram": {
+          "max": 24,
+          "rows": [
+            {
+              "label": "蓝丝带",
+              "s": 1,
+              "segs": [
+                {
+                  "v": 6,
+                  "c": "b"
+                }
+              ]
+            },
+            {
+              "label": "红丝带",
+              "s": 2,
+              "segs": [
+                {
+                  "v": 6,
+                  "c": "a"
+                },
+                {
+                  "v": 6,
+                  "c": "a"
+                },
+                {
+                  "v": 6,
+                  "c": "a"
+                },
+                {
+                  "v": 6,
+                  "c": "a"
+                }
+              ]
+            }
+          ],
+          "braces": [
+            {
+              "r": 0,
+              "f": 0,
+              "t": 6,
+              "txt": "1份？厘米",
+              "s": 1,
+              "pos": "top"
+            },
+            {
+              "r": 1,
+              "f": 0,
+              "t": 24,
+              "txt": "4份共24厘米",
+              "s": 2,
+              "pos": "bot"
+            }
+          ],
+          "caps": [
+            "点“下一步”，把说法画出来。",
+            "蓝丝带是一份，长度还不知道。",
+            "红丝带有 4 段，每段和蓝丝带一样长，合起来是 24 厘米。"
+          ]
+        }
+      },
+      {
+        "id": "3-3",
+        "text": "舞蹈组有 21 人，是朗诵组人数的 3 倍；合唱组有 14 人。[[合唱组人数是朗诵组的几倍？]]",
+        "source": [
+          "M-20261014-094"
+        ],
+        "skill": "找准一份 / 两次除法",
+        "answer": "21÷3＝7（人），14÷7＝2；合唱组是朗诵组的 2 倍",
+        "checks": [
+          [
+            "21/3",
+            7
+          ],
+          [
+            "14/(21/3)",
+            2
+          ]
+        ],
+        "steps": [
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "先圈问句：这道题问的是什么？",
+            "opts": [
+              "舞蹈组是朗诵组的几倍",
+              "合唱组人数是朗诵组的几倍",
+              "合唱组比朗诵组多几人"
+            ],
+            "a": 1,
+            "hint": "问的是合唱组，不是已经知道的舞蹈组。",
+            "exp": "求合唱组里有几个朗诵组那么多的人。",
+            "circle": true,
+            "bd": [
+              [
+                "问：合唱组人数是朗诵组的几倍",
+                "先认清求谁、求什么单位"
+              ]
+            ]
+          },
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "要比较倍数，先求什么？",
+            "opts": [
+              "先求朗诵组有几人",
+              "先算 21－14",
+              "先求三组总人数"
+            ],
+            "a": 0,
+            "hint": "合唱组 14 人已知，作为一份的朗诵组还不知道。",
+            "exp": "21÷3 先求朗诵组人数，再用 14 去除。"
+          },
+          {
+            "type": "diagram",
+            "st": 0,
+            "p": "每个数表示什么？一步一步画线段图。"
+          },
+          {
+            "type": "choice",
+            "st": 1,
+            "p": "哪个综合算式和问题对上了？",
+            "opts": [
+              "21÷3＋14",
+              "14－21÷3",
+              "14÷(21÷3)"
+            ],
+            "a": 2,
+            "hint": "先算朗诵组，再求 14 人里有几份；先算的加括号。",
+            "exp": "14÷(21÷3) 表示合唱组是朗诵组的几倍。"
+          },
+          {
+            "type": "blanks",
+            "st": 1,
+            "p": "每一步都说出它表示什么。",
+            "lines": [
+              "朗诵组：21 ÷ 3 = {} （人）",
+              "合唱组有几份：14 ÷ {} = {}"
+            ],
+            "a": [
+              7,
+              7,
+              2
+            ],
+            "hint": "三七二十一，二七十四。",
+            "exp": "21÷3＝7（人），14÷7＝2，所以是 2 倍。",
+            "bd": [
+              [
+                "21÷3＝7（人）",
+                "朗诵组人数"
+              ],
+              [
+                "14÷7＝2",
+                "合唱组是朗诵组的2倍"
+              ]
+            ]
+          },
+          {
+            "type": "choice",
+            "st": 2,
+            "p": "回顾：最后的 2 表示什么？",
+            "opts": [
+              "合唱组有 2 人",
+              "合唱组比朗诵组多 2 人",
+              "合唱组有 2 个朗诵组那么多的人"
+            ],
+            "a": 2,
+            "hint": "求的是倍数，不能把倍数当成人数或人数差。",
+            "exp": "2 表示有 2 份，每份都是朗诵组的 7 人。"
+          },
+          {
+            "type": "blanks",
+            "st": 2,
+            "p": "写“答：”，让数和单位都对上问题。",
+            "lines": [
+              "答：合唱组人数是朗诵组的 {} 倍。"
+            ],
+            "a": [
+              2
+            ],
+            "hint": "回看“我的解答”，再对照圈出的问句。",
+            "exp": "答：合唱组人数是朗诵组的 2 倍。",
+            "ans": true,
+            "bd": [
+              [
+                "答：合唱组人数是朗诵组的 2 倍。",
+                ""
+              ]
+            ]
+          }
+        ],
+        "diagram": {
+          "max": 21,
+          "rows": [
+            {
+              "label": "舞蹈组",
+              "s": 1,
+              "segs": [
+                {
+                  "v": 7,
+                  "c": "a"
+                },
+                {
+                  "v": 7,
+                  "c": "a"
+                },
+                {
+                  "v": 7,
+                  "c": "a"
+                }
+              ]
+            },
+            {
+              "label": "朗诵组",
+              "s": 2,
+              "segs": [
+                {
+                  "v": 7,
+                  "c": "b"
+                }
+              ]
+            },
+            {
+              "label": "合唱组",
+              "s": 3,
+              "segs": [
+                {
+                  "v": 7,
+                  "c": "c"
+                },
+                {
+                  "v": 7,
+                  "c": "c"
+                }
+              ]
+            }
+          ],
+          "braces": [
+            {
+              "r": 0,
+              "f": 0,
+              "t": 21,
+              "txt": "3份共21人",
+              "s": 1,
+              "pos": "top"
+            },
+            {
+              "r": 1,
+              "f": 0,
+              "t": 7,
+              "txt": "1份？人",
+              "s": 2,
+              "pos": "top"
+            },
+            {
+              "r": 2,
+              "f": 0,
+              "t": 14,
+              "txt": "14人是几份？",
+              "s": 3,
+              "pos": "bot"
+            }
+          ],
+          "caps": [
+            "点“下一步”，把说法画出来。",
+            "舞蹈组 21 人有 3 份，先把这一条平均分。",
+            "朗诵组是其中 1 份，先求这一份有几人。",
+            "合唱组 14 人里，能放下几个这样的 1 份？"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "icon": "📚",
+    "name": "第4关　还剩、还差、求总数",
+    "desc": "看清问句，不能见“剩”就减",
+    "sum": "求剩余：<b>总数－用掉的</b>。求总数：<b>用掉的＋剩下的</b>。<br>买东西“还差”：带的钱比总价少；买后“还剩”：带的钱比总价多。先看问的是什么。",
+    "qs": [
+      {
+        "id": "4-1",
+        "text": "要送 72 件包裹，上午送了 26 件，下午送了 19 件。[[还剩多少件没送？]]",
+        "source": [
+          "M-20261014-090",
+          "M-20260917-043"
+        ],
+        "skill": "连续减少 / 第二步用剩余量",
+        "answer": "72－26－19＝27（件）；72－(26＋19)＝27（件）",
+        "checks": [
+          [
+            "72-26",
+            46
+          ],
+          [
+            "46-19",
+            27
+          ],
+          [
+            "72-(26+19)",
+            27
+          ]
+        ],
+        "steps": [
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "先圈问句：这道题问的是什么？",
+            "opts": [
+              "两次一共送多少件",
+              "还剩多少件没送",
+              "上午送多少件"
+            ],
+            "a": 1,
+            "hint": "问题是两次都送完以后剩下的。",
+            "exp": "求剩余，不是求两次分别剩多少再相加。",
+            "circle": true,
+            "bd": [
+              [
+                "问：还剩多少件没送",
+                "先认清求谁、求什么单位"
+              ]
+            ]
+          },
+          {
+            "type": "diagram",
+            "st": 0,
+            "p": "每个数表示什么？一步一步画线段图。"
+          },
+          {
+            "type": "choice",
+            "st": 1,
+            "p": "上午送完后剩 72－26＝46 件，下午送完应怎样算？",
+            "opts": [
+              "72－19",
+              "46－19",
+              "46＋19"
+            ],
+            "a": 1,
+            "hint": "下午是从上午送完剩下的包裹里继续送。",
+            "exp": "第二步要接着用 46 件减 19 件，不能又回到 72 件。"
+          },
+          {
+            "type": "blanks",
+            "st": 1,
+            "p": "接着上一步的剩余量往下算。",
+            "lines": [
+              "上午后：72 − 26 = {} （件）",
+              "下午后：{} − 19 = {} （件）"
+            ],
+            "a": [
+              46,
+              46,
+              27
+            ],
+            "hint": "第二步的总量已经变成 46 件。",
+            "exp": "72－26＝46，46－19＝27（件）。",
+            "bd": [
+              [
+                "72－26－19＝27（件）",
+                "两次送完后剩下的"
+              ]
+            ]
+          },
+          {
+            "type": "choice",
+            "st": 2,
+            "p": "回顾：先求一共送了多少，再求剩下，哪个也正确？",
+            "opts": [
+              "72－26＋19",
+              "72－(26＋19)",
+              "72－(26－19)"
+            ],
+            "a": 1,
+            "hint": "两次送出的要先合起来，都从总数中减掉。",
+            "exp": "26＋19＝45，72－45＝27（件），两种方法一样。"
+          },
+          {
+            "type": "blanks",
+            "st": 2,
+            "p": "写“答：”，让数和单位都对上问题。",
+            "lines": [
+              "答：还剩 {} 件没送。"
+            ],
+            "a": [
+              27
+            ],
+            "hint": "回看“我的解答”，再对照圈出的问句。",
+            "exp": "答：还剩 27 件没送。",
+            "ans": true,
+            "bd": [
+              [
+                "答：还剩 27 件没送。",
+                ""
+              ]
+            ]
+          }
+        ],
+        "diagram": {
+          "max": 72,
+          "rows": [
+            {
+              "label": "原有",
+              "s": 1,
+              "segs": [
+                {
+                  "v": 26,
+                  "c": "b"
+                },
+                {
+                  "v": 19,
+                  "c": "c"
+                },
+                {
+                  "v": 27,
+                  "c": "a"
+                }
+              ]
+            }
+          ],
+          "braces": [
+            {
+              "r": 0,
+              "f": 0,
+              "t": 72,
+              "txt": "72件",
+              "s": 1,
+              "pos": "top"
+            },
+            {
+              "r": 0,
+              "f": 0,
+              "t": 26,
+              "txt": "26件",
+              "s": 2,
+              "pos": "bot"
+            },
+            {
+              "r": 0,
+              "f": 26,
+              "t": 45,
+              "txt": "19件",
+              "s": 3,
+              "pos": "bot"
+            },
+            {
+              "r": 0,
+              "f": 45,
+              "t": 72,
+              "txt": "？件",
+              "s": 4,
+              "pos": "bot",
+              "c": "hl"
+            }
+          ],
+          "caps": [
+            "点“下一步”，把说法画出来。",
+            "整条是要送的 72 件。",
+            "上午送走左边 26 件。",
+            "下午接着送走 19 件，不能把送过的再算一次。",
+            "最后这一段才是两次都送完后剩下的。"
+          ]
+        }
+      },
+      {
+        "id": "4-2",
+        "text": "小美每天读 7 页，读了 4 天，还剩 6 页没读。[[这本书一共有多少页？]]",
+        "source": [
+          "M-20261004-063"
+        ],
+        "skill": "有“还剩”，反求总数",
+        "answer": "7×4＋6＝34（页）",
+        "checks": [
+          [
+            "7*4",
+            28
+          ],
+          [
+            "7*4+6",
+            34
+          ]
+        ],
+        "steps": [
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "先圈问句：这道题问的是什么？",
+            "opts": [
+              "还剩多少页",
+              "已经读了多少页",
+              "这本书一共有多少页"
+            ],
+            "a": 2,
+            "hint": "剩的 6 页已经知道了，问的是整本书。",
+            "exp": "求总页数，要把读过的和没读的合起来。",
+            "circle": true,
+            "bd": [
+              [
+                "问：这本书一共有多少页",
+                "先认清求谁、求什么单位"
+              ]
+            ]
+          },
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "“还剩 6 页”是整本书的一部分吗？",
+            "opts": [
+              "是，要和已读的合起来",
+              "不是，应该从已读的里减掉",
+              "表示每天少读 6 页"
+            ],
+            "a": 0,
+            "hint": "整本书里包含读过的，也包含没读过的。",
+            "exp": "剩下的 6 页也是这本书里的。"
+          },
+          {
+            "type": "diagram",
+            "st": 0,
+            "p": "每个数表示什么？一步一步画线段图。"
+          },
+          {
+            "type": "choice",
+            "st": 1,
+            "p": "完整算式用哪一个？",
+            "opts": [
+              "7×4－6",
+              "7×4＋6",
+              "7＋4＋6"
+            ],
+            "a": 1,
+            "hint": "先算 4 天读的页数，再加上没读的 6 页。",
+            "exp": "已读 7×4 页，加剩下 6 页，才是全书。"
+          },
+          {
+            "type": "blanks",
+            "st": 1,
+            "p": "求已读，再求总数。",
+            "lines": [
+              "已读：7 × 4 = {} （页）",
+              "全书：{} + 6 = {} （页）"
+            ],
+            "a": [
+              28,
+              28,
+              34
+            ],
+            "hint": "四七二十八。",
+            "exp": "7×4＝28（页），28＋6＝34（页）。",
+            "bd": [
+              [
+                "7×4＝28（页）",
+                "已读页数"
+              ],
+              [
+                "28＋6＝34（页）",
+                "全书页数"
+              ]
+            ]
+          },
+          {
+            "type": "blanks",
+            "st": 2,
+            "p": "回顾：全书减去已读，剩的是题目中的 6 页吗？",
+            "lines": [
+              "34 − 28 = {} （页）"
+            ],
+            "a": [
+              6
+            ],
+            "hint": "用减法检验加法求出的总数。",
+            "exp": "34－28＝6，符合“还剩 6 页”。"
+          },
+          {
+            "type": "blanks",
+            "st": 2,
+            "p": "写“答：”，让数和单位都对上问题。",
+            "lines": [
+              "答：这本书一共有 {} 页。"
+            ],
+            "a": [
+              34
+            ],
+            "hint": "回看“我的解答”，再对照圈出的问句。",
+            "exp": "答：这本书一共有 34 页。",
+            "ans": true,
+            "bd": [
+              [
+                "答：这本书一共有 34 页。",
+                ""
+              ]
+            ]
+          }
+        ],
+        "diagram": {
+          "max": 34,
+          "rows": [
+            {
+              "label": "全书",
+              "s": 1,
+              "segs": [
+                {
+                  "v": 7,
+                  "c": "a"
+                },
+                {
+                  "v": 7,
+                  "c": "a"
+                },
+                {
+                  "v": 7,
+                  "c": "a"
+                },
+                {
+                  "v": 7,
+                  "c": "a"
+                },
+                {
+                  "v": 6,
+                  "c": "hl"
+                }
+              ]
+            }
+          ],
+          "braces": [
+            {
+              "r": 0,
+              "f": 0,
+              "t": 28,
+              "txt": "4天，每天7页",
+              "s": 1,
+              "pos": "bot"
+            },
+            {
+              "r": 0,
+              "f": 28,
+              "t": 34,
+              "txt": "剩6页",
+              "s": 2,
+              "pos": "bot",
+              "c": "hl"
+            },
+            {
+              "r": 0,
+              "f": 0,
+              "t": 34,
+              "txt": "一共？页",
+              "s": 3,
+              "pos": "top"
+            }
+          ],
+          "caps": [
+            "点“下一步”，把说法画出来。",
+            "4 段一样长的线段表示已经读的，每段 7 页。",
+            "右边这一段表示还没读的 6 页。",
+            "问全书，就是把两部分合起来。"
+          ]
+        }
+      },
+      {
+        "id": "4-3",
+        "text": "每个笔袋 8 元，小美想买 3 个，钱还差 7 元。[[小美带了多少元？]]",
+        "source": [
+          "M-20261004-063"
+        ],
+        "skill": "还差 / 带的钱比总价少",
+        "answer": "8×3－7＝17（元）",
+        "checks": [
+          [
+            "8*3",
+            24
+          ],
+          [
+            "8*3-7",
+            17
+          ],
+          [
+            "8*3+7",
+            31
+          ]
+        ],
+        "steps": [
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "先圈问句：这道题问的是什么？",
+            "opts": [
+              "买 3 个笔袋需要多少元",
+              "小美带了多少元",
+              "还差多少元"
+            ],
+            "a": 1,
+            "hint": "“需要的钱”与“带来的钱”不同。",
+            "exp": "问带了多少元，不是问总价。",
+            "circle": true,
+            "bd": [
+              [
+                "问：小美带了多少元",
+                "先认清求谁、求什么单位"
+              ]
+            ]
+          },
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "“钱还差 7 元”换个说法是什么？",
+            "opts": [
+              "带的钱比总价多 7 元",
+              "买完以后还剩 7 元",
+              "带的钱比总价少 7 元"
+            ],
+            "a": 2,
+            "hint": "差钱表示不够付，带来的钱更少。",
+            "exp": "还差 7 元，就是带的钱比总价少 7 元。"
+          },
+          {
+            "type": "diagram",
+            "st": 0,
+            "p": "每个数表示什么？一步一步画线段图。"
+          },
+          {
+            "type": "choice",
+            "st": 1,
+            "p": "先求总价，再求带的钱，怎样列式？",
+            "opts": [
+              "8×3＋7",
+              "8×3－7",
+              "(8－7)×3"
+            ],
+            "a": 1,
+            "hint": "带的钱那条线段比总价短一段 7 元。",
+            "exp": "先算 8×3＝24，再减去差的 7 元。"
+          },
+          {
+            "type": "blanks",
+            "st": 1,
+            "p": "让每个中间结果都带上意思。",
+            "lines": [
+              "总价：8 × 3 = {} （元）",
+              "带的钱：{} − 7 = {} （元）"
+            ],
+            "a": [
+              24,
+              24,
+              17
+            ],
+            "hint": "三八二十四，24－7＝17。",
+            "exp": "8×3＝24（元），24－7＝17（元）。",
+            "bd": [
+              [
+                "8×3＝24（元）",
+                "3个笔袋的总价"
+              ],
+              [
+                "24－7＝17（元）",
+                "小美带的钱"
+              ]
+            ]
+          },
+          {
+            "type": "choice",
+            "st": 2,
+            "p": "回顾：如果改为“买完还剩 7 元”，求带的钱该怎样算？",
+            "opts": [
+              "仍然是 24－7",
+              "改为 24＋7",
+              "改为 24－7－7"
+            ],
+            "a": 1,
+            "hint": "买完还剩的钱，原本也在带来的钱里。",
+            "exp": "还差：总价－7。还剩：总价＋7＝31（元）。"
+          },
+          {
+            "type": "blanks",
+            "st": 2,
+            "p": "写“答：”，让数和单位都对上问题。",
+            "lines": [
+              "答：小美带了 {} 元。"
+            ],
+            "a": [
+              17
+            ],
+            "hint": "回看“我的解答”，再对照圈出的问句。",
+            "exp": "答：小美带了 17 元。",
+            "ans": true,
+            "bd": [
+              [
+                "答：小美带了 17 元。",
+                ""
+              ]
+            ]
+          }
+        ],
+        "diagram": {
+          "max": 24,
+          "rows": [
+            {
+              "label": "总价",
+              "s": 1,
+              "segs": [
+                {
+                  "v": 8,
+                  "c": "a"
+                },
+                {
+                  "v": 8,
+                  "c": "a"
+                },
+                {
+                  "v": 8,
+                  "c": "a"
+                }
+              ]
+            },
+            {
+              "label": "带的钱",
+              "s": 2,
+              "segs": [
+                {
+                  "v": 17,
+                  "c": "b"
+                },
+                {
+                  "v": 7,
+                  "c": "dash"
+                }
+              ]
+            }
+          ],
+          "braces": [
+            {
+              "r": 0,
+              "f": 0,
+              "t": 24,
+              "txt": "3个，共？元",
+              "s": 1,
+              "pos": "top"
+            },
+            {
+              "r": 1,
+              "f": 17,
+              "t": 24,
+              "txt": "差7元",
+              "s": 2,
+              "pos": "top",
+              "c": "hl"
+            },
+            {
+              "r": 1,
+              "f": 0,
+              "t": 17,
+              "txt": "？元",
+              "s": 3,
+              "pos": "bot"
+            }
+          ],
+          "caps": [
+            "点“下一步”，把说法画出来。",
+            "总价是 3 个 8 元，先画 3 段。",
+            "还差 7 元：带的钱不够，虚线是差的部分。",
+            "问的是实线部分，要从总价里减去差的 7 元。"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "icon": "🏆",
+    "name": "第5关　综合小挑战",
+    "desc": "选条件、说顺序，再把两步连起来",
+    "chal": true,
+    "sum": "先圈问句，再选有用的条件。<br>问“每个”，先想数量和总价；问“一份相差”，先分别求一份；问“谁的几倍”，先找准标准。每个中间数都要说出意义。",
+    "qs": [
+      {
+        "id": "5-1",
+        "text": "体育室买棋类用品，信息在下面的卡片中。[[每盒象棋多少元？]]",
+        "source": [
+          "M-20261004-060"
+        ],
+        "skill": "选条件 / 少几后求每个",
+        "answer": "42÷(23－16)＝6（元）",
+        "checks": [
+          [
+            "23-16",
+            7
+          ],
+          [
+            "42/(23-16)",
+            6
+          ]
+        ],
+        "steps": [
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "先圈问句：这道题问的是什么？",
+            "opts": [
+              "象棋有多少盒",
+              "每盒象棋多少元",
+              "每盒跳棋多少元"
+            ],
+            "a": 1,
+            "hint": "“每盒象棋”求的是一盒象棋的价钱。",
+            "exp": "问单价，答案单位是“元”，不是“盒”。",
+            "circle": true,
+            "bd": [
+              [
+                "问：每盒象棋多少元",
+                "先认清求谁、求什么单位"
+              ]
+            ]
+          },
+          {
+            "type": "multi",
+            "st": 0,
+            "p": "需要哪几张信息卡？可以选多张，再点检查。",
+            "opts": [
+              "① 跳棋有 23 盒",
+              "② 象棋比跳棋少 16 盒",
+              "③ 买这些象棋共花 42 元",
+              "④ 围棋有 4 盒"
+            ],
+            "a": [
+              0,
+              1,
+              2
+            ],
+            "offCard": 3,
+            "hint": "先求象棋的盒数，还要知道买这些象棋一共花多少钱。围棋有用吗？",
+            "exp": "①②求象棋的盒数，③给出这些象棋的总价；④与问题无关。"
+          },
+          {
+            "type": "choice",
+            "st": 1,
+            "p": "要算每盒多少元，先算什么？",
+            "opts": [
+              "先用 42－16",
+              "先用 42＋23",
+              "先用 23－16 求象棋盒数"
+            ],
+            "a": 2,
+            "hint": "总价要平均分到象棋的每一盒，先知道有几盒。",
+            "exp": "23－16＝7（盒），是数量，还不是价钱。"
+          },
+          {
+            "type": "choice",
+            "st": 1,
+            "p": "完整列式选哪一个？",
+            "opts": [
+              "42÷(23－16)",
+              "42－(23－16)",
+              "23－16＋42"
+            ],
+            "a": 0,
+            "hint": "先求盒数的减法，要放进括号里。",
+            "exp": "42 元平均分到 7 盒，每盒的价钱是 42÷7。"
+          },
+          {
+            "type": "blanks",
+            "st": 1,
+            "p": "先数量，后每盒的价钱。",
+            "lines": [
+              "象棋：23 − 16 = {} （盒）",
+              "每盒：42 ÷ {} = {} （元）"
+            ],
+            "a": [
+              7,
+              7,
+              6
+            ],
+            "hint": "六七四十二。",
+            "exp": "象棋有 7 盒，每盒 6 元。",
+            "bd": [
+              [
+                "23－16＝7（盒）",
+                "象棋数量"
+              ],
+              [
+                "42÷7＝6（元）",
+                "每盒象棋的价钱"
+              ]
+            ]
+          },
+          {
+            "type": "choice",
+            "st": 2,
+            "p": "回顾：第一步的 7 能直接答“每盒 7 元”吗？",
+            "opts": [
+              "能，算出 7 就可以答",
+              "不能，7 的单位是盒，还要用总价除以盒数",
+              "不能，要用 42＋7"
+            ],
+            "a": 1,
+            "hint": "每个中间数都要说清是什么、单位是什么。",
+            "exp": "7 是象棋盒数，不是每盒的价钱。"
+          },
+          {
+            "type": "blanks",
+            "st": 2,
+            "p": "写“答：”，让数和单位都对上问题。",
+            "lines": [
+              "答：每盒象棋 {} 元。"
+            ],
+            "a": [
+              6
+            ],
+            "hint": "回看“我的解答”，再对照圈出的问句。",
+            "exp": "答：每盒象棋 6 元。",
+            "ans": true,
+            "bd": [
+              [
+                "答：每盒象棋 6 元。",
+                ""
+              ]
+            ]
+          }
+        ],
+        "cards": [
+          "① 跳棋有 23 盒",
+          "② 象棋比跳棋少 16 盒",
+          "③ 买这些象棋共花 42 元",
+          "④ 围棋有 4 盒"
+        ]
+      },
+      {
+        "id": "5-2",
+        "text": "6 碗面共 36 元，6 盒饼干共 54 元。[[一碗面比一盒饼干少多少元？]]",
+        "source": [
+          "M-20261014-092",
+          "M-20261004-059"
+        ],
+        "skill": "总价差与一份价差",
+        "answer": "54÷6－36÷6＝3（元）",
+        "checks": [
+          [
+            "36/6",
+            6
+          ],
+          [
+            "54/6",
+            9
+          ],
+          [
+            "54/6-36/6",
+            3
+          ]
+        ],
+        "steps": [
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "先圈问句：这道题问的是什么？",
+            "opts": [
+              "6 碗面比 6 盒饼干少多少元",
+              "一碗面比一盒饼干少多少元",
+              "一盒饼干多少元"
+            ],
+            "a": 1,
+            "hint": "圈出两个“一”：一碗和一盒。",
+            "exp": "问一份之间的差，不是 6 份总价之间的差。",
+            "circle": true,
+            "bd": [
+              [
+                "问：一碗面比一盒饼干少多少元",
+                "先认清求谁、求什么单位"
+              ]
+            ]
+          },
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "小美直接算 54－36，能回答吗？",
+            "opts": [
+              "能，这就是一份的差",
+              "不能，这求的是 6 份总价的差",
+              "不能，应该把两个总价相加"
+            ],
+            "a": 1,
+            "hint": "54 和 36 各是几份的总价？",
+            "exp": "54－36＝18（元）是 6 份总价差；还不是一份的差。"
+          },
+          {
+            "type": "choice",
+            "st": 1,
+            "p": "想先分别求一份，应怎样安排？",
+            "opts": [
+              "先求每碗面和每盒饼干的价钱，再相减",
+              "先求两样一共的价钱",
+              "把 36 当作一碗面的价钱"
+            ],
+            "a": 0,
+            "hint": "把各自的总价平均分成 6 份。",
+            "exp": "先用 36÷6 和 54÷6 求出各自单价。"
+          },
+          {
+            "type": "blanks",
+            "st": 1,
+            "p": "把总价换成一份的价钱，再比较。",
+            "lines": [
+              "一碗面：36 ÷ 6 = {} （元）",
+              "一盒饼干：54 ÷ 6 = {} （元）",
+              "相差：{} − {} = {} （元）"
+            ],
+            "a": [
+              6,
+              9,
+              9,
+              6,
+              3
+            ],
+            "hint": "六六三十六，六九五十四；求少多少拿大数减小数。",
+            "exp": "一碗面 6 元，一盒饼干 9 元，相差 3 元。",
+            "bd": [
+              [
+                "36÷6＝6（元）",
+                "一碗面的价钱"
+              ],
+              [
+                "54÷6＝9（元）",
+                "一盒饼干的价钱"
+              ],
+              [
+                "9－6＝3（元）",
+                "一份相差的钱"
+              ]
+            ]
+          },
+          {
+            "type": "choice",
+            "st": 2,
+            "p": "回顾：换成“一盒饼干比一碗面贵多少元”，答案会变吗？",
+            "opts": [
+              "变成 18 元",
+              "不变，还是 3 元",
+              "变成 6 元"
+            ],
+            "a": 1,
+            "hint": "比较对象互换，贵和便宜互换，差仍然一样。",
+            "exp": "一碗面少 3 元，也就是一盒饼干贵 3 元。"
+          },
+          {
+            "type": "blanks",
+            "st": 2,
+            "p": "写“答：”，让数和单位都对上问题。",
+            "lines": [
+              "答：一碗面比一盒饼干少 {} 元。"
+            ],
+            "a": [
+              3
+            ],
+            "hint": "回看“我的解答”，再对照圈出的问句。",
+            "exp": "答：一碗面比一盒饼干少 3 元。",
+            "ans": true,
+            "bd": [
+              [
+                "答：一碗面比一盒饼干少 3 元。",
+                ""
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "5-3",
+        "text": "小芳折了 11 只纸鹤，小丽比小芳少 5 只，小青折的只数是小丽的 4 倍。[[小青折了多少只纸鹤？]]",
+        "source": [
+          "M-20260917-045"
+        ],
+        "skill": "少几接几倍 / 先求标准量",
+        "answer": "(11－5)×4＝24（只）",
+        "checks": [
+          [
+            "11-5",
+            6
+          ],
+          [
+            "(11-5)*4",
+            24
+          ]
+        ],
+        "steps": [
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "先圈问句：这道题问的是什么？",
+            "opts": [
+              "小丽折了多少只",
+              "小青折了多少只",
+              "小芳比小青少几只"
+            ],
+            "a": 1,
+            "hint": "问的是最后的小青，不是中间的小丽。",
+            "exp": "要先求小丽，再求小青。",
+            "circle": true,
+            "bd": [
+              [
+                "问：小青折了多少只",
+                "先认清求谁、求什么单位"
+              ]
+            ]
+          },
+          {
+            "type": "choice",
+            "st": 0,
+            "p": "小青是谁的 4 倍？先算谁？",
+            "opts": [
+              "小芳的 4 倍；不用先求小丽",
+              "小丽的 4 倍；先求小丽的只数",
+              "小丽的 5 倍；先求小丽的只数"
+            ],
+            "a": 1,
+            "hint": "“少 5 只”的 5 是相差数；“4 倍”的 4 才是倍数。",
+            "exp": "小丽是标准。先用 11－5 求小丽，再求她的 4 倍。"
+          },
+          {
+            "type": "diagram",
+            "st": 0,
+            "p": "每个数表示什么？一步一步画线段图。"
+          },
+          {
+            "type": "choice",
+            "st": 1,
+            "p": "哪一个综合算式符合先后顺序？",
+            "opts": [
+              "11－5×4",
+              "(11－5)×5",
+              "(11－5)×4"
+            ],
+            "a": 2,
+            "hint": "先算小丽，要括号；再读准小青是 4 倍。",
+            "exp": "先减求小丽，再乘 4 求小青，写成 (11－5)×4。"
+          },
+          {
+            "type": "blanks",
+            "st": 1,
+            "p": "两步都说清“这个数是谁的”。",
+            "lines": [
+              "小丽：11 − 5 = {} （只）",
+              "小青：{} × 4 = {} （只）"
+            ],
+            "a": [
+              6,
+              6,
+              24
+            ],
+            "hint": "四六二十四。",
+            "exp": "11－5＝6（只），6×4＝24（只）。",
+            "bd": [
+              [
+                "11－5＝6（只）",
+                "小丽折的只数"
+              ],
+              [
+                "6×4＝24（只）",
+                "小青折的只数"
+              ]
+            ]
+          },
+          {
+            "type": "blanks",
+            "st": 2,
+            "p": "回顾：倒着检验两个关系。",
+            "lines": [
+              "24 ÷ 4 = {} （只），回到小丽",
+              "{} + 5 = 11 （只），回到小芳"
+            ],
+            "a": [
+              6,
+              6
+            ],
+            "hint": "先除以倍数，再把少的补回去。",
+            "exp": "24÷4＝6，6＋5＝11，两个关系都符合。"
+          },
+          {
+            "type": "blanks",
+            "st": 2,
+            "p": "写“答：”，让数和单位都对上问题。",
+            "lines": [
+              "答：小青折了 {} 只纸鹤。"
+            ],
+            "a": [
+              24
+            ],
+            "hint": "回看“我的解答”，再对照圈出的问句。",
+            "exp": "答：小青折了 24 只纸鹤。",
+            "ans": true,
+            "bd": [
+              [
+                "答：小青折了 24 只纸鹤。",
+                ""
+              ]
+            ]
+          }
+        ],
+        "diagram": {
+          "max": 24,
+          "rows": [
+            {
+              "label": "小芳",
+              "s": 1,
+              "segs": [
+                {
+                  "v": 11,
+                  "c": "a"
+                }
+              ]
+            },
+            {
+              "label": "小丽",
+              "s": 2,
+              "segs": [
+                {
+                  "v": 6,
+                  "c": "b"
+                },
+                {
+                  "v": 5,
+                  "c": "dash"
+                }
+              ]
+            },
+            {
+              "label": "小青",
+              "s": 3,
+              "segs": [
+                {
+                  "v": 6,
+                  "c": "c"
+                },
+                {
+                  "v": 6,
+                  "c": "c"
+                },
+                {
+                  "v": 6,
+                  "c": "c"
+                },
+                {
+                  "v": 6,
+                  "c": "c"
+                }
+              ]
+            }
+          ],
+          "braces": [
+            {
+              "r": 0,
+              "f": 0,
+              "t": 11,
+              "txt": "11只",
+              "s": 1,
+              "pos": "top"
+            },
+            {
+              "r": 1,
+              "f": 6,
+              "t": 11,
+              "txt": "少5只",
+              "s": 2,
+              "pos": "top",
+              "c": "hl"
+            },
+            {
+              "r": 2,
+              "f": 0,
+              "t": 24,
+              "txt": "小丽的4倍",
+              "s": 3,
+              "pos": "bot"
+            }
+          ],
+          "caps": [
+            "点“下一步”，把说法画出来。",
+            "小芳是已知的 11 只。",
+            "小丽比小芳少 5 只，先求这一条有多长。",
+            "小青有 4 段，每段和小丽一样长；不要把少的 5 当成倍数。"
+          ]
+        }
+      }
+    ]
+  }
+];
+
+/* ===== 引擎 ===== */
+/* 新页独立保存星星，成绩单使用 reportId shuofa。 */
+var KEY='math_shuofa_v1';
+var COL={a:'#4f8ef7',b:'#ff9f43',c:'#20c997',d:'#a66cff',hl:'#ff5d8f',r:'#f76707',ghost:'#e3e7ee',gray:'#868e96'};
+var STG=['阅读理解','分析解答','回顾反思'];
+var PRAISE=['对啦！','真棒！','读得真仔细！','完全正确！','好厉害！','你想清楚了！'];
+var app=document.getElementById('app');
+var S={screen:'home',L:0,Q:0,si:0,att:0,exp:0,board:[],dstep:0,diagDone:false,prog:load(),busy:false};
+var TOTAL=0;LEVELS.forEach(function(l){TOTAL+=l.qs.length;});
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S.prog));}catch(e){}}
+function $(s,r){return (r||document).querySelector(s);}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));}
+function starSVG(on){return '<svg class="star" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6L2.5 9.4l6.6-.8z" fill="'+(on?'#ffc107':'#e9ecef')+'" stroke="'+(on?'#e09f00':'#ced4da')+'" stroke-width="1.2" stroke-linejoin="round"/></svg>';}
+function totalStars(){var t=0;for(var k in S.prog)t+=S.prog[k];return t;}
+function doneCount(){return Object.keys(S.prog).length;}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+
+function header(){
+  var d=doneCount();
+  return '<div class="hdr"><a class="hbtn" href="../index.html">🏠 回总目录</a>'+
+   '<button class="hbtn" onclick="goHome()">本页开头</button>'+
+   '<button class="hbtn" onclick="goMap()">关卡</button>'+
+   '<div class="htitle">说法找算法</div><div class="prog"><div class="pbar"><div class="pfill" style="width:'+(d/TOTAL*100)+'%"></div></div><div class="ptxt">已完成 '+d+' / '+TOTAL+' 题 · ★ '+totalStars()+'</div></div>'+
+   '<button class="hbtn" onclick="openReport()">交作业</button></div>';
+}
+function openReport(){ if(window.KejianReport&&KejianReport.open) KejianReport.open(); }
+function goHome(){S.screen='home';render();}
+function goMap(){S.screen='map';render();}
+function fitHeader(){
+  var hdr=app&&app.querySelector('.hdr');
+  if(!hdr)return;
+  var h=hdr.offsetHeight;
+  app.style.paddingTop=h+'px';
+  document.documentElement.style.setProperty('--hdr-h',h+'px');
+}
+var replayRun=0;
+function render(){
+  replayRun++;
+  if(S.screen==='home')renderHome();
+  else if(S.screen==='map')renderMap();
+  else if(S.screen==='q')renderQ();
+  fitHeader();
+  window.scrollTo(0,0);
+}
+window.addEventListener('resize',fitHeader);
+function renderHome(){
+  app.innerHTML=header()+
+  '<h1>🧭 说法找算法</h1><div class="sub">5 关 · 15 题 · 说法变了，也能找对算法</div>'+
+  '<div class="card"><div class="prompt" style="text-align:center;font-size:26px">做题前，先问自己“读题三问”</div>'+
+  '<div class="three"><div><span class="no">1</span><b>问的是什么？</b><small>先圈问的是谁、求什么：<br>每人？多几？几倍？总数？</small></div>'+
+  '<div><span class="no">2</span><b>每个数表示什么？</b><small>画线段图，<br>谁多谁少，谁是谁的几倍</small></div>'+
+  '<div><span class="no">3</span><b>说法对应什么算法？</b><small>先说数量关系，再列式：<br>先算什么，再算什么</small></div></div>'+
+  '<div class="flow"><span>阅读理解</span><i>→</i><span>分析解答</span><i>→</i><span>回顾反思</span><i>→</i><span>写“答：”</span></div></div>'+
+  '<button class="bigbtn" onclick="goMap()">开始闯关 ▶</button>'+
+  '<p class="entry"><a href="../index.html">回到总目录</a></p>'+
+  '<p class="entry"><a href="../chuangguan/">也可以复习：读题闯关</a></p>'+
+  '<details class="tips"><summary>给家长的小提示（点开）</summary>'+
+  '· 每关 3 题，建议一次 1–2 关，15–20 分钟。<br>· 每算出一个数，请孩子<b>说出来</b>“它是什么、单位是什么”，再点按钮。<br>· 答错第一次只给提示，第二次才出现讲解；星星：一次都没看讲解 3 颗，看 1 次 2 颗，更多 1 颗。<br>· 线段图可以点“再看一遍”重放。第5关把说法连成两步，全部只用表内乘除。<br>· 先让孩子说“这句话是什么意思”，再选算法；不要只找“多、少、剩、倍”等字。<br>· 进度保存在本机浏览器里；想清空可点这里：<button class="btn gray" style="font-size:16px;min-height:36px;padding:2px 12px" onclick="resetAll()">清空进度</button></details>';
+}
+function resetAll(){if(confirm('确定清空所有星星和进度吗？')){S.prog={};save();if(window.KejianReport)KejianReport.clear();render();}}
+function lvStars(i){var t=0;LEVELS[i].qs.forEach(function(q){t+=S.prog[q.id]||0;});return t;}
+function renderMap(){
+  var h=header()+'<h1 style="font-size:28px">选一关开始吧</h1><div class="levels">';
+  LEVELS.forEach(function(l,i){
+    var st=lvStars(i),done=l.qs.every(function(q){return S.prog[q.id];});
+    h+='<button class="lv'+(done?' done':'')+(l.chal?' chal':'')+'" onclick="startLevel('+i+')"><div class="ic">'+l.icon+'</div><div><b>'+l.name+'</b><small>'+l.desc+'</small><div class="lvst">'+starSVG(st>0).replace('class="star"','class="star" style="width:20px;height:20px"')+' '+st+' / '+(l.qs.length*3)+(done?'　✔ 已完成':'')+'</div></div></button>';
+  });
+  app.innerHTML=h+'</div>';
+}
+function startLevel(i){S.L=i;var l=LEVELS[i];S.Q=0;for(var k=0;k<l.qs.length;k++){if(!S.prog[l.qs[k].id]){S.Q=k;break;}}startQ();}
+function startQ(){S.si=0;S.exp=0;S.board=[];S.diagDone=false;S.dstep=0;S.screen='q';render();}
+function curQ(){return LEVELS[S.L].qs[S.Q];}
+function fmt(t){
+  t=t.replace(/\d+/g,function(m){return '<span class="n">'+m+'</span>';});
+  return t.replace(/\[\[(.+?)\]\]/g,'<span class="ask">$1</span>');
+}
+function renderQ(){
+  var q=curQ(),l=LEVELS[S.L];
+  var h=header()+'<div class="stages" id="stages"></div><div class="qwrap"><div>'+
+   '<div class="card qcard"><span class="qtag'+(q.chal?' ch':'')+'">'+l.name.replace(/　.*/,'')+' · 第 '+(S.Q+1)+' 题（共 '+l.qs.length+' 题）</span>'+
+   '<div class="qtext" id="qtext">'+fmt(q.text)+'</div>';
+  if(q.cards)h+='<div class="infocards" id="icards">'+q.cards.map(function(c){return '<span>'+c+'</span>';}).join('')+'</div>';
+  if(q.price)h+='<div class="price">'+q.price.map(function(c){return '<span>🏷️ '+c+'</span>';}).join('')+'</div>';
+  if(q.tags)h+='<div class="tags">'+q.tags.map(function(c){return '<span>'+c+'</span>';}).join('')+'</div>';
+  h+='<div class="diagBox" id="diag"></div></div><div class="card step" id="step"></div></div>'+
+   '<div class="card board"><h3>📝 我的解答</h3><ol id="board"></ol></div></div>';
+  app.innerHTML=h;
+  if(q.diagram&&S.diagDone)showDiagram(true);
+  renderBoard();renderStep();
+}
+function renderBoard(){
+  var b=$('#board');if(!b)return;
+  if(!S.board.length){b.innerHTML='<li class="empty">每做对一步，算式会写到这里。</li>';return;}
+  b.innerHTML=S.board.map(function(x){return '<li>'+x[0]+(x[1]?'<small>'+x[1]+'</small>':'')+'</li>';}).join('');
+}
+function setStages(st){
+  var e=$('#stages');if(!e)return;
+  e.innerHTML=STG.map(function(n,i){return '<span class="'+(i===st?'on':(i<st?'past':''))+'">'+n+'</span>';}).join('<i>→</i>');
+}
+/* ---------- 线段图 ---------- */
+function bracePath(x1,x2,y,dir){
+  var h=9*dir,m=(x1+x2)/2,r=Math.min(10,(x2-x1)/4);
+  return 'M'+x1+','+y+' Q'+x1+','+(y+h)+' '+(x1+r)+','+(y+h)+' L'+(m-r)+','+(y+h)+' Q'+m+','+(y+h)+' '+m+','+(y+2*h)+' Q'+m+','+(y+h)+' '+(m+r)+','+(y+h)+' L'+(x2-r)+','+(y+h)+' Q'+x2+','+(y+h)+' '+x2+','+y;
+}
+function svgDiagram(sp){
+  var W=560,L=112,R=26,DW=W-L-R,sc=DW/sp.max,rowH=sp.rowH||96,top=sp.top||72,BH=28;
+  var n=sp.rows.length,H=top+(n-1)*rowH+66;
+  function X(u){return L+u*sc;} function Y(i){return top+i*rowH;}
+  function A(s,cls,del){return ' class="'+cls+'" data-s="'+s+'"'+(del?' style="transition-delay:'+del+'s"':'');}
+  var o=['<svg role="img" aria-label="数量关系线段图，文字说明见下方" viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="cutp" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#ced4da"/><line x1="0" y1="0" x2="0" y2="10" stroke="#fff" stroke-width="4"/></pattern></defs>'];
+  sp.rows.forEach(function(r,i){
+    var y=Y(i),rs=r.s||1,x=0;
+    o.push('<text'+A(rs,'rv dlab')+' x="'+(L-14)+'" y="'+(y+7)+'" text-anchor="end">'+r.label+'</text>');
+    r.segs.forEach(function(g){
+      var s=g.s||rs,x1=X(x),w=g.v*sc,del=(g.d||0)*0.5;
+      if(g.c==='dash')o.push('<rect'+A(s,'rv',del)+' x="'+x1+'" y="'+(y-BH/2)+'" width="'+w+'" height="'+BH+'" rx="6" fill="#fff" stroke="#999" stroke-width="3" stroke-dasharray="8 6"/>');
+      else o.push('<rect'+A(s,'grow',del)+' x="'+x1+'" y="'+(y-BH/2)+'" width="'+w+'" height="'+BH+'" rx="6" fill="'+(COL[g.c]||COL.a)+'"/>');
+      o.push('<g'+A(s,'rv',del)+' stroke="#444" stroke-width="2.5"><line x1="'+x1+'" y1="'+(y-BH/2-6)+'" x2="'+x1+'" y2="'+(y+BH/2+6)+'"/><line x1="'+(x1+w)+'" y1="'+(y-BH/2-6)+'" x2="'+(x1+w)+'" y2="'+(y+BH/2+6)+'"/></g>');
+      if(g.t)o.push('<text'+A(s,'rv dtin',del)+' x="'+(x1+w/2)+'" y="'+(y+6)+'" text-anchor="middle"'+(g.c==='dash'||g.c==='ghost'?' style="fill:#666'+(del?';transition-delay:'+del+'s':'')+'"':'')+'>'+g.t+'</text>');
+      x+=g.v;
+    });
+  });
+  (sp.hls||[]).forEach(function(h){
+    var y=Y(h.r),x1=X(h.f),w=(h.t-h.f)*sc;
+    if(h.ol)o.push('<rect'+A(h.s,'rv')+' x="'+(x1+2)+'" y="'+(y-BH/2-2)+'" width="'+(w-4)+'" height="'+(BH+4)+'" rx="5" fill="none" stroke="'+COL[h.c]+'" stroke-width="4"/>');/* ol：只描边，不填色 */
+    else o.push('<rect'+A(h.s,'grow')+' x="'+x1+'" y="'+(y-BH/2)+'" width="'+w+'" height="'+BH+'" rx="4" fill="'+(h.c==='cut'?'url(#cutp)':COL[h.c])+'"'+(h.op?' fill-opacity="'+h.op+'"':'')+'/>');
+    o.push('<g'+A(h.s,'rv')+' stroke="#444" stroke-width="2.5"><line x1="'+x1+'" y1="'+(y-BH/2-6)+'" x2="'+x1+'" y2="'+(y+BH/2+6)+'"/><line x1="'+(x1+w)+'" y1="'+(y-BH/2-6)+'" x2="'+(x1+w)+'" y2="'+(y+BH/2+6)+'"/></g>');
+    if(h.t2)o.push('<text'+A(h.s,h.ol?'rv dtxt':'rv dtin')+' x="'+(x1+w/2)+'" y="'+(y+(h.ol?7:6))+'" text-anchor="middle"'+(h.ol?' style="fill:'+COL[h.c]+';font-weight:bold;stroke:#fff;stroke-width:5px;paint-order:stroke"':'')+'>'+h.t2+'</text>');
+  });
+  (sp.ticks||[]).forEach(function(k){
+    var y=Y(k.r),g='';
+    for(var u=k.f+k.every;u<k.t;u+=k.every)g+='<line x1="'+X(u)+'" y1="'+(y-BH/2-4)+'" x2="'+X(u)+'" y2="'+(y+BH/2+4)+'" stroke="#fff" stroke-width="3"/><line x1="'+X(u)+'" y1="'+(y-BH/2-4)+'" x2="'+X(u)+'" y2="'+(y+BH/2+4)+'" stroke="#333" stroke-width="1.5"/>';
+    if(k.lab)for(var v=k.f;v<k.t;v+=k.every)g+='<text class="dtin" x="'+X(v+k.every/2)+'" y="'+(y+6)+'" text-anchor="middle">'+k.lab+'</text>';
+    o.push('<g'+A(k.s,'rv')+'>'+g+'</g>');
+  });
+  (sp.vlines||[]).forEach(function(v){
+    var r1=v.r1||0,r2=(v.r2===undefined?n-1:v.r2);
+    o.push('<line'+A(v.s,'rv')+' x1="'+X(v.x)+'" y1="'+(Y(r1)-BH/2-8)+'" x2="'+X(v.x)+'" y2="'+(Y(r2)+BH/2+8)+'" stroke="#e03131" stroke-width="2.5" stroke-dasharray="6 5"/>');
+  });
+  (sp.braces||[]).forEach(function(b){
+    var y=Y(b.r),dir=b.pos==='top'?-1:1,y0=y+dir*(BH/2+5),col=b.c?COL[b.c]:'#555';
+    var ty=dir<0?y0-18-7:y0+18+21;
+    o.push('<g'+A(b.s,'rv')+'><path d="'+bracePath(X(b.f),X(b.t),y0,dir)+'" fill="none" stroke="'+col+'" stroke-width="2.5"/><text class="dtxt" x="'+((X(b.f)+X(b.t))/2)+'" y="'+ty+'" text-anchor="middle" style="fill:'+(b.c?col:'#333')+';font-weight:bold">'+b.txt+'</text></g>');
+  });
+  (sp.texts||[]).forEach(function(t){
+    o.push('<text'+A(t.s,'rv')+' x="'+X(t.x)+'" y="'+(Y(t.r)+8)+'" style="font-size:22px;font-weight:bold;fill:'+(COL[t.c]||'#333')+'">'+t.txt+'</text>');
+  });
+  o.push('</svg>');
+  return o.join('');
+}
+function setDStep(st,instant){
+  var box=$('#diag');if(!box)return;
+  if(instant)box.classList.add('noanim');
+  $$('[data-s]',box).forEach(function(e){if(+e.getAttribute('data-s')<=st)e.classList.add('on');else e.classList.remove('on');});
+  if(instant){box.offsetWidth;setTimeout(function(){box.classList.remove('noanim');},50);}
+}
+function showDiagram(final){
+  replayRun++;
+  var q=curQ(),box=$('#diag');
+  box.innerHTML=svgDiagram(q.diagram)+(final?'<button class="replay" onclick="replayDiagram()">↻ 再看一遍</button>':'');
+  if(final)setDStep(99,true);
+}
+function replayDiagram(){
+  var q=curQ(),box=$('#diag'),n=q.diagram.caps.length-1,k=0,run=++replayRun;
+  box.innerHTML=svgDiagram(q.diagram)+'<div class="cap" id="rcap">'+q.diagram.caps[0]+'</div>';
+  box.offsetWidth;
+  function alive(){return run===replayRun&&box===$('#diag')&&S.screen==='q';}
+  (function nx(){
+    if(!alive())return;
+    k++;
+    if(k>n){setTimeout(function(){if(alive())showDiagram(true);},1800);return;}
+    setDStep(k);var c=$('#rcap');if(c)c.innerHTML=q.diagram.caps[k];setTimeout(nx,2200);
+  })();
+}
+/* ---------- 步骤 ---------- */
+function stepHead(st){
+  var tag=st.ans?'答':STG[st.st];
+  return '<div class="prompt"><span class="sg">'+tag+'</span>'+st.p+'</div>'+
+   (st.bubbles?'<div class="bubbles">'+st.bubbles.map(function(b){return '<div class="bubble">'+b+'</div>';}).join('')+'</div>':'');
+}
+function renderStep(){
+  var q=curQ();
+  if(S.si>=q.steps.length){finishQ();return;}
+  var st=q.steps[S.si];S.att=0;S.busy=false;KP.blanks=[];KP.onEnter=null;
+  setStages(st.st);
+  var el=$('#step');
+  el.innerHTML=stepHead(st)+'<div id="body"></div><div class="fb" id="fb" role="status" aria-live="polite"></div><div class="row" id="btns"></div>';
+  ({choice:stChoice,multi:stMulti,num:stNum,blanks:stBlanks,diagram:stDiagram,sort:stSort})[st.type](st,$('#body'));
+}
+function fb(cls,html){$('#fb').innerHTML='<div class="'+cls+'">'+html+'</div>';}
+function nextBtn(label){
+  $('#btns').innerHTML='<button class="btn go" id="nextB" onclick="nextStep()">'+(label||'下一步 ▶')+'</button>';
+  var b=$('#nextB');if(b&&b.scrollIntoView){try{b.scrollIntoView({behavior:'smooth',block:'nearest'});}catch(e){}}
+}
+function nextStep(){S.si++;renderStep();var s=$('#step');if(s&&s.getBoundingClientRect().top<60){try{s.scrollIntoView({behavior:'smooth',block:'start'});}catch(e){}}}
+function complete(st,explained){
+  S.busy=true;
+  if(explained)S.exp++;
+  if(st.bd)st.bd.forEach(function(x){S.board.push(x);});
+  if(st.bdNote&&S.board.length){var last=S.board[S.board.length-1];S.board[S.board.length-1]=[last[0],st.bdNote];}
+  renderBoard();
+  if(st.circle)$$('#qtext .ask').forEach(function(e){e.classList.add('circled');});
+  if(st.offCard!==undefined){var c=$$('#icards span')[st.offCard];if(c)c.classList.add('off');}
+  if(!explained)fb('good','✓ '+pick(PRAISE)+(st.good?' '+st.good:''));
+  nextBtn();
+}
+/* 答错：第一次提示，第二次讲解 */
+function wrong(st,hint,reveal){
+  S.att++;
+  if(window.KejianReport)KejianReport.miss(curQ().id,S._lastWrong||'答错');
+  if(S.att===1){fb('hint','💡 提示：'+(hint||'再读圈出的问句，想想每个数表示什么。')+'<br>再试一次！');return false;}
+  fb('exp','📖 讲解：'+(st.exp||''));
+  if(reveal)reveal();
+  complete(st,true);
+  return true;
+}
+function stChoice(st,b){
+  b.innerHTML='<div class="opts '+(st.cols||'')+'">'+st.opts.map(function(o,i){return '<button class="opt'+(st.center?' c':'')+'" data-i="'+i+'">'+o+'</button>';}).join('')+'</div>';
+  $$('.opt',b).forEach(function(btn){btn.onclick=function(){
+    if(S.busy)return;var i=+btn.getAttribute('data-i');
+    if(i===st.a){btn.classList.add('ok');$$('.opt',b).forEach(function(x){x.disabled=true;});complete(st,false);}
+    else{btn.classList.remove('bad');void btn.offsetWidth;btn.classList.add('bad');
+      S._lastWrong='选了「'+st.opts[i]+'」';
+      wrong(st,st.hint,function(){$$('.opt',b)[st.a].classList.add('ok');$$('.opt',b).forEach(function(x){x.disabled=true;});});}
+  };});
+}
+function stMulti(st,b){
+  b.innerHTML='<div class="opts">'+st.opts.map(function(o,i){return '<button class="opt" data-i="'+i+'">☐ '+o+'</button>';}).join('')+'</div>';
+  $$('.opt',b).forEach(function(btn){btn.onclick=function(){if(S.busy)return;btn.classList.toggle('sel');btn.innerHTML=(btn.classList.contains('sel')?'☑ ':'☐ ')+st.opts[+btn.getAttribute('data-i')];};});
+  $('#btns').innerHTML='<button class="btn" id="chk">检查 ✓</button>';
+  $('#chk').onclick=function(){
+    if(S.busy)return;
+    var sel=$$('.opt',b).filter(function(x){return x.classList.contains('sel');}).map(function(x){return +x.getAttribute('data-i');});
+    if(!sel.length){fb('hint','先点选你需要的卡片哦。');return;}
+    var ok=sel.length===st.a.length&&st.a.every(function(i){return sel.indexOf(i)>=0;});
+    function show(){$$('.opt',b).forEach(function(x,i){x.disabled=true;x.classList.remove('sel');var need=st.a.indexOf(i)>=0;x.innerHTML=(need?'☑ ':'☐ ')+st.opts[i];if(need)x.classList.add('ok');});}
+    if(ok){show();complete(st,false);}
+    else{$$('.opt',b).forEach(function(x){if(x.classList.contains('sel')&&st.a.indexOf(+x.getAttribute('data-i'))<0){x.classList.remove('bad');void x.offsetWidth;x.classList.add('bad');}});
+      S._lastWrong='选了「'+sel.map(function(i){return st.opts[i];}).join('、')+'」';
+      if(wrong(st,st.hint,show))return;}
+  };
+}
+/* 数字键盘 */
+var KP={blanks:[],cur:0,onEnter:null};
+function padHTML(){
+  var k=[1,2,3,4,5,6,7,8,9,0];
+  return '<div class="pad">'+k.map(function(n){return '<button data-k="'+n+'">'+n+'</button>';}).join('')+'<button class="del" data-k="del">⌫</button><button class="del" data-k="clr" style="font-size:20px">清空</button></div>';
+}
+function bindPad(root){
+  $$('.pad button',root).forEach(function(btn){btn.onclick=function(){padKey(btn.getAttribute('data-k'));};});
+  $$('.blank',root).forEach(function(bl,i){bl.onclick=function(){if(S.busy)return;focusBlank(i);};});
+}
+function focusBlank(i){KP.cur=i;KP.blanks.forEach(function(b,j){b.classList.toggle('focus',j===i);});}
+function padKey(k){
+  if(S.busy)return;var b=KP.blanks[KP.cur];if(!b)return;
+  if(b.classList.contains('ok'))return;
+  b.classList.remove('bad');
+  var v=b.textContent;
+  if(k==='del')v=v.slice(0,-1);else if(k==='clr')v='';else if(v.length<3)v=(v==='0'?'':v)+k;
+  b.textContent=v;
+}
+document.addEventListener('keydown',function(e){
+  if(S.screen!=='q'||!KP.blanks.length||!document.body.contains(KP.blanks[0]))return;
+  if(/^[0-9]$/.test(e.key)){padKey(e.key);e.preventDefault();}
+  else if(e.key==='Backspace'){padKey('del');e.preventDefault();}
+  else if(e.key==='Enter'&&KP.onEnter){KP.onEnter();e.preventDefault();}
+});
+function stNum(st,b){
+  var h='<div class="eqs"><div class="eqline">'+st.expr+' <span class="blank"></span>';
+  if(st.units)h+='</div><div><span class="unitq">单位：</span><span class="units">'+st.units.map(function(u){return '<button class="unit" data-u="'+u+'">'+u+'</button>';}).join('')+'</span>';
+  else h+=' （'+(st.unit||'只')+'）';
+  b.innerHTML=h+'</div></div>'+padHTML();
+  if(!st.units){var m=st.exp.match(/（(.+?)）/);$('.eqline',b).lastChild.textContent=' （'+(m?m[1]:'')+'）';}
+  var unit=null;
+  $$('.unit',b).forEach(function(u){u.onclick=function(){if(S.busy)return;$$('.unit',b).forEach(function(x){x.classList.remove('sel','bad');});u.classList.add('sel');unit=u.getAttribute('data-u');};});
+  KP.blanks=$$('.blank',b);bindPad(b);focusBlank(0);
+  $('#btns').innerHTML='<button class="btn" id="chk">检查 ✓</button>';
+  var check=function(){
+    if(S.busy)return;var bl=KP.blanks[0],v=bl.textContent;
+    if(v===''){fb('hint','先用下面的数字键填上得数哦。');return;}
+    if(st.units&&!unit){fb('hint','别忘了点一个单位：它是什么？单位是什么？');return;}
+    var nOk=+v===st.a,uOk=!st.units||unit===st.u;
+    if(nOk)bl.classList.add('ok');else bl.classList.add('bad');
+    if(st.units){var us=$('.unit.sel',b);if(us)us.classList.add(uOk?'ok':'bad');}
+    if(nOk&&uOk){complete(st,false);return;}
+    var hint=!nOk?(st.hint||'再仔细算一算。'):st.uhint;
+    S._lastWrong='填了 '+v+(unit?unit:'');
+    wrong(st,hint,function(){bl.textContent=st.a;bl.classList.remove('bad');bl.classList.add('ok');
+      if(st.units)$$('.unit',b).forEach(function(x){x.classList.remove('sel','bad');if(x.getAttribute('data-u')===st.u)x.classList.add('ok');});});
+  };
+  $('#chk').onclick=check;KP.onEnter=check;
+}
+function stBlanks(st,b){
+  var h='<div class="eqs">'+st.lines.map(function(l){return '<div class="eqline">'+l.replace(/\{\}/g,'<button type="button" class="blank" aria-label="点此填写数字"></button>')+'</div>';}).join('')+'</div>';
+  b.innerHTML=h+padHTML();
+  KP.blanks=$$('.blank',b);bindPad(b);focusBlank(0);
+  $('#btns').innerHTML='<button class="btn" id="chk">检查 ✓</button>';
+  var check=function(){
+    if(S.busy)return;
+    var empty=KP.blanks.findIndex?KP.blanks.findIndex(function(x){return x.textContent==='';}):-1;
+    if(empty<0)for(var e=0;e<KP.blanks.length;e++)if(KP.blanks[e].textContent===''){empty=e;break;}
+    if(empty>=0){fb('hint','还有空没填哦（点一下方框就能换位置）。');focusBlank(empty);return;}
+    var all=true;
+    KP.blanks.forEach(function(x,i){if(+x.textContent===st.a[i])x.classList.add('ok');else{x.classList.add('bad');all=false;}});
+    if(all){complete(st,false);return;}
+    var firstBad=0;for(var j=0;j<KP.blanks.length;j++)if(!KP.blanks[j].classList.contains('ok')){firstBad=j;break;}
+    focusBlank(firstBad);
+    S._lastWrong='填了 '+KP.blanks.map(function(x){return x.textContent||'空';}).join('、');
+    wrong(st,st.hint||'红色的方框再算一算。',function(){KP.blanks.forEach(function(x,i){x.textContent=st.a[i];x.classList.remove('bad');x.classList.add('ok');});});
+  };
+  $('#chk').onclick=check;KP.onEnter=check;
+}
+function stDiagram(st,b){
+  var q=curQ(),caps=q.diagram.caps,n=caps.length-1;
+  S.dstep=0;showDiagram(false);
+  b.innerHTML='<div class="cap" id="cap">'+caps[0]+'</div>';
+  var box=$('#diag');box.offsetWidth;
+  function upd(){
+    $('#cap').innerHTML=caps[S.dstep];
+    if(S.dstep<n)$('#btns').innerHTML='<button class="btn" id="dn">下一步 ▶（'+S.dstep+'/'+n+'）</button>';
+    else{$('#btns').innerHTML='<button class="btn go" id="dn">看懂了，继续 ▶</button>';}
+    $('#dn').onclick=adv;
+  }
+  function adv(){
+    if(S.dstep<n){S.dstep++;setDStep(S.dstep);upd();}
+    else{S.diagDone=true;box.onclick=null;var r=document.createElement('button');r.className='replay';r.textContent='↻ 再看一遍';r.onclick=function(e){e.stopPropagation();replayDiagram();};box.appendChild(r);nextStep();}
+  }
+  box.onclick=function(){if(S.dstep<n)adv();};
+  upd();
+  try{box.scrollIntoView({behavior:'smooth',block:'nearest'});}catch(e){}
+}
+function stSort(st,b){
+  var left=st.items.length,anyExp=false;
+  b.innerHTML='<div class="sortc">'+st.items.map(function(it,i){return '<div class="sitem" data-i="'+i+'"><div class="st">'+it.t+'</div><div class="sb">'+st.btns.map(function(bt,j){return '<button data-j="'+j+'">'+bt+'</button>';}).join('')+'</div><div class="note"></div></div>';}).join('')+'</div>';
+  $$('.sitem',b).forEach(function(row){
+    var it=st.items[+row.getAttribute('data-i')],att=0,doneRow=false;
+    $$('.sb button',row).forEach(function(btn){btn.onclick=function(){
+      if(doneRow)return;var j=+btn.getAttribute('data-j');
+      if(j===it.a){btn.classList.add('ok');row.classList.add('ok');doneRow=true;$('.note',row).innerHTML=att?'<span style="color:#14692c">✓ 对了！</span>':'<span style="color:#14692c">✓ '+pick(PRAISE)+'</span>';left--;}
+      else{att++;if(window.KejianReport)KejianReport.miss(curQ().id,'把「'+it.t+'」选成「'+st.btns[j]+'」');btn.classList.remove('bad');void btn.offsetWidth;btn.classList.add('bad');
+        if(att===1)$('.note',row).innerHTML='<span style="color:#9a4b00">💡 '+it.hint+'</span>';
+        else{anyExp=true;doneRow=true;$$('.sb button',row)[it.a].classList.add('ok');row.classList.add('ok');$('.note',row).innerHTML='<span style="color:#1d3f8a">📖 '+it.hint+' 所以是 '+st.btns[it.a]+'。</span>';left--;}}
+      if(left===0){if(anyExp){S.exp++;fb('exp','📖 '+st.exp);S.busy=true;nextBtn();}else complete(st,false);}
+    };});
+  });
+}
+function finishQ(){
+  var q=curQ(),l=LEVELS[S.L],stars=S.exp===0?3:(S.exp===1?2:1);
+  S.prog[q.id]=Math.max(S.prog[q.id]||0,stars);save();
+  if(window.KejianReport)KejianReport.pass(q.id);
+  setStages(3);
+  var last=S.Q>=l.qs.length-1;
+  var el=$('#step');
+  el.innerHTML='<div class="endbox"><div class="prompt" style="font-size:28px">🎉 第 '+(S.Q+1)+' 题完成！</div><div class="endstars">'+[0,1,2].map(function(i){return starSVG(i<stars).replace('class="star"','class="star" style="animation-delay:'+(i*0.25)+'s"');}).join('')+'</div>'+
+   '<div style="font-size:20px;color:#8a6d3b">'+(stars===3?'一次讲解都没看，太棒了！':'看了讲解也没关系，下次自己想出来！')+'</div>'+
+   (last?'<div class="sum">⭐ 这一关记住：<br>'+l.sum+'</div>':'')+
+   '<div class="row" style="justify-content:center">'+(last?(S.L<LEVELS.length-1?'<button class="btn go" onclick="startLevel('+(S.L+1)+')">下一关 ▶</button>':'<button class="btn go" onclick="allDone()">完成全部 🎊</button>')+'<button class="btn" onclick="goMap()">回关卡地图</button>':'<button class="btn go" onclick="S.Q++;startQ()">下一题 ▶</button>')+'</div></div>';
+  var sn=$('#starN');if(sn)sn.textContent=totalStars();
+  var pf=$('.pfill');if(pf)pf.style.width=(doneCount()/TOTAL*100)+'%';
+  var pt=$('.ptxt');if(pt)pt.textContent='已完成 '+doneCount()+' / '+TOTAL+' 题 · ★ '+totalStars();
+  try{el.scrollIntoView({behavior:'smooth',block:'nearest'});}catch(e){}
+}
+function allDone(){
+  S.screen='map';render();
+  var d=document.createElement('div');d.className='card endbox';
+  d.innerHTML='<div class="prompt" style="font-size:28px">🎊 全部闯关完成！一共得到 '+totalStars()+' 颗星</div><div class="sum">以后遇到新说法：<br>① 圈出问谁、求什么。② 用自己的话说关系，必要时画图。③ 找对算法，再检查数和单位。</div>';
+  app.insertBefore(d,app.children[1]);
+}
+(function mountReport(){
+  if(!window.KejianReport)return;
+  var tags={'1':'每人平分→除法','2':'谁比谁多/少·换说法','3':'几倍vs多几','4':'还剩还差与总数','5':'综合·选条件与顺序'};
+  var qs=[],legacy=[];
+  LEVELS.forEach(function(l,li){
+    l.qs.forEach(function(q,qi){
+      var mark=q.text.match(/\[\[(.+?)\]\]/);
+      var brief=mark?mark[1].replace(/<[^>]+>/g,''):q.text.replace(/<[^>]+>/g,'').replace(/\s+/g,' ').slice(0,22);
+      qs.push({id:q.id,brief:'第'+(li+1)+'关第'+(qi+1)+'题 '+brief,tag:tags[String(li+1)]||'数量关系',category:'看图列式与数量关系'});
+      if(S.prog[q.id])legacy.push(q.id);
+    });
+  });
+  KejianReport.mount({id:'shuofa',name:'说法找算法',questions:qs,legacySolved:legacy});
+})();
+render();
+
+</script>
+<p class="catline" style="margin:18px 12px 28px;padding:14px 16px;background:#fffdf8;border-radius:16px;box-shadow:0 3px 0 #f1c26b;font-size:20px;line-height:1.6">本页练习：<a style="color:#1d5fd0;font-weight:bold" href="../cuoti/#cat-%E7%9C%8B%E5%9B%BE%E5%88%97%E5%BC%8F%E4%B8%8E%E6%95%B0%E9%87%8F%E5%85%B3%E7%B3%BB">看图列式与数量关系</a></p>
+</body>
+</html>
