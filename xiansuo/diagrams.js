@@ -4,7 +4,7 @@
   function svg(label,body,height=240){return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 '+height+'" role="img" aria-label="'+esc(label)+'">'+body+'</svg>';}
   function text(x,y,s,extra=''){return '<text x="'+x+'" y="'+y+'" '+extra+'>'+esc(s)+'</text>';}
   function bar(x,y,w,color='#7196c9',dash=false){return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="32" rx="4" fill="'+(dash?'#fff9e6':color)+'" stroke="'+(dash?'#94651b':'#365b8c')+'" stroke-width="2" '+(dash?'stroke-dasharray="6 4"':'')+'/>';}
-  function groups(values,labels,unit){let body='';values.forEach((n,i)=>{const y=38+i*105;body+=text(12,y,labels[i]);for(let j=0;j<n;j++)body+=bar(12+j*76,y+14,68,i?'#b1a1c8':'#8eafd8');body+=text(12,y+78,n+' 份，每份 '+unit);});return svg(labels.join('与')+'：每小格是一份，'+unit,body,values.length*105+25);}
+  function groups(values,labels,unit){let body='';const step=496/Math.max(...values);values.forEach((n,i)=>{const y=38+i*105;body+=text(12,y,labels[i]);for(let j=0;j<n;j++)body+=bar(12+j*step,y+14,step-8,i?'#b1a1c8':'#8eafd8');body+=text(12,y+78,n+' 份，每份 '+unit);});return svg(labels.join('与')+'：每小格是一份，'+unit,body,values.length*105+25);}
   const diagrams={
     trays:()=>svg('上排24张，下排18张；每6张一盘，相差6张也就是1盘。',text(12,26,'每格＝一盘＝6张')+[4,3].map((n,i)=>{let b=text(12,76+i*88,i?'阿禾':'阿榆');for(let j=0;j<n;j++)b+=bar(86+j*99,50+i*88,91,i?'#b3a3cd':'#8eafd8')+text(105+j*99,75+i*88,'6');return b+text(86,106+i*88,i?'18张＝3盘':'24张＝4盘');}).join(''),240),
     prices:()=>svg('总价先平均分。4杯16元每杯4元；4张28元每张7元；单价相差3元。',text(12,30,'4杯饮品共16元')+text(12,70,'16 ÷ 4＝4（元／杯）')+text(12,124,'4张卡片共28元')+text(12,164,'28 ÷ 4＝7（元／张）')+text(12,218,'比较一份：7－4＝3（元）'),240),
