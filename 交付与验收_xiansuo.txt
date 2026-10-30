@@ -1,0 +1,7 @@
+标题：《线索街的对照灯》
+短 id：xiansuo / xiansuo-lianxi
+故事：https://qinkaibao.github.io/shuxue-kejian/xiansuo/
+练习：https://qinkaibao.github.io/shuxue-kejian/xiansuo-lianxi/
+练习：5节共14题（3/3/3/2/3）
+模型：gpt-6.1-sol / high（玄鸟精品 Codex CLI）
+自测：QA PASS（故事互动、练习判题、成绩单静默保存、复习导出、多尺寸无溢出）
