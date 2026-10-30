@@ -1,7 +1,73 @@
-标题：《线索街的对照灯》
-短 id：xiansuo / xiansuo-lianxi
+《线索街的对照灯》交付与验收
+验收时间：2026-10-31 00:24:01（Asia/Shanghai）
+仓库：qinkaibao/shuxue-kejian；分支：main；远端：origin
+模型横幅：gpt-6.1-sol / reasoning high
+依据：上级 codex_xiansuo.log 的运行横幅已核对 model 与 reasoning effort。
+执行：当前会话直接完成，未嵌套启动 codex exec 或其他代理。
+
+一、正式链接与短 id
+故事标题：《线索街的对照灯》
+故事短 id：xiansuo
 故事：https://qinkaibao.github.io/shuxue-kejian/xiansuo/
+练习标题：《线索街的对照灯配套练习》
+练习短 id / reportId：xiansuo-lianxi
 练习：https://qinkaibao.github.io/shuxue-kejian/xiansuo-lianxi/
-练习：5节共14题（3/3/3/2/3）
-模型：gpt-6.1-sol / high（玄鸟精品 Codex CLI）
-自测：QA PASS（故事互动、练习判题、成绩单静默保存、复习导出、多尺寸无溢出）
+首页：https://qinkaibao.github.io/shuxue-kejian/
+
+二、内容与各节题数
+故事7章、3幅SVG场景插画、6处可自由开合的对照灯互动，7种故事数量图。
+以雨中失踪的蓝箱为主线；不判题、不计分、不设关卡，末尾链接配套练习。
+练习5节14题，分布为3＋3＋3＋2＋3：
+第1节 问的是什么，单位是什么：3题（盘数、总价/单价、毫米转厘米）。
+第2节 谁多谁少，求的是谁：3题（轻重反话与三人关系、出现少求多、出现多求少）。
+第3节 几倍，还是多几：3题（三倍、多几、两倍还多几），每题配线段图。
+第4节 还剩，还是还差：2题（由花掉的钱求原有、由所需的钱求现有）。
+第5节 每一份从哪里来：3题（剩余平均分、选必要条件、算式含义）。
+每节先讲解和互动图例；每题均可随时展开讲解，错两次自动展开，不限制去别节。
+数字均重新设定；第7/8题和第10/11题保留相同的新数字，刻意对照说法变化。
+公开新页面及对应源稿的禁用姓名/词语扫描通过。
+
+三、源文件
+站点：xiansuo/index.html、xiansuo/style.css、xiansuo/diagrams.js
+站点：xiansuo-lianxi/index.html、questions.js、practice.js
+源稿：数学小故事/2026-10-30_故事版_线索街的对照灯.html
+源稿：数学小故事/2026-10-30_故事版_线索街的对照灯.md
+源稿：错题练习册/2026-10-30_对照灯配套练习.html
+源稿：错题练习册/2026-10-30_对照灯配套练习_题目.md
+源稿HTML是站点对应页的相同副本，引用同仓库公共资源；题目源稿逐题列答案、讲解、弱项类型及手算复核。
+BRIEF中的云端目录在本机不存在，源稿位置映射为本仓库根的上述两目录。
+yechen/、yechen-lianxi/、shuofa/、common/report.js、common/nav.js 已对照。
+本机未找到雾海灯塔及参考书单文件，未假定读过；按三份上级说明与现有页面完成。
+首页ITEMS最前加入故事、练习，date均为2026-10-30，total为14，reportId正确；pages-bust已刷新。
+公共nav.js/report.js保持原接口；本练习局部将顶栏“交作业”接到静默保存，页尾“复习导出”用于查看、复制、下载。
+
+四、验收结果
+1. JavaScript语法检查与git diff --check通过。
+2. 14题答案按独立手算表逐一验证，全部通过；5节题数正确。
+3. 故事无判题输入/成绩单；6处对照互动可反复开关；键盘回车可用。
+4. 空白/不完整输入不计尝试；全角数字接受；错两次展开，刷新后仍展开。
+5. 做对记录及实际错答保存在kejian-report-v1:xiansuo-lianxi；14题完成后刷新可恢复。
+6. 实际错答、正确选项文字及知识点进入成绩单；顶栏交作业静默保存，复习导出浮层正常。
+7. 已实际下载HTML成绩单并检查题目、答案与标题；不是只检查按钮存在。
+8. 分节跳转正常；重置仅清本页记录；存储被禁用时仍能当次作答。
+9. Chrome无头浏览器响应式检查：320/375/390/768/1280像素；两站点页与两HTML源稿共20组，无横向溢出。
+10. 已查看390像素截图；所有数量图文字边界均在SVG视窗内，故事/练习链接与资源可访问。
+11. 浏览器无JavaScript异常，无资源404。本次为桌面Chrome响应式检查，未声称真机验收。
+12. 正式站点首页、故事、练习、样式、图例、题目、判题共7个文件HTTP 200，线上内容与本地最终版本一致（统一换行后逐字比较）。
+本机详细检查输出与截图：C:\Users\34459\AppData\Local\Temp\xiansuo-qa-evidence
+
+五、提交与推送
+基础内容提交：2b8c6bc（故事、练习、源稿、首页入口）。
+图例收尾提交：74a07e2。
+最终内容commit：8134a7b5cb625d3092bf4eb0fd8b5ec111147097
+最终内容git push origin main：成功；远端从74a07e2更新至8134a7b。
+本验收文件作为后续文档提交归档；其提交号可用 git log -1 -- 交付与验收_xiansuo.txt 查询。
+
+六、正式站点内容指纹（UTF-8、统一LF）
+index.html  HTTP 200  SHA256 ab19728fe7b4ddaac88047eadaf6517eefdbe5df85a8a70586ab63e4b3a9ebf7
+xiansuo/index.html  HTTP 200  SHA256 823c07e59186c6ee945bf65954dce642b07b919606f28d0be1ebd513ef4dae7e
+xiansuo/style.css  HTTP 200  SHA256 6c47289bf84ad67dec7df3580096d63833707644d924a541efaf24b1949ae65e
+xiansuo/diagrams.js  HTTP 200  SHA256 ebf7188ed71b349cc0015b5651565da0c566e0e471d5b9dd9a900b7a86cdfbfb
+xiansuo-lianxi/index.html  HTTP 200  SHA256 750b29e25e62106c19ed5176274aeae172c13c560001c0cf90d47e0f2e06e230
+xiansuo-lianxi/questions.js  HTTP 200  SHA256 2aaaab4ac66fca504100464c0254defe6691844d5407db243b3d1b791d0f9073
+xiansuo-lianxi/practice.js  HTTP 200  SHA256 972f45bacc5f3849cb657d2e252ef7abe19b4f7026527cd79bead6d38c0509b5
