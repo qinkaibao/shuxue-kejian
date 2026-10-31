@@ -58,7 +58,7 @@ KejianReport id为shicheng-lianxi，保存首次错答与每次实际尝试；�
 9. 正式站故事和练习HTTP 200，响应HTML SHA256均与本地文件一致；目录ITEMS前两项正确；线上实际完成一题并静默保存成功，JS错误0。
 
 证据与复现
-任务目录：/workspace/项目/糖果学业/网站构建/shuxue-kejian
+任务目录：/workspace/临时/2026-10-31_多位数乘一位数口算故事
 验收脚本：验收.py；生成脚本：build_shicheng.py；8题数据：questions.json。
 详细检查：验收证据/检查结果.txt；线上检查：验收证据/线上验收.txt。
 截图：验收证据/shicheng-390-全页.png、shicheng-lianxi-390-全页.png、两页1280px全页图、复习成绩单-390.png、正式站两页390px截图。
