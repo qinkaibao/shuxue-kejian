@@ -58,5 +58,12 @@ KejianReport记录首次错答、尝试与进度；测试9/9，8题一次对、1
 实机手机Safari/微信未测试，不能等同于真机验收。
 
 版本发布
-内容提交及推送状态：完成提交和远端核验后补记。
-正式站点发布状态：推送后核验并补记。
+内容提交：45b60b9eb4e0ea5f01fa0bc00c1a27ed85c6e1eb
+内容已推送 origin main；git ls-remote 核实远端 main 指向上述提交。
+首次提交因克隆缺少作者配置被Git拒绝；查阅上一笔提交后，仅用命令级user.name/user.email沿用既有作者，未修改全局Git配置。重试提交、推送均成功。
+GitHub Pages构建：completed / success，head_sha与内容提交一致。
+构建记录：https://github.com/qinkaibao/shuxue-kejian/actions/runs/41842720048
+正式站点：故事、练习、总目录均HTTP 200；统一CRLF/LF换行后，线上正文与本地文件完全一致。
+首次请求处于发布切换窗口（新路由404、目录旧版）；构建成功后重新请求，三页均已更新。
+本记录与DONE.txt为内容提交之后的交付记录提交，DONE内hash指上述内容版本。
+原有未跟踪的BRIEF_jinwei.md、PROMPT_jinwei.md、大纲_大花导出.md保持原样，未纳入发布提交。
