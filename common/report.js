@@ -444,7 +444,39 @@
     save(data);
   }
 
-  /* 小朋友交作业：只把本次成绩写入本页 localStorage，不下载、不抢剪贴板。 */
+  /* 小朋友交作业：先写入本页 localStorage，再把成绩单传到家长收件箱。 */
+  var REPORT_UPLOAD_URL = 'https://jpcrm2528800-d2gn2y85j9a2d680b-1462769606.ap-shanghai.app.tcloudbase.com/kejian-submit-report';
+
+  function uploadReport(payload, onDone) {
+    var body = JSON.stringify(payload);
+    var finished = false;
+    function done(ok) {
+      if (finished) return;
+      finished = true;
+      if (typeof onDone === 'function') onDone(ok);
+    }
+    try {
+      if (navigator.sendBeacon) {
+        var sent = navigator.sendBeacon(REPORT_UPLOAD_URL, new Blob([body], { type: 'text/plain;charset=UTF-8' }));
+        if (sent) {
+          done(true);
+          return;
+        }
+      }
+    } catch (e) {}
+    try {
+      fetch(REPORT_UPLOAD_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+        body: body,
+        mode: 'no-cors',
+        keepalive: true
+      }).then(function () { done(true); }).catch(function () { done(false); });
+    } catch (e) {
+      done(false);
+    }
+  }
+
   function submitHomework() {
     var model = summarize();
     appendHistory(model);
@@ -459,7 +491,17 @@
       host.appendChild(tip);
     }
     var rate = model.total ? Math.round(model.correct / model.total * 100) : 0;
-    tip.textContent = '已保存 ✓ 做对 ' + model.correct + '/' + model.total + '（' + rate + '%）。家长若要复制或导出，请点下面「复习导出」。';
+    var score = '做对 ' + model.correct + '/' + model.total + '（' + rate + '%）';
+    tip.textContent = '已保存 ✓ ' + score + '。正在传给家长…';
+    try {
+      uploadReport(buildExportPayload(model), function (ok) {
+        tip.textContent = ok
+          ? '已保存并传回 ✓ ' + score + '。'
+          : '本机已保存 ✓ ' + score + '。传回未成功，家长可点「复习导出」。';
+      });
+    } catch (e) {
+      tip.textContent = '本机已保存 ✓ ' + score + '。传回未成功，家长可点「复习导出」。';
+    }
   }
 
   /* 家长复习：打开成绩单浮层，可复制纯文本或导出 HTML 文件。 */
