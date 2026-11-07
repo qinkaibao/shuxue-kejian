@@ -677,7 +677,7 @@
     else if (act === 'nextq') { S.Q++; startQ(); }
     else if (act === 'jumpq') { S.Q = +t.getAttribute('data-i'); startQ(); }
     else if (act === 'dock') { S.dockShut = !S.dockShut; paintDock(); }
-    else if (act === 'report') { if (global.KejianReport && global.KejianReport.open) global.KejianReport.open(); }
+    else if (act === 'report') { if (global.KejianReport && global.KejianReport.submit) global.KejianReport.submit(); }
     else if (act === 'reset') resetAll();
     else if (act === 'alldone') { S.celebrate = true; S.screen = 'map'; render(); }
   });
@@ -696,6 +696,7 @@
         name: cfg.report.name,
         questions: cfg.report.questions,
         legacySolved: legacyIds(),
+        stepBased: true,
         noButton: true
       });
     }

@@ -584,6 +584,7 @@
     html { scroll-behavior: auto; }
     .card, .fill { transition: none; }
   }
+.home-submit{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:16px;line-height:1.5;color:#185b35}.home-submit strong{background:#d9f5e2;color:#14532d;border-radius:8px;padding:3px 9px;font-size:16px}.home-submit span{font-weight:600}
 </style>
 </head>
 <body>
@@ -645,6 +646,8 @@
   渲染时会自动按 date 从新到旧排序，最近 3 天内的条目自动加「新」徽章。
 */
 const ITEMS = [
+  {type:'story',id:'yupeng',title:'雨棚下的空座',date:'2026-11-07',emoji:'☔',tone:'tone-a',desc:'小美为雨中的电影寻找座位：大约多少与够不够，先看估大估小，再找回差额。自由翻图，不判分。',path:'yupeng/'},
+  {type:'practice',id:'yupeng-lianxi',title:'雨棚下的空座配套练习',date:'2026-11-07',emoji:'📝',tone:'tone-b',desc:'3节6题：读懂问句、近似估算、界线两边、修正估算。随时看图讲解。',path:'yupeng-lianxi/',total:6,reportId:'yupeng-lianxi'},
   {type: 'story', id: 'fengqian', title: '风筝场的双栏签', date: '2026-11-05', emoji: '🪁', tone: 'tone-c', desc: '小美在风筝场用双栏签数纸尾片：十位不漏、数字不倒放，个位乘完看清进几。自由翻图，不判分。', path: 'fengqian/'},
   {type: 'practice', id: 'fengqian-lianxi', title: '风筝场的双栏签配套练习', date: '2026-11-05', emoji: '📝', tone: 'tone-b', desc: '4节9题：数位不漏、写几进几、积的位置与0、独立计算及横竖核对。错两次展开讲解。', path: 'fengqian-lianxi/', total: 9, reportId: 'fengqian-lianxi'},
   {type: 'story', id: 'wenju', title: '问句渡', date: '2026-11-04', emoji: '🏮', tone: 'tone-c', desc: '小美在渡口给船票挂问什么灯：圈问句、贴说法、用图认清每一份和每一截。自由翻图，不判分。', path: 'wenju/'},
@@ -774,7 +777,7 @@ const ITEMS = [
     type: 'practice', id: 'cuoti-lianxi', title: '错题再练', date: '2026-10-29',
     emoji: '✏️', tone: 'tone-e',
     desc: '把收好的错题再做一次，做对就记已掌握。',
-    path: 'cuoti-lianxi/', total: 196, reportId: 'cuoti', omitSummary: true
+    path: 'cuoti-lianxi/', total: 196, reportId: 'cuoti-lianxi', omitSummary: true
   },
   {
     type: 'practice', id: 'changdu-zhuanti', title: '长度换算专题', date: '2026-10-18',
@@ -1139,6 +1142,17 @@ function progressHTML(item) {
     + '</div>';
 }
 
+function submissionHTML(item) {
+  var records = readJSON('kejian-home-submits-v1');
+  var record = records && records[item.reportId || item.id];
+  if (!record || record.pageId !== (item.reportId || item.id) || !record.summary) return '';
+  var sum = record.summary;
+  function count(value) { return typeof value === 'number' && isFinite(value) && value >= 0 ? Math.floor(value) : 0; }
+  var text = '一次对 ' + count(sum.once) + ' · 多次后对 ' + count(sum.later) + ' · 未对 ' + count(sum.none);
+  if (count(sum.old)) text += ' · 接入前已对 ' + count(sum.old);
+  return '<div class="home-submit"><strong>已提交</strong><span>' + esc(text) + '</span></div>';
+}
+
 function cardHTML(item) {
   var tone = /^tone-[a-e]$/.test(item.tone) ? item.tone : 'tone-a';
   var kind = item.type === 'story' ? '故事' : '练习';
@@ -1156,6 +1170,7 @@ function cardHTML(item) {
     +     '<time class="date" datetime="' + esc(item.date) + '">' + esc(item.date) + '</time>'
     +     '<p class="desc">' + esc(item.desc) + '</p>'
     +     progressHTML(item)
+    +     submissionHTML(item)
     +   '</div>'
     + '</a>';
 }
@@ -1260,6 +1275,7 @@ paintSummary();
 paintSumLine();
 syncHomeBar();
 window.addEventListener('resize', syncHomeBar);
+window.addEventListener('pageshow', function () { paintCards(); paintSummary(); paintSumLine(); });
 </script>
 </body>
 </html>

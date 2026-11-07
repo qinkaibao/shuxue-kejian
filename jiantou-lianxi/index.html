@@ -105,7 +105,7 @@ details.ans{margin-top:8px;background:#f0f6ff;border-radius:12px;padding:6px 10p
   function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
   var byId={};Q.forEach(function(q){byId[q.id]=q});
   function fb(id,k,t){var e=document.getElementById('fb-'+id);e.className='fb '+k;e.textContent=t}
-  function solved(id){S[id]=1;save();if(window.KejianReport&&(S['w'+id]||0)<2)KejianReport.pass(id);mark(id);gate()}
+  function solved(id){S[id]=1;save();if(window.KejianReport)KejianReport.pass(id);mark(id);gate()}
   function wrongTry(id,ans){S['w'+id]=(S['w'+id]||0)+1;save();if(window.KejianReport)KejianReport.miss(id,ans);if(S['w'+id]>=2){document.getElementById('ans-'+id).hidden=false;fb(id,'no','已错 2 次，讲解已打开，可以先做下一题。')}}
   function mark(id){var b=document.getElementById('box-'+id);b.classList.add('done');document.getElementById('ans-'+id).hidden=false;var q=byId[id];
     if(q.type==='choice'){b.querySelectorAll('.opt').forEach(function(o){o.disabled=true;if(+o.dataset.i===q.ans)o.classList.add('correct')})}

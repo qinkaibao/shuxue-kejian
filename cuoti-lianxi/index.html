@@ -691,7 +691,7 @@
     if (answerText) state.last[id] = String(answerText).replace(/\s+/g, ' ').slice(0, 200);
     saveState();
     if (window.KejianReport) {
-      if (status === 'mastered') KejianReport.pass(id);
+      if (status === 'mastered' && answerText !== '对照原卷后已掌握') KejianReport.pass(id, answerText);
       else if (countMiss) KejianReport.miss(id, state.last[id] || '还要练');
     }
     paintCardStatus(id);
@@ -931,7 +931,7 @@
       document.getElementById('cats').scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
     document.getElementById('btnReport').onclick = function () {
-      if (window.KejianReport && KejianReport.open) KejianReport.open();
+      if (window.KejianReport && KejianReport.submit) KejianReport.submit();
     };
     document.getElementById('cats').onclick = function (e) {
       var btn = e.target.closest('[data-act="cat"]');
@@ -968,7 +968,7 @@
           setFb(again.closest('.redo'), '这题还是记着要再练。', 'bad');
           return;
         }
-        mark(aid, 'again', '对照原卷后还要练', true);
+        mark(aid, 'again', '对照原卷后还要练', false);
         setFb(again.closest('.redo'), '已标为还要练。', 'bad');
       }
     });
@@ -989,8 +989,8 @@
     if (!window.KejianReport) return;
     var qs = DATA.slice().sort(function (a, b) { return a.no - b.no; });
     KejianReport.mount({
-      id: 'cuoti',
-      name: '错题本',
+      id: 'cuoti-lianxi',
+      name: '错题再练',
       noButton: true,
       questions: qs.map(function (q) {
         var brief = '第' + q.no + '题 ' + String(q.question || '').replace(/\s+/g, ' ');

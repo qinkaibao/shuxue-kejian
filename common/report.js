@@ -3,6 +3,7 @@
 (function (global) {
   var PREFIX = 'kejian-report-v1:';
   var ATTEMPTS_MAX = 500;
+  var HOME_KEY = 'kejian-home-submits-v1';
   var current = '';
   var opts = null;
   var styled = false;
@@ -84,9 +85,9 @@
     var misses = data.misses[id] || 0;
     var wrong = data.firstWrong[id] || '';
     if (data.solved[id]) {
-      if (misses === 0 && !wrong) return { label: '一次对', kind: 'once', wrong: '' };
+      if (misses === 0 && !wrong) return { label: opts && opts.stepBased ? '各步一次对' : '一次对', kind: 'once', wrong: '' };
       var n = misses > 0 ? misses + 1 : 2;
-      return { label: '第' + n + '次对', kind: 'later', wrong: wrong };
+      return { label: opts && opts.stepBased ? '曾错后做对（分步作答）' : '第' + n + '次对', kind: 'later', wrong: wrong };
     }
     if (data.legacy[id] && misses === 0 && !wrong) {
       return { label: '已对（接入前完成）', kind: 'old', wrong: '' };
@@ -477,9 +478,34 @@
     }
   }
 
+  function saveHomeSubmission(model) {
+    var token = Date.now().toString(36) + Math.random().toString(36).slice(2);
+    try {
+      var records = JSON.parse(localStorage.getItem(HOME_KEY) || '{}');
+      if (!records || typeof records !== 'object' || Array.isArray(records)) records = {};
+      records[model.pageId] = { pageId: model.pageId, pageName: model.name, when: model.when,
+        summary: { once: model.once, later: model.later, none: model.none, old: model.old, correct: model.correct, total: model.total },
+        uploaded: false, submissionId: token };
+      localStorage.setItem(HOME_KEY, JSON.stringify(records));
+      return token;
+    } catch (e) { return null; }
+  }
+
+  function markHomeUploaded(pageId, token, ok) {
+    if (!token) return;
+    try {
+      var records = JSON.parse(localStorage.getItem(HOME_KEY) || '{}');
+      if (records[pageId] && records[pageId].submissionId === token) {
+        records[pageId].uploaded = !!ok;
+        localStorage.setItem(HOME_KEY, JSON.stringify(records));
+      }
+    } catch (e) {}
+  }
+
   function submitHomework() {
     var model = summarize();
     appendHistory(model);
+    var submissionToken = saveHomeSubmission(model);
     ensureStyle();
     var host = hostEl();
     var tip = host.querySelector('#krSaved');
@@ -492,12 +518,15 @@
     }
     var rate = model.total ? Math.round(model.correct / model.total * 100) : 0;
     var score = '做对 ' + model.correct + '/' + model.total + '（' + rate + '%）';
-    tip.textContent = '已保存 ✓ ' + score + '。正在传给家长…';
+    tip.textContent = (submissionToken ? '本机已保存 ✓ ' : '本机保存失败。') + score + '。正在传给家长…';
+    render(model, buildText(model), tip.textContent);
     try {
       uploadReport(buildExportPayload(model), function (ok) {
-        tip.textContent = ok
-          ? '已保存并传回 ✓ ' + score + '。'
-          : '本机已保存 ✓ ' + score + '。传回未成功，家长可点「复习导出」。';
+        markHomeUploaded(model.pageId, submissionToken, ok);
+        var message = (submissionToken ? '本机已保存。' : '本机保存失败。') + (ok ? '上传请求已发出（收件情况待确认）。' : '上传未成功，家长可导出成绩单。');
+        tip.textContent = message;
+        var msg = document.getElementById('krMsg');
+        if (msg) msg.textContent = message;
       });
     } catch (e) {
       tip.textContent = '本机已保存 ✓ ' + score + '。传回未成功，家长可点「复习导出」。';

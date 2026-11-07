@@ -112,7 +112,7 @@
     };
     if (opts.report) {
       document.getElementById('snWork').onclick = function () {
-        if (global.KejianReport && global.KejianReport.open) global.KejianReport.open();
+        if (global.KejianReport && global.KejianReport.submit) global.KejianReport.submit();
       };
     }
     sheet.onclick = function (e) { if (e.target === sheet) closeSheet(); };

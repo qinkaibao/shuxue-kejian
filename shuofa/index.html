@@ -2960,7 +2960,7 @@ function header(){
    '<div class="htitle">说法找算法</div><div class="prog"><div class="pbar"><div class="pfill" style="width:'+(d/TOTAL*100)+'%"></div></div><div class="ptxt">已完成 '+d+' / '+TOTAL+' 题 · ★ '+totalStars()+'</div></div>'+
    '<button class="hbtn" onclick="openReport()">交作业</button></div>';
 }
-function openReport(){ if(window.KejianReport&&KejianReport.open) KejianReport.open(); }
+function openReport(){ if(window.KejianReport&&KejianReport.submit) KejianReport.submit(); }
 function goHome(){S.screen='home';render();}
 function goMap(){S.screen='map';render();}
 function fitHeader(){
@@ -3284,7 +3284,7 @@ function stSort(st,b){
 function finishQ(){
   var q=curQ(),l=LEVELS[S.L],stars=S.exp===0?3:(S.exp===1?2:1);
   S.prog[q.id]=Math.max(S.prog[q.id]||0,stars);save();
-  if(window.KejianReport)KejianReport.pass(q.id);
+  if(S.exp===0 && window.KejianReport)KejianReport.pass(q.id);
   setStages(3);
   var last=S.Q>=l.qs.length-1;
   var el=$('#step');
@@ -3315,7 +3315,7 @@ function allDone(){
       if(S.prog[q.id])legacy.push(q.id);
     });
   });
-  KejianReport.mount({id:'shuofa',name:'说法找算法',questions:qs,legacySolved:legacy});
+  KejianReport.mount({id:'shuofa',name:'说法找算法',questions:qs,legacySolved:legacy,stepBased:true});
 })();
 render();
 

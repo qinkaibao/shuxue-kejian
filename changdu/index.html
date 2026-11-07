@@ -1353,7 +1353,7 @@ svg text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft Y
     for (var rq = 0; rq < reportQs.length; rq++) {
       if (state.done[reportQs[rq].id]) reportOld.push(reportQs[rq].id);
     }
-    KejianReport.mount({id:'changdu', name:'竹尺巷的河灯', questions:reportQs, legacySolved:reportOld});
+    KejianReport.mount({id:'changdu', name:'竹尺巷的河灯', questions:reportQs, legacySolved:reportOld,stepBased:true});
   }
 })();
 </script>
