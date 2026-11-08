@@ -13,6 +13,11 @@ function progress(){return '已做对 '+Q.filter(q=>solved[q.id]).length+' / '+Q
 function paintProgress(){document.getElementById('prog').textContent=progress();const nav=document.getElementById('snProg');if(nav)nav.textContent=progress();}
 function feedback(id,ok,text){const el=document.getElementById('fb-'+id);el.className='feedback '+(ok?'ok':'no');el.textContent=text;}
 function explain(id){document.getElementById('ans-'+id).open=true;}
+window.addEventListener('kejian-progress-synced',function(event){
+  if(!event.detail||event.detail.pageId!=='yisi-lianxi')return;
+  KejianReport.restorePractice({pageId:'yisi-lianxi',questions:Q,solved:solved,misses:misses,
+    mark:function(q){mark(q,true);},paint:paintProgress});
+});
 function mark(q,restored){const box=document.getElementById('box-'+q.id);box.classList.add('done');box.querySelectorAll('input').forEach((el,i)=>{el.value=q.answer[i];el.disabled=true;});box.querySelectorAll('.opt').forEach(btn=>{btn.disabled=true;if(Number(btn.dataset.i)===q.answer)btn.classList.add('correct');});explain(q.id);const n=Number(misses[q.id]||0)+1;feedback(q.id,true,(restored?'已恢复上次作答。':'答对了。')+(n===1?'这题一次就对。':'这题第 '+n+' 次答对。'));paintProgress();}
 function attempt(q,answer,display){if(solved[q.id])return;const ok=Array.isArray(q.answer)?answer.length===q.answer.length&&answer.every((v,i)=>v===q.answer[i]):answer===q.answer;if(ok){KejianReport.pass(q.id,display);solved[q.id]=1;mark(q,false);}else{KejianReport.miss(q.id,display);misses[q.id]=Number(misses[q.id]||0)+1;feedback(q.id,false,q.hint+(misses[q.id]>=2?' 讲解已展开，看懂后还可以继续答。':' 可以摆图再想一想。'));if(misses[q.id]>=2)explain(q.id);}}
 function normalize(v){return v.trim().replace(/[０-９]/g,c=>String.fromCharCode(c.charCodeAt(0)-65248));}

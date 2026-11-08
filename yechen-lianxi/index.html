@@ -13,6 +13,11 @@ const byId=Object.fromEntries(Q.map(q=>[q.id,q]));
 function feedback(id,ok,text){const el=document.getElementById('fb-'+id);el.className='fb '+(ok?'ok':'no');el.textContent=text;}
 function explain(id){const el=document.getElementById('ans-'+id);el.hidden=false;el.open=true;}
 function progress(){document.getElementById('prog').textContent='已做对 '+Q.filter(q=>solved[q.id]).length+' / '+Q.length+' 题';const nav=document.getElementById('snProg');if(nav)nav.textContent=document.getElementById('prog').textContent;}
+window.addEventListener('kejian-progress-synced',function(event){
+  if(!event.detail||event.detail.pageId!=='yechen-lianxi')return;
+  KejianReport.restorePractice({pageId:'yechen-lianxi',questions:Q,solved:solved,misses:misses,
+    mark:function(q){mark(q,true);},paint:progress});
+});
 function mark(q,restored){const box=document.getElementById('box-'+q.id);box.classList.add('done');box.querySelectorAll('input').forEach((el,j)=>{el.value=q.answer[j];el.disabled=true;});box.querySelectorAll('.opt').forEach(el=>{el.disabled=true;if(Number(el.dataset.i)===q.answer)el.classList.add('correct');});explain(q.id);const n=(misses[q.id]||0)+1;feedback(q.id,true,(restored?'已完成。':'答对了！')+(n===1?'这题一次就对。':'这题第 '+n+' 次答对。'));progress();}
 function attempt(q,answer,display){if(solved[q.id])return;const correct=Array.isArray(q.answer)?answer.every((v,i)=>v===q.answer[i]):answer===q.answer;if(correct){KejianReport.pass(q.id);solved[q.id]=1;mark(q,false);}else{KejianReport.miss(q.id,display);misses[q.id]=(misses[q.id]||0)+1;feedback(q.id,false,q.hint+(misses[q.id]>=2?' 已错 2 次，讲解已展开；看懂后可以继续答。':' 再试一次。'));if(misses[q.id]>=2)explain(q.id);}}
 function normalize(v){return v.trim().replace(/[０-９]/g,c=>String.fromCharCode(c.charCodeAt(0)-65248));}

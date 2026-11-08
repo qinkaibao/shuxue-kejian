@@ -43,7 +43,10 @@
   function saveReading(record, uploadUpdate) {
     var saved = false;
     try {
-      localStorage.setItem(READ_PREFIX + record.pageId, JSON.stringify(record));
+      var previous = readRecord(record.pageId);
+      if (!uploadUpdate || (previous && previous.submissionId === record.submissionId)) {
+        localStorage.setItem(READ_PREFIX + record.pageId, JSON.stringify(record));
+      }
       saved = true;
     } catch (e) {}
     try {
@@ -145,7 +148,7 @@
     if (document.getElementById('siteNav')) return;
     var openedAt = new Date();
     var hs = headings();
-    var reading = opts.reading === true || (!opts.report && hs.length > 0);
+    var reading = opts.reading === true || (opts.reading !== false && !opts.report && hs.length > 0);
     var pageId = opts.pageId || pageIdFromPath();
     var completed = reading && readRecord(pageId);
     completed = completed && completed.kind === 'story-read' && completed.summary && completed.summary.read === true;
@@ -211,6 +214,25 @@
       readButton = document.getElementById('snRead');
       readHint = document.getElementById('snReadHint');
       if (completed) readHint.textContent = '这篇故事已经读完了';
+      function restoreReading() {
+        var record = readRecord(pageId);
+        completed = !!(record && record.summary && record.summary.read === true);
+        if (completed) {
+          maxScrollPct = Math.max(maxScrollPct, Number(record.summary.maxScrollPct) || 1);
+          chaptersReached = Math.max(chaptersReached, Number(record.summary.chaptersReached) || hs.length);
+          readHint.textContent = '这篇故事已经读完了';
+        }
+        paint();
+      }
+      window.addEventListener('kejian-progress-synced', function (event) {
+        if (event.detail && event.detail.pageId === pageId) restoreReading();
+      });
+      function syncReading() {
+        ensureReport().then(function (report) { return report.syncFromCloud({ pageId: pageId }); })
+          .then(restoreReading).catch(function () {});
+      }
+      syncReading();
+      window.addEventListener('pageshow', syncReading);
       readButton.onclick = function () {
         paint();
         if (readButton.disabled || completed) return;

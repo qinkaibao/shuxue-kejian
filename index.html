@@ -633,6 +633,7 @@
   <p class="foot">练习页顶栏可以交作业。</p>
 </div>
 
+<script src="common/report.js"></script>
 <script>
 /*
   新增条目很简单：在下面的 ITEMS 数组里再加一个对象即可。
@@ -1277,12 +1278,16 @@ function syncHomeBar() {
   document.documentElement.style.setProperty('--home-bar-h', bar.offsetHeight + 'px');
 }
 
-paintCards();
-paintSummary();
-paintSumLine();
+function refreshHome() {
+  return KejianReport.syncFromCloud().then(function () {
+    paintCards(); paintSummary(); paintSumLine();
+  });
+}
+refreshHome();
 syncHomeBar();
 window.addEventListener('resize', syncHomeBar);
-window.addEventListener('pageshow', function () { paintCards(); paintSummary(); paintSumLine(); });
+window.addEventListener('load', refreshHome);
+window.addEventListener('pageshow', refreshHome);
 </script>
 </body>
 </html>

@@ -18,7 +18,12 @@
   function feedback(q,message){document.getElementById('fb-'+q.id).textContent=message;}
   function explain(q){document.getElementById('ans-'+q.id).open=true;}
   function progress(){const message='已完成 '+Q.filter(q=>solved[q.id]).length+' / '+Q.length+' 题';document.getElementById('prog').textContent=message;const nav=document.getElementById('snProg');if(nav)nav.textContent=message;}
-  function mark(q,restored){
+  window.addEventListener('kejian-progress-synced',function(event){
+  if(!event.detail||event.detail.pageId!=='xiansuo-lianxi')return;
+  KejianReport.restorePractice({pageId:'xiansuo-lianxi',questions:Q,solved:solved,misses:misses,
+    mark:function(q){mark(q,true);},paint:progress});
+});
+function mark(q,restored){
     const article=document.getElementById('box-'+q.id);article.classList.add('done');
     article.querySelectorAll('input').forEach(el=>{el.value=q.answer;el.disabled=true;});
     article.querySelectorAll('.option').forEach(el=>{el.disabled=true;if(Number(el.dataset.choice)===q.answer)el.classList.add('correct');});

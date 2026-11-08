@@ -351,6 +351,7 @@ svg text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft Y
         var o = JSON.parse(raw);
         if (o && typeof o === 'object') {
           if (o.done) s.done = o.done;
+          if (o.when) s.when = o.when;
           if (o.placed) s.placed = o.placed;
           if (typeof o.strips === 'number') s.strips = o.strips;
           if (typeof o.halves === 'number') s.halves = o.halves;
@@ -367,6 +368,8 @@ svg text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft Y
     if (s.done.rope) { s.strips = 10; s.banner = 1; }
     if (s.strips >= 10) s.banner = 1;
     if (s.done.ruler) s.origin = 0;
+    if (s.done.lens) s.lensSeen = 1;
+    if (s.done.trackQ) { s.done.track = 1; s.reached = 1; s.halves = Math.max(s.halves, 5); }
     if (s.done.units) {
       for (var i = 0; i < ITEMS.length; i++) s.placed[ITEMS[i].id] = ITEMS[i].ans;
     }
@@ -377,17 +380,22 @@ svg text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft Y
   }
   var state = load();
   state.sel = '';
+  var reportReady = false;
+  var quizRestorers = [];
 
   function repMiss(id, text) { if (window.KejianReport) KejianReport.miss(id, text); }
   function repPass(id) { if (window.KejianReport) KejianReport.pass(id); }
 
   function save() {
     try {
-      localStorage.setItem(KEY, JSON.stringify({
+      state.when = new Date(Math.max(Date.now(), Date.parse(state.when || '') + 1 || 0)).toISOString();
+      var savedState = {
         done: state.done, placed: state.placed, strips: state.strips, halves: state.halves,
         reached: state.reached, lensSeen: state.lensSeen, banner: state.banner,
-        order: state.order, origin: state.origin, lx: state.lx, ly: state.ly
-      }));
+        order: state.order, origin: state.origin, lx: state.lx, ly: state.ly, when: state.when
+      };
+      localStorage.setItem(KEY, JSON.stringify(savedState));
+      if (reportReady && window.KejianReport) KejianReport.updatePageExtras({ hedeng: savedState });
     } catch (e) {}
   }
   function clamp(n, a, b) { return Math.max(a, Math.min(b, n)); }
@@ -453,6 +461,7 @@ svg text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft Y
     renderStrips();
     renderTrack();
     renderOrder();
+    quizRestorers.forEach(function (restore) { restore(); });
     if (newly) {
       try { newly.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'start'}); } catch (e) {}
     }
@@ -892,10 +901,11 @@ svg text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft Y
         if (e.key === 'Enter') { e.preventDefault(); grade(); }
       });
     }
-    if (state.done[cfg.id]) {
-      fillCorrect();
-      lock(cfg.ok);
+    function restoreQuiz() {
+      if (state.done[cfg.id]) { fillCorrect(); lock(cfg.ok); }
     }
+    quizRestorers.push(restoreQuiz);
+    restoreQuiz();
   }
 
   function buildStrips() {
@@ -1353,7 +1363,14 @@ svg text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft Y
     for (var rq = 0; rq < reportQs.length; rq++) {
       if (state.done[reportQs[rq].id]) reportOld.push(reportQs[rq].id);
     }
+    window.addEventListener('kejian-progress-synced', function (event) {
+      if (!event.detail || event.detail.pageId !== 'changdu') return;
+      state = load();
+      state.sel = '';
+      refresh(false);
+    });
     KejianReport.mount({id:'changdu', name:'竹尺巷的河灯', questions:reportQs, legacySolved:reportOld,stepBased:true});
+    reportReady = true;
   }
 })();
 </script>
@@ -1368,7 +1385,7 @@ SiteNav.mount({
     try {
       var o = JSON.parse(localStorage.getItem('changdu-hedeng-v1') || '{}');
       var done = o.done || {};
-      Object.keys(done).forEach(function (k) { if (done[k]) n++; });
+      ['ruler','units','lens','rope','track','finale'].forEach(function (k) { if (done[k]) n++; });
     } catch (e) {}
     return '已过 ' + n + '/6 扇门';
   }

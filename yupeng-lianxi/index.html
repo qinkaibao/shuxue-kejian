@@ -8,6 +8,11 @@ const state={}; Q.forEach(q=>state[q.id]={choices:{},targets:{}});
 function progress(){return '已做对 '+Q.filter(q=>solved[q.id]).length+' / 6 题';}
 function paint(){document.getElementById('prog').textContent=progress();let n=document.getElementById('snProg');if(n)n.textContent=progress();}
 function feedback(id,ok,msg){let f=document.getElementById('fb-'+id);f.className='feedback '+(ok?'ok':'no');f.textContent=msg;}
+window.addEventListener('kejian-progress-synced',function(event){
+  if(!event.detail||event.detail.pageId!=='yupeng-lianxi')return;
+  KejianReport.restorePractice({pageId:'yupeng-lianxi',questions:Q,solved:solved,misses:misses,
+    mark:function(q){mark(q.id,true);},paint:paint});
+});
 function mark(id,restored){let box=document.getElementById('box-'+id);box.classList.add('done');box.querySelectorAll('button,input').forEach(x=>x.disabled=true);document.getElementById('ans-'+id).open=true;let n=Number(misses[id]||0)+1;feedback(id,true,(restored?'已恢复上次作答。':'作答正确。')+(n===1?'这题一次就对。':'这题第 '+n+' 次答对。'));paint();}
 document.querySelectorAll('[data-choice]').forEach(b=>b.onclick=()=>{let box=b.closest('.question'),id=box.id.slice(4),key=b.dataset.choice;state[id].choices[key]=b.dataset.value;box.querySelectorAll('[data-choice="'+key+'"]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));});
 document.querySelectorAll('[data-toggle]').forEach(b=>b.onclick=()=>{let on=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',String(on));if(b.dataset.toggle==='remove'){b.textContent=on?'已拿掉':'想象＋1';updateQ5();}});

@@ -5,6 +5,11 @@ let saved={};try{saved=JSON.parse(localStorage.getItem('kejian-report-v1:wenju-l
 const solved=saved.solved&&typeof saved.solved==='object'?saved.solved:{};const misses=saved.misses&&typeof saved.misses==='object'?saved.misses:{};
 const byId=Object.fromEntries(Q.map(q=>[q.id,q]));function progress(){return '已做对 '+Q.filter(q=>solved[q.id]).length+' / 9 题';}function paint(){document.getElementById('prog').textContent=progress();const el=document.getElementById('snProg');if(el)el.textContent=progress();}
 function feedback(id,msg){document.getElementById('fb-'+id).textContent=msg;}
+window.addEventListener('kejian-progress-synced',function(event){
+  if(!event.detail||event.detail.pageId!=='wenju-lianxi')return;
+  KejianReport.restorePractice({pageId:'wenju-lianxi',questions:Q,solved:solved,misses:misses,
+    mark:function(q){mark(q,true);},paint:paint});
+});
 function mark(q,restore){const box=document.getElementById('box-'+q.id);box.classList.add('done');box.querySelectorAll('input').forEach((x,i)=>{x.value=q.answer[i];x.disabled=true;});box.querySelectorAll('.opt').forEach(b=>{b.disabled=true;if(Number(b.dataset.i)===q.answer)b.classList.add('correct');});const sub=box.querySelector('.submit');if(sub)sub.disabled=true;document.getElementById('ans-'+q.id).open=true;feedback(q.id,(restore?'已恢复上次作答。':'答对了。')+'看看讲解，把每一步指回问句。');paint();}
 function attempt(q,answer,display){if(solved[q.id])return;const ok=Array.isArray(q.answer)?answer.every((v,i)=>v===q.answer[i])&&answer.length===q.answer.length:answer===q.answer;if(ok){KejianReport.pass(q.id,display);solved[q.id]=1;mark(q,false);}else{KejianReport.miss(q.id,display);misses[q.id]=(Number(misses[q.id])||0)+1;feedback(q.id,q.hint+(misses[q.id]>=2?' 讲解已展开，看懂后再试。':' 再读一遍问句。'));if(misses[q.id]>=2)document.getElementById('ans-'+q.id).open=true;}}
 document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{const q=byId[b.dataset.q],i=Number(b.dataset.i);if(solved[q.id])return;if(i!==q.answer)b.classList.add('wrong');attempt(q,i,b.textContent);});

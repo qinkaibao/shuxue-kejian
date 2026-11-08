@@ -7,6 +7,12 @@
   var current = '';
   var opts = null;
   var styled = false;
+  var READ_PREFIX = 'kejian-story-read-v1:';
+  var progressTimer = null;
+  var pulls = {};
+  var mountVersion = 0;
+  var PROGRESS_DELAY = 8000;
+  var dispatched = {};
 
   function sid(id) { return String(id); }
 
@@ -16,13 +22,18 @@
 
   function storageKey() { return PREFIX + current; }
 
-  function load() {
+  function readJSON(key) {
+    try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch (e) { return null; }
+  }
+
+  function isObject(value) { return value && typeof value === 'object' && !Array.isArray(value); }
+
+  function load(pageId) {
     var data = empty();
-    if (!current) return data;
+    pageId = pageId || current;
+    if (!pageId) return data;
     try {
-      var raw = localStorage.getItem(storageKey());
-      if (!raw) return data;
-      var o = JSON.parse(raw);
+      var o = readJSON(PREFIX + pageId);
       if (!o || typeof o !== 'object') return data;
       if (o.misses && typeof o.misses === 'object') data.misses = o.misses;
       if (o.firstWrong && typeof o.firstWrong === 'object') data.firstWrong = o.firstWrong;
@@ -30,6 +41,11 @@
       if (o.legacy && typeof o.legacy === 'object') data.legacy = o.legacy;
       if (Array.isArray(o.history)) data.history = o.history;
       if (Array.isArray(o.attempts)) data.attempts = o.attempts;
+      if (isObject(o.pageExtras)) data.pageExtras = o.pageExtras;
+      if (o.when) data.when = o.when;
+      if (o.receivedAt) data.receivedAt = o.receivedAt;
+      if (o.pending) data.pending = true;
+      if (o.cleared) data.cleared = true;
     } catch (e) {}
     return data;
   }
@@ -37,6 +53,41 @@
   function save(data) {
     if (!current) return;
     try { localStorage.setItem(storageKey(), JSON.stringify(data)); } catch (e) {}
+  }
+
+  function timestamp(value) {
+    if (typeof value === 'number') return value;
+    if (!value) return 0;
+    // Older exports use local "YYYY-MM-DD HH:mm" timestamps.
+    var n = Date.parse(String(value).replace(' ', 'T'));
+    return isNaN(n) ? 0 : n;
+  }
+
+  function recordTime(record) {
+    return record ? timestamp(record.when) || timestamp(record.receivedAt) : 0;
+  }
+
+  function touch(data) {
+    // Keep successive local edits ordered even within one clock tick.
+    data.when = new Date(Math.max(Date.now(), recordTime(data) + 1)).toISOString();
+    data.pending = true;
+    save(data);
+    scheduleProgress();
+  }
+
+  function snapshot(data) {
+    var result = { misses: data.misses, solved: data.solved, firstWrong: data.firstWrong,
+      legacy: data.legacy, attempts: data.attempts.slice(), when: data.when || '' };
+    if (data.pageExtras) result.pageExtras = data.pageExtras;
+    if (data.cleared) result.cleared = true;
+    return JSON.parse(JSON.stringify(result));
+  }
+
+  function updatePageExtras(extras) {
+    if (!current || !isObject(extras)) return;
+    var data = load();
+    data.pageExtras = Object.assign({}, data.pageExtras || {}, extras);
+    touch(data);
   }
 
   function pad(n) { return (n < 10 ? '0' : '') + n; }
@@ -116,7 +167,7 @@
       later: later,
       none: none,
       old: old,
-      when: nowText(),
+      when: new Date().toISOString(),
       name: (opts && opts.name) || '练习',
       pageId: current || ((opts && opts.id) ? sid(opts.id) : '')
     };
@@ -171,7 +222,8 @@
         total: model.total
       },
       questions: questions,
-      attempts: Array.isArray(data.attempts) ? data.attempts.slice() : []
+      attempts: Array.isArray(data.attempts) ? data.attempts.slice() : [],
+      store: snapshot(data)
     };
   }
 
@@ -448,6 +500,207 @@
   /* 小朋友交作业：先写入本页 localStorage，再把成绩单传到家长收件箱。 */
   var REPORT_UPLOAD_URL = 'https://jpcrm2528800-d2gn2y85j9a2d680b-1462769606.ap-shanghai.app.tcloudbase.com/kejian-submit-report';
 
+  function scheduleProgress() {
+    if (progressTimer !== null) clearTimeout(progressTimer);
+    progressTimer = setTimeout(function () { progressTimer = null; uploadProgressNow(); }, PROGRESS_DELAY);
+  }
+
+  function uploadProgressNow() {
+    if (progressTimer !== null) { clearTimeout(progressTimer); progressTimer = null; }
+    if (!current || !opts) return;
+    var data = load();
+    if (!data.pending) return;
+    if (dispatched[current] === data.when) return;
+    var payload = buildExportPayload(summarize());
+    payload.kind = 'progress';
+    payload.when = data.when || payload.when;
+    // A queued beacon is not a server acknowledgement. Keep pending until a pull
+    // returns this version; re-opening the page can retry an interrupted upload.
+    dispatched[payload.pageId] = payload.when;
+    uploadReport(payload, function (ok) {
+      if (!ok && dispatched[payload.pageId] === payload.when) delete dispatched[payload.pageId];
+    });
+  }
+
+  function storeFromRecord(record) {
+    var data = empty();
+    if (isObject(record.store)) {
+      ['misses', 'solved', 'firstWrong', 'legacy', 'pageExtras'].forEach(function (key) {
+        if (isObject(record.store[key])) data[key] = record.store[key];
+      });
+      data.attempts = Array.isArray(record.store.attempts) ? record.store.attempts.slice(-ATTEMPTS_MAX)
+        : Array.isArray(record.attempts) ? record.attempts.slice(-ATTEMPTS_MAX) : [];
+      data.when = record.store.when || record.when || record.receivedAt;
+      if (record.store.cleared) data.cleared = true;
+    } else {
+      (Array.isArray(record.questions) ? record.questions : []).forEach(function (q) {
+        if (!q || q.id == null) return;
+        var id = sid(q.id), label = String(q.status || ''), match = label.match(/第\s*(\d+)\s*次对/);
+        if (q.firstWrong) data.firstWrong[id] = trimAnswer(q.firstWrong);
+        if (label === '一次对' || label === '各步一次对') { data.solved[id] = 1; data.misses[id] = 0; }
+        else if (match || label.indexOf('曾错后做对') >= 0) {
+          data.solved[id] = 1; data.misses[id] = Math.max(match ? Number(match[1]) - 1 : 1, 1);
+        } else if (label === '已对（接入前完成）') data.legacy[id] = 1;
+      });
+      data.attempts = Array.isArray(record.attempts) ? record.attempts.slice(-ATTEMPTS_MAX) : [];
+      data.when = record.when || record.receivedAt;
+    }
+    data.receivedAt = record.receivedAt;
+    return data;
+  }
+
+  function notifySynced(pageId) {
+    global.dispatchEvent(new CustomEvent('kejian-progress-synced', { detail: { pageId: pageId } }));
+  }
+
+  function mergeHedeng(pageId, data) {
+    if (pageId !== 'changdu') return;
+    var local = readJSON('changdu-hedeng-v1') || {};
+    var extra = data.pageExtras && data.pageExtras.hedeng;
+    var next = Object.assign({}, local);
+    var extraTime = isObject(extra) ? recordTime(extra) || recordTime(data) : 0;
+    if (isObject(extra) && extraTime > recordTime(local)) next = Object.assign(next, extra);
+    next.done = Object.assign({}, local.done || {}, next.done || {});
+    ['ruler', 'units', 'lens', 'rope', 'trackQ', 'lamps', 'momUnit', 'momCm', 'sortFill', 'sortOrder'].forEach(function (id) {
+      if (data.solved[id] || data.legacy[id]) next.done[id] = 1;
+    });
+    if (next.done.trackQ) next.done.track = 1;
+    if (next.done.sortOrder) next.done.finale = 1;
+    if (recordTime(data) > recordTime(next)) next.when = data.when;
+    localStorage.setItem('changdu-hedeng-v1', JSON.stringify(next));
+  }
+
+  function applyCloudRecord(pageId, record) {
+    if (!isObject(record)) return false;
+    var changed = false;
+    var local = readJSON(PREFIX + pageId);
+    var home = readJSON(HOME_KEY) || {};
+    if (!isObject(home)) home = {};
+    var isReading = record.kind === 'story-read' || (record.summary && record.summary.read === true);
+    var incoming = storeFromRecord(record);
+    // A reading receipt without exercise state must never erase a mixed story's answers.
+    var hasWork = !isReading || Object.keys(incoming.solved).length || Object.keys(incoming.misses).length
+      || Object.keys(incoming.legacy).length || Object.keys(incoming.firstWrong).length
+      || incoming.attempts.length || incoming.pageExtras;
+    var localTime = Math.max(recordTime(local), home[pageId] && home[pageId].uploaded === false ? recordTime(home[pageId]) : 0);
+    var incomingTime = recordTime(incoming);
+    if (hasWork && (incomingTime > localTime || (!local && !localTime))) {
+      // History is local review history, not a count of cloud pulls.
+      if (local && Array.isArray(local.history)) incoming.history = local.history;
+      localStorage.setItem(PREFIX + pageId, JSON.stringify(incoming));
+      mergeHedeng(pageId, incoming);
+      changed = true;
+    } else if (hasWork && local && local.pending && incomingTime === localTime
+      && JSON.stringify(snapshot(load(pageId))) === JSON.stringify(snapshot(incoming))) {
+      delete local.pending;
+      localStorage.setItem(PREFIX + pageId, JSON.stringify(local));
+    }
+    var cloudTime = recordTime(record);
+    // A newer unsubmitted answer also protects the home card from an older upload.
+    var homeTime = Math.max(recordTime(home[pageId]), local && local.pending ? recordTime(local) : 0);
+    if (!home[pageId] || cloudTime > homeTime || (cloudTime === homeTime && home[pageId].uploaded === false)) {
+      if (cloudTime >= homeTime) {
+        home[pageId] = { pageId: pageId, pageName: record.pageName || pageId,
+          when: record.when || record.receivedAt, receivedAt: record.receivedAt,
+          kind: record.kind || 'homework', summary: record.summary || {}, uploaded: true, source: record.source || 'cloud' };
+        localStorage.setItem(HOME_KEY, JSON.stringify(home));
+        changed = true;
+      }
+    }
+    if (isReading) {
+      var oldRead = readJSON(READ_PREFIX + pageId);
+      if (!oldRead || cloudTime > recordTime(oldRead) || (cloudTime === recordTime(oldRead) && oldRead.uploaded === false)) {
+        localStorage.setItem(READ_PREFIX + pageId, JSON.stringify({ pageId: pageId, pageName: record.pageName || pageId,
+          when: record.when || record.receivedAt, receivedAt: record.receivedAt, kind: 'story-read',
+          summary: Object.assign({}, record.summary, { read: true }), uploaded: true, source: record.source || 'cloud' }));
+        changed = true;
+      }
+    }
+    if (changed) notifySynced(pageId);
+    return changed;
+  }
+
+  function syncFromCloud(options) {
+    options = options || {};
+    var pageId = options.pageId ? sid(options.pageId) : '';
+    var key = pageId || '*';
+    if (pulls[key]) return pulls[key];
+    var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    var timeout;
+    var task = new Promise(function (resolve) {
+      var settled = false;
+      function finish(result) {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timeout);
+        resolve(result);
+      }
+      timeout = setTimeout(function () {
+        finish({ ok: false, error: 'timeout' });
+        if (controller) controller.abort();
+      }, 4500);
+      var body = { action: 'pull' };
+      if (pageId) body.pageId = pageId;
+      try {
+        fetch(REPORT_UPLOAD_URL, { method: 'POST', mode: 'cors',
+          headers: { 'Content-Type': 'text/plain;charset=UTF-8' }, body: JSON.stringify(body),
+          signal: controller ? controller.signal : undefined
+        }).then(function (response) {
+          if (!response.ok) throw new Error('pull HTTP ' + response.status);
+          return response.json();
+        }).then(function (result) {
+          if (settled) return;
+          if (!result || result.ok !== true || !isObject(result.records)) throw new Error('invalid pull response');
+          var updated = [];
+          Object.keys(result.records).forEach(function (id) {
+            if (pageId && id !== pageId) return;
+            try { if (applyCloudRecord(id, result.records[id])) updated.push(id); } catch (e) {}
+          });
+          finish({ ok: true, updated: updated, pulledAt: result.pulledAt });
+        }).catch(function () { finish({ ok: false, error: 'unavailable' }); });
+      } catch (e) { finish({ ok: false, error: 'unavailable' }); }
+    });
+    pulls[key] = task.then(function (result) { delete pulls[key]; return result; });
+    return pulls[key];
+  }
+
+  // Page controllers retain references to these maps. Update them in place and
+  // re-enable a previously completed question if the newer cloud state cleared it.
+  function restorePractice(config) {
+    var data = load(config.pageId);
+    var oldSolved = Object.assign({}, config.solved);
+    [config.solved, config.misses].forEach(function (map) { Object.keys(map).forEach(function (id) { delete map[id]; }); });
+    Object.assign(config.solved, data.solved, data.legacy);
+    Object.assign(config.misses, data.misses);
+    config.questions.forEach(function (q) {
+      var box = document.getElementById('box-' + q.id);
+      if (config.solved[q.id]) {
+        config.mark(q);
+        if (data.legacy[q.id] && !data.solved[q.id]) {
+          var oldFeedback = document.getElementById('fb-' + q.id);
+          if (oldFeedback) oldFeedback.textContent = '已对（接入前完成）。可以对照讲解复习。';
+        }
+      }
+      else {
+        if (box && oldSolved[q.id]) {
+          box.classList.remove('done');
+          box.querySelectorAll('button,input').forEach(function (el) {
+            el.disabled = false;
+            if (el.matches('input:not([type=radio]):not([type=checkbox])')) el.value = '';
+            el.classList.remove('correct', 'wrong');
+          });
+          var submit = box.querySelector('.submit');
+          if (submit) submit.hidden = false;
+          var feedback = document.getElementById('fb-' + q.id);
+          if (feedback) { feedback.textContent = ''; feedback.className = 'fb'; }
+        }
+        var explanation = document.getElementById('ans-' + q.id);
+        if (explanation && Number(data.misses[q.id]) >= 2) { explanation.hidden = false; explanation.open = true; }
+      }
+    });
+    config.paint();
+  }
+
   function uploadReport(payload, onDone) {
     var body = JSON.stringify(payload);
     var finished = false;
@@ -484,6 +737,7 @@
       if (typeof onDone === 'function') onDone(false);
       return;
     }
+    payload.store = snapshot(load(payload.pageId));
     uploadReport(payload, onDone);
   }
 
@@ -513,6 +767,11 @@
 
   function submitHomework() {
     var model = summarize();
+    var latest = load();
+    latest.when = model.when = new Date(Math.max(Date.now(), recordTime(latest) + 1)).toISOString();
+    latest.pending = true;
+    save(latest);
+    if (progressTimer !== null) { clearTimeout(progressTimer); progressTimer = null; }
     appendHistory(model);
     var submissionToken = saveHomeSubmission(model);
     ensureStyle();
@@ -530,7 +789,11 @@
     tip.textContent = (submissionToken ? '本机已保存 ✓ ' : '本机保存失败。') + score + '。正在传给家长…';
     render(model, buildText(model), tip.textContent);
     try {
-      uploadReport(buildExportPayload(model), function (ok) {
+      var payload = buildExportPayload(model);
+      payload.kind = 'homework';
+      dispatched[model.pageId] = payload.when;
+      uploadReport(payload, function (ok) {
+        if (!ok && dispatched[model.pageId] === payload.when) delete dispatched[model.pageId];
         markHomeUploaded(model.pageId, submissionToken, ok);
         var message = (submissionToken ? '本机已保存。' : '本机保存失败。') + (ok ? '上传请求已发出（收件情况待确认）。' : '上传未成功，家长可导出成绩单。');
         tip.textContent = message;
@@ -553,10 +816,14 @@
 
 
   function mount(options) {
+    if (current && opts) uploadProgressNow();
     opts = options || {};
     current = sid(opts.id || 'page');
+    var version = ++mountVersion;
+    return syncFromCloud({ pageId: current }).then(function () {
+    if (version !== mountVersion) return;
     var data = load();
-    var legacy = opts.legacySolved || [];
+    var legacy = data.cleared ? [] : (opts.legacySolved || []);
     var changed = false;
     for (var i = 0; i < legacy.length; i++) {
       var id = sid(legacy[i]);
@@ -565,7 +832,10 @@
         changed = true;
       }
     }
-    if (changed) save(data);
+    if (changed) touch(data);
+    else if (data.pending) scheduleProgress();
+    mergeHedeng(current, data);
+    notifySynced(current);
     ensureStyle();
     if (!opts.noButton) {
       var host = hostEl();
@@ -576,6 +846,7 @@
       document.getElementById('krGo').onclick = submitHomework;
       document.getElementById('krReview').onclick = openReview;
     }
+    });
   }
 
   function miss(qid, answer) {
@@ -589,7 +860,7 @@
     pushAttempt(data, id, false, answer);
     delete data.legacy[id];
     delete data.solved[id];
-    save(data);
+    touch(data);
   }
 
   function pass(qid, answer) {
@@ -599,19 +870,33 @@
     data.solved[id] = 1;
     pushAttempt(data, id, true, answer == null ? '' : answer);
     delete data.legacy[id];
-    save(data);
+    touch(data);
   }
 
   function clear() {
     if (!current) return;
-    try { localStorage.removeItem(storageKey()); } catch (e) {}
+    var previous = load();
+    var data = empty();
+    data.when = previous.when;
+    data.cleared = true;
+    touch(data);
+    uploadProgressNow();
   }
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'hidden') uploadProgressNow();
+  });
+  global.addEventListener('pagehide', uploadProgressNow);
 
   global.KejianReport = {
     mount: mount,
     open: openReview,
     submit: submitHomework,
     submitStoryRead: submitStoryRead,
+    syncFromCloud: syncFromCloud,
+    uploadProgressNow: uploadProgressNow,
+    updatePageExtras: updatePageExtras,
+    restorePractice: restorePractice,
     review: openReview,
     miss: miss,
     pass: pass,

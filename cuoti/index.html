@@ -113,6 +113,7 @@
   <p class="lead" id="lead">这一页只看原始错题。要再做一次，点上面的「去做练习」。</p>
   <div id="cats"></div>
 </main>
+<script src="../common/report.js"></script>
 <script>
 (function () {
   var FENLEI = [];
@@ -438,10 +439,13 @@
 
   window.addEventListener('hashchange', function () { openFromHash(true); });
   window.addEventListener('resize', syncBar);
+  window.addEventListener('kejian-progress-synced', function () { render(); });
+  window.addEventListener('pageshow', function () { KejianReport.syncFromCloud().then(render); });
 
   Promise.all([
     fetch('fenlei.json').then(function (r) { if (!r.ok) throw new Error('fenlei'); return r.json(); }),
-    fetch('data.json').then(function (r) { if (!r.ok) throw new Error('data'); return r.json(); })
+    fetch('data.json').then(function (r) { if (!r.ok) throw new Error('data'); return r.json(); }),
+    KejianReport.syncFromCloud()
   ]).then(function (pair) {
     FENLEI = pair[0] || [];
     DATA = (pair[1] && pair[1].items) || [];
