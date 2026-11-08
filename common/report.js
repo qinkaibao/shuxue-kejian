@@ -478,6 +478,15 @@
     }
   }
 
+  // 阅读反馈只复用上传通道，不生成成绩单、答题历史或错题。
+  function submitStoryRead(payload, onDone) {
+    if (!payload || payload.kind !== 'story-read' || !payload.summary || payload.summary.read !== true) {
+      if (typeof onDone === 'function') onDone(false);
+      return;
+    }
+    uploadReport(payload, onDone);
+  }
+
   function saveHomeSubmission(model) {
     var token = Date.now().toString(36) + Math.random().toString(36).slice(2);
     try {
@@ -602,6 +611,7 @@
     mount: mount,
     open: openReview,
     submit: submitHomework,
+    submitStoryRead: submitStoryRead,
     review: openReview,
     miss: miss,
     pass: pass,

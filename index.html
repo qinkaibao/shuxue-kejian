@@ -1147,6 +1147,13 @@ function submissionHTML(item) {
   var record = records && records[item.reportId || item.id];
   if (!record || record.pageId !== (item.reportId || item.id) || !record.summary) return '';
   var sum = record.summary;
+  if (record.kind === 'story-read' || sum.read === true) {
+    var when = new Date(record.when);
+    var time = isNaN(when.getTime()) ? String(record.when || '') : when.toLocaleString('zh-CN', {
+      year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'
+    });
+    return '<div class="home-submit"><strong>已读</strong><span>' + esc(time) + '</span></div>';
+  }
   function count(value) { return typeof value === 'number' && isFinite(value) && value >= 0 ? Math.floor(value) : 0; }
   var text = '一次对 ' + count(sum.once) + ' · 多次后对 ' + count(sum.later) + ' · 未对 ' + count(sum.none);
   if (count(sum.old)) text += ' · 接入前已对 ' + count(sum.old);
