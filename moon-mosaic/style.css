@@ -1,0 +1,28 @@
+* { box-sizing: border-box }
+body { margin: 0; background: #f7f2e7; color: #243e42; font: 18px/1.85 system-ui,sans-serif }
+main { width: min(100%, 44rem); margin: auto; padding: 1.2rem clamp(.8rem,4vw,2.5rem) 5rem }
+main>header { padding: 1rem 0; border-bottom: 3px double #8aa59e }
+h1,h2 { font-family: "Noto Serif CJK SC",serif; line-height: 1.4; color: #244d54 }
+h1 { font-size: clamp(1.8rem,6vw,2.8rem) }
+section { padding: 1rem 0 1.8rem; border-bottom: 1px solid #b9c8bd }
+h2 { scroll-margin-top: 6rem; font-size: 1.35rem }
+figure { margin: 1em 0 }
+svg { display: block; width: 100%; height: auto; border-radius: .6rem }
+figcaption { color: #506563; font-size: .88rem; margin-top: .35em }
+.diagram,fieldset { background: #fffaf0; border: 1px solid #c4cfc4; border-radius: .7rem; padding: .55rem; margin: .8rem 0 }
+button,input,.next { font: inherit; color: inherit; border: 1px solid #688882; background: #fffcf3; border-radius: .5rem; padding: .34rem .8rem; margin: .22rem .18rem; min-height: 44px }
+button { cursor: pointer }
+button[aria-pressed=true],.submit,.next { background: #245a60; color: white }
+button:disabled { opacity: .6; cursor: default }
+button:focus-visible,input:focus-visible,summary:focus-visible { outline: 3px solid #ab5937; outline-offset: 2px }
+input { width: 9em; max-width: 95% }
+output,.next { display: block }
+.next { width: fit-content; margin: 1rem 0 }
+a,summary { color: #245a60 }
+details { padding: .5rem 0 }
+summary { cursor: pointer }
+.fb:not(:empty) { border-left: .25rem solid #af693f; padding-left: .7rem }
+.done h2::after { content: " ✓"; color: #286644 }
+[hidden] { display: none !important }
+/* Show the ungrouped rows while the controls are loading. */
+[data-layer][data-from], [data-layer][data-only] { display: none }
