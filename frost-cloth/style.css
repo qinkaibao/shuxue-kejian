@@ -1,0 +1,18 @@
+*{box-sizing:border-box}
+body{margin:0;background:#f3eedf;color:#263f38;font:18px/1.8 system-ui,sans-serif}
+main{max-width:730px;margin:auto;padding:24px clamp(12px,4vw,30px) 64px}
+h1,h2{font-family:Georgia,"Songti SC","Noto Serif CJK SC",serif;line-height:1.4;color:#254d49}
+h1{font-size:clamp(1.7rem,6vw,2.7rem);margin:1.2em 0 .6em}
+h2{font-size:1.35rem;margin:0 0 15px}
+section{background:#fffcf4;margin:20px 0;padding:clamp(12px,3vw,24px);border-radius:10px;border-top:3px solid #819f96}
+figure{margin:12px 0}svg{display:block;width:100%;height:auto}
+p{margin:1em 0}fieldset{border:0;padding:0;margin:14px 0}legend{font-weight:650}
+button,.entry{font:inherit;line-height:1.4;min-height:44px;background:#fffdf7;border:1px solid #81988c;border-radius:8px;color:#244c46;padding:8px 13px;margin:3px;cursor:pointer}
+button svg{height:32px}
+button[aria-pressed=true],.submit,.entry{background:#285751;color:white}
+button:disabled{cursor:default}button:focus-visible,summary:focus-visible{outline:3px solid #bb602c}
+.tools{display:flex;flex-wrap:wrap;align-items:center;gap:5px}
+output{font-size:.9rem}details{border-top:1px solid #cfdbcf;padding-top:8px}summary{cursor:pointer;min-height:40px}
+.entry{display:inline-block;text-decoration:none}.done{border-color:#4f8565}
+.map-choice{fill:transparent;cursor:pointer}.map-choice.picked{fill:#e2a745;fill-opacity:.34;stroke:#93692f;stroke-width:2}
+small{color:#4d6659}
