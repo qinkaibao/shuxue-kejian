@@ -872,7 +872,14 @@
       mark(id, 'mastered', q.redo.options[picked], false);
       Array.prototype.forEach.call(box.querySelectorAll('.opt'), function (el) { el.disabled = true; });
     } else {
-      setFb(box, '这次不对，记为还要练。可以打开上面的正确答案再试。', 'bad');
+      if (q.redo.hint) {
+        var repeated = box.dataset.tried === '1';
+        box.dataset.tried = '1';
+        if (repeated) btn.closest('.qcard').querySelector('.ans').open = true;
+        setFb(box, repeated ? q.explain : q.redo.hint, 'bad');
+      } else {
+        setFb(box, '这次不对，记为还要练。可以打开上面的正确答案再试。', 'bad');
+      }
       mark(id, 'again', q.redo.options[picked], true);
     }
   }
