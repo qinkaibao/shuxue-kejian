@@ -299,7 +299,7 @@ const SOUND2=(()=>{
  function changeWeather(){weather=weather==='clear'?'rain':'clear';remember();renderButtons();notice(weather==='rain'?(season===2?'风雪来了，风声更紧了。':'下雨了，屋檐开始滴答滴答。'):'雨停了，天又放晴了。');VISUAL2.reset();}
  async function toggle(){
   if(enabled){enabled=false;if(master)setLevel(master,0,.08);try{speechSynthesis.cancel()}catch(e){}renderButtons();return}
-  try{if(!ac)setup();await ac.resume();enabled=true;setLevel(master,.58,.15);renderButtons();notice('声音已开启 · 走近不同地方听听！');}
+  try{if(!ac)setup();await ac.resume();enabled=true;noteAt=ac.currentTime+.12;noteN=0;setLevel(master,.58,.15);renderButtons();notice('声音已开启 · 走近不同地方听听！');}
   catch(e){enabled=false;renderButtons();notice('声音暂时无法启动，请用 Safari 试玩。')}
  }
  $('soundbtn').onclick=toggle;$('seasonBtn').onclick=changeSeason;$('weatherBtn').onclick=changeWeather;
