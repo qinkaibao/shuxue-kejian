@@ -96,7 +96,7 @@
 
   function cakeDest(i) {
     // Move into the 全部区 on the right, without cloning.
-    const spots = ['translate(0 94)', 'translate(32 94)', 'translate(16 122)'];
+    const spots = ['translate(-134 110)', 'translate(-130 110)', 'translate(-78 76)'];
     return spots[i] || 'translate(0 94)';
   }
 
@@ -110,18 +110,17 @@
     const n = state.cakesIn.length;
     const note = $('cake-count');
     if (note) note.textContent = '已加入 ' + n + ' 块。满盘仍是 8 盘×4 块。';
-    const all = $('cakeAll');
-    if (all && !all.dataset.ready) {
-      all.innerHTML = '<rect x="230" y="118" width="96" height="74" rx="8" fill="#fffdf6" stroke="#27635e" stroke-dasharray="4 3"/><text x="278" y="134" text-anchor="middle" font-size="12" fill="#27635e">全部</text>';
-      all.dataset.ready = '1';
-    }
+    const left = $('cake-left');
+    if (left) left.textContent = '旁边 ' + (3 - n) + ' 块';
   }
 
-  function addCake() {
+  function addCake(index) {
     if (solved.q2) return;
     const left = [0, 1, 2].filter((i) => !state.cakesIn.includes(i));
     if (!left.length) return;
-    state.cakesIn.push(left[0]);
+    const next = Number.isInteger(index) ? index : left[0];
+    if (!left.includes(next)) return;
+    state.cakesIn.push(next);
     paintCakes();
   }
 
@@ -181,13 +180,11 @@
 
   function shuffleSort() {
     const ids = sortCards.map((c) => c.id);
-    for (let k = 0; k < 8; k++) {
-      for (let i = ids.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        const t = ids[i]; ids[i] = ids[j]; ids[j] = t;
-      }
-      if (ids.join() !== 'c1,c2,c3') break;
+    for (let i = ids.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [ids[i], ids[j]] = [ids[j], ids[i]];
     }
+    if (ids.join() === byId.q6.order.join()) ids.push(ids.shift());
     state.sort = ids;
     renderSort();
   }
@@ -333,19 +330,32 @@
       setVal('q2-total', '');
     }
     if (id === 'q4') { setVal('q4-full', ''); setVal('q4-all', ''); if ($('note4ani')) $('note4ani').textContent = ''; }
+    if (id === 'q5') {
+      document.querySelectorAll('.demo-stone').forEach((g) => g.removeAttribute('transform'));
+      state.stoneUsed = 0;
+      $('stoneMsg').textContent = '';
+    }
     if (id === 'q6') { shuffleSort(); setVal('q6-val', ''); }
-    if (id === 'q8') { setVal('q8-len', ''); setChosen('q8-why', ''); }
+    if (id === 'q8') { setVal('q8-len', ''); setChosen('q8-why', ''); $('ropeBox').hidden = true; state.ropeShown = false; }
     fb(id, '已擦去这次草稿。这次不算错。');
     return { kind: 'reset', times: resets[id] };
   }
 
   function replay4() {
-    const el = $('note4ani');
-    if (el) el.textContent = '按每卡8枚放回去：六张满卡是48枚，旁边还有5枚没有缝上。48＋5＝53，53÷8＝6……5。空格请自己填写。';
+    document.querySelectorAll('[data-card]').forEach((card, i) => {
+      card.querySelectorAll('g').forEach((button) => {
+        button.getAnimations().forEach((animation) => animation.cancel());
+        button.animate([{ opacity: 0, translate: '0 12px' }, { opacity: 1, translate: '0 0' }],
+          { delay: i * 250, duration: 240, fill: 'backwards' });
+      });
+    });
+    $('note4ani').textContent = '每八枚放回一张卡。数一数满卡，再看看旁边还剩几枚。';
   }
 
-  function demoStones() {
-    state.stoneUsed = (state.stoneUsed % 7) + 1;
+  function demoStones(stone) {
+    if (!stone || stone.getAttribute('transform') || solved.q5) return;
+    stone.setAttribute('transform', 'translate(0 26)');
+    state.stoneUsed += 1;
     const msg = $('stoneMsg');
     if (!msg) return;
     if (state.stoneUsed < 7) msg.textContent = '已经点了 ' + state.stoneUsed + ' 颗，还不够再装一盒。';
@@ -354,12 +364,20 @@
   }
 
   function restore() {
+    // The report stores extras together with this page's solved and miss maps.
+    try {
+      const saved = JSON.parse(window.localStorage.getItem('kejian-report-v1:' + pageId));
+      if (saved && saved.pageExtras) {
+        Object.assign(resets, saved.pageExtras.resets);
+        state.q8Deferred = !!saved.pageExtras.q8Deferred;
+        restores.count = Math.max(restores.count, Number(saved.pageExtras.restores) || 0);
+      }
+    } catch {} // Offline preview also works when storage is unavailable.
     restores.count += 1;
     report().restorePractice({ pageId, questions, solved, misses, mark, paint });
     questions.forEach((q) => {
       showAns(q.id, Number(misses[q.id] || 0) >= 2);
     });
-    recordExtras();
   }
 
   function bindChoices() {
@@ -385,12 +403,22 @@
       if (!btn.id) btn.id = 'reset-' + id;
       btn.addEventListener('click', () => resetQuestion(id));
     });
+    document.querySelectorAll('[data-bag], #loose-shells').forEach((group) => {
+      group.style.cursor = 'pointer';
+      group.addEventListener('click', () => {
+        if (!solved.q1) setChosen('q1', group.id === 'loose-shells' ? 'C' : 'A');
+      });
+    });
+    cakeEls().forEach((cake) => {
+      cake.style.cursor = 'pointer';
+      cake.addEventListener('click', () => addCake(Number(cake.getAttribute('data-cake'))));
+    });
     if ($('cake-add')) $('cake-add').onclick = addCake;
     if ($('cake-back')) $('cake-back').onclick = backCake;
     if ($('btnReplay4')) $('btnReplay4').onclick = replay4;
     document.querySelectorAll('.demo-stone').forEach((g) => {
       g.style.cursor = 'pointer';
-      g.addEventListener('click', demoStones);
+      g.addEventListener('click', () => demoStones(g));
     });
     if ($('submit-work')) $('submit-work').onclick = () => report().submit();
     bindChoices();

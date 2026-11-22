@@ -38,7 +38,7 @@
       if (state.circle === 0) {
         state.circle = 1;
         const frame = $('allFrame');
-        if (frame) { frame.setAttribute('opacity', '1'); frame.setAttribute('fill', 'none'); }
+        if (frame) { frame.setAttribute('width', '104'); frame.setAttribute('opacity', '1'); frame.setAttribute('fill', 'none'); }
         if (note) note.textContent = '七串已经在圈里，共四十二颗。再把小碟也圈进来。';
       }
       return;
@@ -51,7 +51,7 @@
       if (state.circle >= 1) {
         state.circle = 2;
         const frame = $('allFrame'), lab = $('allLabel');
-        if (frame) { frame.setAttribute('opacity', '1'); frame.setAttribute('fill', '#eef5f1'); }
+        if (frame) { frame.setAttribute('width', '320'); frame.setAttribute('opacity', '1'); frame.setAttribute('fill', '#eef5f1'); }
         if (lab) lab.setAttribute('opacity', '1');
         if (note) note.textContent = '42＋5＝47。七串和五颗散珠都在这一圈里。';
       }
@@ -73,7 +73,7 @@
   }
 
   function originalOf(g) {
-    if (!g.dataset.home) g.dataset.home = g.getAttribute('transform') || '';
+    if (g.dataset.home === undefined) g.dataset.home = g.getAttribute('transform') || '';
     return g.dataset.home;
   }
 
@@ -107,7 +107,7 @@
     });
     if (isBlue) {
       state.blue = 5;
-      if ($('blueMsg')) $('blueMsg').textContent = '还差一颗，才够同样长的一串。';
+      if ($('blueMsg')) $('blueMsg').textContent = '还差一颗才满一串。';
       if ($('noteSlots')) $('noteSlots').textContent = '五颗蓝珠放进六个空位，还空着一格。它们不是完整的一串。';
     } else {
       state.wood = 6;
