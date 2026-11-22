@@ -18,14 +18,27 @@
 .startupCard h2{font-size:27px;letter-spacing:2px;margin:0 0 10px}
 .startupCard p{line-height:1.9;font-size:15px;margin:8px 0}
 .startupCard .help{font-size:13px;color:#f8d49e;border-top:1px solid #f0cf9355;padding-top:14px;margin-top:18px}
+
+/* 童年四季：天气渲染及音频控制 */
+#seasonWeather{position:fixed;right:16px;top:82px;display:flex;gap:7px;z-index:8}
+#seasonWeather button{font-size:12px;padding:7px 10px;border-radius:11px;border:1px solid #f5dfb98a;background:#3d2b22d9;color:#fff3d5;box-shadow:0 4px 16px #0003}
+#seasonWeather button:active{background:#886044}
+#mapPanel{top:128px}
+#weatherCanvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+#top,#mapPanel,#labels,#bottomGuide,#mobileControls,#interact,#inventory,#hint,#toast{z-index:5}
+#seasonWeather{z-index:8}
+#seasonNotice{position:fixed;left:50%;top:64px;transform:translateX(-50%);font-size:12px;color:#fff2d9;background:#493226bd;border:1px solid #f4d8b56b;border-radius:15px;padding:6px 12px;pointer-events:none;z-index:6;white-space:nowrap;opacity:0;transition:opacity .25s}
+#seasonNotice.show{opacity:1}
+@media(max-width:700px){#seasonWeather{top:85px;right:7px;gap:4px}#seasonWeather button{font-size:11px;padding:6px 7px}#mapPanel{top:127px}#seasonNotice{top:61px;max-width:70vw;white-space:normal;text-align:center}}
+@media(min-width:701px) and (max-height:620px){#seasonWeather{top:67px}#mapPanel{top:109px}}
 </style></head><body>
-<canvas id="scene"></canvas><div id="vignette"></div>
+<canvas id="scene"></canvas><div id="vignette"></div><canvas id="weatherCanvas" aria-hidden="true"></canvas>
 <div id="startupOverlay"><div class="startupCard"><h2>🌾 正在进入1995年的村子……</h2>
 <p>房子、土路、小卖铺和小时候的家正在出现。</p>
 <p class="help"><b>如果一直停在这个提示：</b><br>当前的文件预览器没有运行游戏程序。<br>请用 <b>Safari 打开已发布的游戏网页地址</b>，不要直接在 ChatGPT 的 HTML 文件预览器里玩。<br>单纯保存截图或预览文件不会启动游戏。</p>
 </div></div>
-<div id="top"><div id="header"><h1>梦回1995 · 村口的夏天</h1><div id="sub">1995年 · 中原乡村 · 一场可以走进去的童年</div><div id="task">🎯 先去家里看看，妈妈在做饭。</div></div><div id="hud"><div class="chip">🕓 <span id="clock">下午 4:10</span></div><div class="chip">🪙 <span id="money">1元5角</span></div><button class="chip" id="soundbtn" title="开关环境声音">🔇 声音</button></div></div>
-<div id="mapPanel"><div id="mapTitle">村子小地图</div><canvas id="minimap" width="284" height="232"></canvas></div><div id="labels"></div>
+<div id="top"><div id="header"><h1>梦回1995 · 村口的夏天</h1><div id="sub">1995年 · 中原乡村 · 一场可以走进去的童年</div><div id="task">🎯 先去家里看看，妈妈在做饭。</div></div><div id="hud"><div class="chip">🕓 <span id="clock">下午 4:10</span></div><div class="chip">🪙 <span id="money">1元5角</span></div><button class="chip" id="soundbtn" title="开启或关闭游戏声音">🔇 开启声音</button></div></div>
+<div id="seasonWeather"><button id="seasonBtn" title="切换夏天、秋天、冬天">🍃 盛夏</button><button id="weatherBtn" title="切换晴天、雨天或风雪">☀️ 晴天</button></div><div id="seasonNotice"></div><div id="mapPanel"><div id="mapTitle">村子小地图</div><canvas id="minimap" width="284" height="232"></canvas></div><div id="labels"></div>
 <div id="hint"></div><div id="toast"></div><div id="inventory">🎒 口袋：<b id="items">几颗玻璃弹珠</b></div>
 <div id="mobileControls"><button id="up" aria-label="向前">▲</button><button id="left" aria-label="向左">◀</button><button id="right" aria-label="向右">▶</button><button id="down" aria-label="后退">▼</button></div>
 <button id="interact">互动<small>按 E 键</small></button><div id="bottomGuide">W A S D / 方向键：走路　·　拖动画面：转动视角　·　E：互动　·　M：看任务<br>靠近家门、小卖部、老井或村里的人，才会出现互动提示。</div>
@@ -109,12 +122,12 @@ function modal(title,body,actions=[]){state.modal=true;state.keys={};$('modalOve
 function closeModal(){state.modal=false;$('modalOverlay').classList.remove('active')}
 function toast(msg){let el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),3000)}
 function intro(){modal('🕰️ 1995年，夏天还很长',`<p>午后的蝉声从老槐树上传来。泥土路上有自行车辙，风吹过麦场。你摸摸口袋：<b>一块五毛钱</b>，还有几颗玻璃弹珠。</p><p class="quote">村里传来妈妈的声音：“先回来一趟，待会儿帮我买点东西，天黑前回来吃饭！”</p><p class="small">这是一款真正的 3D 可游玩小游戏：使用实时 3D 几何场景，可走动、转动视角、进入屋内、买零食、完成任务和玩弹珠。它是风格化 3D 原型，不是照片级画质。</p><p class="small">电脑：WASD / 方向键走路，鼠标拖动转视角，E互动。手机/平板：左下方向键移动，右侧拖动画面转视角，右下互动。</p>`,[{label:'走进小时候的村子',run:()=>toast('去左边的土院子，找妈妈！')},{label:'先看任务',alt:true,run:showTask}])}
-function showTask(){modal('📝 今天的小事',`<p class="quote">${objectives()}</p><p>地图上有村口小卖部、老井、老槐树、池塘和学校。你可以按自己的节奏走走看看。</p><p class="small">已发现：${state.stage?'妈妈的家、':''}${state.water?'井水、':''}${state.salt?'食盐、':''}${state.friend?'小军的弹珠游戏、':''}村里的夏天。通关后还能自由漫步。</p>`,[{label:'继续走走'}])}
+function showTask(){modal('📝 今天的小事',`<p class="quote">${objectives()}</p><p>地图上有村口小卖部、老井、老槐树、池塘和学校。你可以按自己的节奏走走看看。点右上角可切换季节和雨天，点「开启声音」可以听蝉鸣、秋风和落叶。</p><p class="small">已发现：${state.stage?'妈妈的家、':''}${state.water?'井水、':''}${state.salt?'食盐、':''}${state.friend?'小军的弹珠游戏、':''}村里的夏天。通关后还能自由漫步。</p>`,[{label:'继续走走'}])}
 const goods=[['🧂','食盐',20,'妈妈托你买的'],['🍬','大白兔奶糖',30,'一口甜到心里'],['🧊','橘子冰袋',20,'咬开一个小角'],['🍫','无花果丝',10,'小小一袋'],['🫧','泡泡糖',10,'吹个大泡泡'],['🥤','玻璃瓶汽水',30,'压住盖子的冰凉']];
 function shopUI(){state.enteredStore=true;let html=`<p class="quote">售货员阿姨：“来啦？今天有新到的泡泡糖，别忘了你妈让买的盐呀。”</p><p>你有 <b>${moneyText(state.money)}</b>，想买点什么？</p><div class="goods" id="goods"></div><p class="small">东西买了会放进口袋。食盐是主线任务，其他零食都可以自己选择。</p>`;modal('🏪 村口小卖部',html,[{label:'不买了，出去逛逛'}]);let el=$('goods');for(let [em,name,price,desc] of goods){let d=document.createElement('div');d.className='good';d.innerHTML=`<div><b>${em} ${name}</b><br><span>${desc}</span></div>`;let btn=document.createElement('button');btn.textContent=moneyText(price);btn.disabled=state.money<price||(name==='食盐'&&state.salt);btn.onclick=()=>{if(state.money<price)return;if(name==='食盐'&&state.salt)return;state.money-=price;if(name==='食盐'){state.salt=true;toast('买到食盐，妈妈会很高兴！')}else{state.snacks.push(name);toast('获得 '+name+'！')}advance(5);shopUI()};d.append(btn);el.append(d)}}
 function talkingMom(){if(state.done){modal('👩 妈妈还在屋里',`<p class="quote">“吃饱了吗？再盛一点。明天想吃什么，妈给你做。”</p><p>一盏昏黄的灯，一桌平常的饭菜。那时候总觉得来日方长。</p>`,[{label:'坐一会儿'}]);return;}if(state.stage===0){state.stage=1;advance(5);modal('👩 妈妈在灶台边',`<p class="quote">“回来啦？灶上正烧着饭。去老井那边打瓢水，再去村口小卖部买包盐。剩的钱，想买点零食就买吧。”</p><p>你听见锅里咕嘟咕嘟地响，屋里是柴火、面香和菜香。</p>`,[{label:'好，我这就去！'}]);return;}if(state.water&&state.salt){state.done=true;state.gameMinute=18*60+20;hud();save();modal('🌆 妈妈喊你回来吃饭',`<p>夕阳从屋檐边慢慢落下去。妈妈接过水和盐，把你拉到桌旁。</p><p class="quote">“洗手了没？快坐下。今天有炒鸡蛋、青椒土豆丝，还有刚出锅的馍。”</p><p>你坐在小板凳上，院外的蝉声还没停。那时的日子很慢，夏天很长，妈妈总在家里等你。</p><p><b>恭喜，你完成了《村口的夏天》的童年回忆。</b> 村里还有很多角落可以继续探索。</p>`,[{label:'再去村里走走',run:()=>enterVillage('home')},{label:'重新做一场梦',alt:true,run:restart}]);}else{let missing=[!state.water?'老井的一瓢水':null,!state.salt?'小卖部的一包盐':null].filter(Boolean).join('和');modal('👩 妈妈笑着提醒',`<p class="quote">“还没买齐呢，记得把${missing}带回来，天快黑啦。”</p>`,[{label:'我记着呢'}])}}
 function marbles(){state.friend=true;modal('🟢 小军和玻璃弹珠',`<p class="quote">“嘿！你可算来了。来，比比谁弹得准！”</p><p>规则：玻璃弹珠藏在三个碗中的一个。看清楚它在哪个碗底，再选中它，猜对就赢一颗新弹珠。</p><div id="marbleBox" style="background:#e0c89b;border-radius:12px;padding:13px;text-align:center;margin-top:10px"><div style="margin:12px auto;font-size:29px">🥣　🥣　🥣</div><div id="marbleStatus">准备好开始了吗？</div><div id="marbleOptions" class="actions" style="justify-content:center"></div></div>`,[{label:'下次再玩'}]);let options=$('marbleOptions');let btn=document.createElement('button');btn.textContent='开始一局';btn.onclick=()=>{let target=Math.floor(Math.random()*3);$('marbleStatus').textContent='弹珠在哪只碗下面？';options.innerHTML='';for(let i=0;i<3;i++){let b=document.createElement('button');b.textContent=['左边','中间','右边'][i];b.className='alt';b.onclick=()=>{let win=i===target;state.marbles+=win?1:0;advance(3);$('marbleStatus').innerHTML=win?'🎉 猜对了！你赢了一颗亮晶晶的弹珠。':`没猜中！弹珠在${['左边','中间','右边'][target]}。`;options.innerHTML='';let next=document.createElement('button');next.textContent='再来一局';next.onclick=()=>{closeModal();marbles()};options.append(next)};options.append(b)}};options.append(btn)}
-function interactAt(t){if(!t)return;switch(t.id){case'homeDoor':setScene('home',{x:0,z:6.2});advance(2);toast('推开木门，闻到了家里的饭香。');break;case'storeDoor':setScene('store',{x:0,z:6.2});advance(2);toast('门框上挂着一串花花绿绿的零食。');break;case'homeExit':enterVillage('home');break;case'storeExit':enterVillage('store');break;case'mom':talkingMom();break;case'shopkeeper':shopUI();break;case'well':if(!state.water){state.water=true;advance(7);toast('吱呀——压水井出水了！获得一瓢井水。');}else modal('💧 老井',`<p>井水真凉，旁边的青苔还湿着。小时候总喜欢把手伸进水里。</p>`,[{label:'继续走'}]);break;case'friend':marbles();break;case'tree':state.cicada=true;advance(3);modal('🌳 老槐树下',`<p>树叶间传来响亮的蝉鸣，斑驳的阳光掉在土路上。</p><p class="quote">“知了——知了——”</p><p>你抬头看，枝头挂着一只空蝉蜕。树下那张石凳，还和记忆中一样。</p>`,[{label:'把这声蝉鸣记下来'}]);break;case'pond':advance(3);modal('🐸 村边池塘',`<p>池边的芦苇轻轻摇晃，水面映着晚霞。</p><p>小时候总觉得池塘很大，池塘那头就是世界的尽头。远远传来一声蛙叫。</p>`,[{label:'再看看远方'}]);break;case'school':advance(3);modal('🏫 村里的老学校',`<p>红砖墙上的白灰有些剥落，教室里摆着一排排木桌。</p><p>你想起粉笔灰、铁皮铅笔盒、课间的跳皮筋，和下课铃一响就飞奔的那条小路。</p>`,[{label:'放学啦！'}]);break;case'field':advance(3);modal('🌾 麦场',`<p>麦秸被码成整齐的草垛，空气里满是晒过太阳的干草味。</p><p>远处有人推着独轮车经过，风吹来一阵泥土香。</p>`,[{label:'回村里'}]);break;}}
+function interactAt(t){if(!t)return;SOUND2.playAction(t.id);switch(t.id){case'homeDoor':setScene('home',{x:0,z:6.2});advance(2);toast('推开木门，闻到了家里的饭香。');break;case'storeDoor':setScene('store',{x:0,z:6.2});advance(2);toast('门框上挂着一串花花绿绿的零食。');break;case'homeExit':enterVillage('home');break;case'storeExit':enterVillage('store');break;case'mom':talkingMom();break;case'shopkeeper':shopUI();break;case'well':if(!state.water){state.water=true;advance(7);toast('吱呀——压水井出水了！获得一瓢井水。');}else modal('💧 老井',`<p>井水真凉，旁边的青苔还湿着。小时候总喜欢把手伸进水里。</p>`,[{label:'继续走'}]);break;case'friend':marbles();break;case'tree':state.cicada=true;advance(3);modal('🌳 老槐树下',`<p>树叶间传来响亮的蝉鸣，斑驳的阳光掉在土路上。</p><p class="quote">“知了——知了——”</p><p>你抬头看，枝头挂着一只空蝉蜕。树下那张石凳，还和记忆中一样。</p>`,[{label:'把这声蝉鸣记下来'}]);break;case'pond':advance(3);modal('🐸 村边池塘',`<p>池边的芦苇轻轻摇晃，水面映着晚霞。</p><p>小时候总觉得池塘很大，池塘那头就是世界的尽头。远远传来一声蛙叫。</p>`,[{label:'再看看远方'}]);break;case'school':advance(3);modal('🏫 村里的老学校',`<p>红砖墙上的白灰有些剥落，教室里摆着一排排木桌。</p><p>你想起粉笔灰、铁皮铅笔盒、课间的跳皮筋，和下课铃一响就飞奔的那条小路。</p>`,[{label:'放学啦！'}]);break;case'field':advance(3);modal('🌾 麦场',`<p>麦秸被码成整齐的草垛，空气里满是晒过太阳的干草味。</p><p>远处有人推着独轮车经过，风吹来一阵泥土香。</p>`,[{label:'回村里'}]);break;}}
 function enterVillage(from){let p=from==='home'?{x:-25,z:18.7}:{x:25,z:12.4};setScene('village',p);toast(from==='home'?'走出家门，村子里的蝉还在叫。':'推开小卖铺的纱门，阳光有点晃眼。')}
 const villageTargets=[{id:'homeDoor',label:'🏡 家 / 进屋',x:-25,z:22.9,dist:4},{id:'storeDoor',label:'🏪 小卖部 / 进店',x:25,z:15.3,dist:4},{id:'well',label:'💧 老井 / 压水',x:-11,z:-2,dist:3.8},{id:'friend',label:'🟢 小军 / 弹珠',x:9,z:-13,dist:3.8},{id:'tree',label:'🌳 老槐树',x:13,z:-2,dist:4},{id:'pond',label:'🐸 池塘',x:-38,z:-17,dist:9},{id:'school',label:'🏫 老学校',x:31,z:-31,dist:7},{id:'field',label:'🌾 麦场',x:-43,z:-43,dist:12}];
 const homeTargets=[{id:'mom',label:'👩 妈妈 / 说话',x:-4,z:-3,dist:4},{id:'homeExit',label:'🚪 出门 / 回村里',x:0,z:8.5,dist:3.3}];
@@ -129,8 +142,195 @@ $('interact').onclick=attempt;$('modalOverlay').onclick=e=>{if(e.target===$('mod
 document.addEventListener('keydown',e=>{if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();if(state.modal){if(e.code==='Escape')closeModal();return;}if(e.code==='KeyE'||e.code==='Enter')attempt();else if(e.code==='KeyM')showTask();else state.keys[e.code]=true});document.addEventListener('keyup',e=>{state.keys[e.code]=false});window.addEventListener('blur',()=>state.keys={});
 let drag=null;C.addEventListener('pointerdown',e=>{if(state.modal)return;drag={x:e.clientX,y:e.clientY,id:e.pointerId};(()=>{try{C.setPointerCapture(e.pointerId)}catch(err){}})()});C.addEventListener('pointermove',e=>{if(!drag||drag.id!==e.pointerId)return;let dx=e.clientX-drag.x;state.yaw=Math.max(-100,Math.min(100,state.yaw-dx*.008));drag.x=e.clientX;drag.y=e.clientY});C.addEventListener('pointerup',()=>drag=null);C.addEventListener('pointercancel',()=>drag=null);
 for(let [id,key] of [['up','ArrowUp'],['down','ArrowDown'],['left','ArrowLeft'],['right','ArrowRight']]){let b=$(id);b.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();try{b.setPointerCapture(e.pointerId)}catch(err){}b.classList.add('pressed');state.keys[key]=true});for(let kind of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(kind,e=>{e.preventDefault();b.classList.remove('pressed');state.keys[key]=false})}
-// Optional synthesized cicada ambience. Browser requires user gesture before audio starts.
-let ctx=null,noise=null;$('soundbtn').onclick=()=>{state.muted=!state.muted;if(!state.muted){try{ctx??=new (window.AudioContext||window.webkitAudioContext)();if(ctx.state==='suspended')ctx.resume();if(!noise){let osc=ctx.createOscillator(),g=ctx.createGain(),lfo=ctx.createOscillator(),lg=ctx.createGain();osc.type='sine';osc.frequency.value=3550;lfo.frequency.value=11;lg.gain.value=950;lfo.connect(lg);lg.connect(osc.frequency);osc.connect(g);g.connect(ctx.destination);g.gain.value=.004;osc.start();lfo.start();noise=g;}noise.gain.value=.004;}catch(e){}}else if(noise)noise.gain.value=0;$('soundbtn').textContent=state.muted?'🔇 声音':'🔊 蝉鸣';};
+// 原创程序化音景：不依赖网络音频文件。iOS/Safari 必须主动点「开启声音」。
+const SOUND2=(()=>{
+ const seasonNames=['盛夏','深秋','寒冬'],seasonIcons=['🍃','🍂','❄️'];
+ let season=0,weather='clear',enabled=false,ac=null,master=null,channels={},sources=[],noiseBuffer=null;
+ let noteAt=0,noteN=0,lastTick=0,lastBird=0,lastChirp=0,lastDrop=0,lastLeaf=0,lastFoot=0,lastKitchen=0,lastMarket=0;
+ let spokenAt=0;
+ try{const settings=JSON.parse(localStorage.getItem('menghui1995-sound-v2')||'{}');season=Math.max(0,Math.min(2,settings.season|0));weather=settings.weather==='rain'?'rain':'clear';}catch(e){}
+ const rand=(a,b)=>a+Math.random()*(b-a);
+ const zero=()=>({gain:{setTargetAtTime(){}}});
+ function gainBus(parent,initial=0){let g=ac.createGain();g.gain.value=initial;g.connect(parent);return g}
+ function noiseLayer(bus,filterType,cutoff,q,rate=1){let n=ac.createBufferSource();n.buffer=noiseBuffer;n.loop=true;n.playbackRate.value=rate;let f=ac.createBiquadFilter();f.type=filterType;f.frequency.value=cutoff;f.Q.value=q;let g=gainBus(bus,0);n.connect(f);f.connect(g);n.start();sources.push(n);return{out:g,filter:f}}
+ function makeNoise(){const len=ac.sampleRate*2;noiseBuffer=ac.createBuffer(1,len,ac.sampleRate);let a=noiseBuffer.getChannelData(0);let low=0;for(let i=0;i<len;i++){const v=rand(-1,1);low=low*.82+v*.18;a[i]=v*.74+low*.26}}
+ function setLevel(g,v,d=.6){if(!ac||!g)return;g.gain.setTargetAtTime(Math.max(0,v),ac.currentTime,d)}
+ function oscillator(frequency,kind,bus,level=0){let o=ac.createOscillator();o.type=kind;o.frequency.value=frequency;let g=gainBus(bus,level);o.connect(g);o.start();sources.push(o);return{o,g}}
+ function beep(f0,f1,duration,volume,shape='sine',busName='effects',delay=0){
+  if(!ac||!enabled)return;
+  const t=ac.currentTime+delay,o=ac.createOscillator(),g=ac.createGain();
+  o.type=shape;o.frequency.setValueAtTime(f0,t);o.frequency.exponentialRampToValueAtTime(Math.max(45,f1),t+duration);
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(Math.max(.0002,volume),t+.016);
+  g.gain.exponentialRampToValueAtTime(.0001,t+duration);
+  o.connect(g);g.connect(channels[busName]||master);o.start(t);o.stop(t+duration+.03);
+ }
+ function burst(duration,frequency,volume,busName='effects'){
+  if(!ac||!enabled)return;let n=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain(),t=ac.currentTime;
+  n.buffer=noiseBuffer;f.type='bandpass';f.frequency.value=frequency;f.Q.value=.65;
+  g.gain.setValueAtTime(Math.max(.001,volume),t);g.gain.exponentialRampToValueAtTime(.0001,t+duration);
+  n.connect(f);f.connect(g);g.connect(channels[busName]||master);n.start(t,rand(0,1.7));n.stop(t+duration+.02);
+ }
+ function bird(){let f=rand(1500,2250);for(let i=0;i<3;i++)beep(f+i*160,f+i*420,.105,.022,'sine','nature',i*.13)}
+ function chirp(){let f=rand(2650,3300);for(let i=0;i<4;i++)beep(f,f*1.17,.065,.013,'sine','nature',i*.095)}
+ function foot(){burst(.095,state.scene==='village'?rand(350,650):rand(800,1100),.027);if(state.scene!=='village')beep(rand(165,205),100,.045,.006,'triangle')}
+ function speak(line){if(!enabled||!('speechSynthesis'in window)||Date.now()-spokenAt<4500)return;spokenAt=Date.now();try{
+   let u=new SpeechSynthesisUtterance(line);u.lang='zh-CN';u.rate=.88;u.pitch=1.1;u.volume=.58;
+   let v=speechSynthesis.getVoices().find(v=>/zh-CN|zh_Hans|Chinese/i.test(v.lang||''));if(v)u.voice=v;
+   speechSynthesis.cancel();speechSynthesis.speak(u);
+ }catch(e){}}
+ function addNote(freq,when,length=1,velocity=.22){
+  let os=ac.createOscillator(),over=ac.createOscillator(),gain=ac.createGain(),bell=ac.createBiquadFilter();
+  os.type='triangle';os.frequency.value=freq;over.type='sine';over.frequency.value=freq*2;
+  bell.type='lowpass';bell.frequency.value=1450;
+  gain.gain.setValueAtTime(.0001,when);
+  gain.gain.exponentialRampToValueAtTime(Math.max(.0002,velocity),when+.035);
+  gain.gain.exponentialRampToValueAtTime(.0001,when+length);
+  os.connect(gain);over.connect(gain);gain.connect(bell);bell.connect(channels.music);
+  let g2=ac.createGain();g2.gain.value=.17;over.disconnect();over.connect(g2);g2.connect(gain);
+  os.start(when);over.start(when);os.stop(when+length+.04);over.stop(when+length+.04);
+ }
+ // 原创五声调式小曲，像老式口琴与木制拨弦，避开任何受版权保护的旋律。
+ const theme=[62,67,69,74,72,69,67,62,60,62,67,69,67,64,62,0,62,67,69,74,76,74,72,69,67,69,72,69,67,64,62,0];
+ function melody(){
+  if(!ac)return;
+  let at=ac.currentTime;while(noteAt<at+1.5){const midi=theme[noteN%theme.length],index=noteN%theme.length;
+    if(midi){let freq=440*Math.pow(2,(midi-69)/12);addNote(freq,noteAt,.42,index%4===0?.12:.085)}
+    if(index%8===0){addNote(146.83,noteAt,1.8,.033);addNote(220,noteAt+.08,1.65,.021)}
+    noteN++;noteAt+=.49;
+  }
+ }
+ function setup(){
+  const AudioCtor=window.AudioContext||window.webkitAudioContext;
+  if(!AudioCtor)throw Error('此设备不支持 Web Audio');
+  ac=new AudioCtor();master=gainBus(ac.destination,0);
+  channels.music=gainBus(master,.19);channels.nature=gainBus(master,.5);channels.weather=gainBus(master,.54);
+  channels.people=gainBus(master,.35);channels.effects=gainBus(master,.65);
+  makeNoise();
+  channels.wind=noiseLayer(channels.weather,'lowpass',420,.6,.87);
+  channels.rain=noiseLayer(channels.weather,'highpass',1650,.55,1.07);
+  channels.leaf=noiseLayer(channels.weather,'bandpass',900,.75,1.17);
+  channels.market=noiseLayer(channels.people,'bandpass',680,.4,.95);
+  channels.kitchen=noiseLayer(channels.people,'lowpass',720,.4,1.23);
+  // 蝉鸣的高音调制：越靠近树下越明显
+  const cic=oscillator(3320,'sine',channels.nature,0);
+  const trem=ac.createOscillator(),depth=ac.createGain();
+  trem.frequency.value=11.3;depth.gain.value=240;trem.connect(depth);depth.connect(cic.o.frequency);trem.start();sources.push(trem);
+  channels.cicada=cic.g;
+  const howl=oscillator(105,'sine',channels.weather,0);channels.howl=howl.g;
+  // 微风阵阵，而不是始终不变的风噪
+  const gust=ac.createOscillator(),gustAmount=ac.createGain();gust.frequency.value=.17;gustAmount.gain.value=90;
+  gust.connect(gustAmount);gustAmount.connect(channels.wind.filter.frequency);gust.start();sources.push(gust);
+  noteAt=ac.currentTime+.16;lastTick=0;lastBird=0;lastDrop=0;lastLeaf=0;
+ }
+ function near(x,z,r){return Math.max(0,1-Math.hypot(state.player.x-x,state.player.z-z)/r)}
+ function updateLevels(){
+  if(!ac)return;
+  const outdoor=state.scene==='village',autumn=season===1,winter=season===2,rain=weather==='rain';
+  const shop=outdoor?near(25,15,32):state.scene==='store'?1:0;
+  const home=outdoor?near(-25,23,30):state.scene==='home'?1:0;
+  const field=outdoor?Math.max(near(-40,-38,36),near(31,-31,30),near(-38,-17,25)):.02;
+  const shade=outdoor?near(13,-2,29):0;
+  const rainLevel=rain?(outdoor?.18:.077):0;
+  setLevel(channels.rain.out,rainLevel,.3);
+  setLevel(channels.wind.out,(winter?.24:autumn?.12:.035)*(outdoor?1:.30)+(rain&&outdoor?.035:0),.45);
+  setLevel(channels.leaf.out,(autumn?.12:winter?.032:.007)*(outdoor?1:.08),.4);
+  setLevel(channels.howl,(winter?.013:.0001)*(outdoor?1:.26),.6);
+  setLevel(channels.market.out,(shop*.14+ (outdoor?.005:0))*(rain?.62:1),.4);
+  setLevel(channels.kitchen.out,home*.075+(state.scene==='home'?.048:0),.4);
+  setLevel(channels.cicada,(season===0&&!rain&&outdoor)?.006*(.45+.55*shade):.00001,.5);
+  const fm=(outdoor?1:.35)*(rain?.64:1)*(season===2?.62:1);
+  setLevel(channels.music,fm*.18,1.5);
+  setLevel(channels.nature,season===2?.23:rain?.26:.55,1);
+  if(outdoor && season!==2 && !rain && ac.currentTime-lastBird>Math.max(3.7,7.2-field*3)){
+    bird();lastBird=ac.currentTime;
+  }
+ }
+ function tick(dt=0){
+  if(!ac||!enabled||ac.state!=='running')return;
+  melody();
+  if(ac.currentTime-lastTick>.16){updateLevels();lastTick=ac.currentTime}
+  const outside=state.scene==='village';
+  if(weather==='rain'&&ac.currentTime-lastDrop>rand(.14,.29)){
+    if(outside){burst(.045,rand(2200,5100),rand(.012,.028),'weather');}
+    else{beep(rand(550,980),rand(330,520),.10,.014,'sine','weather')}
+    lastDrop=ac.currentTime;
+  }
+  if(season===1&&outside&&ac.currentTime-lastLeaf>rand(1.3,2.6)){burst(rand(.25,.56),rand(550,1600),rand(.018,.035),'weather');lastLeaf=ac.currentTime}
+  if(season===2&&outside&&ac.currentTime-lastLeaf>rand(1.8,4.1)){burst(.45,rand(140,400),.035,'weather');lastLeaf=ac.currentTime}
+  if(season===0&&outside&&weather==='clear'&&ac.currentTime-lastChirp>rand(6,10)){chirp();lastChirp=ac.currentTime}
+  const isWalking=Object.entries(state.keys).some(([k,v])=>v&&['KeyW','KeyS','KeyA','KeyD','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(k));
+  if(isWalking&&ac.currentTime-lastFoot>.35){foot();lastFoot=ac.currentTime}
+  if(state.scene==='home'&&ac.currentTime-lastKitchen>rand(4.1,6.4)){
+    burst(.16,rand(480,940),.016,'people');beep(680,510,.07,.013,'triangle','effects',.09);
+    lastKitchen=ac.currentTime;
+  }
+  if(state.scene==='store'&&ac.currentTime-lastMarket>rand(3.0,5.2)){
+    beep(820,530,.18,.017,'triangle','effects');beep(1240,970,.21,.012,'sine','effects',.11);
+    lastMarket=ac.currentTime;
+  }
+ }
+ function playAction(id){
+  if(!enabled||!ac)return;
+  switch(id){
+   case 'homeDoor':case 'storeDoor':case 'homeExit':case 'storeExit':
+    burst(.16,350,.028);beep(205,155,.25,.018,'triangle');break;
+   case 'well':
+    burst(.3,890,.07,'weather');beep(520,280,.33,.025,'sine');break;
+   case 'shopkeeper':
+    beep(1240,1450,.11,.02);beep(1450,970,.16,.016,'sine','effects',.13);speak('想买点啥？冰袋和泡泡糖都有。');break;
+   case 'mom':
+    beep(460,380,.23,.014,'triangle');speak(state.done?'吃饱了吗？再盛一点。':'回来啦？灶上正烧着饭呢。');break;
+   case 'friend':
+    beep(920,720,.12,.029);beep(700,1080,.09,.018,'sine','effects',.15);speak('来，咱们比赛弹玻璃球！');break;
+   case 'tree':chirp();break;
+   case 'pond':beep(230,170,.28,.024);break;
+   case 'field':burst(.31,770,.022,'nature');break;
+   default:beep(610,450,.095,.013);
+  }
+ }
+ function remember(){try{localStorage.setItem('menghui1995-sound-v2',JSON.stringify({season,weather}))}catch(e){}}
+ function renderButtons(){
+  $('soundbtn').textContent=enabled?'🔊 关闭声音':'🔇 开启声音';
+  $('seasonBtn').textContent=seasonIcons[season]+' '+seasonNames[season];
+  $('weatherBtn').textContent=weather==='rain'?(season===2?'🌨️ 风雪':'🌧️ 下雨'):'☀️ 晴天';
+ }
+ function notice(t){const el=$('seasonNotice');el.textContent=t;el.classList.add('show');clearTimeout(notice.timer);notice.timer=setTimeout(()=>el.classList.remove('show'),2200)}
+ function changeSeason(){season=(season+1)%3;remember();renderButtons();const n=['夏天蝉鸣，村里又热闹起来了。','秋风吹过，落叶沙沙作响。','入冬了，村口刮起呼呼的北风。'][season];notice(n);VISUAL2.reset();}
+ function changeWeather(){weather=weather==='clear'?'rain':'clear';remember();renderButtons();notice(weather==='rain'?(season===2?'风雪来了，风声更紧了。':'下雨了，屋檐开始滴答滴答。'):'雨停了，天又放晴了。');VISUAL2.reset();}
+ async function toggle(){
+  if(enabled){enabled=false;if(master)setLevel(master,0,.08);try{speechSynthesis.cancel()}catch(e){}renderButtons();return}
+  try{if(!ac)setup();await ac.resume();enabled=true;setLevel(master,.58,.15);renderButtons();notice('声音已开启 · 走近不同地方听听！');}
+  catch(e){enabled=false;renderButtons();notice('声音暂时无法启动，请用 Safari 试玩。')}
+ }
+ $('soundbtn').onclick=toggle;$('seasonBtn').onclick=changeSeason;$('weatherBtn').onclick=changeWeather;
+ renderButtons();
+ return {tick,playAction,get season(){return season},get weather(){return weather},get enabled(){return enabled},toggle,changeSeason,changeWeather};
+})();
+const VISUAL2=(()=>{
+ const c=$('weatherCanvas'),g=c.getContext('2d');let parts=[],w=0,h=0,dpr=1,tickN=0;
+ function resize(){const nw=innerWidth,nh=innerHeight;if(w===nw&&h===nh)return;w=nw;h=nh;dpr=Math.min(1.45,devicePixelRatio||1);c.width=Math.floor(w*dpr);c.height=Math.floor(h*dpr);g.setTransform(dpr,0,0,dpr,0,0);reset()}
+ function reset(){parts=[]}
+ function draw(dt){
+  if(!g)return;resize();if(++tickN%2)return;let season=SOUND2.season,weather=SOUND2.weather,outside=state.scene==='village';
+  g.clearRect(0,0,w,h);if(!outside)return;
+  const rain=weather==='rain',winter=season===2;
+  // 夏天的雨丝 / 深秋的飘叶 / 冬天飞雪，都是实时绘制，不使用静态图片
+  const target=rain?(winter?52:110):(season===1?38:season===2?13:0);
+  const type=rain?(winter?'snow':'rain'):(season===1?'leaf':season===2?'leaf':'none');
+  while(parts.length<target){let p={x:Math.random()*w,y:Math.random()*h,phase:Math.random()*7,size:1+Math.random()*3,speed:1+Math.random()*2,theta:Math.random()*6.28};parts.push(p)}
+  if(parts.length>target)parts.length=target;
+  for(let p of parts){
+    if(type==='rain'){p.x-=2.1*p.speed;p.y+=9*p.speed;g.strokeStyle='rgba(227,239,246,.55)';g.lineWidth=1;g.beginPath();g.moveTo(p.x,p.y);g.lineTo(p.x+5,p.y-18*p.speed);g.stroke();}
+    else if(type==='snow'){p.x+=Math.sin(p.phase)*1.1-.5;p.y+=.48*p.speed;g.fillStyle='rgba(245,251,255,.64)';g.beginPath();g.arc(p.x,p.y,p.size,0,6.29);g.fill();}
+    else{p.theta+=.07;p.x+=.8+Math.sin(p.theta)*1.1;p.y+=.48*p.speed;g.save();g.translate(p.x,p.y);g.rotate(p.theta);g.fillStyle=(p.phase>3.5?'rgba(204,125,55,.78)':'rgba(161,100,43,.7)');g.beginPath();g.ellipse(0,0,p.size*1.8,p.size*.8,0,0,Math.PI*2);g.fill();g.restore();}
+    if(p.y>h+24||p.x<-24||p.x>w+24){p.x=Math.random()*w;p.y=-20;p.phase=Math.random()*7}
+  }
+  if(season===1){g.fillStyle='rgba(174,105,41,.035)';g.fillRect(0,0,w,h)}
+  if(season===2){g.fillStyle='rgba(136,181,210,.08)';g.fillRect(0,0,w,h)}
+ }
+ return {draw,reset};
+})();
+
 function collision(x,z){if(state.scene==='village'){if(Math.abs(x)>83||Math.abs(z)>63)return true;}else{if(Math.abs(x)>10||Math.abs(z)>7.4)return true;}for(let o of state.coll){if(Math.abs(x-o.x)<o.w/2+.5&&Math.abs(z-o.z)<o.d/2+.5)return true}return false}
 function step(dt){if(state.modal)return;let f=(state.keys.KeyW||state.keys.ArrowUp?1:0)-(state.keys.KeyS||state.keys.ArrowDown?1:0),side=(state.keys.KeyD||state.keys.ArrowRight?1:0)-(state.keys.KeyA||state.keys.ArrowLeft?1:0);let mag=Math.hypot(f,side);if(mag){f/=mag;side/=mag;let sp=dt*5.5,x=state.player.x+(-Math.sin(state.yaw)*f+Math.cos(state.yaw)*side)*sp,z=state.player.z+(-Math.cos(state.yaw)*f-Math.sin(state.yaw)*side)*sp;if(!collision(x,state.player.z))state.player.x=x;if(!collision(state.player.x,z))state.player.z=z;state.runT+=dt*10;}let t=1-Math.exp(-dt*6);state.camX+=(state.player.x-state.camX)*t;state.camZ+=(state.player.z-state.camZ)*t;state.near=neareastTarget();let h=$('hint');if(state.near){h.textContent='按 E 或点「互动」 · '+state.near.label;h.classList.add('show')}else h.classList.remove('show');}
 let dynamic=null;function character(time){if(dynamic)dynamic.destroy();let m=new Mesh(),x=state.player.x,z=state.player.z,walking=Object.entries(state.keys).some(([key,v])=>v&&['KeyW','KeyS','KeyA','KeyD','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(key)),a=walking?Math.sin(state.runT)*.26:0;let hop=walking?Math.abs(Math.sin(state.runT))* .07:0;m.box(x-.22,0,z+a,.23,.75,.27,'#3e5971');m.box(x+.22,0,z-a,.23,.75,.27,'#3e5971');m.box(x,.68+hop,z,.84,.96,.5,'#e6d0a1');m.box(x-.54,.85+hop,z,.24,.68,.3,'#d2a57e');m.box(x+.54,.85+hop,z,.24,.68,.3,'#d2a57e');m.sphere(x,1.95+hop,z,.36,'#ddb08b',9,5);m.sphere(x,2.24+hop,z-.03,.36,'#362f2b',8,4);m.box(x,1.2+hop,z+.29,.6,.28,.08,'#b67c56');return m.commit()}
@@ -138,8 +338,8 @@ let size={w:0,h:0},projection=null,cameraM=null;function resize(){let dpr=Math.m
 function worldToScreen(x,y,z,m){let v=transform(m,[x,y,z]);if(v[3]<=.01)return null;let ndcX=v[0]/v[3],ndcY=v[1]/v[3];return{x:(ndcX*.5+.5)*innerWidth,y:(-ndcY*.5+.5)*innerHeight,visible:Math.abs(ndcX)<1.04&&Math.abs(ndcY)<1.08}}
 function drawLabels(m){const tgs=getTargets();for(let t of tgs){if(!t.el)continue;let d=Math.hypot(state.player.x-t.x,state.player.z-t.z);let p=worldToScreen(t.x,t.id==='school'?5.7: t.id==='well'?3.3: t.id==='mom'?2.8: t.id==='shopkeeper'?2.8:3.9,t.z,m);if(p?.visible&&d<28){t.el.style.left=p.x+'px';t.el.style.top=p.y+'px';t.el.style.opacity='1';t.el.classList.toggle('near',d<t.dist)}else t.el.style.opacity='0';}}
 function minimap(){let canvas=$('minimap'),ctx=canvas.getContext('2d');let w=canvas.width,h=canvas.height;ctx.fillStyle=state.scene==='village'?'#b6c89a':'#d2be9b';ctx.fillRect(0,0,w,h);if(state.scene==='village'){let pt=(x,z)=>[(x+85)/170*w,(z+65)/130*h];ctx.strokeStyle='#ccab7a';ctx.lineWidth=14;ctx.beginPath();let p1=pt(0,-65),p2=pt(0,65);ctx.moveTo(...p1);ctx.lineTo(...p2);p1=pt(-85,7);p2=pt(85,7);ctx.moveTo(...p1);ctx.lineTo(...p2);ctx.stroke();let dots=[[-25,29,'🏡'],[25,22,'🏪'],[-11,-2,'💧'],[9,-13,'🟢'],[31,-38,'🏫'],[-38,-17,'🐸'],[-43,-43,'🌾']];ctx.font='20px serif';ctx.textAlign='center';for(let [x,z,em] of dots){let p=pt(x,z);ctx.fillText(em,p[0],p[1]+4)}let [px,pz]=pt(state.player.x,state.player.z);ctx.fillStyle='#cc4332';ctx.beginPath();ctx.arc(px,pz,6,0,2*Math.PI);ctx.fill();ctx.strokeStyle='white';ctx.lineWidth=2;ctx.stroke();}else{ctx.fillStyle='#ab9a82';ctx.fillRect(20,20,w-40,h-40);ctx.textAlign='center';ctx.font='28px serif';ctx.fillText(state.scene==='home'?'👩':'🛒',w/2,h/2);ctx.fillStyle='#cc4332';ctx.beginPath();ctx.arc(w/2+state.player.x*6,h/2+state.player.z*5,6,0,7);ctx.fill()}}
-let frame=0;function render(ms){requestAnimationFrame(render);let time=ms/1000,dt=state.last?Math.min(.05,time-state.last):0;state.last=time;resize();step(dt);let y=state.yaw,p=state.player,dist=state.scene==='village'?10.2:8.5,eye=[state.camX+Math.sin(y)*dist,5.9,state.camZ+Math.cos(y)*dist],center=[state.camX,1.1,state.camZ],view=lookAt(eye,center),mvp=mul(projection,view);cameraM=mvp;let golden=state.done?.49:Math.max(0,Math.min(.42,(state.gameMinute-16*60-10)/(150)*.42));let fog=mix([.74,.82,.75],[.85,.56,.41],golden);gl.clearColor(...fog,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.uniformMatrix4fv(loc.mvp,false,new Float32Array(mvp));gl.uniform3fv(loc.sun,new Float32Array([-.55,.83,.25]));gl.uniform3fv(loc.fog,new Float32Array(fog));draw(state.static);dynamic=character(time);draw(dynamic);drawLabels(mvp);if(frame++%7===0)minimap();if(frame===1){$('startupOverlay').style.display='none';}}
+let frame=0;function render(ms){requestAnimationFrame(render);let time=ms/1000,dt=state.last?Math.min(.05,time-state.last):0;state.last=time;resize();step(dt);SOUND2.tick(dt);VISUAL2.draw(dt);let y=state.yaw,p=state.player,dist=state.scene==='village'?10.2:8.5,eye=[state.camX+Math.sin(y)*dist,5.9,state.camZ+Math.cos(y)*dist],center=[state.camX,1.1,state.camZ],view=lookAt(eye,center),mvp=mul(projection,view);cameraM=mvp;let golden=state.done?.49:Math.max(0,Math.min(.42,(state.gameMinute-16*60-10)/(150)*.42));let fog=mix([.74,.82,.75],[.85,.56,.41],golden);gl.clearColor(...fog,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.uniformMatrix4fv(loc.mvp,false,new Float32Array(mvp));gl.uniform3fv(loc.sun,new Float32Array([-.55,.83,.25]));gl.uniform3fv(loc.fog,new Float32Array(fog));draw(state.static);dynamic=character(time);draw(dynamic);drawLabels(mvp);if(frame++%7===0)minimap();if(frame===1){$('startupOverlay').style.display='none';}}
 load();setScene('village',{x:-4,z:10});intro();requestAnimationFrame(render);
-window.__GAME_TEST__={getState:()=>({...state,static:undefined,animated:undefined,view:undefined,coll:undefined,points:undefined,keys:undefined}),teleport:(scene,x,z)=>setScene(scene,{x,z}),interact:attempt,near:()=>state.near?.id,close:closeModal,openShop:shopUI,mom:talkingMom,reset:restart};
+window.__GAME_TEST__={sound:()=>({season:SOUND2.season,weather:SOUND2.weather,enabled:SOUND2.enabled}),changeSeason:SOUND2.changeSeason,changeWeather:SOUND2.changeWeather,getState:()=>({...state,static:undefined,animated:undefined,view:undefined,coll:undefined,points:undefined,keys:undefined}),teleport:(scene,x,z)=>setScene(scene,{x,z}),interact:attempt,near:()=>state.near?.id,close:closeModal,openShop:shopUI,mom:talkingMom,reset:restart};
 })();
 </script></body></html>
