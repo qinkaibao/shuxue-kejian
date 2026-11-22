@@ -2,6 +2,18 @@
 
 三年级数学课件。在线打开：https://qinkaibao.github.io/shuxue-kejian/
 
+
+## 创作资料包（给新模型直接开写）
+
+要把错题线索和写作规则交给任何大模型来写新的数学故事，请从这里开始：
+
+- 入口：[docs/README.md](docs/README.md)
+- 一页提示：[docs/START.md](docs/START.md)
+- 在 GitHub 打开：https://github.com/qinkaibao/shuxue-kejian/blob/main/docs/README.md
+
+公开资料已经去掉姓名、照片和个人成绩。题面是结构重述，不是原卷。没有发布许可时不要自动上线。
+
+
 首页是总目录。读题闯关（审题与数量关系）在 [/chuangguan/](https://qinkaibao.github.io/shuxue-kejian/chuangguan/)。
 
 新故事/练习必须接入成绩单并加入首页目录。每个页面顶部要有固定栏：回目录、回主页、关卡、进度。会判对错的页面把「交作业」也放在顶栏，调用 `KejianReport.open()`。

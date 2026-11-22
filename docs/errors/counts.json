@@ -1,0 +1,53 @@
+{
+  "package": "shuxue-kejian-writing-kit",
+  "generated": "2026-11-22",
+  "counts": {
+    "unique_ids": 269,
+    "loci": 292,
+    "in_public_site_bank": 206,
+    "only_in_this_catalog": 63,
+    "by_topic": {
+      "有余数除法": 4,
+      "连续加减": 4,
+      "口算数位与进退位": 53,
+      "同级混合运算": 15,
+      "两级混合运算": 13,
+      "空间图形与展开图": 4,
+      "表内除法": 3,
+      "括号与运算顺序": 26,
+      "看图列式与数量关系": 24,
+      "加法规律与比大小": 2,
+      "长度单位与换算": 34,
+      "观察物体": 1,
+      "间隔与往返": 5,
+      "质量单位与换算": 21,
+      "多位数乘一位数": 60
+    },
+    "by_answer_status": {
+      "recorded_in_source": 266,
+      "do_not_grade": 1,
+      "confirmed_for_stated_wording": 1,
+      "pending_verification": 1
+    },
+    "by_flag": {
+      "do_not_grade": 1,
+      "legacy_answer_unreliable": 2,
+      "later_correction_recorded": 25,
+      "do_not_recast_as_intervals_without_recomputing": 1,
+      "wording_sensitive": 1,
+      "original_sheet_not_in_package": 1,
+      "pending_verification": 1
+    }
+  },
+  "source_notes": [
+    "对应家庭整理表中 269 个有效错题ID、292 处错误位置。",
+    "网站既有《错题再练》公开题库只有其中 206 条，不能当作全部。",
+    "未收录完整表格、原图、路径、姓名、日期或成绩档案。",
+    "题面均为结构重述；原答不是正确依据；旧错不能推断当前掌握。"
+  ],
+  "pending_or_special_ids": [
+    "M-20260910-034",
+    "M-20261014-107",
+    "M-20261114-260"
+  ]
+}
