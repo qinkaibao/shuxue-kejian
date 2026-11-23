@@ -10,7 +10,7 @@
 
 1. [START.md](https://github.com/qinkaibao/shuxue-kejian/blob/main/docs/START.md)（[raw](https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/START.md)）——一页开写提示。
 2. [WRITING.md](https://github.com/qinkaibao/shuxue-kejian/blob/main/docs/WRITING.md)（[raw](https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/WRITING.md)）——阅读时间、数学思维和叙事规则。
-3. [errors/README.md](https://github.com/qinkaibao/shuxue-kejian/blob/main/docs/errors/README.md) 与 [errors/items.json](https://github.com/qinkaibao/shuxue-kejian/blob/main/docs/errors/items.json)（[raw](https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/errors/items.json)）——274 条脱敏线索。
+3. [errors/README.md](https://github.com/qinkaibao/shuxue-kejian/blob/main/docs/errors/README.md) 与 [errors/items.json](https://github.com/qinkaibao/shuxue-kejian/blob/main/docs/errors/items.json)（[raw](https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/errors/items.json)）——285 条脱敏线索。
 4. [stories/INDEX.md](https://github.com/qinkaibao/shuxue-kejian/blob/main/docs/stories/INDEX.md) 与 [stories/stories.json](https://github.com/qinkaibao/shuxue-kejian/blob/main/docs/stories/stories.json)（[raw](https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/stories/stories.json)）——已有主题，避免重复。
 5. [curriculum/README.md](https://github.com/qinkaibao/shuxue-kejian/blob/main/docs/curriculum/README.md) ——教材页码与覆盖边界（无扫描件）。
 6. [site-conventions.md](https://github.com/qinkaibao/shuxue-kejian/blob/main/docs/site-conventions.md) ——页面脚本、唯一 id、预览与发布。
@@ -30,7 +30,7 @@
 
 - 路径都是仓库内的相对路径，也可以用上面的 raw 地址直接读取。不要依赖某台机器上的绝对路径。
 - 题面是结构重述，不是原卷；原答不是正确答案；旧错不是当前掌握程度。
-- 计数已核对：274 个有效编号，297 处位置。网站旧题库只有其中 206 条。
+- 计数已核对：285 个有效编号，308 处位置。网站旧题库只有其中 206 条。
 
 ## 文件树
 
