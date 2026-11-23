@@ -1,12 +1,12 @@
 {
   "package": "shuxue-kejian-writing-kit",
   "title": "公开错题线索（脱敏、结构重述）",
-  "generated": "2026-11-22",
+  "generated": "2026-11-23",
   "counts": {
-    "unique_ids": 269,
-    "loci": 292,
+    "unique_ids": 274,
+    "loci": 297,
     "in_public_site_bank": 206,
-    "only_in_this_catalog": 63,
+    "only_in_this_catalog": 68,
     "by_topic": {
       "有余数除法": 4,
       "连续加减": 4,
@@ -16,16 +16,17 @@
       "空间图形与展开图": 4,
       "表内除法": 3,
       "括号与运算顺序": 26,
-      "看图列式与数量关系": 24,
+      "看图列式与数量关系": 25,
       "加法规律与比大小": 2,
       "长度单位与换算": 34,
       "观察物体": 1,
       "间隔与往返": 5,
       "质量单位与换算": 21,
-      "多位数乘一位数": 60
+      "多位数乘一位数": 63,
+      "数字编码": 1
     },
     "by_answer_status": {
-      "recorded_in_source": 266,
+      "recorded_in_source": 271,
       "do_not_grade": 1,
       "confirmed_for_stated_wording": 1,
       "pending_verification": 1
@@ -33,7 +34,7 @@
     "by_flag": {
       "do_not_grade": 1,
       "legacy_answer_unreliable": 2,
-      "later_correction_recorded": 25,
+      "later_correction_recorded": 27,
       "do_not_recast_as_intervals_without_recomputing": 1,
       "wording_sensitive": 1,
       "original_sheet_not_in_package": 1,
@@ -41,7 +42,7 @@
     }
   },
   "source_notes": [
-    "对应家庭整理表中 269 个有效错题ID、292 处错误位置。",
+    "对应家庭整理表中 274 个有效错题ID、297 处错误位置。",
     "网站既有《错题再练》公开题库只有其中 206 条，不能当作全部。",
     "未收录完整表格、原图、路径、姓名、日期或成绩档案。",
     "题面均为结构重述；原答不是正确依据；旧错不能推断当前掌握。"
@@ -7333,6 +7334,149 @@
         "tea-terrace",
         "jiantou"
       ]
+    },
+    {
+      "grade_term": "三年级上册",
+      "source_kind": "workbook",
+      "locus_count": 1,
+      "prompt_note": "以上是保留数学结构的重述，不是原卷影印或逐字转录。",
+      "recorded_response_note": "只反映当时写下的式子、数字或选项，不能推断现在会不会，也不能当作正确答案。",
+      "answer_status": "recorded_in_source",
+      "answer_note": "资料中的“采用答案”来自整理记录，用于对照当时的写法。它不是孩子当前掌握程度的证明。原答本身不能当作正确依据。",
+      "evidence_boundary": "本条不附原卷照片、文件名、作答日期或成绩。没有原件时不要补写没看到的步骤。旧错题是选题线索，不是病历标签。",
+      "in_public_site_bank": false,
+      "related_stories": [],
+      "flags": [],
+      "id": "M-20261123-270",
+      "topic": "看图列式与数量关系",
+      "knowledge": "连续页码；第几天从第几页读起",
+      "item_type": "填空",
+      "prompt_abstract": "把题意改写成自己的话后再算：一本书每天读105页，问第五天应从第几页读起。先指出已知量、所求量和单位。",
+      "recorded_response": "525",
+      "accepted_answer": "421",
+      "visible_math": "前4天读完105×4＝420页，第五天从第421页起（105×4＋1＝421）。不要用105×5",
+      "topic_story_hints": [
+        "wenju",
+        "xiansuo",
+        "duwu",
+        "yupeng"
+      ]
+    },
+    {
+      "grade_term": "三年级上册",
+      "source_kind": "workbook",
+      "locus_count": 1,
+      "prompt_note": "以上是保留数学结构的重述，不是原卷影印或逐字转录。",
+      "recorded_response_note": "只反映当时写下的式子、数字或选项，不能推断现在会不会，也不能当作正确答案。",
+      "answer_status": "recorded_in_source",
+      "answer_note": "资料中的“采用答案”来自整理记录，用于对照当时的写法。它不是孩子当前掌握程度的证明。原答本身不能当作正确依据。",
+      "evidence_boundary": "本条不附原卷照片、文件名、作答日期或成绩。没有原件时不要补写没看到的步骤。旧错题是选题线索，不是病历标签。",
+      "in_public_site_bank": false,
+      "related_stories": [],
+      "flags": [],
+      "id": "M-20261123-271",
+      "topic": "多位数乘一位数",
+      "knowledge": "什么时候用估算更合理",
+      "item_type": "选择",
+      "prompt_abstract": "判断下面哪一件事用估算解决更合理。A买3支同样的笔，带50元够不够；B每分钟18个字，5分钟打多少字；C7分钟能不能录完630个字。",
+      "recorded_response": "B",
+      "accepted_answer": "C",
+      "visible_math": "A、B要求精确得数；C问能不能完成，用估算更合适",
+      "topic_story_hints": [
+        "pine-creek",
+        "moon-mosaic",
+        "blue-tile-relay",
+        "reed-store",
+        "huazhi",
+        "puppet-ledger",
+        "sparrow-dish"
+      ]
+    },
+    {
+      "grade_term": "三年级上册",
+      "source_kind": "workbook",
+      "locus_count": 1,
+      "prompt_note": "以上是保留数学结构的重述，不是原卷影印或逐字转录。",
+      "recorded_response_note": "只反映当时写下的式子、数字或选项，不能推断现在会不会，也不能当作正确答案。",
+      "answer_status": "recorded_in_source",
+      "answer_note": "资料中的“采用答案”来自整理记录，用于对照当时的写法。它不是孩子当前掌握程度的证明。原答本身不能当作正确依据。",
+      "evidence_boundary": "本条不附原卷照片、文件名、作答日期或成绩。没有原件时不要补写没看到的步骤。旧错题是选题线索，不是病历标签。",
+      "in_public_site_bank": false,
+      "related_stories": [],
+      "flags": [
+        "later_correction_recorded"
+      ],
+      "id": "M-20261123-272",
+      "topic": "多位数乘一位数",
+      "knowledge": "两位数乘一位数（连续进位）",
+      "item_type": "口算",
+      "prompt_abstract": "给出算式或填空结构：55×6。先说出每一步算的是哪一部分，再计算。",
+      "recorded_response": "先写325，后改为330",
+      "accepted_answer": "330",
+      "visible_math": "50×6＝300，5×6＝30，合起来是330",
+      "topic_story_hints": [
+        "pine-creek",
+        "moon-mosaic",
+        "blue-tile-relay",
+        "reed-store",
+        "huazhi",
+        "puppet-ledger",
+        "sparrow-dish"
+      ]
+    },
+    {
+      "grade_term": "三年级上册",
+      "source_kind": "workbook",
+      "locus_count": 1,
+      "prompt_note": "以上是保留数学结构的重述，不是原卷影印或逐字转录。",
+      "recorded_response_note": "只反映当时写下的式子、数字或选项，不能推断现在会不会，也不能当作正确答案。",
+      "answer_status": "recorded_in_source",
+      "answer_note": "资料中的“采用答案”来自整理记录，用于对照当时的写法。它不是孩子当前掌握程度的证明。原答本身不能当作正确依据。",
+      "evidence_boundary": "本条不附原卷照片、文件名、作答日期或成绩。没有原件时不要补写没看到的步骤。旧错题是选题线索，不是病历标签。",
+      "in_public_site_bank": false,
+      "related_stories": [],
+      "flags": [],
+      "id": "M-20261123-273",
+      "topic": "多位数乘一位数",
+      "knowledge": "三位数乘一位数；进位",
+      "item_type": "竖式计算",
+      "prompt_abstract": "给出算式或填空结构：127×2。先说出每一步算的是哪一部分，再计算。",
+      "recorded_response": "244",
+      "accepted_answer": "254",
+      "visible_math": "7×2＝14写4进1；2×2＝4，再加进位1得5，积是254",
+      "topic_story_hints": [
+        "pine-creek",
+        "moon-mosaic",
+        "blue-tile-relay",
+        "reed-store",
+        "huazhi",
+        "puppet-ledger",
+        "sparrow-dish"
+      ]
+    },
+    {
+      "grade_term": "三年级上册",
+      "source_kind": "workbook",
+      "locus_count": 1,
+      "prompt_note": "以上是保留数学结构的重述，不是原卷影印或逐字转录。",
+      "recorded_response_note": "只反映当时写下的式子、数字或选项，不能推断现在会不会，也不能当作正确答案。",
+      "answer_status": "recorded_in_source",
+      "answer_note": "资料中的“采用答案”来自整理记录，用于对照当时的写法。它不是孩子当前掌握程度的证明。原答本身不能当作正确依据。",
+      "evidence_boundary": "本条不附原卷照片、文件名、作答日期或成绩。没有原件时不要补写没看到的步骤。旧错题是选题线索，不是病历标签。",
+      "in_public_site_bank": false,
+      "related_stories": [],
+      "flags": [
+        "later_correction_recorded"
+      ],
+      "id": "M-20261123-274",
+      "topic": "数字编码",
+      "knowledge": "邮政编码是6位数",
+      "item_type": "填空",
+      "prompt_abstract": "把题意改写成自己的话后再算：邮政编码由几位数字组成。先指出已知量、所求量和单位。",
+      "recorded_response": "先写8，后改为6",
+      "accepted_answer": "6",
+      "visible_math": "邮政编码是6位数字",
+      "topic_story_hints": []
     }
   ]
 }

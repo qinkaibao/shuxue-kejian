@@ -6,12 +6,12 @@
 
 | 口径 | 数量 |
 |---|---|
-| 有效错题编号（唯一 ID） | **269** |
-| 错误位置合计 | **292** |
+| 有效错题编号（唯一 ID） | **274** |
+| 错误位置合计 | **297** |
 | 已出现在网站《错题再练》题库中的编号 | 206 |
 | 只在本资料包、未进入该题库的编号 | 63 |
 
-这些数字与家庭整理表核对过：269 个有效 ID，位置数之和 292。网站旧题库只有 206 条，不能把它当成全部错题。
+这些数字与家庭整理表核对过：274 个有效 ID，位置数之和 297。网站旧题库只有 206 条，不能把它当成全部错题。
 
 机器可读全文：[items.json](items.json)（[在 GitHub 打开](https://github.com/qinkaibao/shuxue-kejian/blob/main/docs/errors/items.json)，[raw](https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/errors/items.json)）  
 计数摘要：[counts.json](counts.json)（[raw](https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/errors/counts.json)）  
@@ -42,11 +42,11 @@
 
 | 专题 | 条数 |
 |---|---|
-| 多位数乘一位数 | 60 |
+| 多位数乘一位数 | 63 |
 | 口算数位与进退位 | 53 |
 | 长度单位与换算 | 34 |
 | 括号与运算顺序 | 26 |
-| 看图列式与数量关系 | 24 |
+| 看图列式与数量关系 | 25 |
 | 质量单位与换算 | 21 |
 | 同级混合运算 | 15 |
 | 两级混合运算 | 13 |
@@ -57,5 +57,6 @@
 | 表内除法 | 3 |
 | 加法规律与比大小 | 2 |
 | 观察物体 | 1 |
+| 数字编码 | 1 |
 
 五年级目录里还有“线和角”“分数”等单元。本批错题没有给出那些单元的近期需要，不要只按目录给孩子排进度。
