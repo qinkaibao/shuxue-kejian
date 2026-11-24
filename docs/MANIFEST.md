@@ -23,4 +23,4 @@
 | `README.md` | 仓库原说明，并增加本资料包入口 | [https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/README.md](https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/README.md) |
 | `AGENTS.md` | 给模型的仓库入口 | [https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/AGENTS.md](https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/AGENTS.md) |
 
-错题 JSON 中应有 297 个 `items`，`counts.loci` 应为 325。故事索引与首页目录条目数一致（当前 70）。
+错题 JSON 中应有 297 个 `items`，`counts.loci` 应为 326。故事索引与首页目录条目数一致（当前 70）。
