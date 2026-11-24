@@ -1,0 +1,25 @@
+@import url("../paper-ribbon/style.css");
+
+:root { --paper:#fdfbf2; --ink:#273a40; --blue:#245968; --panel:#e5f0eb; }
+.cover { border-color:#2f7781; }
+.worktable { margin:1.4rem 0; padding:clamp(.65rem, 3vw, 1.2rem); background:#e5f0eb; border:1px solid #acc7c4; border-radius:12px; }
+.worktable figcaption { margin-bottom:.5rem; }
+.art { display:block; width:100%; height:auto; border-radius:8px; }
+.case-view { display:grid; grid-template-columns:1fr minmax(92px, 1fr); align-items:center; gap:.6rem; }
+.case-view svg { height:auto; width:100%; }
+.slits { display:flex; gap:.3rem; flex-wrap:wrap; align-items:center; }
+.slits span, .tag-seat { background:#fff9dd; border:1px solid #a18d62; padding:.25rem .4rem; border-radius:5px; color:#433c2c; font:700 1.35rem/1.5 ui-monospace,monospace; }
+.worktable output, .tag-fields + output { display:block; min-height:1.65rem; }
+.tag-fields { display:grid; grid-template-columns:repeat(var(--columns), minmax(0, 1fr)); gap:.35rem; margin:.5rem 0; }
+.tag-field { display:flex; flex-direction:column; gap:.3rem; text-align:center; min-width:0; }
+.tag-seat { display:grid; place-items:center; min-height:44px; }
+.tag-seat.drop-ready { outline:2px dashed #8e5121; background:#ffe1a9; }
+.chip-rack { display:grid; gap:.3rem; align-content:start; }
+main .tag-chip { min-height:44px; min-width:0; touch-action:none; padding:.2rem .12rem; font-variant-numeric:tabular-nums; cursor:grab; }
+main button[aria-pressed="true"] { background:#245968; border-color:#245968; color:white; }
+.tag-ghost { background:#ffe4a8; border:2px solid #82562e; border-radius:6px; color:#3d321f; position:fixed; transform:translate(-50%,-50%); pointer-events:none; z-index:9999; padding:.2rem .5rem; font-weight:700; }
+.move-diagram { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.55rem; }
+.shelf-slot { position:relative; display:flex; flex-direction:column; align-items:center; min-height:100px; background:#ead7b9; border:6px double #866547; padding:.25rem; border-radius:3px; }
+.shelf-slot small { color:#402d20; text-align:center; }
+#star-piece { width:46px; margin-top:.3rem; }
+.exercise form > p { font-weight:600; margin-bottom:.15rem; }
