@@ -12,7 +12,7 @@
 | `docs/MANIFEST.md` | 本清单 | [https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/MANIFEST.md](https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/MANIFEST.md) |
 | `docs/index.html` | 站点上的简短入口页，指向 GitHub | [https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/index.html](https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/index.html) |
 | `docs/errors/README.md` | 错题线索的计数、读法和限度 | [https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/errors/README.md](https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/errors/README.md) |
-| `docs/errors/items.json` | 285 条机器可读线索 | [https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/errors/items.json](https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/errors/items.json) |
+| `docs/errors/items.json` | 297 条机器可读线索 | [https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/errors/items.json](https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/errors/items.json) |
 | `docs/errors/counts.json` | 计数与标志摘要 | [https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/errors/counts.json](https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/errors/counts.json) |
 | `docs/errors/by-topic.md` | 按专题浏览重述题干 | [https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/errors/by-topic.md](https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/errors/by-topic.md) |
 | `docs/stories/INDEX.md` | 已有故事与练习的人读索引 | [https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/stories/INDEX.md](https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/stories/INDEX.md) |
@@ -23,4 +23,4 @@
 | `README.md` | 仓库原说明，并增加本资料包入口 | [https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/README.md](https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/README.md) |
 | `AGENTS.md` | 给模型的仓库入口 | [https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/AGENTS.md](https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/AGENTS.md) |
 
-错题 JSON 中应有 285 个 `items`，`counts.loci` 应为 308。故事索引与首页目录条目数一致（当前 70）。
+错题 JSON 中应有 297 个 `items`，`counts.loci` 应为 325。故事索引与首页目录条目数一致（当前 70）。

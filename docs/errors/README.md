@@ -6,12 +6,12 @@
 
 | 口径 | 数量 |
 |---|---|
-| 有效错题编号（唯一 ID） | **285** |
-| 错误位置合计 | **308** |
+| 有效错题编号（唯一 ID） | **297** |
+| 错误位置合计 | **325** |
 | 已出现在网站《错题再练》题库中的编号 | 206 |
-| 只在本资料包、未进入该题库的编号 | 79 |
+| 只在本资料包、未进入该题库的编号 | 91 |
 
-这些数字与家庭整理表核对过：285 个有效 ID，位置数之和 308。网站旧题库只有 206 条，不能把它当成全部错题。
+这些数字与家庭整理表核对过：297 个有效 ID，位置数之和 325。网站旧题库只有 206 条，不能把它当成全部错题。
 
 机器可读全文：[items.json](items.json)（[在 GitHub 打开](https://github.com/qinkaibao/shuxue-kejian/blob/main/docs/errors/items.json)，[raw](https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/errors/items.json)）  
 计数摘要：[counts.json](counts.json)（[raw](https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/errors/counts.json)）  
