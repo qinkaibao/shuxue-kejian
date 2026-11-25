@@ -13,6 +13,7 @@ figure{margin:16px 0}
 figure svg, .fig svg, .chart svg{display:block;width:100%;height:auto;max-width:390px;margin:auto}
 svg text{font-family:"Noto Sans CJK SC","Source Han Sans SC",sans-serif}
 figcaption{text-align:center;margin-top:6px}
+.fig-note{max-width:390px;margin:8px auto 0;padding:0 8px;color:#3d5550;font-size:15px;line-height:1.65}
 button,a.action,.chip{color:var(--ink);background:#fffaf0;border:1px solid #738c82;border-radius:10px;padding:10px 14px;font:inherit;cursor:pointer;min-height:44px;min-width:44px}
 button:disabled{opacity:.55;cursor:default}
 button.primary,a.action{background:var(--leaf);color:#fff;border-color:var(--leaf)}
