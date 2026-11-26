@@ -6,12 +6,12 @@
 
 | 口径 | 数量 |
 |---|---|
-| 有效错题编号（唯一 ID） | **297** |
-| 错误位置合计 | **326** |
+| 有效错题编号（唯一 ID） | **303** |
+| 错误位置合计 | **333** |
 | 已出现在网站《错题再练》题库中的编号 | 206 |
-| 只在本资料包、未进入该题库的编号 | 91 |
+| 只在本资料包、未进入该题库的编号 | 97 |
 
-这些数字与家庭整理表核对过：297 个有效 ID，位置数之和 326。网站旧题库只有 206 条，不能把它当成全部错题。
+这些数字与家庭整理表核对过：303 个有效 ID，位置数之和 333。网站旧题库只有 206 条，不能把它当成全部错题。
 
 机器可读全文：[items.json](items.json)（[在 GitHub 打开](https://github.com/qinkaibao/shuxue-kejian/blob/main/docs/errors/items.json)，[raw](https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/errors/items.json)）  
 计数摘要：[counts.json](counts.json)（[raw](https://raw.githubusercontent.com/qinkaibao/shuxue-kejian/main/docs/errors/counts.json)）  
@@ -54,10 +54,10 @@
 | 有余数除法 | 4 |
 | 空间图形与展开图 | 4 |
 | 连续加减 | 4 |
-| 表内除法 | 3 |
+| 表内除法 | 4 |
 | 加法规律与比大小 | 2 |
 | 观察物体 | 1 |
 | 数字编码 | 5 |
-| 线段射线与直线 | 1 |
+| 线段射线与直线 | 6 |
 
 五年级目录里还有“线和角”“分数”等单元。本批错题没有给出那些单元的近期需要，不要只按目录给孩子排进度。
